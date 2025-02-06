@@ -1,0 +1,5 @@
+[user]
+	name = dev-rajnish
+	email = dev.rajnish@proton.me
+[credential]
+	helper = store

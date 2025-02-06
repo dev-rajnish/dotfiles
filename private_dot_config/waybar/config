@@ -1,0 +1,113 @@
+{
+  "layer": "bottom",
+  "position": "top",
+  "height": 0,
+  "spacing": 5,
+  "modules-left": ["hyprland/workspaces","hyprland/window","sway/mode"],
+  "modules-right": ["custom/swaync","custom/wallpaper","idle_inhibitor","network","cpu","memory","battery","backlight","pulseaudio",      "clock","tray"],
+  "hyprland/mode": {
+    "format": "{}"
+  },
+
+
+  "hyprland/window": {
+    "format": "{title}"
+  },
+
+"custom/swaync": {
+    "format": " ",
+    "on-click": "~/.config/swaync/scripts/tray_waybar.sh",
+    "on-click-right": "swaync-client -C",
+    "on-click-middle": "~/.config/swaync/scripts/notify_count.sh",
+    "tooltip": false,
+},
+
+"custom/wallpaper":{
+        "tooltip":false,
+        "format":" ",
+        "on-click": "bash ~/.config/waybar/custom/random-wallpaper.sh"
+},
+
+"idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "\uf06e",
+      "deactivated": "\uf070"
+    }
+  },
+
+  "network": {
+	  "tooltip": false,
+	  "format-wifi": "󰤥 {essid}",
+	  "format-ethernet": "",
+    "on-click" : "kitty --hold metaai"
+	},
+
+"backlight": {
+	"tooltip": false,
+	"format": " {}%",
+	"interval":1,
+    "on-scroll-up": "brightnessctl set 1%+",
+		"on-scroll-down": "brightnessctl set 1%-"
+	},
+
+
+"cpu": { 
+  "interval": 10, 
+  "format": "  {}%",
+  "on-click" : "clipman pick -t wofi"
+  },
+
+
+"memory": {
+  "interval": 30,
+  "format": "  {}%",
+  "on-click": "bash ~/.config/waybar/custom/logout-menu.sh",
+
+  },
+
+
+"battery": {
+  "bat": "BAT0",
+  "states": {
+    "good": 95,
+      "warning": 30,
+      "critical": 11
+    },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": [" ", " ", " ", " ", " "]
+  },
+
+
+  "clock": {
+    "format": "{:%I:%M %d/%m/%Y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b>{}</b></span>"
+      }
+    }
+  },
+
+
+  "pulseaudio": {
+    "format":"{icon}{volume}%",
+		"tooltip": false,
+		"scroll-step": 5,
+		"format-muted": " {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol",
+		"format-icons": [" ", " ", "  "]
+		
+  },
+
+
+  "tray": {
+    "icon-size": 24,
+    "spacing": 6
+  },
+}

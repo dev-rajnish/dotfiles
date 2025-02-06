@@ -1,0 +1,12 @@
+show=drun
+width=1050
+height=600
+always_parse_args=true
+show_all=false
+term=kitty
+hide_scroll=true
+print_command=true
+insensitive=true
+prompt=search
+columns=2
+allow_images=true

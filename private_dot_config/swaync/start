@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+kill mako
+sleep 0.1
+swaync -c
