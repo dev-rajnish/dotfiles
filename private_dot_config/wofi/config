@@ -10,3 +10,4 @@ insensitive=true
 prompt=search
 columns=2
 allow_images=true
+dir=~/.local/share/applications
