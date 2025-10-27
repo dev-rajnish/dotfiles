@@ -1,0 +1,176 @@
+{
+  "layer": "bottom",
+  "position": "top",
+  "height": 20,
+  "min-height":20,
+  "margin-top":0,
+  "margin-bottom":0,
+  "spacing": 5,
+
+  "modules-left":
+  [
+  "custom/home",
+  "hyprland/workspaces",
+  "hyprland/window"
+  ],
+
+  "modules-right":
+  [
+  "tray",
+  "custom/clipboard",
+  "custom/swaync",
+  "custom/hyprshot",
+  "custom/wallpaper",
+  "custom/hyprpicker",
+  "idle_inhibitor",
+  "network",
+  "cpu",
+  "memory",
+  "battery",
+  "backlight",
+  "pulseaudio",
+  "clock",
+  "custom/wlogout"
+  ],
+
+
+  "custom/hyprpicker": {
+    "format": " ",
+		"tooltip": false,
+    "on-click":"hyprpicker",
+  },
+
+
+  "custom/wlogout": {
+    "format": "󰳁 ",
+		"tooltip": false,
+    "on-click":"wlogout",
+  },
+
+
+  "custom/hyprshot": {
+    "format": " ",
+    "on-click":"hyprshot -m region ",
+		"tooltip": false,
+  },
+
+  "custom/home": {
+    "format": "󰣇 ",
+		"tooltip": false,
+    "on-click":"fuzzel",
+  },
+
+  "hyprland/mode": {
+    "format": "{}",
+		"tooltip": false,
+  },
+
+  "hyprland/window": {
+    "format": "{title}",
+		"tooltip": false,
+  },
+
+"custom/swaync": {
+    "format": " ",
+    "on-click": "~/.config/swaync/scripts/tray_waybar.sh",
+    "on-click-right": "swaync-client -C",
+    "on-click-middle": "~/.config/swaync/scripts/notify_count.sh",
+    "tooltip": false,
+},
+
+"custom/clipboard": {
+ "format": " ",
+		"tooltip": false,
+    "on-click": "nwg-clipman",
+},
+
+"custom/wallpaper":{
+        "tooltip":false,
+        "format":"󰸉 ",
+        "on-click": "waypaper"
+},
+
+"idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "\uf06e ",
+      "deactivated": "\uf070 "
+    }
+  },
+
+  "network": {
+	  "tooltip": false,
+	  "format-wifi": "󰤥  {essid}",
+	  "format-ethernet": ""
+	},
+
+"backlight": {
+	"tooltip": false,
+	"format": " {}%",
+	"interval":1,
+    "on-scroll-up": "brightnessctl set 1%+",
+		"on-scroll-down": "brightnessctl set 1%-"
+	},
+
+
+"cpu": {
+  "interval": 10,
+  "format": "  {}%",
+  "on-click" : " "
+  },
+
+
+"memory": {
+  "interval": 30,
+  "format": "  {}%",
+  "on-click": " ",
+
+  },
+
+
+"battery": {
+  "bat": "BAT0",
+  "states": {
+    "good": 95,
+      "warning": 30,
+      "critical": 11
+    },
+        "format": "{icon} {capacity}%",
+        "format-charging": " 󰂄 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["󰁺 ", "󰁽", "󰂀 ", "󰂁 ", "󰁹 "]
+  },
+
+
+  "clock": {
+    "padding":0,
+    "height":20,
+    "format": "󱑁  {:%I : %M}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b>{}</b></span>"
+      }
+    }
+  },
+
+
+  "pulseaudio": {
+    "format":"{icon}{volume}%",
+		"tooltip": false,
+		"scroll-step": 1,
+		"format-muted": "󰸈 {volume}%",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol",
+		"format-icons": ["󰕿 ", "󰖀 ", "󰕾 "]
+
+  },
+
+
+  "tray": {
+    "icon-size": 14,
+    "spacing": 6
+  },
+}

@@ -1,0 +1,43 @@
+
+{
+  "dark": {
+    "name": "matugen",
+    "primary": "#a3d578",
+    "primaryText": "#1a3700",
+    "primaryContainer": "#285000",
+    "secondary": "#becbae",
+    "surface": "#131313",
+    "surfaceText": "#e2e2e2",
+    "surfaceVariant": "#474747",
+    "surfaceVariantText": "#c6c6c6",
+    "surfaceTint": "#a3d578",
+    "background": "#131313",
+    "backgroundText": "#e2e2e2",
+    "outline": "#919191",
+    "surfaceContainer": "#1f1f1f",
+    "surfaceContainerHigh": "#2a2a2a",
+    "error": "#ffb4ab",
+    "warning": "#ffb595",
+    "info": "#bec2ff"
+  },
+  "light": {
+    "name": "matugenL",
+    "primary": "#a3d578",
+    "primaryText": "#1a3700",
+    "primaryContainer": "#285000",
+    "secondary": "#becbae",
+    "surface": "#131313",
+    "surfaceText": "#e2e2e2",
+    "surfaceVariant": "#474747",
+    "surfaceVariantText": "#c6c6c6",
+    "surfaceTint": "#a3d578",
+    "background": "#131313",
+    "backgroundText": "#e2e2e2",
+    "outline": "#919191",
+    "surfaceContainer": "#1f1f1f",
+    "surfaceContainerHigh": "#2a2a2a",
+    "error": "#ffb4ab",
+    "warning": "#ffb595",
+    "info": "#bec2ff"
+  }
+}

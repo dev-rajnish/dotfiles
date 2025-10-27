@@ -1,0 +1,4 @@
+[manager]
+keymap = [
+{ on = "<Enter>",   run = "enter",   desc = "inside folder" },
+]

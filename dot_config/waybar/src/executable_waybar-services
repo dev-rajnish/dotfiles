@@ -1,0 +1,17 @@
+# add these lines in hyprland.conf 
+# so that waybar can function properly
+# 
+
+exec-once = swww-daemon &
+
+exec-once = swww restore &
+
+exec-once = swaync
+
+exec-once = wl-paste --type text --watch cliphist store &
+exec-once = wl-paste --type image --watch cliphist store &
+
+exec-once = hypridle &
+
+exec-once = waybar &
+

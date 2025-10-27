@@ -1,0 +1,166 @@
+[config]
+# If set to enabled, it will check for updates when you run the matugen command, notifying you that an update is avaiable.
+# WARNING: Matugen needs to be compiled with the `update-informer` feature for this to work.
+#version_check = false
+
+# Enables caching which will cache the colorscheme, custom colors, etc. into a cache folder located in
+# Windows: C:\Users\user\AppData\Roaming\InioX\matugen\cache\images\<file>
+# Linux: $XDG_CACHE_HOME/matugen/<file> or $HOME/.cache/matugen/images/<file>
+# MacOS: $HOME/Library/Caches/matugen/images/<file>
+# The file follows this naming: <image_name>.<image_extension>.<image_hash>.json
+# For example: testimage.png.0cfd2d624b3d09bf6246b7be9ca79e207e7aa1189d961d44949628b99811bb9d.json
+# You can modify the cache and it will then be loaded when using the same image.
+caching = false
+
+# Changing the syntax
+# Expr is for keywords like {{ <keyword> }}
+#expr_prefix = "{{"
+#expr_postfix = "}}"
+
+# Block is for stuff like for loops etc.
+#block_prefix = "<*"
+#block_postfix = "*>"
+
+[config.wallpaper]
+# Whether to set the wallpaper or not
+set = true
+
+# The base command to run for applying the wallpaper, shouldn't have spaces in it.
+command = "dms"
+
+# The arguments that will be provided to the command.
+# Keywords like {{ mode }} or anything that works inside of hooks doesn't work here.
+# The last argument will be the image path.
+arguments = ["ipc" , "call" , "wallpaper" , "set" ]
+
+# For example, killing the wallpaper daemon. Usage is like a normal hook.
+# pre_hook = ""
+
+
+[templates.dms]
+# Relative paths will be resolved from the path `config.toml` is in.
+input_path = "./templates/shell.json"
+output_path = "./o/dms.json"
+
+[templates.kitty]
+input_path = "./templates/kitty-colors.conf"
+output_path = "~/.config/kitty/kitty-colors.conf"
+
+
+[templates.alacritty]
+input_path = "./templates/alacritty.toml"
+output_path = "~/.config/alacritty/alacritty.toml"
+
+[templates.starship]
+input_path = "./templates/starship-colors.toml"
+output_path = "~/.config/starship.toml"
+
+
+[templates.yazi]
+input_path = "./templates/yazi-theme.toml"
+output_path = "~/.config/yazi/theme.toml"
+
+[templates.waybar]
+input_path = "./templates/waybar-colors.css"
+output_path = "~/.config/waybar/waybar-colors.css"
+
+
+[templates.fuzzel]
+input_path = "./templates/fuzzel_theme.ini"
+output_path = "~/.config/fuzzel/fuzzel_theme.ini"
+
+
+[templates.swaync]
+input_path = "./templates/swaync-colors.css"
+output_path = "~/.config/swaync/swaync-colors.css"
+
+
+
+[templates.firefox]
+input_path = "./templates/pywalfox-colors.json"
+output_path = "~/.cache/wal/colors.json"
+
+
+[templates.fish]
+input_path = "./templates/fish-colors.fish"
+output_path = "~/.config/refine/set_color_scheme.fish"
+
+
+[templates.matugen]
+input_path = "./templates/matugen-colors.conf"
+output_path = "./o/matugen-colors.conf"
+
+[templates.dmsgtk4]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/gtk-4.0/dank-colors.css'
+
+[templates.dmskcolorscheme]
+input_path = './templates/kcolorscheme.colors'
+output_path = '~/.local/share/color-schemes/DankMatugen.colors'
+
+[templates.dmslightkcolorscheme]
+input_path = './templates/light-kcolorscheme.colors'
+output_path = '~/.local/share/color-schemes/DankMatugenLight.colors'
+
+[templates.dmsdarkkcolorscheme]
+input_path = './templates/dark-kcolorscheme.colors'
+output_path = '~/.local/share/color-schemes/DankMatugenDark.colors'
+
+[templates.dmsdgop]
+input_path = './templates/dgop.json'
+output_path = '~/.config/dgop/colors.json'
+
+
+[templates.dmsgtk3]
+input_path = './templates/gtk-colors.css'
+output_path = '~/.config/gtk-3.0/dank-colors.css'
+
+
+[templates.dmsniri]
+input_path = './templates/niri-colors.kdl'
+output_path = '~/.config/niri/dms/colors.kdl'
+
+[templates.dmsqt5ct]
+input_path = './templates/qtct-colors.conf'
+output_path = '~/.config/qt5ct/colors/matugen.conf'
+
+
+[templates.dmsqt6ct]
+input_path = './templates/qtct-colors.conf'
+output_path = '~/.config/qt6ct/colors/matugen.conf'
+
+
+# This will use a different input path depending on what mode you use.
+# input_path_modes = { dark = "./colors.whatever-extension", light = "./colors.whatever-extension" }
+
+# This will compare all of the colors inside the array with the color you set as `compare_to`, and returns the closest color to it.
+# You can then use `{{closest_color}}` inside templates and hooks.
+colors_to_compare = [
+    { name = "black", color = "#000000" },
+    { name = "red", color = "#ff0000" },
+    { name = "maroon", color = "#800000" },
+    { name = "yellow", color = "#ffff00" },
+    { name = "olive", color = "#808000" },
+    { name = "lime", color = "#00ff00" },
+    { name = "green", color = "#008000" },
+    { name = "aqua", color = "#00ffff" },
+    { name = "teal", color = "#008080" },
+    { name = "blue", color = "#0000ff" },
+    { name = "navy", color = "#000080" },
+    { name = "fuchsia", color = "#ff00ff" },
+    { name = "purple", color = "#800080" },
+]
+compare_to = "{{colors.primary.default.hex}}"
+
+# Runs before the template is exported. You can use keywords here,
+pre_hook = 'echo "source color {{colors.source_color.default.hex}}, source image {{image}}, closest color {{closest_color}}"'
+# Runs after the template is exported. You can use keywords here.
+post_hook = 'echo "after gen"'
+
+# Only hex values
+# https://m3.material.io/styles/color/advanced/adjust-existing-colors#1cc12e43-237b-45b9-8fe0-9a3549c1f61e
+# Blend is set to true by default.
+[config.custom_colors]
+red = "#ff0000"
+blue = { color = "#0000ff", blend = false }
+green = { color = "#00FF00", blend = false }

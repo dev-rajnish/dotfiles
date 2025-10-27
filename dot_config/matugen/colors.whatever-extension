@@ -1,0 +1,79 @@
+<* include "includeme"*>
+
+{{ colors.primary.default.hex }}
+
+{{ "#FF0000" | to_color | set_red: 0 }}
+
+{{ "test" | replace: "test", "test2" }}
+
+{{ palettes.error._99.hex }}
+
+#Escaped: \{{
+
+normal: {{ colors.green_source.default.hex }}
+blended_full: {{ colors.green_source.default.hex | blend: {{ colors.source_color.default.hex }}, 1.0 }}
+blended_half: {{ colors.green_source.default.hex | blend: {{ colors.source_color.default.hex }}, 0.5 }}
+harmonized: {{ colors.green_source.default.hex | harmonize: {{ colors.source_color.default.hex }} }}
+
+
+{{ "#ffbf9b" | to_color | set_lightness: <* if {{ is_dark_mode }} *> {{ int }} <* else *> {{ int2 }} <* endif *> }}
+
+
+red #FF0000;
+green #00FF00;
+blue #0000FF;
+
+mode: {{ mode }}
+
+<* if {{ is_dark_mode }} *>
+    True
+<* else *>
+    False
+<* endif *>
+
+test {{ colors.source_color.default.rgb | lighten: 20.0 }}
+test {{ colors.source_color.default.rgb | lighten: -20.0 }}
+test {{ colors.source_color.default.rgb | saturate: -20.0, hsl }}
+test {{ colors.source_color.default.rgb }}
+
+{{ colors.source_color.default.hex_stripped | lighten: 20.0 }}
+
+{{ colors.source_color.default.hex }}
+{{ colors.source_color.default.hex | lighten: 20.0 }}
+
+red {{colors.red.default.rgb}};
+red {{colors.red.default.rgba}};
+green {{colors.green.default.hsl}};
+blue {{colors.blue.default.hsla}};
+
+source_color {{colors.source_color.default.hex}};
+
+<* for i in -10..10 *>
+    actual: {{ i }} multiplied: {{ {{ i }} * 10 }} {{ colors.red.default.hex | lighten: {{i}} * 10 }}
+<* endfor *>
+
+<* for name, value in colors *>
+    {{name | replace: "_", "-" }} {{value.default.hex}};
+<* endfor *>
+
+<* for name, value in colors *>
+    {{name | replace: "_", "-" }} {{value.default.hex | invert | invert }};
+<* endfor *>
+
+Only works with rgba and hsla
+
+{{ colors.source_color.default.hex | set_alpha: 0.5 }}
+
+original:
+{{ colors.source_color.default.hex }}
+
+grayscale
+{{ colors.source_color.default.hex | grayscale }}
+
+invert
+{{ colors.source_color.default.hex | invert }}
+
+invert twice
+{{ colors.source_color.default.hex | invert | invert }}
+
+chain together {{ colors.source_color.default.hex | set_alpha: 0.7 | invert }}

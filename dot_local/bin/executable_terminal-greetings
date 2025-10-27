@@ -1,0 +1,14 @@
+#!/bin/bash
+# Greeting function
+greet() {
+  if command -v pfetch >/dev/null 2>&1; then
+    pfetch
+  elif command -v fastfetch >/dev/null 2>&1; then
+    fastfetch
+  else
+    echo -e " Welcome! \n=> Install - pfetch or fastfetch - to see detailed info \n"
+  fi
+}
+
+# Call the greeting
+greet
