@@ -1,0 +1,3 @@
+[templates.dmskitty]
+input_path = './matugen/templates/kitty-colors.conf'
+output_path = '~/.config/kitty/kitty-colors.conf'
