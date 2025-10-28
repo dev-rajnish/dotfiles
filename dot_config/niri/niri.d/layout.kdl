@@ -1,0 +1,32 @@
+layout {
+
+    gaps 8
+    center-focused-column "always"
+    always-center-single-column
+    empty-workspace-above-first
+    //default-column-display "tabbed"
+
+    preset-column-widths {
+        proportion 0.6
+        proportion 0.8
+        proportion 0.9
+    }
+
+    default-column-width { proportion 0.8; }
+
+
+
+    border {
+        width 2
+    }
+
+    focus-ring {
+        width 2
+    }
+}
+window-rule {
+    geometry-corner-radius 12
+    clip-to-geometry true
+    tiled-state true
+    draw-border-with-background false
+}

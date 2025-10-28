@@ -9,6 +9,10 @@ bash ~/.local/bin/panel-kill.sh
 
 bash ~/.local/bin/panel-open.sh
 
+rm ~/.config/yazi/theme.toml-*
+rm ~/.config/yazi/keymap.toml-*
+rm ~/.config/yazi/yazi.toml-*
+
 # pkill waybar && waybar &
 # sed -i "s|^[[:space:]]*path = .*|    path = $1|"\
 #   ~/.config/hypr/hyprlock.conf

@@ -1,0 +1,4 @@
+spawn-sh-at-startup "~/.local/bin/wm/autostart-services.sh"
+
+spawn-at-startup "~/.local/bin/wm/autostart-apps.sh"
+
