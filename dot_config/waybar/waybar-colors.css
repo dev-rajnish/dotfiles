@@ -1,8 +1,8 @@
-@define-color surface-tint #4cd9e0;
-@define-color secondary #b1cccd;
+@define-color surface-tint #ffb870;
+@define-color secondary #e1c1a4;
 @define-color surface #131313;
 @define-color on-surface #e2e2e2;
-@define-color primary #4cd9e0;
-@define-color on-primary #003739;
-@define-color secondary-fixed #cce8e9;
+@define-color primary #ffb870;
+@define-color on-primary #4a2800;
+@define-color secondary-fixed #ffdcbe;
 

@@ -1,20 +1,5 @@
 layout {
-
-    gaps 8
-    center-focused-column "always"
-    always-center-single-column
-    empty-workspace-above-first
-    default-column-display "tabbed"
-
-    preset-column-widths {
-        proportion 0.6
-        proportion 0.8
-        proportion 0.9
-    }
-
-    default-column-width { proportion 0.8; }
-
-
+    gaps 4
 
     border {
         width 2

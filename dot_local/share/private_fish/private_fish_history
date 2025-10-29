@@ -1,0 +1,447 @@
+- cmd: curl
+  when: 1761730397
+- cmd: iwd
+  when: 1761730397
+- cmd: iwctl
+  when: 1761730397
+- cmd: rfkill list
+  when: 1761730397
+- cmd: sudo rfkill unblock all
+  when: 1761730397
+- cmd: sudo pacman -Syu curl git vim chezmoi
+  when: 1761730397
+- cmd: sh <(curl https://nixos.org/nix/install) --daemon
+  when: 1761730397
+- cmd: sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
+  when: 1761730397
+- cmd: sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+  when: 1761730397
+- cmd: sudo pacman-key --lsign-key 3056513887B78AEB
+  when: 1761730397
+- cmd: sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+  when: 1761730397
+- cmd: sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+  when: 1761730397
+- cmd: echo [chaotic-aur] >> /etc/pacman.conf
+  when: 1761730397
+- cmd: sudo echo [chaotic-aur] >> /etc/pacman.conf ; bat /etc/pacman.conf
+  when: 1761730397
+- cmd: echo [chaotic-aur] | sudo tee -a  /etc/pacman.conf ; bat /etc/pacman.conf
+  when: 1761730397
+- cmd: echo Include = /etc/pacman.d/chaotic-mirrorlist | sudo tee -a  /etc/pacman.conf ; bat /etc/pacman.conf
+  when: 1761730397
+- cmd: sudo pacman -Syu
+  when: 1761730397
+- cmd: sudo pacman -Syu niri-git
+  when: 1761730397
+- cmd: chezmoi init --apply dev-rajnish
+  when: 1761730397
+- cmd: ll
+  when: 1761730397
+- cmd: ls
+  when: 1761730397
+- cmd: cat arch_install.sh
+  when: 1761730397
+- cmd: sudo
+  when: 1761730397
+- cmd: nix-env -iA nixos.chezmoi
+  when: 1761730397
+- cmd: nix-env -iA fish
+  when: 1761730397
+- cmd: pacman -Q
+  when: 1761730397
+- cmd: nix channel
+  when: 1761730397
+- cmd: nix-channel
+  when: 1761730397
+- cmd: man nix-env
+  when: 1761730397
+- cmd: nix-env -h
+  when: 1761730397
+- cmd: nix-env --help
+  when: 1761730397
+- cmd: nix
+  when: 1761730397
+- cmd: nix --help
+  when: 1761730397
+- cmd: nix-env
+  when: 1761730397
+- cmd: nix-env -i
+  when: 1761730397
+- cmd: nix-env -iA
+  when: 1761730397
+- cmd: nix-env -iA hello
+  when: 1761730397
+- cmd: nix-env -iA hello#fish
+  when: 1761730397
+- cmd: nix-env -iA profile hello#hello
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils rust-utils modern-utils modernutils
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany >> arch_install.sh
+  when: 1761730397
+- cmd: echo "sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany" > arch_install.sh
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany --noconfirm
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany qutebrowser links lynx w3m netsurf  --noconfirm
+  when: 1761730397
+- cmd: echo "sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany qutebrowser links lynx w3m netsurf  --noconfirm" > arch_install.sh
+  when: 1761730397
+- cmd: fuzzel
+  when: 1761730397
+- cmd: echo "sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany qutebrowser links lynx w3m netsurf qps kmonad  --noconfirm" > arch_install.sh
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany qutebrowser links lynx w3m netsurf qps kmonad  --noconfirm
+  when: 1761730397
+- cmd: sudo pacman -Syu --needed getnf
+  when: 1761730472
+- cmd: sudo pacman -Syu --needed getnf-git
+  when: 1761730495
+- cmd: sudo pacman -Syu --needed yay paru
+  when: 1761730518
+- cmd: paru -S getnf
+  when: 1761730548
+- cmd: ./setup.sh
+  when: 1761730967
+- cmd: chezmoi cd
+  when: 1761731011
+- cmd: git status
+  when: 1761731017
+- cmd: git commit -am  "udated kmonad script"
+  when: 1761731063
+- cmd: getnf -h
+  when: 1761731079
+- cmd: getnf
+  when: 1761731088
+- cmd: echo getnf -i VictorMono, RobotoMono, Noto,NerdFontsSymbolsOnly, JetBrainsMono, GeistMono | tee -a ~/arch_install.sh
+  when: 1761731317
+- cmd: bat ~/arch_install.sh
+  when: 1761731325
+  paths:
+    - ~/arch_install.sh
+- cmd: getnf -i VictorMono, RobotoMono, Noto,NerdFontsSymbolsOnly, JetBrainsMono, GeistMono
+  when: 1761731338
+- cmd: getnf -i "VictorMono, RobotoMono, Noto,NerdFontsSymbolsOnly, JetBrainsMono, GeistMono"
+  when: 1761731377
+- cmd: which fish
+  when: 1761731528
+- cmd: git clone https://github.com/dev-rajnish/walls.git
+  when: 1761731768
+- cmd: sudo pacman -Syu --needed pfetch
+  when: 1761731786
+- cmd: pfetch
+  when: 1761731820
+- cmd: sudo pacman -Syu --needed waypaper-git
+  when: 1761731844
+- cmd: sudo pacman -Syu --needed waypaper matugen swww
+  when: 1761731895
+- cmd: ok
+  when: 1761731931
+- cmd: chezmoi add arch_install.sh
+  when: 1761732439
+  paths:
+    - arch_install.sh
+- cmd: sudo pacman -Syu --needed octopi
+  when: 1761732475
+- cmd: pacman -Qqd
+  when: 1761734736
+- cmd: pacman -Ql pacman
+  when: 1761734804
+- cmd: bat /etc/pacman.conf
+  when: 1761734858
+  paths:
+    - /etc/pacman.conf
+- cmd: if
+  when: 1761735117
+- cmd: lynx
+  when: 1761735130
+- cmd: sudo pacman -Syu --needed papirus
+  when: 1761735233
+- cmd: sudo pacman -Syu --needed papirus-git
+  when: 1761735249
+- cmd: paru -Syu papirus
+  when: 1761735369
+- cmd: paru papirus
+  when: 1761735498
+- cmd: htop
+  when: 1761736432
+- cmd: sudo pacman -Ss dank
+  when: 1761737347
+- cmd: sudo pacman -Ss dankmaterial-shell
+  when: 1761737358
+- cmd: sudo pacman -Ss dms
+  when: 1761737365
+- cmd: sudo pacman -Ss celestia
+  when: 1761737374
+- cmd: niri
+  when: 1761737539
+- cmd: clear
+  when: 1761737550
+- cmd: sudo pacman -Syu --needed linux-cachyos linux-cachyos-headers
+  when: 1761737659
+- cmd: sudo bootctl update
+  when: 1761737751
+- cmd: uname -r
+  when: 1761738409
+- cmd: paru cachyos
+  when: 1761738421
+- cmd: yay cachyos
+  when: 1761738527
+- cmd: tar xvf cachyos-repo.tar.xz && cd cachyos-repo
+  when: 1761738728
+- cmd: curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz\ntar xvf cachyos-repo.tar.xz && cd cachyos-repo\nsudo ./cachyos-repo.sh
+  when: 1761738746
+- cmd: bootctl
+  when: 1761739338
+- cmd: bootctl | bat
+  when: 1761739357
+- cmd: mkinitcpio -h
+  when: 1761739438
+- cmd: mkinitcpio -P
+  when: 1761739541
+- cmd: sudo mkinitcpio -P
+  when: 1761739570
+- cmd: yay dms
+  when: 1761739745
+- cmd: yay swayosd
+  when: 1761739815
+- cmd: nix installl
+  when: 1761739879
+- cmd: nix install
+  when: 1761739881
+- cmd: nix profile install
+  when: 1761740056
+- cmd: nix profile install --extra-experimental-features nix-command
+  when: 1761740064
+- cmd: nix profile add --extra-experimental-features nix-command
+  when: 1761740081
+- cmd: nix profile add --extra-experimental-features nix-command htop
+  when: 1761740089
+- cmd: nix profile add --extra-experimental-features nix-command nixpkgs#htop
+  when: 1761740111
+- cmd: yay adw-gtk
+  when: 1761740337
+- cmd: yay qt6ct-kde
+  when: 1761740381
+- cmd: yay qt6ct
+  when: 1761740457
+- cmd: yay find-command
+  when: 1761740753
+- cmd: yay find-command-git
+  when: 1761740760
+- cmd: yay command
+  when: 1761740769
+- cmd: fzf
+  when: 1761740892
+- cmd: yay fzf
+  when: 1761740895
+- cmd: yay command | fzf
+  when: 1761740965
+- cmd: yay find-the-command-git
+  when: 1761741127
+- cmd: source /usr/share/doc/find-the-command/ftc.fish
+  when: 1761741172
+  paths:
+    - /usr/share/doc/find-the-command/ftc.fish
+- cmd: nwg-clipman
+  when: 1761741177
+- cmd: nwg-look
+  when: 1761741187
+- cmd: yay bibata
+  when: 1761741363
+- cmd: dms
+  when: 1761742339
+- cmd: yay firefox
+  when: 1761743369
+- cmd: chmod +x set-bibata-cursor.sh
+  when: 1761744244
+  paths:
+    - set-bibata-cursor.sh
+- cmd: sudo cp ~/.local/bin/set-bibata-cursor.sh  /home/test/
+  when: 1761744691
+  paths:
+    - ~/.local/bin/set-bibata-cursor.sh
+    - /home/test/
+- cmd: kcmshell5 cursortheme
+  when: 1761744913
+- cmd: ./set-bibata-cursor.sh
+  when: 1761745427
+- cmd: env
+  when: 1761745519
+- cmd: echo $XCURSOR_SIZE
+  when: 1761745661
+- cmd: gsettings get org.gnome.desktop.interface cursor-size
+  when: 1761745665
+- cmd: yay gnome-polkit
+  when: 1761745869
+- cmd: yay polkit-gnome
+  when: 1761745883
+- cmd: pacman -Ql polkit-gnome
+  when: 1761746024
+- cmd: sudoedit /etc/pacman.conf
+  when: 1761747449
+  paths:
+    - /etc/pacman.conf
+- cmd: sudo pacman -S reflector
+  when: 1761747687
+- cmd: reflector -h
+  when: 1761747703
+- cmd: sudo pacman -Syuu
+  when: 1761748046
+- cmd: fastfetch
+  when: 1761748121
+- cmd: waybar
+  when: 1761748127
+- cmd: sudo pacman -Sy
+  when: 1761748790
+- cmd: sudo cp /etc/pacman.d/mirrorlist  /etc/pacman.d/mirrorlist.b
+  when: 1761748844
+  paths:
+    - /etc/pacman.d/mirrorlist
+- cmd: sudo reflector --protocol "https" --number 20 --score 22 --fastest 10 --save /etc/pacman.d/mirrorlist
+  when: 1761748847
+  paths:
+    - /etc/pacman.d/mirrorlist
+- cmd: sudo reflector --protocol "https" --sort rate --latest 20 --save /etc/pacman.d/mirrorlist
+  when: 1761749034
+  paths:
+    - /etc/pacman.d/mirrorlist
+- cmd: sudo reflector --verbose --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+  when: 1761749326
+  paths:
+    - /etc/pacman.d/mirrorlist
+- cmd: sudo pacman -Syy
+  when: 1761749519
+- cmd: sudo pacman
+  when: 1761749530
+- cmd: pacman
+  when: 1761749537
+- cmd: pacman -h
+  when: 1761749539
+- cmd: pacman -h -SyyUu
+  when: 1761749558
+- cmd: sudo pacman  -SyyUu
+  when: 1761749568
+- cmd: sudo pacman  -Syy
+  when: 1761749572
+- cmd: sudo pacman  -SuU
+  when: 1761749584
+- cmd: sudo pacman  -SU
+  when: 1761749589
+- cmd: sudo pacman  -U
+  when: 1761749593
+- cmd: sudo pacman  -Syyuu
+  when: 1761749599
+- cmd: set_color_scheme
+  when: 1761749740
+- cmd: xterm
+  when: 1761749752
+- cmd: yay xterm
+  when: 1761749757
+- cmd: getnf -L
+  when: 1761749940
+- cmd: chezmoi re-add ~/.config/ -v
+  when: 1761750026
+  paths:
+    - ~/.config/
+- cmd: chezmoi re-add ~/.config/
+  when: 1761750034
+  paths:
+    - ~/.config/
+- cmd: chezmoi re-add ~/.local/
+  when: 1761750040
+  paths:
+    - ~/.local/
+- cmd: chezmoi add ~/.local/bin/set-bibata-cursor.sh
+  when: 1761750069
+  paths:
+    - ~/.local/bin/set-bibata-cursor.sh
+- cmd: chezmoi add ~/.local/bin/setup-kmonad.sh
+  when: 1761750082
+  paths:
+    - ~/.local/bin/setup-kmonad.sh
+- cmd: chezmoi add ~/.local/share/fish -v
+  when: 1761750130
+  paths:
+    - ~/.local/share/fish
+- cmd: chezmoi add ~/.local/share/color-schemes/
+  when: 1761750148
+  paths:
+    - ~/.local/share/color-schemes/
+- cmd: chezmoi add ~/.local/bin/set-papirus-icons.sh
+  when: 1761750206
+  paths:
+    - ~/.local/bin/set-papirus-icons.sh
+- cmd: qps
+  when: 1761750254
+- cmd: y
+  when: 1761750521
+- cmd: chmod +x set-papirus.sh
+  when: 1761750568
+  paths:
+    - set-papirus.sh
+- cmd: ./set-papirus.sh
+  when: 1761750573
+- cmd: yay qtstyle
+  when: 1761750668
+- cmd: yay qt-style
+  when: 1761750675
+- cmd: sudo pacman  -Syu podman distrobox
+  when: 1761753114
+- cmd: clear
+  when: 1761754975
+- cmd: sudo pacman  -Syu librewolf
+  when: 1761755007
+- cmd: sudo pacman  -Syu
+  when: 1761755040
+- cmd: sudo pacman  -Syu librewolf
+  when: 1761755053
+- cmd: octopi
+  when: 1761755121
+- cmd: clear
+  when: 1761757379
+- cmd: sudo y
+  when: 1761757901
+- cmd: sudo yazi
+  when: 1761757909
+- cmd: yay pavucontrol-qt
+  when: 1761757943
+- cmd: pacman-key --init
+  when: 1761757980
+- cmd: sudo pacman-key --init
+  when: 1761757988
+- cmd: sudo yazi
+  when: 1761758142
+- cmd: sudo pacman -Syy
+  when: 1761758215
+- cmd: sudo pacman -Syyu
+  when: 1761758224
+- cmd: yay pavucontrol-qt
+  when: 1761758244
+- cmd: yay pavucontrol
+  when: 1761758428
+- cmd: cd ~
+  when: 1761758648
+  paths:
+    - ~
+- cmd: yay pavucontrol --noconfirm
+  when: 1761758688
+- cmd: sudo yazi
+  when: 1761758827
+- cmd: yay pavucontrol --noconfirm
+  when: 1761758892
+- cmd: sudo pacman -Q
+  when: 1761759069
+- cmd: sudo pacman -Qe
+  when: 1761759074
+- cmd: chezmoi re-add ~/.local/ -v
+  when: 1761759408
+  paths:
+    - ~/.local/
