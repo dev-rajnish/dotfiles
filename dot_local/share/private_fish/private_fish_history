@@ -104,8 +104,6 @@
   when: 1761731063
 - cmd: getnf -h
   when: 1761731079
-- cmd: getnf
-  when: 1761731088
 - cmd: echo getnf -i VictorMono, RobotoMono, Noto,NerdFontsSymbolsOnly, JetBrainsMono, GeistMono | tee -a ~/arch_install.sh
   when: 1761731317
 - cmd: bat ~/arch_install.sh
@@ -309,10 +307,6 @@
   when: 1761749757
 - cmd: getnf -L
   when: 1761749940
-- cmd: chezmoi re-add ~/.config/ -v
-  when: 1761750026
-  paths:
-    - ~/.config/
 - cmd: chezmoi add ~/.local/bin/set-bibata-cursor.sh
   when: 1761750069
   paths:
@@ -385,16 +379,6 @@
   when: 1761761064
   paths:
     - ~/.config/matugen/sunset_03.png
-- cmd: chezmoi cd
-  when: 1761761080
-- cmd: git add -i
-  when: 1761761090
-- cmd: git status
-  when: 1761761098
-- cmd: git commit -am  "updated"
-  when: 1761761102
-- cmd: git push
-  when: 1761761108
 - cmd: sudo pacman
   when: 1761761299
 - cmd: pacman
@@ -585,8 +569,6 @@
   when: 1761816909
 - cmd: yay -S chaotic-mirrorlist
   when: 1761816916
-- cmd: clear
-  when: 1761816924
 - cmd: fm-relm4
   when: 1761817016
 - cmd: sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
@@ -609,10 +591,6 @@
   when: 1761818788
   paths:
     - ~/.local/
-- cmd: chezmoi re-add ~/.local/
-  when: 1761818792
-  paths:
-    - ~/.local/
 - cmd: chmod a+x enable-chaotic-aur.sh
   when: 1761819142
   paths:
@@ -633,14 +611,10 @@
   when: 1761819582
   paths:
     - /etc/pacman.conf
-- cmd: y
-  when: 1761819586
 - cmd: chmod a+rw pacman.conf
   when: 1761819692
   paths:
     - pacman.conf
-- cmd: y
-  when: 1761819693
 - cmd: $date
   when: 1761819758
 - cmd: chmod a+x copy-pacman-conf.sh
@@ -651,15 +625,115 @@
   when: 1761819871
   paths:
     - copy-pacman-conf.sh
-- cmd: y
-  when: 1761819898
-- cmd: chezmoi re-add ~/.config/ -v
-  when: 1761819949
-  paths:
-    - ~/.config/
-- cmd: clear
-  when: 1761819960
 - cmd: chezmoi re-add ~/.local/
   when: 1761819973
+  paths:
+    - ~/.local/
+- cmd: chmod a+x i-use-these-pkgs.sh
+  when: 1761820139
+  paths:
+    - i-use-these-pkgs.sh
+- cmd: ./i-use-these-pkgs.sh
+  when: 1761820417
+- cmd: yay getnf
+  when: 1761820608
+- cmd: sudo pacman -Syu ironbar-git
+  when: 1761821493
+- cmd: mako-render
+  when: 1761821544
+- cmd: mako
+  when: 1761821548
+- cmd: swaync
+  when: 1761821552
+- cmd: sudo pacman -Syu swaync
+  when: 1761821562
+- cmd: pacman -Ql ironbar
+  when: 1761821666
+- cmd: ironbar
+  when: 1761821710
+- cmd: hello
+  when: 1761821761
+- cmd: cleaar
+  when: 1761821770
+- cmd: clear
+  when: 1761821777
+- cmd: fish
+  when: 1761821783
+- cmd: chezmoi re-add ~/.config/ -v
+  when: 1761821977
+  paths:
+    - ~/.config/
+- cmd: chezmoi re-add my-font.sh
+  when: 1761821991
+  paths:
+    - my-font.sh
+- cmd: chmod a+x my-font.sh
+  when: 1761822002
+  paths:
+    - my-font.sh
+- cmd: chezmoi add my-font.sh
+  when: 1761822011
+  paths:
+    - my-font.sh
+- cmd: ..
+  when: 1761822019
+- cmd: chezmoi add ghostty/
+  when: 1761822025
+  paths:
+    - ghostty/
+- cmd: chezmoi cd
+  when: 1761822036
+- cmd: git status
+  when: 1761822041
+- cmd: git add -i
+  when: 1761822051
+- cmd: git commit -am  "updated"
+  when: 1761822064
+- cmd: git push
+  when: 1761822071
+- cmd: ./my-font.sh
+  when: 1761822134
+- cmd: getnf
+  when: 1761822160
+- cmd: y
+  when: 1761822230
+- cmd: yay xdg-open
+  when: 1761822281
+- cmd: fc-list | bat
+  when: 1761822826
+- cmd: iosevka
+  when: 1761822832
+- cmd: iosevka | grep "iosevka"
+  when: 1761822851
+- cmd: fc-cache
+  when: 1761822877
+- cmd: fc-list | grep "iosevka"
+  when: 1761822879
+- cmd: fc-list | grep "iose"
+  when: 1761822882
+- cmd: fc-list
+  when: 1761822892
+- cmd: fc-list | grep "iose"
+  when: 1761822905
+- cmd: fc-list | grep "nf"
+  when: 1761822911
+- cmd: fc-list | grep "Iosevka"
+  when: 1761822928
+- cmd: y
+  when: 1761823089
+- cmd: y
+  when: 1761823145
+- cmd: fc-list  | grep "VictorMono"
+  when: 1761823282
+- cmd: y
+  when: 1761823451
+- cmd: y
+  when: 1761823461
+- cmd: chezmoi re-add ~/.config/
+  when: 1761823511
+  paths:
+    - ~/.config/
+- cmd: chezmoi re-add ~/.local/
+  when: 1761823521
   paths:
     - ~/.local/

@@ -75,8 +75,8 @@ WINIT_X11_SCALE_FACTOR = "1"
 [window]
 dynamic_padding = true
 decorations = "none"
-title = "Alacritty@CachyOS"
-opacity = 0.94
+title = "Alacritty@archlinux"
+opacity = 0.98
 decorations_theme_variant = "Dark"
 
 [window.dimensions]
@@ -95,19 +95,19 @@ multiplier = 3
 size = 12
 
 [font.normal]
-family = "GeistMono NF"
-style = "Regular"
+family = "Iosevka NFM"
+style = "SemiBold"
 
 [font.bold]
 family = "GeistMono NF"
 style = "Bold"
 
 [font.italic]
-family = "monospace"
-style = "Italic"
+family = "VictorMono NFM"
+style = "Medium Italic"
 
 [font.bold_italic]
-family = "monospace"
+family = "VictorMono NFM"
 style = "Bold Italic"
 
 [selection]
