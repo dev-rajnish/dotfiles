@@ -19,8 +19,8 @@ binds {
     Caps_Lock { spawn-sh " swayosd-client --caps-lock-led input19::capslock"; }
 
 
-    XF86MonBrightnessUp allow-when-locked=true { spawn-sh "~/.local/bin/brightness-up.sh"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "~/.local/bin/brightness-down.sh"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn-sh "~/.local/bin/wm/brightness-up.sh"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "~/.local/bin/wm/brightness-down.sh"; }
 
 
     Mod+O repeat=false { toggle-overview; }

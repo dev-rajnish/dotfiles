@@ -14,10 +14,6 @@
   when: 1761730397
 - cmd: sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
   when: 1761730397
-- cmd: sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-  when: 1761730397
-- cmd: sudo pacman-key --lsign-key 3056513887B78AEB
-  when: 1761730397
 - cmd: sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
   when: 1761730397
 - cmd: sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
@@ -30,15 +26,9 @@
   when: 1761730397
 - cmd: echo Include = /etc/pacman.d/chaotic-mirrorlist | sudo tee -a  /etc/pacman.conf ; bat /etc/pacman.conf
   when: 1761730397
-- cmd: sudo pacman -Syu
-  when: 1761730397
 - cmd: sudo pacman -Syu niri-git
   when: 1761730397
 - cmd: chezmoi init --apply dev-rajnish
-  when: 1761730397
-- cmd: ll
-  when: 1761730397
-- cmd: ls
   when: 1761730397
 - cmd: cat arch_install.sh
   when: 1761730397
@@ -110,10 +100,6 @@
   when: 1761730548
 - cmd: ./setup.sh
   when: 1761730967
-- cmd: chezmoi cd
-  when: 1761731011
-- cmd: git status
-  when: 1761731017
 - cmd: git commit -am  "udated kmonad script"
   when: 1761731063
 - cmd: getnf -h
@@ -170,8 +156,6 @@
   when: 1761735369
 - cmd: paru papirus
   when: 1761735498
-- cmd: htop
-  when: 1761736432
 - cmd: sudo pacman -Ss dank
   when: 1761737347
 - cmd: sudo pacman -Ss dankmaterial-shell
@@ -182,8 +166,6 @@
   when: 1761737374
 - cmd: niri
   when: 1761737539
-- cmd: clear
-  when: 1761737550
 - cmd: sudo pacman -Syu --needed linux-cachyos linux-cachyos-headers
   when: 1761737659
 - cmd: sudo bootctl update
@@ -285,22 +267,14 @@
   when: 1761745883
 - cmd: pacman -Ql polkit-gnome
   when: 1761746024
-- cmd: sudoedit /etc/pacman.conf
-  when: 1761747449
-  paths:
-    - /etc/pacman.conf
 - cmd: sudo pacman -S reflector
   when: 1761747687
 - cmd: reflector -h
   when: 1761747703
 - cmd: sudo pacman -Syuu
   when: 1761748046
-- cmd: fastfetch
-  when: 1761748121
 - cmd: waybar
   when: 1761748127
-- cmd: sudo pacman -Sy
-  when: 1761748790
 - cmd: sudo cp /etc/pacman.d/mirrorlist  /etc/pacman.d/mirrorlist.b
   when: 1761748844
   paths:
@@ -313,18 +287,6 @@
   when: 1761749034
   paths:
     - /etc/pacman.d/mirrorlist
-- cmd: sudo reflector --verbose --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-  when: 1761749326
-  paths:
-    - /etc/pacman.d/mirrorlist
-- cmd: sudo pacman -Syy
-  when: 1761749519
-- cmd: sudo pacman
-  when: 1761749530
-- cmd: pacman
-  when: 1761749537
-- cmd: pacman -h
-  when: 1761749539
 - cmd: pacman -h -SyyUu
   when: 1761749558
 - cmd: sudo pacman  -SyyUu
@@ -351,14 +313,6 @@
   when: 1761750026
   paths:
     - ~/.config/
-- cmd: chezmoi re-add ~/.config/
-  when: 1761750034
-  paths:
-    - ~/.config/
-- cmd: chezmoi re-add ~/.local/
-  when: 1761750040
-  paths:
-    - ~/.local/
 - cmd: chezmoi add ~/.local/bin/set-bibata-cursor.sh
   when: 1761750069
   paths:
@@ -381,8 +335,6 @@
     - ~/.local/bin/set-papirus-icons.sh
 - cmd: qps
   when: 1761750254
-- cmd: y
-  when: 1761750521
 - cmd: chmod +x set-papirus.sh
   when: 1761750568
   paths:
@@ -395,34 +347,16 @@
   when: 1761750675
 - cmd: sudo pacman  -Syu podman distrobox
   when: 1761753114
-- cmd: clear
-  when: 1761754975
-- cmd: sudo pacman  -Syu librewolf
-  when: 1761755007
 - cmd: sudo pacman  -Syu
   when: 1761755040
 - cmd: sudo pacman  -Syu librewolf
   when: 1761755053
 - cmd: octopi
   when: 1761755121
-- cmd: clear
-  when: 1761757379
 - cmd: sudo y
   when: 1761757901
-- cmd: sudo yazi
-  when: 1761757909
-- cmd: yay pavucontrol-qt
-  when: 1761757943
 - cmd: pacman-key --init
   when: 1761757980
-- cmd: sudo pacman-key --init
-  when: 1761757988
-- cmd: sudo yazi
-  when: 1761758142
-- cmd: sudo pacman -Syy
-  when: 1761758215
-- cmd: sudo pacman -Syyu
-  when: 1761758224
 - cmd: yay pavucontrol-qt
   when: 1761758244
 - cmd: yay pavucontrol
@@ -431,17 +365,301 @@
   when: 1761758648
   paths:
     - ~
-- cmd: yay pavucontrol --noconfirm
-  when: 1761758688
-- cmd: sudo yazi
-  when: 1761758827
-- cmd: yay pavucontrol --noconfirm
-  when: 1761758892
 - cmd: sudo pacman -Q
   when: 1761759069
 - cmd: sudo pacman -Qe
   when: 1761759074
+- cmd: chezmoi add ~/.config/gtk-3.0/
+  when: 1761759488
+  paths:
+    - ~/.config/gtk-3.0/
+- cmd: chezmoi add ~/.config/gtk-4.0/
+  when: 1761759493
+  paths:
+    - ~/.config/gtk-4.0/
+- cmd: git add .
+  when: 1761759556
+  paths:
+    - .
+- cmd: chezmoi add ~/.config/matugen/sunset_03.png
+  when: 1761761064
+  paths:
+    - ~/.config/matugen/sunset_03.png
+- cmd: chezmoi cd
+  when: 1761761080
+- cmd: git add -i
+  when: 1761761090
+- cmd: git status
+  when: 1761761098
+- cmd: git commit -am  "updated"
+  when: 1761761102
+- cmd: git push
+  when: 1761761108
+- cmd: sudo pacman
+  when: 1761761299
+- cmd: pacman
+  when: 1761761308
+- cmd: pacman -h
+  when: 1761761311
+- cmd: pacman -T
+  when: 1761761320
+- cmd: sudo pacman -T
+  when: 1761761325
+- cmd: sudo pacman -S
+  when: 1761761420
+- cmd: sudo pacman -Sy
+  when: 1761761422
+- cmd: sudo pacman -Syyy
+  when: 1761761427
+- cmd: sudo pacman -Syy
+  when: 1761761429
+- cmd: sudo reflector --verbose --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+  when: 1761761471
+  paths:
+    - /etc/pacman.d/mirrorlist
+- cmd: sudo rm -r /var/lib/pacman/sync
+  when: 1761762002
+  paths:
+    - /var/lib/pacman/sync
+- cmd: sudo pacman -S pacman-keyring
+  when: 1761762075
+- cmd: sudo pacman -S archlinux-keyring
+  when: 1761762088
+- cmd: sudo pacman -S pacman-key --init
+  when: 1761762103
+- cmd: sudo yazi
+  when: 1761762188
+- cmd: sudo  pacman-key --init
+  when: 1761762253
+- cmd: sudo  pacman-key --refresh-keys
+  when: 1761762268
+- cmd: sudo pacman -Sy archlinux-keyring
+  when: 1761762324
+- cmd: sudo  pacman-key --populate archlinux
+  when: 1761762339
+- cmd: sudoedit /etc/pacman.conf
+  when: 1761772659
+  paths:
+    - /etc/pacman.conf
+- cmd: ls /var/log/pacman.log
+  when: 1761772697
+  paths:
+    - /var/log/pacman.log
+- cmd: bat /var/log/pacman.log
+  when: 1761772715
+  paths:
+    - /var/log/pacman.log
+- cmd: chmod +x pacrecover
+  when: 1761772827
+  paths:
+    - pacrecover
+- cmd: nvim pacrecover
+  when: 1761772898
+- cmd: ./pacrecover
+  when: 1761772905
+- cmd: paclog-pkglist /var/log/pacman.log | ./pacrecover >files.list 2>pkglist.orig
+  when: 1761772981
+  paths:
+    - /var/log/pacman.log
+- cmd: bat pkglist.orig
+  when: 1761772995
+  paths:
+    - pkglist.orig
+- cmd: { cat pkglist.orig; pacman -Slq; } | sort | uniq -d > pkglist
+  when: 1761773024
+  paths:
+    - pkglist.orig
+- cmd: comm -23 <({ echo base ; expac -l '\\n' '%E' base; } | sort) pkglist.orig >> pkglist
+  when: 1761773045
+  paths:
+    - pkglist.orig
+- cmd: chmod +x recovery-pacman
+  when: 1761773218
+  paths:
+    - recovery-pacman
+- cmd: bash
+  when: 1761773230
+- cmd: sudo pacman -Syyu base
+  when: 1761773413
+- cmd: sudo pacman -Syyu archlinux-keyring
+  when: 1761773487
+- cmd: sudo pacman-key --init
+  when: 1761773504
+- cmd: sudo pacman-key --populate
+  when: 1761773512
+- cmd: sudo pacman -h
+  when: 1761773522
+- cmd: sudo pacman -D
+  when: 1761773533
+- cmd: sudo pacman -D -h
+  when: 1761773536
+- cmd: sudo pacman -D -k
+  when: 1761773590
+- cmd: ping archlinux.org
+  when: 1761773714
+- cmd: curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz\ntar xvf cachyos-repo.tar.xz\ncd cachyos-repo\nsudo ./cachyos-repo.sh --remove
+  when: 1761773738
+- cmd: n
+  when: 1761774136
+- cmd: sudo pacman -Syyu
+  when: 1761774155
+- cmd: yay pavucontrol --noconfirm
+  when: 1761774182
+- cmd: paclog-pkglist
+  when: 1761774449
+- cmd: paclog-pkglist | wc -c
+  when: 1761774453
+- cmd: paclog-pkglist -h
+  when: 1761774459
+- cmd: paclist  -h
+  when: 1761774482
+- cmd: paclist extra
+  when: 1761774492
+- cmd: paclist extra | wc -c
+  when: 1761774499
+- cmd: pacman-db-upgrade
+  when: 1761774513
+- cmd: sudo pacman-db-upgrade
+  when: 1761774519
+- cmd: yay nwg-look
+  when: 1761774565
+- cmd: echo $GTK_CURSOR_THEME
+  when: 1761774618
+- cmd: systemctl --user import-environment GTK_THEMES
+  when: 1761774757
+- cmd: systemctl --user import-environment GTK_THEME
+  when: 1761774759
+- cmd: fastfetch
+  when: 1761774860
+- cmd: echo $GTK_THEME
+  when: 1761774865
+- cmd: yay gtk
+  when: 1761774891
+- cmd: exit
+  when: 1761776679
+- cmd: muzika
+  when: 1761777158
+- cmd: yay gtk4
+  when: 1761777210
+- cmd: htop
+  when: 1761809949
+- cmd: swayidle
+  when: 1761816263
+- cmd: brightnessctl
+  when: 1761816319
+- cmd: ~/.local/bin/wm/brightness-down.sh
+  when: 1761816431
+- cmd: swayosd-client  --brightness lower
+  when: 1761816463
+- cmd: swayosd-client  --brightness --help
+  when: 1761816470
+- cmd: swayosd-client  --brightness -h
+  when: 1761816474
+- cmd: swayosd-client  --help
+  when: 1761816479
+- cmd: swayosd-client  --brightness lower 14
+  when: 1761816558
+- cmd: swayosd-client  --brightness=lower 14
+  when: 1761816575
+- cmd: swayosd-client  --caps-lock
+  when: 1761816616
+- cmd: swayosd-client --caps-lock
+  when: 1761816636
+- cmd: yay brightnessctl
+  when: 1761816673
+- cmd: swayosd-client  --brightness=lower
+  when: 1761816712
+- cmd: swayosd-client  --brightness=lower "14"
+  when: 1761816717
+- cmd: sudo pacman -S brightnessctl --needed --noconfirm
+  when: 1761816774
+- cmd: ls
+  when: 1761816807
+- cmd: ll
+  when: 1761816808
+- cmd: sudo pacman -S --needed --noconfirm chaotic-aur
+  when: 1761816883
+- cmd: sudo pacman -S --needed --noconfirm chaotic-mirrorlist
+  when: 1761816900
+- cmd: yay -S --needed --noconfirm chaotic-mirrorlist
+  when: 1761816909
+- cmd: yay -S chaotic-mirrorlist
+  when: 1761816916
+- cmd: clear
+  when: 1761816924
+- cmd: fm-relm4
+  when: 1761817016
+- cmd: sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+  when: 1761817330
+- cmd: sudo pacman-key --lsign-key 3056513887B78AEB
+  when: 1761817345
+- cmd: sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'\nsudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+  when: 1761817356
+- cmd: sudo pacman -Syu
+  when: 1761817380
+- cmd: sudo pacman -Syu zen
+  when: 1761817431
+- cmd: sudo pacman -Syu zen-browser-bin
+  when: 1761817474
+- cmd: chezmoi re-add ~/.config/
+  when: 1761818778
+  paths:
+    - ~/.config/
 - cmd: chezmoi re-add ~/.local/ -v
-  when: 1761759408
+  when: 1761818788
+  paths:
+    - ~/.local/
+- cmd: chezmoi re-add ~/.local/
+  when: 1761818792
+  paths:
+    - ~/.local/
+- cmd: chmod a+x enable-chaotic-aur.sh
+  when: 1761819142
+  paths:
+    - enable-chaotic-aur.sh
+- cmd: ./enable-chaotic-aur.sh
+  when: 1761819144
+- cmd: chezmoi add enable-chaotic-aur.sh
+  when: 1761819211
+  paths:
+    - enable-chaotic-aur.sh
+- cmd: yay -S librewolf
+  when: 1761819350
+- cmd: chezmoi add i-use-these-pkgs.sh
+  when: 1761819550
+  paths:
+    - i-use-these-pkgs.sh
+- cmd: sudo cp /etc/pacman.conf ./pacman.conf
+  when: 1761819582
+  paths:
+    - /etc/pacman.conf
+- cmd: y
+  when: 1761819586
+- cmd: chmod a+rw pacman.conf
+  when: 1761819692
+  paths:
+    - pacman.conf
+- cmd: y
+  when: 1761819693
+- cmd: $date
+  when: 1761819758
+- cmd: chmod a+x copy-pacman-conf.sh
+  when: 1761819862
+  paths:
+    - copy-pacman-conf.sh
+- cmd: chezmoi add copy-pacman-conf.sh
+  when: 1761819871
+  paths:
+    - copy-pacman-conf.sh
+- cmd: y
+  when: 1761819898
+- cmd: chezmoi re-add ~/.config/ -v
+  when: 1761819949
+  paths:
+    - ~/.config/
+- cmd: clear
+  when: 1761819960
+- cmd: chezmoi re-add ~/.local/
+  when: 1761819973
   paths:
     - ~/.local/
