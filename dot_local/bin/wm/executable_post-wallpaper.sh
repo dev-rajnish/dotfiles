@@ -3,11 +3,11 @@ pkill waypaper
 
 bash ~/.local/bin/remove_hex_prefix.sh
 
-swaync-client -rs
+#swaync-client -rs
 
-bash ~/.local/bin/panel-kill.sh
+bash ~/.local/bin/wm/panel-kill.sh
 
-bash ~/.local/bin/panel-open.sh
+bash ~/.local/bin/wm/panel-open.sh
 
 rm ~/.config/yazi/theme.toml-*
 rm ~/.config/yazi/keymap.toml-*

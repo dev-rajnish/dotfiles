@@ -1,1 +1,1 @@
-pkill -9 waybar
+pkill waybar

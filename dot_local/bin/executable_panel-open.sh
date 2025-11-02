@@ -1,3 +1,4 @@
-waybar
+waybar 
+disown
 
 #dms run

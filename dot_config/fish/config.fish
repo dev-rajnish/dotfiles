@@ -3,3 +3,5 @@ function fish_greeting
 end
 set_color_scheme
 starship init fish | source
+my_alias
+modern_utils

@@ -84,8 +84,6 @@
   when: 1761730397
 - cmd: echo "sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany qutebrowser links lynx w3m netsurf  --noconfirm" > arch_install.sh
   when: 1761730397
-- cmd: fuzzel
-  when: 1761730397
 - cmd: echo "sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany qutebrowser links lynx w3m netsurf qps kmonad  --noconfirm" > arch_install.sh
   when: 1761730397
 - cmd: sudo pacman -Syu --needed git curl vim fish bat starship fastfetch chezmoi fuzzel xdg-utils yazi neovim wl-clipboard nwg-clipman cliphist geany qutebrowser links lynx w3m netsurf qps kmonad  --noconfirm
@@ -98,8 +96,6 @@
   when: 1761730518
 - cmd: paru -S getnf
   when: 1761730548
-- cmd: ./setup.sh
-  when: 1761730967
 - cmd: git commit -am  "udated kmonad script"
   when: 1761731063
 - cmd: getnf -h
@@ -120,14 +116,10 @@
   when: 1761731768
 - cmd: sudo pacman -Syu --needed pfetch
   when: 1761731786
-- cmd: pfetch
-  when: 1761731820
 - cmd: sudo pacman -Syu --needed waypaper-git
   when: 1761731844
 - cmd: sudo pacman -Syu --needed waypaper matugen swww
   when: 1761731895
-- cmd: ok
-  when: 1761731931
 - cmd: chezmoi add arch_install.sh
   when: 1761732439
   paths:
@@ -271,8 +263,6 @@
   when: 1761747703
 - cmd: sudo pacman -Syuu
   when: 1761748046
-- cmd: waybar
-  when: 1761748127
 - cmd: sudo cp /etc/pacman.d/mirrorlist  /etc/pacman.d/mirrorlist.b
   when: 1761748844
   paths:
@@ -301,8 +291,6 @@
   when: 1761749599
 - cmd: set_color_scheme
   when: 1761749740
-- cmd: xterm
-  when: 1761749752
 - cmd: yay xterm
   when: 1761749757
 - cmd: getnf -L
@@ -327,8 +315,6 @@
   when: 1761750206
   paths:
     - ~/.local/bin/set-papirus-icons.sh
-- cmd: qps
-  when: 1761750254
 - cmd: chmod +x set-papirus.sh
   when: 1761750568
   paths:
@@ -345,8 +331,6 @@
   when: 1761755040
 - cmd: sudo pacman  -Syu librewolf
   when: 1761755053
-- cmd: octopi
-  when: 1761755121
 - cmd: sudo y
   when: 1761757901
 - cmd: pacman-key --init
@@ -355,10 +339,6 @@
   when: 1761758244
 - cmd: yay pavucontrol
   when: 1761758428
-- cmd: cd ~
-  when: 1761758648
-  paths:
-    - ~
 - cmd: sudo pacman -Q
   when: 1761759069
 - cmd: sudo pacman -Qe
@@ -461,8 +441,6 @@
   when: 1761773218
   paths:
     - recovery-pacman
-- cmd: bash
-  when: 1761773230
 - cmd: sudo pacman -Syyu base
   when: 1761773413
 - cmd: sudo pacman -Syyu archlinux-keyring
@@ -513,20 +491,14 @@
   when: 1761774757
 - cmd: systemctl --user import-environment GTK_THEME
   when: 1761774759
-- cmd: fastfetch
-  when: 1761774860
 - cmd: echo $GTK_THEME
   when: 1761774865
 - cmd: yay gtk
   when: 1761774891
-- cmd: exit
-  when: 1761776679
 - cmd: muzika
   when: 1761777158
 - cmd: yay gtk4
   when: 1761777210
-- cmd: htop
-  when: 1761809949
 - cmd: swayidle
   when: 1761816263
 - cmd: brightnessctl
@@ -557,8 +529,6 @@
   when: 1761816717
 - cmd: sudo pacman -S brightnessctl --needed --noconfirm
   when: 1761816774
-- cmd: ls
-  when: 1761816807
 - cmd: ll
   when: 1761816808
 - cmd: sudo pacman -S --needed --noconfirm chaotic-aur
@@ -583,10 +553,6 @@
   when: 1761817431
 - cmd: sudo pacman -Syu zen-browser-bin
   when: 1761817474
-- cmd: chezmoi re-add ~/.config/
-  when: 1761818778
-  paths:
-    - ~/.config/
 - cmd: chezmoi re-add ~/.local/ -v
   when: 1761818788
   paths:
@@ -625,10 +591,6 @@
   when: 1761819871
   paths:
     - copy-pacman-conf.sh
-- cmd: chezmoi re-add ~/.local/
-  when: 1761819973
-  paths:
-    - ~/.local/
 - cmd: chmod a+x i-use-these-pkgs.sh
   when: 1761820139
   paths:
@@ -651,12 +613,8 @@
   when: 1761821666
 - cmd: ironbar
   when: 1761821710
-- cmd: hello
-  when: 1761821761
 - cmd: cleaar
   when: 1761821770
-- cmd: clear
-  when: 1761821777
 - cmd: fish
   when: 1761821783
 - cmd: chezmoi re-add ~/.config/ -v
@@ -681,22 +639,10 @@
   when: 1761822025
   paths:
     - ghostty/
-- cmd: chezmoi cd
-  when: 1761822036
-- cmd: git status
-  when: 1761822041
-- cmd: git add -i
-  when: 1761822051
-- cmd: git commit -am  "updated"
-  when: 1761822064
-- cmd: git push
-  when: 1761822071
 - cmd: ./my-font.sh
   when: 1761822134
 - cmd: getnf
   when: 1761822160
-- cmd: y
-  when: 1761822230
 - cmd: yay xdg-open
   when: 1761822281
 - cmd: fc-list | bat
@@ -709,8 +655,6 @@
   when: 1761822877
 - cmd: fc-list | grep "iosevka"
   when: 1761822879
-- cmd: fc-list | grep "iose"
-  when: 1761822882
 - cmd: fc-list
   when: 1761822892
 - cmd: fc-list | grep "iose"
@@ -719,21 +663,573 @@
   when: 1761822911
 - cmd: fc-list | grep "Iosevka"
   when: 1761822928
-- cmd: y
-  when: 1761823089
-- cmd: y
-  when: 1761823145
-- cmd: fc-list  | grep "VictorMono"
-  when: 1761823282
-- cmd: y
-  when: 1761823451
-- cmd: y
-  when: 1761823461
 - cmd: chezmoi re-add ~/.config/
   when: 1761823511
   paths:
     - ~/.config/
 - cmd: chezmoi re-add ~/.local/
   when: 1761823521
+  paths:
+    - ~/.local/
+- cmd: chezmoi cd
+  when: 1761823528
+- cmd: chezmoi add ~/.config/arch-config/my-font.sh
+  when: 1761823558
+  paths:
+    - ~/.config/arch-config/my-font.sh
+- cmd: git status
+  when: 1761823562
+- cmd: git add -i
+  when: 1761823571
+- cmd: git commit -am  "updated"
+  when: 1761823584
+- cmd: git push
+  when: 1761823590
+- cmd: bash
+  when: 1761911363
+- cmd: nix-shell '<home-manager>' -A install
+  when: 1761911562
+- cmd: which bash
+  when: 1761911738
+- cmd: which sh
+  when: 1761911743
+- cmd: which cat
+  when: 1761911752
+- cmd: which echo
+  when: 1761911761
+- cmd: source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+  when: 1761911908
+  paths:
+    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+- cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+  when: 1761911920
+  paths:
+    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+- cmd: echo __HM_SESS_VARS_SOURCED
+  when: 1761911968
+- cmd: echo $__HM_SESS_VARS_SOURCED
+  when: 1761912137
+- cmd: ls
+  when: 1761912165
+- cmd: which fuzzel
+  when: 1761912492
+- cmd: fuzzel
+  when: 1761912504
+- cmd: octopi
+  when: 1761912528
+- cmd: mkdir ~/.local/share/applications
+  when: 1761912688
+- cmd: sudo cp /usr/share/applications/htop.desktop  ~/.local/share/applications/htop.desktop
+  when: 1761912692
+  paths:
+    - /usr/share/applications/htop.desktop
+- cmd: alacritty  -e htop
+  when: 1761912738
+- cmd: alacritty  -c htop
+  when: 1761912747
+- cmd: neovim
+  when: 1761912906
+- cmd: sudo cp /usr/share/applications/neovim.desktop  ~/.local/share/applications/neovim.desktop
+  when: 1761912933
+- cmd: sudo cp /usr/share/applications/nvim.desktop  ~/.local/share/applications/neovim.desktop
+  when: 1761912960
+  paths:
+    - /usr/share/applications/nvim.desktop
+- cmd: alacritty  -c nvim
+  when: 1761913056
+- cmd: alacritty  -e nvim
+  when: 1761913060
+- cmd: which htop
+  when: 1761913186
+- cmd: sudo pacman -Ql htop
+  when: 1761913293
+- cmd: sudo pacman -Ql -h
+  when: 1761913376
+- cmd: sudo pacman -Ql --help
+  when: 1761913396
+- cmd: sudo pacman -Q -h
+  when: 1761913403
+- cmd: sudo pacman -R -h
+  when: 1761913418
+- cmd: sudo pacman -Rnsv htop
+  when: 1761913496
+- cmd: find ~ htop.desktop
+  when: 1761913638
+  paths:
+    - ~
+- cmd: echo $TERM
+  when: 1761913711
+- cmd: xterm
+  when: 1761913718
+- cmd: sudo systemctl stop kmonad@config
+  when: 1761932183
+- cmd: sudo systemctl disable kmonad@config
+  when: 1761932195
+- cmd: which kmonad
+  when: 1761932374
+- cmd: sudo systemctl --user enable kmonadn
+  when: 1761932551
+- cmd: sudo systemctl --user enable kmonadn.service
+  when: 1761932560
+  paths:
+    - kmonadn.service
+- cmd: sudo systemctl enable kmonad@.service
+  when: 1761932600
+- cmd: sudo systemctl start kmonad@.service
+  when: 1761932613
+- cmd: sudo systemctl start kmonad@
+  when: 1761932619
+- cmd: sudo systemctl start kmonad@config
+  when: 1761932625
+- cmd: sudo pacman -Rnsv kmonad
+  when: 1761932681
+- cmd: sudo systemctl status kmonad@config
+  when: 1761932804
+- cmd: kmonad ~/.config/kmonad/config.kbd
+  when: 1761932967
+  paths:
+    - ~/.config/kmonad/config.kbd
+- cmd: useradd group rhs
+  when: 1761933004
+- cmd: sudo kmonad ~/config/kmonad/config.kbd
+  when: 1761933102
+- cmd: sudo pacman -S kmonad
+  when: 1761933134
+- cmd: ./setup.sh
+  when: 1761933210
+- cmd: which tgpt
+  when: 1761933374
+- cmd: distrobox create -i archlinux:base
+  when: 1761933524
+- cmd: distrobox create --image archlinux:latest
+  when: 1761933604
+- cmd: toolbox create --distro arch
+  when: 1761933751
+- cmd: distrobox create --image quay.io/toolbox/arch-toolbox
+  when: 1761933820
+- cmd: distrobox create --image archlinux:base
+  when: 1761933831
+- cmd: distrobox enter archlinux-base
+  when: 1761933988
+- cmd: distrobox-list
+  when: 1761934050
+- cmd: distrobox create --image arch
+  when: 1761934067
+- cmd: distrobox create --image archlinux
+  when: 1761934077
+- cmd: podman
+  when: 1761934119
+- cmd: which distrobox
+  when: 1761934147
+- cmd: tgpt
+  when: 1761934194
+- cmd: tgpt -h
+  when: 1761934208
+- cmd: tgpt "install niri-git in nixpkgs"
+  when: 1761934270
+- cmd: sudo pacman -Rnsv distrobox podman
+  when: 1761935139
+- cmd: sudo pacman -S podman
+  when: 1761935166
+- cmd: sudo pacman -S distrobox
+  when: 1761935230
+- cmd: distrobox enter archlinux
+  when: 1761935242
+- cmd: distrobox create
+  when: 1761935266
+- cmd: distrobox enter my-distrobox
+  when: 1761935432
+- cmd: sudo dnf install starship pfetch
+  when: 1761935576
+- cmd: sudo dnf install starship
+  when: 1761935592
+- cmd: sudo dnf -h
+  when: 1761935607
+- cmd: sudo dnf in htop
+  when: 1761935693
+- cmd: nvim ~/.local/share/applications/htop.desktop
+  when: 1761935990
+  paths:
+    - ~/.local/share/applications/htop.desktop
+- cmd: sudo dnf in foot
+  when: 1761936030
+- cmd: foot
+  when: 1761936148
+- cmd: cmatrix
+  when: 1761936620
+- cmd: swaybg
+  when: 1761938357
+- cmd: swaybg -h
+  when: 1761938407
+- cmd: pfetch
+  when: 1761938468
+- cmd: sudo systemctl status bluetoothd
+  when: 1761986548
+- cmd: yay smem
+  when: 1761986948
+- cmd: sudo pacman -r smem-debug
+  when: 1761987023
+- cmd: sudo pacman -R smem-debug
+  when: 1761987039
+- cmd: smem
+  when: 1761987077
+- cmd: smem -h
+  when: 1761987106
+- cmd: smem -t -R
+  when: 1761987167
+- cmd: smem -t -R REALMEM
+  when: 1761987187
+- cmd: smem -t -R realmem
+  when: 1761987203
+- cmd: smem -t --realmem=REALMEM
+  when: 1761987247
+- cmd: smem -t --realmem=1024
+  when: 1761987271
+- cmd: smem -t --realmem=m
+  when: 1761987279
+- cmd: smem -t --realmem=M
+  when: 1761987288
+- cmd: cal
+  when: 1761987359
+- cmd: yay bc
+  when: 1761987362
+- cmd: smem -t
+  when: 1761987421
+- cmd: bc
+  when: 1761987429
+- cmd: ncpamixer
+  when: 1761988001
+- cmd: ncpamixer -h
+  when: 1761988031
+- cmd: tgpt "how to view all systemd services running"
+  when: 1761988237
+- cmd: sudo systemctl list-units --type=service
+  when: 1761988271
+- cmd: sudo systemctl list-units --type=service --state=active
+  when: 1761988339
+- cmd: sudo systemctl disable bluetooth
+  when: 1761988658
+- cmd: sudo systemctl stop bluetooth
+  when: 1761988668
+- cmd: sudo systemctl status bluetooth
+  when: 1761988675
+- cmd: sudo systemctl list-units
+  when: 1761988681
+- cmd: sudo systemctl list-unit-files
+  when: 1761988685
+- cmd: tgpt "🞈 sudo systemctl --user enable  bluetooth\nFailed to connect to user scope bus via local transport: $DBUS_SESSION_BUS_ADDRESS and $XDG_RUNTIME_DIR not defined (consider using --machine=<user>@.host --user to connect to bus of other user) why this happens"
+  when: 1761988806
+- cmd: groups | grep systemd
+  when: 1761988873
+- cmd: groups
+  when: 1761988877
+- cmd: sudo systemctl --machine=1000@host enable bluetooth
+  when: 1761988915
+- cmd: bluetoothctl power on
+  when: 1761988928
+- cmd: bluetoothctl -h
+  when: 1761988939
+- cmd: sudo usermod -aG systemd-journal $USER
+  when: 1761989014
+- cmd: groups rsh
+  when: 1761989018
+- cmd: sudo systemctl --user enable  bluetooth
+  when: 1761989026
+- cmd: echo  $DBUS_SESSION_BUS_ADDRESS
+  when: 1761989041
+- cmd: echo $XDG_RUNTIME_DIR
+  when: 1761989051
+- cmd: sleep 11s
+  when: 1761989171
+- cmd: sleep 3s
+  when: 1761989180
+- cmd: sleep 3
+  when: 1761989186
+- cmd: ~/.local/bin/wm/panel-kill.sh
+  when: 1761989275
+- cmd: waybar & disown
+  when: 1761989374
+- cmd: waybar
+  when: 1761989397
+- cmd: yay xdg-desktop-portal-wlr
+  when: 1761990141
+- cmd: yay chooser
+  when: 1761990215
+- cmd: yay zed
+  when: 1761990462
+- cmd: yay zededitor
+  when: 1761990519
+- cmd: yay zed-editor
+  when: 1761990532
+- cmd: yay zed-preview
+  when: 1761990576
+- cmd: yay just
+  when: 1761990611
+- cmd: yay -h
+  when: 1761990641
+- cmd: swaybg -i ~/walls/4gv4w2kbygnf1.jpeg
+  when: 1761990719
+  paths:
+    - ~/walls/4gv4w2kbygnf1.jpeg
+- cmd: swaybg -i ~/walls/15.png
+  when: 1761990736
+  paths:
+    - ~/walls/15.png
+- cmd: matugen color rosepine
+  when: 1761991379
+- cmd: matugen color -h
+  when: 1761991386
+- cmd: fc-list  | grep "VictorMono"
+  when: 1761996010
+- cmd: ~/.local/bin/wm/panel-open.sh
+  when: 1761996793
+- cmd: matugen
+  when: 1761997154
+- cmd: matugen -i ~/walls/4gv4w2kbygnf1.jpeg
+  when: 1761997161
+  paths:
+    - ~/walls/4gv4w2kbygnf1.jpeg
+- cmd: matugen  ~/walls/4gv4w2kbygnf1.jpeg
+  when: 1761997167
+  paths:
+    - ~/walls/4gv4w2kbygnf1.jpeg
+- cmd: matugen image  ~/walls/4gv4w2kbygnf1.jpeg
+  when: 1761997209
+  paths:
+    - ~/walls/4gv4w2kbygnf1.jpeg
+- cmd: hello
+  when: 1761997464
+- cmd: pkill waybar
+  when: 1761997620
+- cmd: pkill -9 waybar
+  when: 1761997631
+- cmd: ~/.local/bin/wm/post-wallpaper.sh
+  when: 1761997780
+- cmd: tgpt "make systemd --user service for # Clipboard: history nwg-clipman\nwl-paste --type text --watch cliphist store &\nwl-paste --type image --watch cliphist store &\n\n"
+  when: 1761998000
+- cmd: cd ~
+  when: 1761998536
+  paths:
+    - ~
+- cmd: chmod +x ~/.config/systemd/user/clipboard.service
+  when: 1761998553
+  paths:
+    - ~/.config/systemd/user/clipboard.service
+- cmd: chmod 644 ~/.config/systemd/user/nwg-clipman.service
+  when: 1761998584
+- cmd: chmod 644 ~/.config/systemd/user/clipboard.service
+  when: 1761998601
+  paths:
+    - ~/.config/systemd/user/clipboard.service
+- cmd: systemctl --user start nwg-clipman.service
+  when: 1761998609
+- cmd: tgpt "🞈 systemctl --user status clipboard.service\n○ clipboard.service - GUI Clipboard History Manager\n     Loaded: bad-setting (Reason: Unit clipboard.service has a bad unit file setting.)\n     Active: inactive (dead)\n\nNov 01 17:33:41 archlinux systemd[764]: /home/rsh/.config/sys\ntemd/user/clipboard.service:8: Invalid user/group name or numeric ID:\nNov 01 17:33:41 archlinux systemd[764]: clipboard.service: Unit configuration has fatal error, unit will not be started.\nNov 01 17:33:58 archlinux systemd[764]: /home/rsh/.config/sys\ntemd/user/clipboard.service:8: Invalid user/group name or numeric ID:\nNov 01 17:33:58 archlinux systemd[764]: clipboard.service: Unit configuration has fatal error, unit will not be started.\nNov 01 17:34:32 archlinux systemd[764]: /home/rsh/.config/sys\ntemd/user/clipboard.service:8: Invalid user/group name or numeric ID:\nNov 01 17:34:32 archlinux systemd[764]: clipboard.service: Unit configuration has fatal error, unit will not be started."
+  when: 1761998703
+- cmd: chmod a+x clipboard-backend.sh
+  when: 1761999018
+  paths:
+    - clipboard-backend.sh
+- cmd: sudo linger-enable
+  when: 1762017039
+- cmd: sudo systemctl linger-enable
+  when: 1762017054
+- cmd: systemctl -h
+  when: 1762017070
+- cmd: systemctl -h | grep "linger"
+  when: 1762017117
+- cmd: systemctl -h | grep "when"
+  when: 1762017125
+- cmd: systemctl --user enable clipboard.service
+  when: 1762017448
+- cmd: systemctl --user disable clipboard.service
+  when: 1762017561
+- cmd: systemctl --user stop clipboard.service
+  when: 1762017567
+- cmd: systemctl --user start clipboard.service
+  when: 1762017572
+- cmd: systemctl --user status clipboard.service
+  when: 1762017590
+- cmd: tgpt "systemd service file how to start delay"
+  when: 1762017759
+- cmd: tgpt "systemd service file how to start delay is like wait"
+  when: 1762017785
+- cmd: tgpt "systemd service file how to use  wait"
+  when: 1762017826
+- cmd: which sleep
+  when: 1762017869
+- cmd: exit
+  when: 1762017903
+- cmd: systemctl --user enable panel.service
+  when: 1762018026
+  paths:
+    - panel.service
+- cmd: systemctl --user start panel.service
+  when: 1762018034
+  paths:
+    - panel.service
+- cmd: systemctl --user reload-daemon
+  when: 1762018071
+- cmd: ./panel-open.sh
+  when: 1762018368
+- cmd: tgpt "./panel-open.sh not working"
+  when: 1762018640
+- cmd: yay gemini
+  when: 1762018666
+- cmd: home-manager switch
+  when: 1762018888
+- cmd: gemini >2/dev/null
+  when: 1762019112
+- cmd: gemini > /dev/null
+  when: 1762019117
+- cmd: gemini  >1/dev/null
+  when: 1762019147
+- cmd: gemini  >2&/dev/null
+  when: 1762019172
+- cmd: gemini
+  when: 1762019177
+- cmd: sleep 10
+  when: 1762019349
+- cmd: clear
+  when: 1762019379
+- cmd: ncpamixer -t o
+  when: 1762019840
+- cmd: sudo pacman -Ql geany
+  when: 1762020026
+- cmd: pacman -Ql geany
+  when: 1762020034
+- cmd: sudo cp /usr/share/geany/colorschemes/* ./
+  when: 1762020106
+  paths:
+    - ./
+- cmd: sudo cp /usr/share/geany/colorschemes/* ./colorschemes/
+  when: 1762020124
+  paths:
+    - ./colorschemes/
+- cmd: tgpt "how many hours a avg size candle burns"
+  when: 1762076778
+- cmd: fastfetch
+  when: 1762078111
+- cmd: cd -
+  when: 1762079769
+- cmd: systemctl --user status panel
+  when: 1762079793
+- cmd: nvim /home/rsh/.config/systemd/user/panel.service
+  when: 1762079821
+  paths:
+    - /home/rsh/.config/systemd/user/panel.service
+- cmd: systemctl --user restart panel
+  when: 1762079858
+- cmd: systemctl --user enable random-wallpaper
+  when: 1762079881
+- cmd: swaybg -i ~/walls/23gzr0slbrpf1.jpeg
+  when: 1762080019
+  paths:
+    - ~/walls/23gzr0slbrpf1.jpeg
+- cmd: systemctl --user start random-wallpaper
+  when: 1762080065
+- cmd: systemctl --user status random-wallpaper
+  when: 1762080073
+- cmd: systemctl --user enable wallpaper
+  when: 1762080156
+- cmd: systemctl --user stop wallpaper
+  when: 1762080221
+- cmd: systemctl --user start
+  when: 1762080229
+- cmd: systemctl --user start wallpaper
+  when: 1762080232
+- cmd: systemctl --user daemon-reload
+  when: 1762080345
+- cmd: systemctl --user restart wallpaper
+  when: 1762080347
+- cmd: systemctl --user status wallpaper
+  when: 1762080352
+- cmd: htop
+  when: 1762080762
+- cmd: ps
+  when: 1762081239
+- cmd: qps
+  when: 1762081242
+- cmd: tgpt "set alias in fish shell"
+  when: 1762081319
+- cmd: abbr
+  when: 1762081458
+- cmd: alias
+  when: 1762081498
+- cmd: .c
+  when: 1762081741
+- cmd: .d
+  when: 1762081743
+- cmd: .l
+  when: 1762081746
+- cmd: ok
+  when: 1762081749
+- cmd: y
+  when: 1762081752
+- cmd: vim
+  when: 1762081875
+- cmd: vim
+  when: 1762081892
+- cmd: y
+  when: 1762081898
+- cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+  when: 1762081975
+  paths:
+    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+- cmd: bat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+  when: 1762081983
+  paths:
+    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+- cmd: y
+  when: 1762081986
+- cmd: e
+  when: 1762082052
+- cmd: e .f
+  when: 1762082067
+- cmd: z
+  when: 1762082186
+- cmd: y
+  when: 1762082187
+- cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+  when: 1762082212
+  paths:
+    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+- cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+  when: 1762082233
+  paths:
+    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+- cmd: e hello
+  when: 1762082238
+- cmd: vim hello
+  when: 1762082259
+- cmd: vim hello.txt
+  when: 1762082270
+- cmd: nvim hello.txt
+  when: 1762082284
+- cmd: y
+  when: 1762082292
+- cmd: e pkglist.orig
+  when: 1762082301
+  paths:
+    - pkglist.orig
+- cmd: y
+  when: 1762082310
+- cmd: .f
+  when: 1762082331
+- cmd: nvim
+  when: 1762082345
+- cmd: e pkglist.orig
+  when: 1762082375
+  paths:
+    - pkglist.orig
+- cmd: e hello
+  when: 1762082429
+- cmd: e hello
+  when: 1762082434
+- cmd: y
+  when: 1762082455
+- cmd: e hello
+  when: 1762082480
+- cmd: chezmoi re-add ~/.local/
+  when: 1762082518
   paths:
     - ~/.local/

@@ -21,17 +21,17 @@ caching = false
 #block_prefix = "<*"
 #block_postfix = "*>"
 
-[config.wallpaper]
+#[config.wallpaper]
 # Whether to set the wallpaper or not
-set = true
+#set = false
 
 # The base command to run for applying the wallpaper, shouldn't have spaces in it.
-command = "dms"
+#command = "swaybg"
 
 # The arguments that will be provided to the command.
 # Keywords like {{ mode }} or anything that works inside of hooks doesn't work here.
 # The last argument will be the image path.
-arguments = ["ipc" , "call" , "wallpaper" , "set" ]
+#arguments = ["-i" ]
 
 # For example, killing the wallpaper daemon. Usage is like a normal hook.
 # pre_hook = ""

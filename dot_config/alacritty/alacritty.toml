@@ -1,48 +1,48 @@
 [colors.primary]
-background = '#131313'
-foreground = '#e2e2e2'
+background = '#12131c'
+foreground = '#e2e1ef'
  
 [colors.cursor]
-text = '#e2e2e2'
-cursor = '#c6c6c6' 
+text = '#e2e1ef'
+cursor = '#c6c5d3' 
  
 [colors.vi_mode_cursor]
-text = '#131313'
-cursor = '#f0c048' 
+text = '#12131c'
+cursor = '#bcc2ff' 
  
 [colors.search.matches]
-foreground = '#474747' 
-background = '#afcfab' 
+foreground = '#454651' 
+background = '#d9bbf2' 
  
 [colors.search.focused_match]
-foreground = '#474747' 
-background = '#f0c048' 
+foreground = '#454651' 
+background = '#bcc2ff' 
  
 [colors.footer_bar]
-foreground = '#474747' 
-background = '#e2e2e2' 
+foreground = '#454651' 
+background = '#e2e1ef' 
  
 [colors.hints.start]
-foreground = '#474747' 
-background = '#d7c5a0' 
+foreground = '#454651' 
+background = '#cbc1e9' 
  
 [colors.hints.end]
-foreground = '#474747' 
-background = '#d7c5a0' 
+foreground = '#454651' 
+background = '#cbc1e9' 
  
 [colors.selection]
-text = '#131313'
-background = '#f0c048'
+text = '#12131c'
+background = '#bcc2ff'
  
  
 [colors.normal]
 black = '#181818' 
 red = '#ffb4ab' 
-green = '#f0c048' 
-yellow = '#775a00' 
-blue = '#f0c048' 
-magenta = '#afcfab' 
-cyan = '#d7c5a0' 
+green = '#bcc2ff' 
+yellow = '#273fff' 
+blue = '#bcc2ff' 
+magenta = '#d9bbf2' 
+cyan = '#cbc1e9' 
 white = '#BAC2DE' 
  
  
@@ -75,8 +75,8 @@ WINIT_X11_SCALE_FACTOR = "1"
 [window]
 dynamic_padding = true
 decorations = "none"
-title = "Alacritty@archlinux"
-opacity = 0.98
+title = "Alacritty@CachyOS"
+opacity = 0.94
 decorations_theme_variant = "Dark"
 
 [window.dimensions]
@@ -92,22 +92,22 @@ history = 10000
 multiplier = 3
 
 [font]
-size = 12
+size = 14
 
 [font.normal]
-family = "Iosevka NFM"
-style = "SemiBold"
+family = "GeistMono NF"
+style = "Regular"
 
 [font.bold]
 family = "GeistMono NF"
 style = "Bold"
 
 [font.italic]
-family = "VictorMono NFM"
-style = "Medium Italic"
+family = "monospace"
+style = "Italic"
 
 [font.bold_italic]
-family = "VictorMono NFM"
+family = "monospace"
 style = "Bold Italic"
 
 [selection]
