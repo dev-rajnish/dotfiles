@@ -1521,8 +1521,6 @@
   when: 1762254243
 - cmd: ~/.local/share/wallpapers/
   when: 1762254253
-- cmd: waypaper
-  when: 1762254583
 - cmd: bat
   when: 1762256729
 - cmd: fastfetch
@@ -1543,8 +1541,6 @@
     - foot.ini
 - cmd: e
   when: 1762341429
-- cmd: htop
-  when: 1762341562
 - cmd: sudo systemctl  retart iwd
   when: 1762341629
 - cmd: sudo systemctl  retsart iwd
@@ -1577,8 +1573,6 @@
     - ~/.local/share/wallpapers/current.png
 - cmd: git commit -am  "add wallpapers"
   when: 1762342512
-- cmd: git push
-  when: 1762342521
 - cmd: dns
   when: 1762342859
 - cmd: vim /etc/resolv.conf
@@ -1626,36 +1620,6 @@
   paths:
     - ~/.local/bin/
 - cmd: git add .
-  when: 1762344045
-  paths:
-    - .
-- cmd: chezmoi cd
-  when: 1762344081
-- cmd: y
-  when: 1762344106
-- cmd: chezmoi re-add ~/.local/share/
-  when: 1762344196
-  paths:
-    - ~/.local/share/
-- cmd: git status
-  when: 1762344200
-- cmd: chezmoi cd
-  when: 1762344204
-- cmd: git status
-  when: 1762344206
-- cmd: y
-  when: 1762344218
-- cmd: chezmoi cd
-  when: 1762344257
-- cmd: git add .
-  when: 1762344265
-  paths:
-    - .
-- cmd: chezmoi cd
-  when: 1762344279
-- cmd: git status
-  when: 1762344284
-- cmd: git add .
   when: 1762344294
   paths:
     - .
@@ -1663,13 +1627,75 @@
   when: 1762344302
 - cmd: git push
   when: 1762344306
-- cmd: y
-  when: 1762346883
-- cmd: chezmoi cd
-  when: 1762346908
-- cmd: git status
-  when: 1762346910
 - cmd: chezmoi re-add ~/.local/share/
   when: 1762346918
   paths:
     - ~/.local/share/
+- cmd: chezmoi re-add ~/.local/bin/
+  when: 1762346942
+  paths:
+    - ~/.local/bin/
+- cmd: htop
+  when: 1762347462
+- cmd: waypaper
+  when: 1762347484
+- cmd: chezmoi cd
+  when: 1762347504
+- cmd: git status
+  when: 1762347506
+- cmd: y
+  when: 1762347555
+- cmd: chezmoi cd
+  when: 1762347616
+- cmd: git status
+  when: 1762347625
+- cmd: chezmoi re-add ~/.config
+  when: 1762347643
+  paths:
+    - ~/.config
+- cmd: git status
+  when: 1762347646
+- cmd: y
+  when: 1762347650
+- cmd: chezmoi cd
+  when: 1762347762
+- cmd: git add .
+  when: 1762347765
+  paths:
+    - .
+- cmd: git status
+  when: 1762347779
+- cmd: git add .
+  when: 1762347805
+  paths:
+    - .
+- cmd: git status
+  when: 1762347809
+- cmd: git commit -am  "updates"
+  when: 1762347821
+- cmd: git status
+  when: 1762347823
+- cmd: y
+  when: 1762347854
+- cmd: chezmoi cd
+  when: 1762347894
+- cmd: git status
+  when: 1762347897
+- cmd: waypaper
+  when: 1762347962
+- cmd: chezmoi re-add ~/.config/
+  when: 1762347997
+  paths:
+    - ~/.config/
+- cmd: git status
+  when: 1762347999
+- cmd: chezmoi re-add ~/.local
+  when: 1762348012
+  paths:
+    - ~/.local
+- cmd: git status
+  when: 1762348025
+- cmd: chezmoi re-add ~/.local
+  when: 1762348077
+  paths:
+    - ~/.local

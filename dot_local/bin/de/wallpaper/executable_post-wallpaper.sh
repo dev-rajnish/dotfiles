@@ -1,9 +1,8 @@
 #!/bin/bash
-pkill waypaper 
+
+pkill waypaper
 
 bash ~/.local/bin/remove_hex_prefix.sh
-
-#swaync-client -rs
 
 bash ~/.local/bin/wm/panel-kill.sh
 
@@ -14,8 +13,6 @@ rm ~/.config/yazi/keymap.toml-*
 rm ~/.config/yazi/yazi.toml-*
 
 chezmoi re-add ~/.config/
-chezmoi re-add ~/.local/bin/
-chezmoi re-add ~/.local/share/
 
 # pkill waybar && waybar &
 # sed -i "s|^[[:space:]]*path = .*|    path = $1|"\
