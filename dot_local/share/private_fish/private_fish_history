@@ -1127,14 +1127,6 @@
   when: 1762082518
   paths:
     - ~/.local/
-- cmd: chezmoi forget ~/.local/bin/
-  when: 1762082629
-  paths:
-    - ~/.local/bin/
-- cmd: chezmoi add ~/.local/bin/
-  when: 1762082639
-  paths:
-    - ~/.local/bin/
 - cmd: chezmoi forget ~/.config/fish
   when: 1762082656
   paths:
@@ -1583,10 +1575,6 @@
   when: 1762342385
   paths:
     - ~/.local/share/wallpapers/current.png
-- cmd: git add .
-  when: 1762342510
-  paths:
-    - .
 - cmd: git commit -am  "add wallpapers"
   when: 1762342512
 - cmd: git push
@@ -1629,22 +1617,6 @@
   when: 1762343590
   paths:
     - ~/.config/
-- cmd: y
-  when: 1762343644
-- cmd: chezmoi cd
-  when: 1762343740
-- cmd: git status
-  when: 1762343742
-- cmd: chezmoi forget ~/.local/bin/
-  when: 1762343803
-  paths:
-    - ~/.local/bin/
-- cmd: chezmoi add ~/.local/bin/
-  when: 1762343814
-  paths:
-    - ~/.local/bin/
-- cmd: y
-  when: 1762343838
 - cmd: chezmoi forget ~/.local/bin/
   when: 1762343934
   paths:
@@ -1653,23 +1625,51 @@
   when: 1762343942
   paths:
     - ~/.local/bin/
-- cmd: chezmoi cd
-  when: 1762343989
-- cmd: git status
-  when: 1762343993
 - cmd: git add .
   when: 1762344045
   paths:
     - .
-- cmd: git status
-  when: 1762344049
 - cmd: chezmoi cd
   when: 1762344081
-- cmd: git status
-  when: 1762344083
 - cmd: y
   when: 1762344106
 - cmd: chezmoi re-add ~/.local/share/
   when: 1762344196
+  paths:
+    - ~/.local/share/
+- cmd: git status
+  when: 1762344200
+- cmd: chezmoi cd
+  when: 1762344204
+- cmd: git status
+  when: 1762344206
+- cmd: y
+  when: 1762344218
+- cmd: chezmoi cd
+  when: 1762344257
+- cmd: git add .
+  when: 1762344265
+  paths:
+    - .
+- cmd: chezmoi cd
+  when: 1762344279
+- cmd: git status
+  when: 1762344284
+- cmd: git add .
+  when: 1762344294
+  paths:
+    - .
+- cmd: git commit -am  "updates"
+  when: 1762344302
+- cmd: git push
+  when: 1762344306
+- cmd: y
+  when: 1762346883
+- cmd: chezmoi cd
+  when: 1762346908
+- cmd: git status
+  when: 1762346910
+- cmd: chezmoi re-add ~/.local/share/
+  when: 1762346918
   paths:
     - ~/.local/share/

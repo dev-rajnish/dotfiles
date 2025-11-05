@@ -12,8 +12,11 @@ bash ~/.local/bin/wm/panel-open.sh
 rm ~/.config/yazi/theme.toml-*
 rm ~/.config/yazi/keymap.toml-*
 rm ~/.config/yazi/yazi.toml-*
+
 chezmoi re-add ~/.config/
-chezmoi re-add ~/.local/
+chezmoi re-add ~/.local/bin/
+chezmoi re-add ~/.local/share/
+
 # pkill waybar && waybar &
 # sed -i "s|^[[:space:]]*path = .*|    path = $1|"\
 #   ~/.config/hypr/hyprlock.conf
