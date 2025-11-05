@@ -51,6 +51,11 @@ output_path = "~/.config/kitty/kitty-colors.conf"
 input_path = "./templates/alacritty.toml"
 output_path = "~/.config/alacritty/alacritty.toml"
 
+[templates.foot]
+input_path = "./templates/foot.ini"
+output_path = "~/.config/foot/foot.ini"
+
+
 [templates.starship]
 input_path = "./templates/starship-colors.toml"
 output_path = "~/.config/starship.toml"

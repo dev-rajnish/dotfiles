@@ -351,10 +351,6 @@
   when: 1761759493
   paths:
     - ~/.config/gtk-4.0/
-- cmd: git add .
-  when: 1761759556
-  paths:
-    - .
 - cmd: chezmoi add ~/.config/matugen/sunset_03.png
   when: 1761761064
   paths:
@@ -501,8 +497,6 @@
   when: 1761777210
 - cmd: swayidle
   when: 1761816263
-- cmd: brightnessctl
-  when: 1761816319
 - cmd: ~/.local/bin/wm/brightness-down.sh
   when: 1761816431
 - cmd: swayosd-client  --brightness lower
@@ -601,12 +595,6 @@
   when: 1761820608
 - cmd: sudo pacman -Syu ironbar-git
   when: 1761821493
-- cmd: mako-render
-  when: 1761821544
-- cmd: mako
-  when: 1761821548
-- cmd: swaync
-  when: 1761821552
 - cmd: sudo pacman -Syu swaync
   when: 1761821562
 - cmd: pacman -Ql ironbar
@@ -663,34 +651,14 @@
   when: 1761822911
 - cmd: fc-list | grep "Iosevka"
   when: 1761822928
-- cmd: chezmoi re-add ~/.config/
-  when: 1761823511
-  paths:
-    - ~/.config/
-- cmd: chezmoi re-add ~/.local/
-  when: 1761823521
-  paths:
-    - ~/.local/
-- cmd: chezmoi cd
-  when: 1761823528
 - cmd: chezmoi add ~/.config/arch-config/my-font.sh
   when: 1761823558
   paths:
     - ~/.config/arch-config/my-font.sh
-- cmd: git status
-  when: 1761823562
 - cmd: git add -i
   when: 1761823571
-- cmd: git commit -am  "updated"
-  when: 1761823584
-- cmd: git push
-  when: 1761823590
-- cmd: bash
-  when: 1761911363
 - cmd: nix-shell '<home-manager>' -A install
   when: 1761911562
-- cmd: which bash
-  when: 1761911738
 - cmd: which sh
   when: 1761911743
 - cmd: which cat
@@ -701,10 +669,6 @@
   when: 1761911908
   paths:
     - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-- cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-  when: 1761911920
-  paths:
-    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 - cmd: echo __HM_SESS_VARS_SOURCED
   when: 1761911968
 - cmd: echo $__HM_SESS_VARS_SOURCED
@@ -713,10 +677,6 @@
   when: 1761912165
 - cmd: which fuzzel
   when: 1761912492
-- cmd: fuzzel
-  when: 1761912504
-- cmd: octopi
-  when: 1761912528
 - cmd: mkdir ~/.local/share/applications
   when: 1761912688
 - cmd: sudo cp /usr/share/applications/htop.desktop  ~/.local/share/applications/htop.desktop
@@ -757,8 +717,6 @@
   when: 1761913638
   paths:
     - ~
-- cmd: echo $TERM
-  when: 1761913711
 - cmd: xterm
   when: 1761913718
 - cmd: sudo systemctl stop kmonad@config
@@ -853,16 +811,10 @@
     - ~/.local/share/applications/htop.desktop
 - cmd: sudo dnf in foot
   when: 1761936030
-- cmd: foot
-  when: 1761936148
-- cmd: cmatrix
-  when: 1761936620
 - cmd: swaybg
   when: 1761938357
 - cmd: swaybg -h
   when: 1761938407
-- cmd: pfetch
-  when: 1761938468
 - cmd: sudo systemctl status bluetoothd
   when: 1761986548
 - cmd: yay smem
@@ -895,8 +847,6 @@
   when: 1761987362
 - cmd: smem -t
   when: 1761987421
-- cmd: bc
-  when: 1761987429
 - cmd: ncpamixer
   when: 1761988001
 - cmd: ncpamixer -h
@@ -993,10 +943,6 @@
   when: 1761997167
   paths:
     - ~/walls/4gv4w2kbygnf1.jpeg
-- cmd: matugen image  ~/walls/4gv4w2kbygnf1.jpeg
-  when: 1761997209
-  paths:
-    - ~/walls/4gv4w2kbygnf1.jpeg
 - cmd: hello
   when: 1761997464
 - cmd: pkill waybar
@@ -1007,10 +953,6 @@
   when: 1761997780
 - cmd: tgpt "make systemd --user service for # Clipboard: history nwg-clipman\nwl-paste --type text --watch cliphist store &\nwl-paste --type image --watch cliphist store &\n\n"
   when: 1761998000
-- cmd: cd ~
-  when: 1761998536
-  paths:
-    - ~
 - cmd: chmod +x ~/.config/systemd/user/clipboard.service
   when: 1761998553
   paths:
@@ -1075,8 +1017,6 @@
   when: 1762018640
 - cmd: yay gemini
   when: 1762018666
-- cmd: home-manager switch
-  when: 1762018888
 - cmd: gemini >2/dev/null
   when: 1762019112
 - cmd: gemini > /dev/null
@@ -1107,8 +1047,6 @@
     - ./colorschemes/
 - cmd: tgpt "how many hours a avg size candle burns"
   when: 1762076778
-- cmd: fastfetch
-  when: 1762078111
 - cmd: cd -
   when: 1762079769
 - cmd: systemctl --user status panel
@@ -1143,76 +1081,38 @@
   when: 1762080347
 - cmd: systemctl --user status wallpaper
   when: 1762080352
-- cmd: htop
-  when: 1762080762
 - cmd: ps
   when: 1762081239
-- cmd: qps
-  when: 1762081242
 - cmd: tgpt "set alias in fish shell"
   when: 1762081319
 - cmd: abbr
   when: 1762081458
 - cmd: alias
   when: 1762081498
-- cmd: .c
-  when: 1762081741
 - cmd: .d
   when: 1762081743
-- cmd: .l
-  when: 1762081746
 - cmd: ok
   when: 1762081749
-- cmd: y
-  when: 1762081752
-- cmd: vim
-  when: 1762081875
 - cmd: vim
   when: 1762081892
-- cmd: y
-  when: 1762081898
-- cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-  when: 1762081975
-  paths:
-    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 - cmd: bat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
   when: 1762081983
   paths:
     - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-- cmd: y
-  when: 1762081986
-- cmd: e
-  when: 1762082052
 - cmd: e .f
   when: 1762082067
 - cmd: z
   when: 1762082186
-- cmd: y
-  when: 1762082187
-- cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-  when: 1762082212
-  paths:
-    - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 - cmd: cat $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
   when: 1762082233
   paths:
     - $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-- cmd: e hello
-  when: 1762082238
 - cmd: vim hello
   when: 1762082259
 - cmd: vim hello.txt
   when: 1762082270
 - cmd: nvim hello.txt
   when: 1762082284
-- cmd: y
-  when: 1762082292
-- cmd: e pkglist.orig
-  when: 1762082301
-  paths:
-    - pkglist.orig
-- cmd: y
-  when: 1762082310
 - cmd: .f
   when: 1762082331
 - cmd: nvim
@@ -1222,14 +1122,554 @@
   paths:
     - pkglist.orig
 - cmd: e hello
-  when: 1762082429
-- cmd: e hello
-  when: 1762082434
-- cmd: y
-  when: 1762082455
-- cmd: e hello
   when: 1762082480
 - cmd: chezmoi re-add ~/.local/
   when: 1762082518
   paths:
     - ~/.local/
+- cmd: chezmoi forget ~/.local/bin/
+  when: 1762082629
+  paths:
+    - ~/.local/bin/
+- cmd: chezmoi add ~/.local/bin/
+  when: 1762082639
+  paths:
+    - ~/.local/bin/
+- cmd: chezmoi forget ~/.config/fish
+  when: 1762082656
+  paths:
+    - ~/.config/fish
+- cmd: chezmoi add ~/.config/fish
+  when: 1762082664
+  paths:
+    - ~/.config/fish
+- cmd: chezmoi forget ~/.config/environment.d/
+  when: 1762082669
+  paths:
+    - ~/.config/environment.d/
+- cmd: chezmoi add ~/.config/environment.d/
+  when: 1762082677
+  paths:
+    - ~/.config/environment.d/
+- cmd: chezmoi add ~/.config/home-manager/
+  when: 1762082809
+  paths:
+    - ~/.config/home-manager/
+- cmd: git commit -am  "updated"
+  when: 1762082837
+- cmd: yy
+  when: 1762082844
+- cmd: chezmoi apply
+  when: 1762082878
+- cmd: chezmoi edit home.nix --apply
+  when: 1762082916
+  paths:
+    - home.nix
+- cmd: chezmoi edit ~/.config/home-manager/home.nix --apply
+  when: 1762082937
+  paths:
+    - ~/.config/home-manager/home.nix
+- cmd: pacman -Q | wc -c
+  when: 1762083055
+- cmd: pacman -Qe | wc -c
+  when: 1762083063
+- cmd: just
+  when: 1762083136
+- cmd: just -h
+  when: 1762083143
+- cmd: just --completions fish
+  when: 1762083219
+- cmd: sudo pacman darkly
+  when: 1762116797
+- cmd: sudo pacman darkly-bin
+  when: 1762116806
+- cmd: sudo pacman -S  darkly-bin
+  when: 1762116815
+- cmd: sudo pacman -Sy  darkly-bin
+  when: 1762116824
+- cmd: sudo pacman -Sy  darkly
+  when: 1762116836
+- cmd: sudo pacman -Sy lightly
+  when: 1762116891
+- cmd: yay darkly
+  when: 1762116902
+- cmd: yay lighty
+  when: 1762117005
+- cmd: yay pcmanfm-qt-git
+  when: 1762117445
+- cmd: yay pcmanfm-qt
+  when: 1762117452
+- cmd: sudo pacman -Rnsv pcmanfm-qt-git
+  when: 1762118824
+- cmd: yay qt
+  when: 1762118931
+- cmd: yay -S  photoflare nomacs
+  when: 1762119116
+- cmd: photoflare
+  when: 1762119214
+- cmd: nomacs
+  when: 1762119296
+- cmd: yay qt | grep "portal"
+  when: 1762119337
+- cmd: yay portal
+  when: 1762119438
+- cmd: yay -S xdg-desktop-portal-lxqt
+  when: 1762119484
+- cmd: pacman -Ql xdg-desktop-portal-lxqt
+  when: 1762119564
+- cmd: sudo pacman -Rnsv nautilus
+  when: 1762119736
+- cmd: octopi
+  when: 1762119748
+- cmd: /usr/lib/xdg-desktop-portal-lxqt
+  when: 1762119881
+- cmd: zeditor
+  when: 1762119946
+- cmd: chezmoi edit ~/.config/fuzzel/fuzzel.ini
+  when: 1762166373
+  paths:
+    - ~/.config/fuzzel/fuzzel.ini
+- cmd: yay -S whatsie
+  when: 1762166872
+- cmd: sudo pacman -Rnsv whatsie-debug
+  when: 1762167082
+- cmd: whatis
+  when: 1762167092
+- cmd: /home/rsh/.nix-profile/bin/whatis
+  when: 1762167102
+- cmd: echo $DISPLAY
+  when: 1762167151
+- cmd: yay egl
+  when: 1762167183
+- cmd: whatsie
+  when: 1762167268
+- cmd: wayland-egl
+  when: 1762167278
+- cmd: wayland-scanner
+  when: 1762167281
+- cmd: qps
+  when: 1762167388
+- cmd: yay notiflut
+  when: 1762167994
+- cmd: yay flutter
+  when: 1762168042
+- cmd: mako-render
+  when: 1762168161
+- cmd: yay mako
+  when: 1762168166
+- cmd: mako
+  when: 1762168244
+- cmd: libnotify
+  when: 1762168432
+- cmd: yay noti
+  when: 1762168437
+- cmd: wired
+  when: 1762168978
+- cmd: pacman -Ql mako
+  when: 1762169047
+- cmd: makoctl
+  when: 1762169083
+- cmd: systemctl --user enable mako
+  when: 1762169110
+- cmd: systemctl --user start mako
+  when: 1762169131
+- cmd: systemctl --user restart mako
+  when: 1762169138
+- cmd: yay notif
+  when: 1762169334
+- cmd: yay -S apprise libnotify fyi
+  when: 1762169477
+- cmd: notify-send hello
+  when: 1762169550
+- cmd: notify-send hello d"hello"
+  when: 1762169574
+- cmd: makoctl list
+  when: 1762169637
+- cmd: yay dolphin
+  when: 1762170230
+- cmd: yay kitty
+  when: 1762170502
+- cmd: yay mpv
+  when: 1762171015
+- cmd: sudo /usr/share/applications/*  ~/.local/share/applications/
+  when: 1762171852
+  paths:
+    - ~/.local/share/applications/
+- cmd: sudo cp /usr/share/applications/*  ~/.local/share/applications/
+  when: 1762171862
+  paths:
+    - ~/.local/share/applications/
+- cmd: sudo cp /usr/share/applications/* /usr/share/applications/*.desktop.b
+  when: 1762171913
+- cmd: bash
+  when: 1762171918
+- cmd: sudo systemctl restart iwd
+  when: 1762174280
+- cmd: dolphin
+  when: 1762174298
+- cmd: sudo pacman -Qqn
+  when: 1762174540
+- cmd: .h
+  when: 1762224480
+- cmd: nvim home-manager/
+  when: 1762224494
+  paths:
+    - home-manager/
+- cmd: chmod a+x restore-wallpaer.sh
+  when: 1762224703
+  paths:
+    - restore-wallpaer.sh
+- cmd: restore
+  when: 1762224706
+- cmd: ./restore-wallpaer.sh
+  when: 1762224725
+- cmd: ~/.local/bin/wm/walllpaper/restore-wallpaer.sh
+  when: 1762224766
+- cmd: `walker -C
+  when: 1762224937
+- cmd: fuzzel
+  when: 1762225116
+- cmd: ~/.local/bin/wm/wallpaper/restore-wallpaper.sh
+  when: 1762225271
+- cmd: waypaper --restore -h
+  when: 1762225624
+- cmd: waypaper --wallpaper ~/.local/bin/wm/wallpaper/img.default
+  when: 1762225661
+  paths:
+    - ~/.local/bin/wm/wallpaper/img.default
+- cmd: walker -h
+  when: 1762225762
+- cmd: which walker
+  when: 1762225774
+- cmd: yay walker
+  when: 1762225914
+- cmd: chmod a+x walker.sh
+  when: 1762226046
+  paths:
+    - walker.sh
+- cmd: ./walker.sh
+  when: 1762226053
+- cmd: cargo
+  when: 1762226256
+- cmd: cargo install walker
+  when: 1762226266
+- cmd: cargo build.rs
+  when: 1762226299
+  paths:
+    - build.rs
+- cmd: cargo build --release
+  when: 1762226306
+- cmd: cd ~
+  when: 1762226335
+  paths:
+    - ~
+- cmd: ~/.local/bin/pkgs/walker.sh
+  when: 1762226361
+- cmd: yay havegd
+  when: 1762226463
+- cmd: sudo pacman -Rnsv elephant-debug
+  when: 1762226586
+- cmd: walker -C
+  when: 1762226591
+- cmd: walker
+  when: 1762226926
+- cmd: pkill swayosd
+  when: 1762227046
+- cmd: swaync
+  when: 1762227053
+- cmd: notify-send -h
+  when: 1762227119
+- cmd: yay fnott
+  when: 1762227164
+- cmd: pkill mako
+  when: 1762227204
+- cmd: notify-send --help
+  when: 1762227218
+- cmd: notify-send "hello"
+  when: 1762227224
+- cmd: notify-send "hello" " Specifies the urgency level (low, normal, critical).\n  -t, --expire-time=TIME            Specifies the timeout in milliseconds at which to expire the notification."
+  when: 1762227239
+- cmd: mkdir -p ~/.config/fnott
+  when: 1762227287
+- cmd: sudo cp /etc/xdg/fnott/fnott.ini ~/.config/fnott/fnott.ini
+  when: 1762227311
+  paths:
+    - /etc/xdg/fnott/fnott.ini
+- cmd: fnott --help
+  when: 1762227460
+- cmd: fnott -l always
+  when: 1762227495
+- cmd: man fnott
+  when: 1762227668
+- cmd: brightnessctl s 1%
+  when: 1762227796
+- cmd: brightnessctl s 1+
+  when: 1762227809
+- cmd: brightnessctl s 10+
+  when: 1762227839
+- cmd: h
+  when: 1762227841
+- cmd: brightnessctl +2
+  when: 1762228106
+- cmd: brightnessctl
+  when: 1762228112
+- cmd: brightnessctl s 50%-
+  when: 1762228138
+- cmd: brightnessctl s l0%-
+  when: 1762228151
+- cmd: brightnessctl s 10%-
+  when: 1762228161
+- cmd: brightnessctl s 10%+
+  when: 1762228165
+- cmd: brightnessctl help
+  when: 1762228345
+- cmd: brightnessctl --help
+  when: 1762228349
+- cmd: bc 35622/64764*100
+  when: 1762228419
+- cmd: bc
+  when: 1762228430
+- cmd: brightnessctl g {}%
+  when: 1762228505
+- cmd: brightnessctl g
+  when: 1762228510
+- cmd: brightnessctl %
+  when: 1762228513
+- cmd: brightnessctl {}%
+  when: 1762228523
+- cmd: brightnessctl | awk print $1
+  when: 1762228562
+- cmd: brightnessctl | awk -F print $1
+  when: 1762228581
+- cmd: brightnessctl | awk -F: '{print $1}'
+  when: 1762228615
+- cmd: brightnessctl | awk -F: '{print $4}'
+  when: 1762228628
+- cmd: brightnessctl | awk -F: '{print $2 1}'
+  when: 1762228639
+- cmd: brightnessctl | awk -F: '{print $2 $1}'
+  when: 1762228644
+- cmd: brightnessctl | awk -F: '{print $2 $0}'
+  when: 1762228656
+- cmd: brightnessctl | awk -F: '{print $3}'
+  when: 1762228668
+- cmd: brightnessctl | awk -F: '{print $2}'
+  when: 1762228672
+- cmd: yay pactl
+  when: 1762228905
+- cmd: pactl
+  when: 1762228922
+- cmd: amixer
+  when: 1762228937
+- cmd: pactl --help
+  when: 1762228945
+- cmd: pactl set-sink-volume @DEFAULT_SINK@ +5% &
+  when: 1762229058
+- cmd: pactl set-sink-volume @DEFAULT_SINK@ +5%
+  when: 1762229065
+- cmd: pactl set-sink-mute @DEFAULT_SINK@ toggle
+  when: 1762229134
+- cmd: pactl set-sink-input-mute @DEFAULT_SINK@ toggle
+  when: 1762229227
+- cmd: pactl get-sink-mute @DEFAULT_SINK@ toggle
+  when: 1762229277
+- cmd: pactl get-sink-mute @DEFAULT_SINK@ toggle | awk -F: '{ print $1}'
+  when: 1762229317
+- cmd: pactl set-sink-mute @DEFAULT_SINK@ toggle | awk -F: '{ print $2}'
+  when: 1762229351
+- cmd: fnottctl dismisss
+  when: 1762229477
+- cmd: fnott
+  when: 1762229492
+- cmd: /run/user/1000/fnott-wayland-1.sock
+  when: 1762229502
+- cmd: /tmp/fnott.sock
+  when: 1762229510
+- cmd: systemctl --user enable fnott
+  when: 1762229544
+- cmd: systemctl --user disable mako
+  when: 1762229630
+- cmd: systemctl --user stop mako
+  when: 1762229636
+- cmd: systemctl --user start fnott
+  when: 1762229645
+- cmd: systemctl --user status fnott
+  when: 1762229647
+- cmd: fnottctl dismiss
+  when: 1762229658
+- cmd: pactl get-sink-mute @DEFAULT_SINK@ toggle | awk -F: '{ print $2}'
+  when: 1762249757
+- cmd: chmod a+x alacritty.sh
+  when: 1762252164
+  paths:
+    - alacritty.sh
+- cmd: which bash
+  when: 1762252184
+- cmd: ./default.sh
+  when: 1762252289
+- cmd: pfetch
+  when: 1762252362
+- cmd: chmod a+x default
+  when: 1762252992
+  paths:
+    - default
+- cmd: ./default
+  when: 1762253035
+- cmd: chmod a+x wallpaper.sh
+  when: 1762253736
+  paths:
+    - wallpaper.sh
+- cmd: ./wallpaper.sh
+  when: 1762253858
+- cmd: .l
+  when: 1762254205
+- cmd: /.local/share/wallpapers/current.png
+  when: 1762254237
+- cmd: .local/share/wallpapers/current.png
+  when: 1762254243
+- cmd: ~/.local/share/wallpapers/
+  when: 1762254253
+- cmd: waypaper
+  when: 1762254583
+- cmd: bat
+  when: 1762256729
+- cmd: fastfetch
+  when: 1762256735
+- cmd: plymouth
+  when: 1762340097
+- cmd: matugen image  ~/walls/4gv4w2kbygnf1.jpeg
+  when: 1762340829
+  paths:
+    - ~/walls/4gv4w2kbygnf1.jpeg
+- cmd: cd foot/
+  when: 1762340949
+  paths:
+    - foot/
+- cmd: chmod a+rw foot.ini
+  when: 1762340951
+  paths:
+    - foot.ini
+- cmd: e
+  when: 1762341429
+- cmd: htop
+  when: 1762341562
+- cmd: sudo systemctl  retart iwd
+  when: 1762341629
+- cmd: sudo systemctl  retsart iwd
+  when: 1762341635
+- cmd: sudo systemctl  restart iwd
+  when: 1762341642
+- cmd: .c
+  when: 1762341694
+- cmd: cd home-manager/
+  when: 1762341698
+  paths:
+    - home-manager/
+- cmd: home-manager switch
+  when: 1762341700
+- cmd: echo $TERM
+  when: 1762341958
+- cmd: foot
+  when: 1762342015
+- cmd: foot -h
+  when: 1762342030
+- cmd: cmatrix
+  when: 1762342072
+- cmd: chezmoi add ~/.config/matugen/templates/foot.ini
+  when: 1762342362
+  paths:
+    - ~/.config/matugen/templates/foot.ini
+- cmd: chezmoi add ~/.local/share/wallpapers/current.png
+  when: 1762342385
+  paths:
+    - ~/.local/share/wallpapers/current.png
+- cmd: git add .
+  when: 1762342510
+  paths:
+    - .
+- cmd: git commit -am  "add wallpapers"
+  when: 1762342512
+- cmd: git push
+  when: 1762342521
+- cmd: dns
+  when: 1762342859
+- cmd: vim /etc/resolv.conf
+  when: 1762342880
+  paths:
+    - /etc/resolv.conf
+- cmd: systemd-resolve
+  when: 1762342992
+- cmd: systemd-resolve -h
+  when: 1762342995
+- cmd: systemctl  restart iwd
+  when: 1762343025
+- cmd: sudoedit /run/systemd/resolve/stub-resolv.conf
+  when: 1762343076
+  paths:
+    - /run/systemd/resolve/stub-resolv.conf
+- cmd: systemd-resolve --set-dns=1.1.1.1
+  when: 1762343187
+- cmd: systemd-resolve --set-dns="1.1.1.1"
+  when: 1762343196
+- cmd: bat /etc/resolv.conf
+  when: 1762343252
+  paths:
+    - /etc/resolv.conf
+- cmd: resolvectl satus
+  when: 1762343266
+- cmd: resolvectl status
+  when: 1762343271
+- cmd: resolvectl -h
+  when: 1762343310
+- cmd: resolvectl
+  when: 1762343381
+- cmd: git push -u origin master
+  when: 1762343411
+- cmd: chezmoi re-add ~/.config/
+  when: 1762343590
+  paths:
+    - ~/.config/
+- cmd: y
+  when: 1762343644
+- cmd: chezmoi cd
+  when: 1762343740
+- cmd: git status
+  when: 1762343742
+- cmd: chezmoi forget ~/.local/bin/
+  when: 1762343803
+  paths:
+    - ~/.local/bin/
+- cmd: chezmoi add ~/.local/bin/
+  when: 1762343814
+  paths:
+    - ~/.local/bin/
+- cmd: y
+  when: 1762343838
+- cmd: chezmoi forget ~/.local/bin/
+  when: 1762343934
+  paths:
+    - ~/.local/bin/
+- cmd: chezmoi add ~/.local/bin/
+  when: 1762343942
+  paths:
+    - ~/.local/bin/
+- cmd: chezmoi cd
+  when: 1762343989
+- cmd: git status
+  when: 1762343993
+- cmd: git add .
+  when: 1762344045
+  paths:
+    - .
+- cmd: git status
+  when: 1762344049
+- cmd: chezmoi cd
+  when: 1762344081
+- cmd: git status
+  when: 1762344083
+- cmd: y
+  when: 1762344106
+- cmd: chezmoi re-add ~/.local/share/
+  when: 1762344196
+  paths:
+    - ~/.local/share/

@@ -4,9 +4,9 @@ binds {
     Mod+C repeat=false {spawn-sh "~/.local/bin/wm/clipboard.sh"; }
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "~/.local/bin/app-terminal"; }
-    Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "~/.local/bin/app-terminal"; }
-    Mod+A hotkey-overlay-title="Run an Application: Launcher" { spawn-sh "~/.local/bin/launcher"; }
+    //Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "~/.local/bin/app-terminal"; }
+    //Mod+Return hotkey-overlay-title="Open a Terminal: alacritty" { spawn "~/.local/bin/app-terminal"; }
+    //Mod+A hotkey-overlay-title="Run an Application: Launcher" { spawn-sh "~/.local/bin/launcher"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }

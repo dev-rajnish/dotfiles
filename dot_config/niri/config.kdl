@@ -2,7 +2,10 @@ include "niri.d/input.kdl"
 include "niri.d/layout.kdl"
 include "niri.d/window-rule-round-edge.kdl"
 include "dms/colors.kdl"
+
 include "niri.d/keybinds.kdl"
+include "niri.d/keybinds/apps.kdl"
+
 include "niri.d/env.kdl"
 include "niri.d/csd.kdl"
 include "niri.d/exec.kdl"
