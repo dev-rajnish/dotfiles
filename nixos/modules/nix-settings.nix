@@ -1,9 +1,12 @@
 {system, ...}: {
-  #nixpkgs.config.allowUnfree = true;
-
-  nix.settings.experimental-features = ["nix-command" "flakes"];
   nixpkgs.hostPlatform = system;
+
   nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    auto-optimise-store = true;
     max-jobs = "auto";
     cores = 10;
     substituters = [
@@ -16,5 +19,6 @@
     always-allow-substitutes = true;
     use-xdg-base-directories = true;
   };
+
   documentation.man.cache.enable = false;
 }

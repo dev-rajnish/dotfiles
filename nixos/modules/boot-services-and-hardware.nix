@@ -1,87 +1,87 @@
-{
-  username,
-  pkgs,
-  ...
-}: {
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+{pkgs, ...}: {
+  # Bootloader Configuration
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
 
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.tmp.tmpfsHugeMemoryPages = "true";
-  #boot.tmp.useTmpfs = true;
-  services.udisks2.mountOnMedia = true;
-  boot.tmp.useZram = true;
+    # Kernel & Temporary Filesystem
+    kernelPackages = pkgs.linuxPackages_latest;
+    tmp = {
+      tmpfsHugeMemoryPages = "always";
+      useZram = true;
+    };
+  };
+
+  # Memory & Virtualisation
   zramSwap = {
     enable = true;
     algorithm = "zstd";
     memoryPercent = 50;
   };
+
   virtualisation.podman.enable = true;
-  services.xserver.enable = true;
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
 
-  services.kmscon = {
-    enable = true;
-    fonts = [
-      {
-        name = "Source Code Pro";
-        package = pkgs.source-code-pro;
-      }
-    ];
-    extraOptions = "--term xterm-256color";
-  };
+  # Security & Realtime Privileges
+  security.rtkit.enable = true;
 
+  # System Services Configuration
   services = {
-    libinput.enable = true; # default true
-
-    #getty.autologinUser = "${username}";
-
-    fstrim.enable = true;
-
-    #logind.powerKey = "ignore";
-
-    #timesyncd.enable = true;
-
-    udisks2.enable = true;
-
-    upower.enable = true;
-
-    power-profiles-daemon.enable = false;
-    tlp.enable = true;
-    tlp.pd.enable = true;
-    tlp.settings = {
-      #CPU_SCALING_GOVERNOR_ON_AC = "performanec";
-      #CPU_SCALING_GOVERNOR_ON_BAT = "balanced";
-      START_CHARGE_THRESH_BAT0 = 75;
-      STOP_CHARGE_THRESH_BAT0 = 85;
+    # Input & Display Server
+    libinput.enable = true;
+    xserver = {
+      enable = true;
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
     };
 
+    # Console Display
+    kmscon = {
+      enable = true;
+      fonts = [
+        {
+          name = "Source Code Pro";
+          package = pkgs.source-code-pro;
+        }
+      ];
+      extraOptions = "--term xterm-256color";
+    };
 
-    #printing.enable = true;
+    # Hardware & Power Management
+    fstrim.enable = true;
+    udisks2 = {
+      enable = true;
+      mountOnMedia = true;
+    };
+    upower.enable = true;
+    power-profiles-daemon.enable = false;
 
-    #blueman.enable = true;
+    tlp = {
+      enable = true;
+      pd.enable = true;
+      # Note: HP laptops do not support OS-level charge thresholds via TLP.
+      # Use HP Adaptive Battery Optimizer in BIOS (F10).
+    };
+
+    # Audio Configuration (Pipewire)
+    pulseaudio.enable = false;
+    pipewire = {
+      enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
+    };
+
+    # Journald Storage Limits
+    journald.extraConfig = ''
+      SystemMaxUse=100M
+      RuntimeMaxUse=50M
+      MaxRetentionSec=1month
+    '';
   };
-
-  # sound service
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    #jack.enable = true;
-    #media-session.enable = true;
-  };
-
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-    RuntimeMaxUse=50M
-    MaxRetentionSec=1month
-  '';
 }

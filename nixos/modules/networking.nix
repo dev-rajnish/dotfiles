@@ -1,6 +1,6 @@
 {hostname, ...}: {
   networking = {
-    hostName = "${hostname}";
+    hostName = hostname;
 
     networkmanager = {
       enable = true;

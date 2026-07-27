@@ -3,68 +3,75 @@
     MAN_DISABLE_CACHE = 1;
   };
 
-  ### Enable the KDE Plasma Desktop Environment.
-  #services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm.enable = true;
-  ### DisplayManager
-  services.displayManager.sddm.wayland.enable = true;
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.autoLogin.user = "${username}";
+  # Display Manager Configuration
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
 
+  # Program Integrations
   programs = {
-    nix-ld.enable = true;
     nh.enable = true;
     niri.enable = true;
+    nix-ld.enable = true;
+
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
   };
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
+  # System Packages
   environment.systemPackages = with pkgs; [
+    # Core CLI Tools & Utilities
     alejandra
-    git
+    android-tools
     bat
-    fish
-    yazi
-    starship
-    kitty
-    zellij
-    eza
-    htop
-    #atuin
-    zoxide
-    wev
-
-    home-manager
-    jj
-    seatd
-    xwayland-satellite
+    btop-rocm
+    choose
+    curl
+    delta
+    difftastic
     distrobox
+    duf
+    dust
+    entr
+    eza
+    fd
+    fish
+    fossil
+    ftop
+    fuzzel
+    gcc
+    git
+    glow
+    home-manager
+    htop
+    httpie
+    jq
+    kitty
+    ncdu
+    nerdfetch
     podman
     podman-desktop
     pods
-    android-tools
-    nerdfetch
-    fossil
-    glow
-    curl
-    wget
-    unzip
-    jq
+    poptop
+    radeontop
     ripgrep
-    fd
-    gcc
-    delta # (a pager for git)
-    duf # (df)
-    dust # , ncdu (du)
-    ncdu
-    tldr # (man, sort of)
-    sd # (sed)
-    difftastic # (diff)
-    httpie # , curlie, xh (for making HTTP requests)
-    entr # (run arbitrary commands when files change)
-    choose # (the basics of awk/cut)
+    sd
+    seatd
+    starship
+    tldr
+    ttop
+    ungoogled-chromium
+    unzip
+    usbtop
+    virt-top
+    wev
+    wget
+    xwayland-satellite
+    yazi
+    zellij
+    zoxide
   ];
 }

@@ -1,9 +1,19 @@
 {pkgs, ...}: {
-  fonts.packages = [
-    pkgs.nerd-fonts.fira-code
-    pkgs.nerd-fonts.hack
-    pkgs.nerd-fonts.symbols-only
-    pkgs.nerd-fonts.victor-mono
-    pkgs.nerd-fonts.jetbrains-mono
-  ];
+  fonts = {
+    fontconfig.enable = true;
+    fontDir.enable = true;
+    packages =
+      (with pkgs.nerd-fonts; [
+        fira-code
+        hack
+        jetbrains-mono
+        symbols-only
+        victor-mono
+      ])
+      ++ (with pkgs; [
+        noto-fonts
+        noto-fonts-color-emoji
+        font-awesome
+      ]);
+  };
 }

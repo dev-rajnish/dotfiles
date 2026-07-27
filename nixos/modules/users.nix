@@ -9,10 +9,7 @@
     shell = pkgs.fish;
     ignoreShellProgramCheck = true;
 
-    #passwd
-    #initialPassword = "rr";
-
-    description = "${username}";
+    description = username;
 
     extraGroups = [
       "networkmanager"

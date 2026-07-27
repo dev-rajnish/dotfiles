@@ -1,17 +1,13 @@
 {
   pkgs,
   username,
-  keyboard-path,
+  keyboardPath,
   ...
-}: let
-  kbdpath = "${keyboard-path}";
-in {
-  environment.systemPackages = with pkgs; [
-    kmonad
-  ];
+}: {
+  environment.systemPackages = [pkgs.kmonad];
 
   hardware.uinput.enable = true;
-  services.udev.extraRules = ''KERNEL=="uinput", OWNER="${username}",MODE="0600" '';
+  services.udev.extraRules = ''KERNEL=="uinput", OWNER="${username}", MODE="0600"'';
   users.users.${username}.extraGroups = ["input"];
 
   services.kmonad = {
@@ -19,7 +15,7 @@ in {
     package = pkgs.kmonad;
 
     keyboards."my-laptop" = {
-      device = kbdpath;
+      device = keyboardPath;
       config = builtins.readFile ./kmonad-config.kbd;
     };
   };

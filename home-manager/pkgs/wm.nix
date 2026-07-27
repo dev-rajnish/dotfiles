@@ -1,41 +1,39 @@
 {pkgs, ...}: {
   services = {
-    #wallpaper daemon
+    # Wallpaper Daemon & OSD
     awww.enable = true;
-
     swayosd.enable = true;
   };
 
   programs = {
     atuin.enable = true;
-    fuzzel.enable = true;
   };
 
   home.packages = with pkgs; [
-    #wallpaoer
-    waypaper
+    # Wallpaper & Theming
     wallust
+    waypaper
 
-    #brightness
+    # Brightness & Media Controls
     brightnessctl
-
-    #volume player
     pamixer
     playerctl
 
-    #lockscreen
-    swaylock-effects
+    # Screen Lock & Idle Daemon
     swayidle
+    swaylock-effects
+    wlogout
 
-    #panel
+    # Panel / Status Bar
     waybar
+    swaynotificationcenter
 
-    #clipboard
-    wl-clipboard
-    nwg-clipman
+    # Clipboard Management
     cliphist
+    nwg-clipman
+    wl-clipboard
 
-    #screenshot
+    # Screenshots
     grim
     slurp
   ];

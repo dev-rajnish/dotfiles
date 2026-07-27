@@ -1,10 +1,8 @@
 {
   lib,
-  system-version,
+  systemVersion,
   ...
-}:
-#MULTIPLE FOLDERS
-let
+}: let
   folders = [
     ./modules
     ./sys
@@ -12,15 +10,14 @@ let
 
   readNixFilesFrom = folder: let
     dir = builtins.readDir folder;
-    filterCaches = key: value: value == "regular" && lib.hasSuffix ".nix" key;
+    filterNixFiles = key: value: value == "regular" && lib.hasSuffix ".nix" key;
     toImport = name: _: folder + ("/" + name);
   in
-    lib.mapAttrsToList toImport (lib.filterAttrs filterCaches dir);
+    lib.mapAttrsToList toImport (lib.filterAttrs filterNixFiles dir);
+
   imports = lib.flatten (map readNixFilesFrom folders);
 in {
-  #==config start
   imports = [./hardware-configuration.nix] ++ imports;
 
-  #
-  system.stateVersion = "${system-version}";
+  system.stateVersion = systemVersion;
 }

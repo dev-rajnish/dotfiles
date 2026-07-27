@@ -1,5 +1,3 @@
 {
-  systemd.services = {
-    "systemd-backlight@".enable = false;
-  };
+  systemd.services."systemd-backlight@".enable = false;
 }

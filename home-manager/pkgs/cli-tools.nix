@@ -1,11 +1,10 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    pipes
-    cmatrix
-    # oneko
     cbonsai
-    toilet
+    cmatrix
     fortune
     lolcat
+    pipes
+    toilet
   ];
 }

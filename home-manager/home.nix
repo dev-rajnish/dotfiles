@@ -1,11 +1,9 @@
 {
   lib,
   username,
-  home-version,
+  homeVersion,
   ...
-}:
-#MULTIPLE FOLDERS
-let
+}: let
   folders = [
     ./pkgs
     ./modules
@@ -13,13 +11,13 @@ let
 
   readNixFilesFrom = folder: let
     dir = builtins.readDir folder;
-    filterCaches = key: value: value == "regular" && lib.hasSuffix ".nix" key;
+    filterNixFiles = key: value: value == "regular" && lib.hasSuffix ".nix" key;
     toImport = name: _: folder + ("/" + name);
   in
-    lib.mapAttrsToList toImport (lib.filterAttrs filterCaches dir);
+    lib.mapAttrsToList toImport (lib.filterAttrs filterNixFiles dir);
+
   imports = lib.flatten (map readNixFilesFrom folders);
 in {
-  ## config start
   inherit imports;
 
   programs = {
@@ -29,10 +27,10 @@ in {
   manual.manpages.enable = false;
 
   home = {
-    stateVersion = "${home-version}";
-    username = "${username}";
+    stateVersion = homeVersion;
+    inherit username;
     homeDirectory = "/home/${username}";
-    enableNixpkgsReleaseCheck = false;
+    enableNixpkgsReleaseCheck = true;
     pointerCursor.enable = true;
 
     sessionVariables = {
@@ -44,15 +42,3 @@ in {
 
   systemd.user.startServices = "sd-switch";
 }
-# SINGLE FOLDER
-/*
-let
-  folder = ./modules;
-  toImport = name: value: folder + ("/" + name);
-  filterCaches = key: value: value == "regular" && lib.hasSuffix ".nix" key;
-  imports = lib.mapAttrsToList toImport (lib.filterAttrs filterCaches (builtins.readDir folder));
-in
-{
-  inherit imports;
-*/
-

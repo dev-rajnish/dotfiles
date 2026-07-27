@@ -1,85 +1,69 @@
 {
-  description = "NixOS Configuration using flake";
+  description = "NixOS & Home Manager Configuration Flake";
 
   inputs = {
+    # Note: Flake input URLs require static string literals per Nix Flake specification.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    stylix.url = "github:danth/stylix";
-    stylix.inputs.nixpkgs.follows = "nixpkgs";
-
-    #nixvim.url = "github:dc-tec/nixvim";
-
-    #nix-software-center.url = "github:snowfallorg/nix-software-center";
-
-    #nur.url = "github:nix-community/NUR";
-    #nur.inputs.nixpkgs.follows = "nixpkgs";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = {self, ...} @ inputs: let
-    var-file = import ./var.nix;
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    stylix,
+    ...
+  }: let
+    vars = import ./var.nix;
 
-    sharedArgs = {
-      # use in other files at top {hostname}: to directly access variable just by name like system
-      inherit
-        (var-file) # from var.nix files
-        system
-        system-version
-        home-version
-        username
-        hostname
-        keyboard-path
-        gh-email
-        gh-username
-        ;
-      inherit
-        (inputs) # from inputs
-        self
-        nixpkgs
-        home-manager
-        stylix
-        ;
-    };
+    sharedArgs =
+      vars
+      // {
+        inherit
+          self
+          nixpkgs
+          home-manager
+          stylix
+          ;
+      };
 
     pkgs = import nixpkgs {
-      inherit system;
+      inherit (vars) system;
       config.allowUnfree = true;
     };
-
-    inherit
-      (sharedArgs) # directly using variables in this file
-      nixpkgs
-      system
-      username
-      hostname
-      home-manager
-      stylix
-      ;
   in {
-    nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
-      inherit system pkgs;
+    nixosConfigurations.${vars.hostname} = nixpkgs.lib.nixosSystem {
+      inherit pkgs;
+      inherit (vars) system;
       specialArgs = sharedArgs;
 
       modules = [
         ./nixos/configuration.nix
-        # nixpkgs.nixosModules.readOnlyPkgs
-        #stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
         {
-          home-manager.useGlobalPkgs = false;
-          home-manager.useUserPackages = true;
-          home-manager.sharedModules = [stylix.homeModules.stylix];
-          home-manager.users.${username} = import ./home-manager/home.nix;
-          home-manager.backupFileExtension = "backup";
-          home-manager.extraSpecialArgs = sharedArgs;
+          home-manager = {
+            useGlobalPkgs = false;
+            useUserPackages = true;
+            backupFileExtension = "backup";
+            sharedModules = [stylix.homeModules.stylix];
+            users.${vars.username} = import ./home-manager/home.nix;
+            extraSpecialArgs = sharedArgs;
+          };
         }
       ];
     };
 
-    #home-manager standalone
-    homeConfigurations."${username}" = home-manager.lib.homeManagerConfiguration {
+    # Standalone Home Manager configuration
+    homeConfigurations.${vars.username} = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = sharedArgs;
 
@@ -89,6 +73,6 @@
       ];
     };
 
-    formatter.${system} = pkgs.alejandra;
+    formatter.${vars.system} = pkgs.alejandra;
   };
 }
