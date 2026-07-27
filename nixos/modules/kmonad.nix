@@ -20,8 +20,7 @@ in {
 
     keyboards."my-laptop" = {
       device = kbdpath;
-    config = builtins.readFile ./kmonad-config.kbd;
-
+      config = builtins.readFile ./kmonad-config.kbd;
     };
   };
 }

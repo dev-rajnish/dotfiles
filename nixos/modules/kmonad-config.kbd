@@ -5,7 +5,7 @@ input  ( device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd" )
 
 output ( uinput-sink "kmonad-output" )
 
-fallthrough true
+fallthrough false
 
 )
 
@@ -41,7 +41,7 @@ bspc    p     o    u    x    z    \    '     h   d    -    =    /     \
 
 lsft    g   j     m   v     q        y   c     ,    .    w     rsft  up
 
-@hardl    fn    lmet @altn           spc            @at   _  left    down  rght
+@hardl    fn    lmet @at           spc            @altn   _  left    down  rght
 
 )
 
@@ -58,7 +58,7 @@ grv   1    2    3    4    5    6    7    8    9    0    -      =     bspc
 _   q    w    e    r    t    y    u    i    o    p    [      ]     \
 _   a    s    d    f    g    h    j    k    l    ;    '      ret
 _    z    x    c    v    b    n    m    ,    .    /    _   _
-@mainl  fn  lmet @altn            spc            @at rctl left   down  rght
+@mainl  fn  lmet @at            spc            @altn rctl left   down  rght
 
 )
 
@@ -69,9 +69,9 @@ _    z    x    c    v    b    n    m    ,    .    /    _   _
 
 ( defalias
 
-at (tap-hold-next 280 spc (layer-toggle arrow-key) )
+at (tap-hold-next 80 spc (layer-toggle arrow-key) )
 
-altn (tap-hold-next 280 lalt (layer-toggle number) )
+altn (tap-hold-next 80 lalt (layer-toggle number) )
 
 hardl (layer-switch qwerty)
 

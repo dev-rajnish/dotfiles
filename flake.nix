@@ -7,7 +7,8 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    #stylix.url = "github:danth/stylix";
+    stylix.url = "github:danth/stylix";
+    stylix.inputs.nixpkgs.follows = "nixpkgs";
 
     #nixvim.url = "github:dc-tec/nixvim";
 
@@ -37,12 +38,8 @@
         (inputs) # from inputs
         self
         nixpkgs
-        stylix
         home-manager
-        nixpkgs-unstable
-        nixvim
-        nix-software-center
-        nur
+        stylix
         ;
     };
 
@@ -57,8 +54,8 @@
       system
       username
       hostname
-      stylix
       home-manager
+      stylix
       ;
   in {
     nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
@@ -71,8 +68,9 @@
         #stylix.nixosModules.stylix
         home-manager.nixosModules.home-manager
         {
-          home-manager.useGlobalPkgs = true;
+          home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
+          home-manager.sharedModules = [stylix.homeModules.stylix];
           home-manager.users.${username} = import ./home-manager/home.nix;
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = sharedArgs;
@@ -87,7 +85,7 @@
 
       modules = [
         ./home-manager/home.nix
-        #stylix.homeModules.stylix
+        stylix.homeModules.stylix
       ];
     };
 

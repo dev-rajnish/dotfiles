@@ -1,14 +1,17 @@
 {pkgs, ...}: {
   stylix = {
     enable = true;
-    autoEnable = true;
+    #autoEnable = true;
 
     # helios, jabuti, tender, darkmoss, codeschool
     polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/helios.yaml";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
 
-    #image = ./gruv-astro.png;
-
+    # Default background wallpaper
+    #image = pkgs.runCommand "default-wallpaper.png" { buildInputs = [ pkgs.imagemagick ]; } ''
+    #  convert -size 1920x1080 canvas:'#1e1e2e' $out
+    #'';
+    targets.firefox.profileNames = ["default"];
     #targets.wofi.enable = true;
     #targets.swaync.enable = true;
     #targets.kitty.variant256Colors = true;
@@ -17,13 +20,13 @@
     cursor.name = "Bibata-Modern-Ice";
     cursor.package = pkgs.bibata-cursors;
 
-    iconTheme.enable = true;
-    iconTheme.package = pkgs.tela-circle-icon-theme;
-    iconTheme.dark = "tela-circle-icon-theme";
-    iconTheme.light = "tela-circle-icon-theme";
+    icons.enable = true;
+    icons.package = pkgs.tela-circle-icon-theme;
+    icons.dark = "tela-circle-icon-theme";
+    icons.light = "tela-circle-icon-theme";
 
-    opacity.terminal = 0.90;
-    fonts.sizes.terminal = 12;
+    #opacity.terminal = 0.90;
+    #fonts.sizes.terminal = 12;
 
     fonts.emoji = {
       name = "Noto Color Emoji";

@@ -13,20 +13,29 @@
   #boot.tmp.useTmpfs = true;
   services.udisks2.mountOnMedia = true;
   boot.tmp.useZram = true;
-  zramSwap.enable = true;
-  #zramSwap.memoryPercent = 50;
-  zramSwap.algorithm = "zstd";
-  zramSwap.memoryPercent = 50;
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+  };
   virtualisation.podman.enable = true;
   services.xserver.enable = true;
   services.xserver.xkb = {
     layout = "us";
     variant = "";
   };
- services.kmscon.enable = true;
-   services.kmscon.fonts = [ { name = "Source Code Pro"; package = pkgs.source-code-pro; } ];
-    services.kmscon.extraOptions = "--term xterm-256color";
-      services.kmscon.package = pkgs.kmscon;
+
+  services.kmscon = {
+    enable = true;
+    fonts = [
+      {
+        name = "Source Code Pro";
+        package = pkgs.source-code-pro;
+      }
+    ];
+    extraOptions = "--term xterm-256color";
+  };
+
   services = {
     libinput.enable = true; # default true
 
@@ -42,9 +51,18 @@
 
     upower.enable = true;
 
-    #tlp.enable = true;
+    power-profiles-daemon.enable = false;
+    tlp.enable = true;
+    tlp.pd.enable = true;
+    tlp.settings = {
+      #CPU_SCALING_GOVERNOR_ON_AC = "performanec";
+      #CPU_SCALING_GOVERNOR_ON_BAT = "balanced";
+      START_CHARGE_THRESH_BAT0 = 75;
+      STOP_CHARGE_THRESH_BAT0 = 85;
+    };
 
-    printing.enable = true;
+
+    #printing.enable = true;
 
     #blueman.enable = true;
   };
@@ -60,19 +78,6 @@
     #jack.enable = true;
     #media-session.enable = true;
   };
-
-  # hardware services
-  hardware = {
-    uinput.enable = true;
-  };
-
-  ### Enable the KDE Plasma Desktop Environment.
-  services.desktopManager.plasma6.enable = true;
- services.displayManager.sddm.enable = true;
-  ### DisplayManager
-  services.displayManager.sddm.wayland.enable = true;
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.autoLogin.user = "${username}";
 
   services.journald.extraConfig = ''
     SystemMaxUse=100M

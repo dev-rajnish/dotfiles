@@ -2,36 +2,56 @@
   environment.variables = {
     MAN_DISABLE_CACHE = 1;
   };
-  programs.nix-ld.package = pkgs.nix-ld;
+
+  ### Enable the KDE Plasma Desktop Environment.
+  #services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm.enable = true;
+  ### DisplayManager
+  services.displayManager.sddm.wayland.enable = true;
+  # services.displayManager.autoLogin.enable = true;
+  # services.displayManager.autoLogin.user = "${username}";
+
+  programs = {
+    nix-ld.enable = true;
+    nh.enable = true;
+    niri.enable = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   environment.systemPackages = with pkgs; [
-    home-manager
-    nh
-    starship
+    alejandra
+    git
+    bat
+    fish
     yazi
-    #   nix-ld
+    starship
     kitty
+    zellij
+    eza
+    htop
+    #atuin
+    zoxide
+    wev
+
+    home-manager
     jj
-    niri
     seatd
     xwayland-satellite
     distrobox
     podman
     podman-desktop
     pods
-    zellij
-    neovim
-    fish
     android-tools
     nerdfetch
     fossil
-    eza
-    bat
     glow
-    git
     curl
     wget
     unzip
-    htop
     jq
     ripgrep
     fd
@@ -43,13 +63,8 @@
     tldr # (man, sort of)
     sd # (sed)
     difftastic # (diff)
-    broot # , nnn, ranger (file manager)
-    direnv # (load environment variables depending on the current directory)
     httpie # , curlie, xh (for making HTTP requests)
     entr # (run arbitrary commands when files change)
-    lazygit # (interactive interfaces for git)
     choose # (the basics of awk/cut)
-    atuin # (extremely fancy shell history)
-    zoxide
   ];
 }

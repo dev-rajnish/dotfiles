@@ -7,7 +7,7 @@
 let
   folders = [
     ./modules
-    ./sys-pkgs
+    ./sys
   ];
 
   readNixFilesFrom = folder: let

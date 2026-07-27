@@ -8,6 +8,7 @@
 let
   folders = [
     ./pkgs
+    ./modules
   ];
 
   readNixFilesFrom = folder: let
@@ -31,6 +32,8 @@ in {
     stateVersion = "${home-version}";
     username = "${username}";
     homeDirectory = "/home/${username}";
+    enableNixpkgsReleaseCheck = false;
+    pointerCursor.enable = true;
 
     sessionVariables = {
       EDITOR = "nvim";

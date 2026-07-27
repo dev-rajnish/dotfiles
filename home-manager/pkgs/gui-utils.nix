@@ -2,6 +2,9 @@
   home.packages = with pkgs; [
     nwg-displays
     process-viewer
-    nwg-clipman
+    gimp
+    celluloid
+    zathura
+    qutebrowser
   ];
 }

@@ -1,13 +1,8 @@
 {system, ...}: {
-  # nixpkgs.config.allowUnfree = true;
+  #nixpkgs.config.allowUnfree = true;
 
-  # nix.settings.experimental-features = "nix-command flakes";
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  nixpkgs.localSystem = {
-    # Optional, for reproducibility and limiting bloat
-    inherit system;
-    gcc.arch = "native";
-  };
+  nixpkgs.hostPlatform = system;
   nix.settings = {
     max-jobs = "auto";
     cores = 10;
@@ -21,5 +16,5 @@
     always-allow-substitutes = true;
     use-xdg-base-directories = true;
   };
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 }
