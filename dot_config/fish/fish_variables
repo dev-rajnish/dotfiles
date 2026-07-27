@@ -1,0 +1,4 @@
+# This file contains fish universal variable definitions.
+# VERSION: 3.0
+SETUVAR --export FISH_VAR:set\x20from\x20function
+SETUVAR __fish_initialized:4300

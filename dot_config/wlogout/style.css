@@ -1,0 +1,109 @@
+/* =============================================================================
+ * Wlogout Style Sheet - Tokyo Night Theme (Dynamic Colored PNG Icons)
+ * Location: ~/.config/wlogout/style.css
+ * ============================================================================= */
+
+@import url("tokyo-night.css");
+
+* {
+    background-image: none;
+    box-shadow: none;
+    font-family: "Inter", "Roboto", "Ubuntu", sans-serif;
+    transition: 200ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+window {
+    background-color: @bg_translucent;
+}
+
+button {
+    color: @fg;
+    background-color: @bg_card;
+    border: 2px solid @border_color;
+    border-radius: 18px;
+    margin: 12px;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    background-repeat: no-repeat;
+    background-position: center 30%;
+    background-size: 32%;
+    min-width: 120px;
+    min-height: 120px;
+}
+
+button:focus, button:active, button:hover {
+    background-color: @bg_highlight;
+    border-color: @blue;
+    color: @cyan;
+    outline: none;
+    box-shadow: 0 0 18px rgba(122, 162, 247, 0.4);
+}
+
+/* --- Default Icon Background Images (#c0caf5 Foreground) --- */
+#lock {
+    background-image: url("icons/lock.png");
+}
+
+#logout {
+    background-image: url("icons/logout.png");
+}
+
+#suspend {
+    background-image: url("icons/suspend.png");
+}
+
+#hibernate {
+    background-image: url("icons/hibernate.png");
+}
+
+#reboot {
+    background-image: url("icons/reboot.png");
+}
+
+#shutdown {
+    background-image: url("icons/shutdown.png");
+}
+
+/* --- Hover State Icon Background Images & Accents --- */
+#lock:hover {
+    background-image: url("icons/lock_hover.png");
+    border-color: @blue;
+    color: @blue;
+    box-shadow: 0 0 18px rgba(122, 162, 247, 0.5);
+}
+
+#logout:hover {
+    background-image: url("icons/logout_hover.png");
+    border-color: @magenta;
+    color: @magenta;
+    box-shadow: 0 0 18px rgba(187, 154, 247, 0.5);
+}
+
+#suspend:hover {
+    background-image: url("icons/suspend_hover.png");
+    border-color: @cyan;
+    color: @cyan;
+    box-shadow: 0 0 18px rgba(125, 207, 255, 0.5);
+}
+
+#hibernate:hover {
+    background-image: url("icons/hibernate_hover.png");
+    border-color: @green;
+    color: @green;
+    box-shadow: 0 0 18px rgba(158, 206, 106, 0.5);
+}
+
+#reboot:hover {
+    background-image: url("icons/reboot_hover.png");
+    border-color: @orange;
+    color: @orange;
+    box-shadow: 0 0 18px rgba(255, 158, 100, 0.5);
+}
+
+#shutdown:hover {
+    background-image: url("icons/shutdown_hover.png");
+    border-color: @red;
+    color: @red;
+    box-shadow: 0 0 18px rgba(247, 118, 142, 0.5);
+}

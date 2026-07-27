@@ -1,0 +1,6 @@
+flake*
+home-manager*
+home-manager/**
+nixos*
+nixos/**
+var*

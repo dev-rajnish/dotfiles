@@ -1,0 +1,39 @@
+/* =============================================================================
+ * Tokyo Night Theme Palette
+ * Official palette for GTK CSS, Waybar, SwayNC, Wlogout & Desktop components
+ * Location: ~/.config/colors/tokyo-night.css
+ * ============================================================================= */
+
+/* GTK CSS Named Color Definitions */
+@define-color bg              #1a1b26;
+@define-color bg_dark         #16161e;
+@define-color bg_highlight    #292e42;
+@define-color bg_card         #24283b;
+@define-color bg_status       #1f2335;
+
+@define-color fg              #c0caf5;
+@define-color fg_dark         #a9b1d6;
+@define-color fg_gutter       #3b4261;
+
+@define-color comment         #565f89;
+
+@define-color blue            #7aa2f7;
+@define-color cyan            #7dcfff;
+@define-color blue7           #3d59a1;
+@define-color magenta         #bb9af7;
+@define-color purple          #9d7cd8;
+@define-color orange          #ff9e64;
+@define-color yellow          #e0af68;
+@define-color green           #9ece6a;
+@define-color green1          #73daca;
+@define-color teal            #1abc9c;
+@define-color red             #f7768e;
+@define-color red1            #db4b4b;
+
+/* Translucent & UI Element Definitions */
+@define-color bg_translucent      rgba(26, 27, 38, 0.85);
+@define-color bg_dark_translucent rgba(22, 22, 30, 0.90);
+@define-color card_translucent    rgba(36, 40, 59, 0.80);
+@define-color border_color        #3b4261;
+@define-color border_focus        #7aa2f7;
+@define-color shadow_color        rgba(0, 0, 0, 0.40);

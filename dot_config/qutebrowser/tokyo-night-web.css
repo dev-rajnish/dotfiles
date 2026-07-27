@@ -1,0 +1,78 @@
+/* Tokyo Night Universal Web Theme */
+
+/* Apply Tokyo Night Dark background and light foreground to all containers */
+html, body, div, section, nav, header, footer, main, article, aside, blockquote {
+    background-color: #1a1b26 !important;
+    color: #a9b1d6 !important;
+}
+
+/* Text elements */
+p, span, li, dt, dd, td, th, label, small, b, strong, i, em {
+    color: #a9b1d6 !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #0db9d7 !important;
+}
+
+/* Links */
+a, a * {
+    color: #7aa2f7 !important;
+    text-decoration-color: #7aa2f7 !important;
+}
+
+a:hover, a:hover * {
+    color: #b4f9f8 !important;
+}
+
+a:visited, a:visited * {
+    color: #bb9af7 !important;
+}
+
+/* Inputs, Textareas, Selects & Buttons */
+input, textarea, select, button, option {
+    background-color: #16161e !important;
+    color: #c0caf5 !important;
+    border: 1px solid #444b6a !important;
+    border-radius: 4px !important;
+}
+
+input:focus, textarea:focus, select:focus, button:focus {
+    border-color: #7aa2f7 !important;
+    outline: none !important;
+}
+
+/* Code & Preformatted Blocks */
+pre, code, kbd, samp {
+    background-color: #16161e !important;
+    color: #9ece6a !important;
+    border: 1px solid #2f3549 !important;
+}
+
+/* Cards, Tables & Panels */
+table, tr, td, th, fieldset, legend {
+    background-color: #1a1b26 !important;
+    border-color: #2f3549 !important;
+}
+
+/* Universal Border Color */
+* {
+    border-color: #2f3549 !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px !important;
+    height: 10px !important;
+    background-color: #1a1b26 !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #2f3549 !important;
+    border-radius: 5px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #444b6a !important;
+}

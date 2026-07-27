@@ -13,6 +13,9 @@
       credential = {
         helper = "store";
       };
+      core = {
+        askPass = "";
+      };
     };
   };
 }

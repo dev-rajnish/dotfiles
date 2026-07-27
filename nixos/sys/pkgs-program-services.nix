@@ -9,11 +9,11 @@
     wayland.enable = true;
   };
 
-  # Program Integrations
+  # Program Integrations (System-level services & environment helpers)
   programs = {
-    nh.enable = true;
-    niri.enable = true;
-    nix-ld.enable = true;
+    nh.enable = true; # Nix helper CLI tool
+    niri.enable = true; # Niri scrollable-tiling Wayland compositor
+    nix-ld.enable = true; # Run unpatched dynamic binaries on NixOS
 
     direnv = {
       enable = true;
@@ -21,57 +21,31 @@
     };
   };
 
-  # System Packages
+  # System-wide Core Packages (Hardware, Administration, System Services & Compilers)
   environment.systemPackages = with pkgs; [
-    # Core CLI Tools & Utilities
-    alejandra
-    android-tools
-    bat
-    btop-rocm
-    choose
-    curl
-    delta
-    difftastic
-    distrobox
-    duf
-    dust
-    entr
-    eza
-    fd
-    fish
-    fossil
-    ftop
-    fuzzel
-    gcc
-    git
-    glow
-    home-manager
-    htop
-    httpie
-    jq
-    kitty
-    ncdu
-    nerdfetch
-    podman
-    podman-desktop
-    pods
-    poptop
-    radeontop
-    ripgrep
-    sd
-    seatd
-    starship
-    tldr
-    ttop
-    ungoogled-chromium
-    unzip
-    usbtop
-    virt-top
-    wev
-    wget
-    xwayland-satellite
-    yazi
-    zellij
-    zoxide
+    # Core System & Development Utilities
+    alejandra # Nix code formatter
+    curl # Transfer data with URLs
+    gcc # GNU Compiler Collection
+    git # Distributed version control system
+    home-manager # Home Manager management CLI
+    unzip # Extraction utility for .zip archives
+    wget # Network retriever for downloading files
+
+    # Containerization & Virtualization Infrastructure
+    android-tools # Android ADB and Fastboot utilities
+    distrobox # Container-based Linux distribution manager
+    podman-desktop # Desktop GUI for Podman containers
+    pods # Podman pod management GUI
+
+    # Hardware & System Performance Monitoring
+    poptop # System performance monitor
+    radeontop # AMD GPU monitoring tool
+    usbtop # USB bandwidth monitoring utility
+    virt-top # Virtualization domain monitor
+
+    # Wayland & System Management Helpers
+    seatd # Seat management daemon utility
+    xwayland-satellite # XWayland manager for Wayland compositors (Niri)
   ];
 }

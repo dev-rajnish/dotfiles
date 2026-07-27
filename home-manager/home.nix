@@ -37,6 +37,8 @@ in {
       EDITOR = "nvim";
       SHELL = "fish";
       MAN_DISABLE_CACHE = 1;
+      SSH_ASKPASS = "";
+      GIT_ASKPASS = "";
     };
   };
 

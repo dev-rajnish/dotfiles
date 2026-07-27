@@ -1,0 +1,10 @@
+// =============================================================================
+//  Startup Applications & Autostart Services
+// =============================================================================
+
+// Main autostart script
+spawn-at-startup "/home/rsh/.config/wm-script/autostart.sh"
+
+// Additional background services can be added below:
+// spawn-at-startup "waybar"
+// spawn-at-startup "mako"

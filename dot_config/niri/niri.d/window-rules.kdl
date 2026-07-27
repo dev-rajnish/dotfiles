@@ -1,0 +1,38 @@
+// =============================================================================
+//  Window Rules & Application Behavior
+// =============================================================================
+
+// Global Window Appearance Rules
+window-rule {
+    match is-floating=false
+    background-effect {
+        blur true
+    }
+    geometry-corner-radius 2
+    clip-to-geometry true
+    draw-border-with-background false
+}
+
+// Workaround: WezTerm Initial Configure Bug
+window-rule {
+    match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    default-column-width {}
+}
+
+// Open Floating Windows (Picture-in-Picture, Waypaper, Volume Control)
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match title="Waypaper"
+    match title="Volume Control"
+
+    open-floating true
+}
+
+// Privacy & Security: Block Password Managers from Screen Capture
+window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+}
+

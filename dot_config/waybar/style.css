@@ -1,0 +1,284 @@
+@import "colors.css";
+
+/* Global Styles */
+* {
+  border: none;
+  border-radius: 0;
+  font-family: "JetBrains Mono", "JetBrainsMono Nerd Font", "Nerd Font", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+window#waybar {
+  background-color: rgba(26, 27, 38, 0.85); /* Tokyo Night semi-transparent bg */
+  color: @fg;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  border-radius: 10px;
+  margin: 4px 6px;
+}
+
+window#waybar.hidden {
+  opacity: 0.3;
+}
+
+/* Base style for all module boxes */
+#custom-home,
+#workspaces,
+#window,
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#backlight,
+#idle_inhibitor,
+#power-profiles-daemon,
+#tray,
+#custom-swaync,
+#custom-clipboard,
+#custom-wallpaper,
+#custom-screenshot,
+#custom-picker,
+#custom-media,
+#custom-wlogout {
+  background-color: @bg_card;
+  color: @fg;
+  padding: 3px 10px;
+  margin: 3px 2px;
+  border-radius: 8px;
+  border: 1px solid @bg_highlight;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Module Hover Effects */
+#custom-home:hover,
+#clock:hover,
+#battery:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#network:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#idle_inhibitor:hover,
+#custom-swaync:hover,
+#custom-clipboard:hover,
+#custom-wallpaper:hover,
+#custom-screenshot:hover,
+#custom-picker:hover,
+#custom-media:hover,
+#custom-wlogout:hover {
+  background-color: @bg_highlight;
+}
+
+/* Home / Launcher Module */
+#custom-home {
+  color: @blue;
+  font-size: 15px;
+  padding: 3px 12px;
+  font-weight: bold;
+}
+
+/* Niri & Hyprland Workspaces Module */
+#workspaces {
+  background-color: @bg_dark;
+  padding: 2px 4px;
+}
+
+#workspaces button {
+  background-color: transparent;
+  color: @comment;
+  padding: 2px 8px;
+  margin: 0 2px;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+#workspaces button:hover {
+  background-color: @bg_highlight;
+  color: @fg;
+}
+
+#workspaces button.active,
+#workspaces button.focused,
+#workspaces button.current {
+  background-color: @blue;
+  color: @bg_dark;
+  font-weight: bold;
+}
+
+#workspaces button.urgent {
+  background-color: @red;
+  color: @bg_dark;
+  font-weight: bold;
+}
+
+/* Window Title Module */
+#window {
+  background-color: transparent;
+  border: none;
+  color: @fg_dark;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+
+/* Clock Module */
+#clock {
+  color: @magenta;
+  font-weight: bold;
+}
+
+/* Media Player Module */
+#custom-media {
+  color: @green1;
+}
+
+/* Audio Module */
+#pulseaudio {
+  color: @orange;
+}
+
+#pulseaudio.muted {
+  color: @comment;
+  background-color: @bg_dark;
+}
+
+/* Network Module */
+#network {
+  color: @cyan;
+}
+
+#network.disconnected {
+  color: @red;
+}
+
+/* Backlight Module */
+#backlight {
+  color: @yellow;
+}
+
+/* Hardware Status Modules */
+#cpu {
+  color: @purple;
+}
+
+#memory {
+  color: @teal;
+}
+
+#temperature {
+  color: @yellow;
+}
+
+#temperature.critical {
+  color: @red;
+  background-color: @bg_dark;
+}
+
+/* Battery Module */
+#battery {
+  color: @green;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @cyan;
+}
+
+#battery.warning:not(.charging) {
+  color: @orange;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 0.8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    background-color: @red;
+    color: @bg_dark;
+  }
+}
+
+/* Idle Inhibitor */
+#idle_inhibitor {
+  color: @blue;
+}
+
+#idle_inhibitor.activated {
+  background-color: @blue;
+  color: @bg_dark;
+}
+
+/* Power Profiles Daemon */
+#power-profiles-daemon {
+  color: @orange;
+}
+
+/* Tray Module */
+#tray {
+  padding: 3px 8px;
+}
+
+#tray > .passive {
+  -gtk-icon-transform: scale(0.8);
+}
+
+#tray > .active {
+  -gtk-icon-transform: scale(1);
+}
+
+#tray > .needs-attention {
+  -gtk-icon-transform: scale(1.1);
+  background-color: @red;
+}
+
+/* Custom Action Buttons */
+#custom-swaync {
+  color: @cyan;
+}
+
+#custom-clipboard {
+  color: @blue;
+}
+
+#custom-wallpaper {
+  color: @magenta;
+}
+
+#custom-screenshot {
+  color: @green;
+}
+
+#custom-picker {
+  color: @purple;
+}
+
+#custom-wlogout {
+  color: @red;
+  padding: 3px 10px;
+}
+
+/* Tooltip Styling */
+tooltip {
+  background: @bg_dark;
+  border: 1px solid @bg_highlight;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: @fg;
+  padding: 6px;
+  font-family: "JetBrains Mono", monospace;
+}

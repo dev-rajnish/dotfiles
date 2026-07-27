@@ -1,0 +1,14 @@
+// =============================================================================
+//  Miscellaneous Settings & Preferences
+// =============================================================================
+
+// Request applications omit client-side decorations (CSD) when possible
+prefer-no-csd true
+
+// Hotkey Overlay Configuration
+hotkey-overlay {
+    skip-at-startup
+}
+
+// Screenshot Storage Directory & Filename Format
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
