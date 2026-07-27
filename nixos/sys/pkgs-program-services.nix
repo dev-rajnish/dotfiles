@@ -3,10 +3,10 @@
     MAN_DISABLE_CACHE = 1;
   };
 
-  # Display Manager Configuration
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
+  # Display Manager Configuration (Ly with Niri default session)
+  services.displayManager = {
+    defaultSession = "niri";
+    ly.enable = true;
   };
 
   # Program Integrations (System-level services & environment helpers)
@@ -29,6 +29,7 @@
     gcc # GNU Compiler Collection
     git # Distributed version control system
     home-manager # Home Manager management CLI
+    starship # Minimal, blazing-fast, and customizable shell prompt
     unzip # Extraction utility for .zip archives
     wget # Network retriever for downloading files
 

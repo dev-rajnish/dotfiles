@@ -40,7 +40,7 @@
 
     # Console Display
     kmscon = {
-      enable = true;
+      enable = false;
       fonts = [
         {
           name = "Source Code Pro";
