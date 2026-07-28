@@ -35,7 +35,7 @@ include "niri.d/layout.kdl"
 include "niri.d/colors.kdl"
 
 // 06. Animations & Custom Shaders
-//include "niri.d/animations.kdl"
+include "niri.d/animations.kdl"
 
 // 07. Window Rules & Geometry Overrides
 include "niri.d/window-rules.kdl"

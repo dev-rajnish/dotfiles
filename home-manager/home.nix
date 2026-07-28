@@ -5,6 +5,8 @@
   ...
 }: let
   folders = [
+    ./wm 
+    ./fhs-env
     ./pkgs
     ./modules
   ];
@@ -26,11 +28,15 @@ in {
   };
   manual.manpages.enable = false;
 
+  news = {
+    display = "silent";
+  };
+
   home = {
     stateVersion = homeVersion;
     inherit username;
     homeDirectory = "/home/${username}";
-    enableNixpkgsReleaseCheck = true;
+    enableNixpkgsReleaseCheck = false;
     pointerCursor.enable = true;
 
     sessionVariables = {

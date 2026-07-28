@@ -12,6 +12,7 @@ function my_alias
     alias .d="cd ~/Downloads/"
     alias .w="cd ~/walls/"
     alias rs="cd ~/ws/code/rs"
+    alias .h="cd ~/ws/dotfiles/home-manager/"
 
     # Environment & Utilities
     alias dev=dev_env
@@ -19,4 +20,9 @@ function my_alias
 
     # misc
     alias c="clear"
+    alias nvim="fhs-env nvim"
+
+    # home-manager and nixos
+    alias hms="nix run .#homeConfigurations.rsh.activationPackage"
+
 end

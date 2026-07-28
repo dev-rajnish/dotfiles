@@ -29,6 +29,6 @@ layout {
 
     // Focus Ring Thickness (in pixels)
     focus-ring {
-        width 2
+        width 0
     }
 }

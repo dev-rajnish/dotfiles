@@ -3,7 +3,10 @@ if status is-interactive
   my_var
   my_path
   set_color_scheme
+
+  if test -f ~/.config/fish/functions/dev_env.fish
   dev_env
+  end
 
   if type -q starship
   starship init fish | source

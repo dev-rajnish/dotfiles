@@ -11,5 +11,4 @@ wl-paste --type text --watch cliphist store &
 wl-paste --type image --watch cliphist store &
 
 # --- Autostart Applications ---
-kitty &
-distrobox enter dev &
+kitty

@@ -5,7 +5,7 @@
     kitty # GPU-accelerated terminal emulator with tab & image support
 
     # Web Browsers
-    librewolf-bin # Custom Firefox fork focused on privacy & security
+    librewolf-bin-unwrapped # Custom Firefox fork focused on privacy & security
     qutebrowser # Keyboard-driven, vim-like browser based on PyQt6
     ungoogled-chromium # Lightweight Chromium browser with Google service dependencies removed
 

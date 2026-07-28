@@ -38,10 +38,17 @@ in {
       device = kbdDevice;
       config = /* py */ ''
         ( defcfg
+
         input  ( device-file "${kbdDevice}" )
+
+
         output ( uinput-sink "kmonad-output" )
+
         fallthrough false
+
         )
+
+
         ;; ╭─────────────────────────────────────────────────────────╮
         ;; │ SOURCE                                                  │
         ;; ╰─────────────────────────────────────────────────────────╯
@@ -55,6 +62,8 @@ in {
         lctl  fn  lmet lalt            spc            ralt rctl left   down  rght
 
         )
+
+
          ;;╭───────────────────────────────────────────────────────────╮
          ;;│ ;;# Main Layer                                            │
          ;;╰───────────────────────────────────────────────────────────╯
@@ -65,15 +74,19 @@ in {
 
         grv     1     2    3    4    5    6    7    8    9     0     -       ]     caps
 
-        bspc    p     o    u    b    z    \    '     h   d    -    /    =     \
+        bspc    p     o    u    x    z    \    '     h   d    -    =    /     \
 
-        @esct   a     e    i    n    x      k    l    r    s     t     f      ret
+        @esct   a     e    i    n    b      k    l    r    s     t     f      ret
 
         lsft    g   j     m   v     q        y   c     ,    .    w     rsft  up
 
         @hardl    fn    lmet @at           spc            @altn   _  left    down  rght
 
         )
+
+
+
+
         ;; ╭─────────────────────────────────────────────────────────╮
         ;; │ qwerty layout                                           │
         ;; ╰─────────────────────────────────────────────────────────╯
@@ -87,6 +100,8 @@ in {
         @mainl  fn  lmet @at            spc            @altn rctl left   down  rght
 
         )
+
+
         ;; ╭─────────────────────────────────────────────────────────╮
         ;; │ Functions                                               │
         ;; ╰─────────────────────────────────────────────────────────╯

@@ -14,11 +14,11 @@ layout {
     // }
 
     // Window Border Colors
-    // border {
-    //     active-color   "#7aa2f7"
-    //     inactive-color "#414868"
-    //     urgent-color   "#f7768e"
-    // }
+     border {
+         active-color   "#7aa2f7"
+         inactive-color "#414868"
+         urgent-color   "#f7768e"
+     }
 
     // Window Shadow Color
     shadow {
