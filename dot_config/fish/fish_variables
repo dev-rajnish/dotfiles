@@ -1,4 +1,5 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export FASTBOOT:fastboot\x20\x2dS\x2032K
 SETUVAR --export FISH_VAR:set\x20from\x20function
 SETUVAR __fish_initialized:4300

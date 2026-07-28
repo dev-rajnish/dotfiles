@@ -7,6 +7,7 @@
 
   # Integrated Shell / History Programs
   programs = {
+    adb.enable = true;
     atuin.enable = true; # Shell history sync and search tool
   };
 

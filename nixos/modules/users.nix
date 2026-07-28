@@ -19,6 +19,8 @@
       "input"
       "podman"
       "seat"
+      "adbusers"
+      "kvm"
     ];
   };
 }
