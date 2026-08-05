@@ -21,6 +21,7 @@
       "seat"
       "adbusers"
       "kvm"
+      "audio"
     ];
   };
 }

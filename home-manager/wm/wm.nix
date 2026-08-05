@@ -1,13 +1,21 @@
 {pkgs, ...}: {
   # Services for Desktop Session
   services = {
-    awww.enable = true; # Wallpaper daemon service for Wayland
-    swayosd.enable = true; # On-Screen Display overlay for volume & brightness
+    # awww.enable = true; # Wallpaper daemon service for Wayland
+    # swayosd.enable = true; # On-Screen Display overlay for volume & brightness
+    # wayle.enable = true;
+    wayle.autoInstallDependencies = true;
   };
 
   # Integrated Shell / History Programs
   programs = {
     atuin.enable = true; # Shell history sync and search tool
+    eza.enable = true;
+    eza.enableFishIntegration = true;
+    zoxide = {
+      enable = true;
+      enableFishIntegration = true;
+    };
   };
 
   # Wayland Compositor (Niri), Window Manager Helpers & Environment Packages
@@ -16,6 +24,7 @@
     fuzzel # Wayland application launcher and dmenu replacement
 
     # Wallpaper & Color Palette Generators
+    swaybg # wallpaper engine
     wallust # Pywal-like palette generator from wallpaper images
     waypaper # Graphical wallpaper picker for Wayland wallpaper daemons
 
@@ -32,6 +41,7 @@
     # Status Bar & Notifications
     swaynotificationcenter # GTK notification center daemon and widget
     waybar # Highly customizable Wayland desktop status bar
+    wayle
 
     # Clipboard History & Managers
     cliphist # Wayland clipboard manager with support for text and images

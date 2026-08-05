@@ -39,32 +39,31 @@
 
   # Automatically inspect all packages and extract binary names from ${pkg}/bin
   getPkgBins = pkg:
-    if builtins.pathExists "${pkg}/bin" then
-      builtins.attrNames (builtins.readDir "${pkg}/bin")
-    else
-      [];
+    if builtins.pathExists "${pkg}/bin"
+    then builtins.attrNames (builtins.readDir "${pkg}/bin")
+    else [];
 
   # Flatten & deduplicate all binary names automatically
   allFhsBinaries = lib.unique (lib.flatten (map getPkgBins fhsPackages));
 
   # Automatically inspect all packages and extract .desktop files from ${pkg}/share/applications
   # and rewrite Exec= to execute directly via ${myAppEnv}/bin/fhs-env
-  getPkgDesktops = pkg:
-    let
-      dir = "${pkg}/share/applications";
-    in
-      if builtins.pathExists dir then
-        map (fileName: {
-          name = ".local/share/applications/${fileName}";
-          value = {
-            text = builtins.replaceStrings
-              ["Exec=" "TryExec="]
-              ["Exec=${myAppEnv}/bin/fhs-env " "# TryExec="]
-              (builtins.readFile "${dir}/${fileName}");
-          };
-        }) (builtins.attrNames (builtins.readDir dir))
-      else
-        [];
+  getPkgDesktops = pkg: let
+    dir = "${pkg}/share/applications";
+  in
+    if builtins.pathExists dir
+    then
+      map (fileName: {
+        name = ".local/share/applications/${fileName}";
+        value = {
+          text =
+            builtins.replaceStrings
+            ["Exec=" "TryExec="]
+            ["Exec=${myAppEnv}/bin/fhs-env " "# TryExec="]
+            (builtins.readFile "${dir}/${fileName}");
+        };
+      }) (builtins.attrNames (builtins.readDir dir))
+    else [];
 
   # Flatten all desktop file attributes into a single set
   allFhsDesktops = lib.listToAttrs (lib.flatten (map getPkgDesktops fhsPackages));
@@ -78,16 +77,17 @@ in {
   ];
 
   # Automatically generate executable wrappers in ~/.local/bin/fhs-env/ and link .desktop files
-  home.file = allFhsDesktops // (lib.listToAttrs (map (binName: {
-      name = ".local/bin/fhs-env/${binName}";
-      value = {
-        executable = true;
-        text = ''
-          #!/bin/sh
-          exec ${myAppEnv}/bin/fhs-env ${binName} "$@"
-        '';
-      };
-    })
-    allFhsBinaries));
-
+  home.file =
+    allFhsDesktops
+    // (lib.listToAttrs (map (binName: {
+        name = ".local/bin/fhs-env/${binName}";
+        value = {
+          executable = true;
+          text = ''
+            #!/bin/sh
+            exec ${myAppEnv}/bin/fhs-env ${binName} "$@"
+          '';
+        };
+      })
+      allFhsBinaries));
 }

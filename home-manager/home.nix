@@ -5,7 +5,7 @@
   ...
 }: let
   folders = [
-    ./wm 
+    ./wm
     ./fhs-env
     ./pkgs
     ./modules

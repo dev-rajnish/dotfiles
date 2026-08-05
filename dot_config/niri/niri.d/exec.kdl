@@ -3,7 +3,9 @@
 // =============================================================================
 
 // Main autostart script
-spawn-at-startup "/home/rsh/.config/wm-script/autostart.sh"
+spawn-at-startup "sh" "-c" "~/.config/bin/bg.sh"
+
+//spawn-at-startup "sh" "-c" "swaybg" "-i" "~/ws/walls/1.png" "-m" "fill"
 
 // Additional background services can be added below:
 // spawn-at-startup "waybar"

@@ -40,6 +40,8 @@
     pods # Podman pod management GUI
 
     # Hardware & System Performance Monitoring
+    alsa-utils # Advanced Linux Sound Architecture utilities (amixer, alsamixer, aplay)
+    pavucontrol # PulseAudio / PipeWire volume control GUI
     poptop # System performance monitor
     radeontop # AMD GPU monitoring tool
     usbtop # USB bandwidth monitoring utility

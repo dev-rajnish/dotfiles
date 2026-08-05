@@ -6,6 +6,13 @@
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
 
+    targets = {
+      gtk.enable = true;
+      gtksourceview.enable = true;
+      qt.enable = true;
+      firefox.enable = true;
+    };
+
     cursor = {
       name = "Bibata-Modern-Ice";
       size = 32;
@@ -20,6 +27,8 @@
     };
 
     fonts = {
+      sizes.applications = 14;
+
       emoji = {
         name = "Noto Color Emoji";
         package = pkgs.noto-fonts-color-emoji;
@@ -37,7 +46,5 @@
         package = pkgs.noto-fonts;
       };
     };
-
-    targets.firefox.enable = true;
   };
 }

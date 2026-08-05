@@ -5,7 +5,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-
+    kernelParams = ["snd_hda_intel.power_save=0"];
     # Kernel & Temporary Filesystem
     kernelPackages = pkgs.linuxPackages_latest;
     tmp = {
@@ -62,13 +62,6 @@
     upower.enable = true;
     power-profiles-daemon.enable = false;
 
-    tlp = {
-      enable = true;
-      pd.enable = true;
-      # Note: HP laptops do not support OS-level charge thresholds via TLP.
-      # Use HP Adaptive Battery Optimizer in BIOS (F10).
-    };
-
     # Audio Configuration (Pipewire)
     pulseaudio.enable = false;
     pipewire = {
@@ -78,6 +71,8 @@
         support32Bit = true;
       };
       pulse.enable = true;
+      jack.enable = true;
+      wireplumber.enable = true;
     };
 
     # Journald Storage Limits

@@ -1,6 +1,9 @@
 {pkgs, ...}: {
   # User-space Command Line Interface (CLI) & Terminal User Interface (TUI) Tools
   home.packages = with pkgs; [
+    imv
+    pciutils
+    batmon
     # Modern Unix Alternatives & Command Line Utilities
     bat # Modern replacement for 'cat' with syntax highlighting & git integration
     choose # Human-friendly alternative to 'cut' and 'awk'
@@ -25,6 +28,8 @@
     htop # Interactive process viewer
     nerdfetch # Minimalist system info fetcher script
     ttop # Top-like system performance monitor
+    pfetch
+    batmon
 
     # Terminal Multiplexer, Shell Enhancements & Productivity
     fossil # Simple, high-reliability distributed SCM system

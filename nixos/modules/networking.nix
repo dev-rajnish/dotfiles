@@ -7,4 +7,5 @@
       wifi.backend = "wpa_supplicant";
     };
   };
+  services.avahi.enable = true;
 }

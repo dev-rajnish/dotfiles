@@ -20,9 +20,12 @@ function my_alias
 
     # misc
     alias c="clear"
-    alias nvim="fhs-env nvim"
+    #alias nvim="fhs-env nvim"
 
     # home-manager and nixos
     alias hms="nix run .#homeConfigurations.rsh.activationPackage"
+
+    # cli tools and Utilities
+    alias h="herdr"
 
 end

@@ -47,15 +47,15 @@ input {
         // scroll-factor 1.0
 
         // Tap & Drag Options
-        // tap
-        // drag false
-        // drag-lock
-        // tap-button-map "left-middle-right"
+         tap
+         drag true
+         //drag-lock
+         tap-button-map "left-middle-right"
 
         // Additional Options
-        // left-handed
+         left-handed
         // disabled-on-external-mouse
-        // middle-emulation
+         middle-emulation
     }
 
     // Mouse Configuration

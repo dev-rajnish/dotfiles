@@ -1,4 +1,5 @@
 if status is-interactive
+  modern_utils
   my_alias
   my_var
   my_path
@@ -10,6 +11,11 @@ if status is-interactive
 
   if type -q starship
   starship init fish | source
+  end
+
+  if type -q zoxide 
+    zoxide init fish | source
+  alias cd="z"
   end
 
 end
