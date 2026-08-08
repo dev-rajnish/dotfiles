@@ -16,6 +16,7 @@ binds {
     // 02. Application Launchers & Utilities
     // -------------------------------------------------------------------------
     Super+Return hotkey-overlay-title="Terminal: Kitty" { spawn "kitty"; }
+    Super+T hotkey-overlay-title="Terminal: Kitty" { spawn "kitty" "-e" "herdr"; }
     Super+A      hotkey-overlay-title="Application Launcher: Fuzzel" { spawn "fuzzel"; }
     Mod+B        hotkey-overlay-title="Web Browser: Qutebrowser" { spawn "qutebrowser"; }
     Super+Alt+L  hotkey-overlay-title="Lock Screen: Swaylock" { spawn "swaylock"; }

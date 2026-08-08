@@ -14,13 +14,22 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
     home-manager,
     stylix,
+    zen-browser,
     ...
   }: let
     vars = import ./var.nix;
@@ -29,10 +38,12 @@
       vars
       // {
         inherit
+          inputs
           self
           nixpkgs
           home-manager
           stylix
+          zen-browser
           ;
       };
 

@@ -3,9 +3,11 @@
 // =============================================================================
 
 // Main autostart script
-spawn-at-startup "sh" "-c" "~/.config/bin/bg.sh"
+spawn-at-startup "brightnessctl" "s" "80%"
+spawn-at-startup "sh" "-c" "~/.config/wm-script/autostart.sh"
 
-//spawn-at-startup "sh" "-c" "swaybg" "-i" "~/ws/walls/1.png" "-m" "fill"
+
+// spawn-at-startup "swaybg -i /home/rsh/.config/niri/niri.d/1.png -m fill"
 
 // Additional background services can be added below:
 // spawn-at-startup "waybar"

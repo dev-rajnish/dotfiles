@@ -50,7 +50,7 @@ input {
          tap
          drag true
          //drag-lock
-         tap-button-map "left-middle-right"
+         tap-button-map "left-right-middle"
 
         // Additional Options
          left-handed

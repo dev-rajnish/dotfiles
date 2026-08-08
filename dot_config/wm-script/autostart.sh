@@ -5,7 +5,7 @@
 # Status bar and notification
 # waybar &
 
-swaync &
+wayle panel start &
 # Clipboard manager (text & image store)
 wl-paste --type text --watch cliphist store &
 wl-paste --type image --watch cliphist store &

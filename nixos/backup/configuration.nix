@@ -4,9 +4,8 @@
   ...
 }: let
   folders = [
-    ./core
-    ./desktop
-    ./hardware
+    ./modules
+    ./sys
   ];
 
   readNixFilesFrom = folder: let

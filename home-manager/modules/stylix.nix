@@ -10,7 +10,6 @@
       gtk.enable = true;
       gtksourceview.enable = true;
       qt.enable = true;
-      firefox.enable = true;
     };
 
     cursor = {

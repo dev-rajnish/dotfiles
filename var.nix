@@ -5,7 +5,7 @@
   hostname = "nixos";
 
   # Keyboard Path
-  keyboardPath = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+  keyboardPath = ""; # auto detect in kmonad.nix
 
   # GitHub Details
   ghUsername = "dev-rajnish";

@@ -3,5 +3,4 @@
 **/fish/completions/
 **/fish/conf.d/
 **/fish/fish_variables
-**/**/*.bak-*
-**/**/*.bak
+nixos/backup

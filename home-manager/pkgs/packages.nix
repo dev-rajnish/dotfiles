@@ -1,0 +1,61 @@
+{pkgs, ...}: {
+  home.packages = with pkgs; [
+    # CLI Tools
+    bat
+    batmon
+    btop-rocm
+    cbonsai
+    choose
+    cmatrix
+    delta
+    difftastic
+    duf
+    dust
+    entr
+    exercism
+    eza
+    fd
+    fortune
+    fossil
+    fsel
+    ftop
+    glow
+    htop
+    httpie
+    imv
+    lolcat
+    ncdu
+    nerdfetch
+    nushell
+    pciutils
+    pfetch
+    pipes
+    ripgrep
+    sd
+    starship
+    stow
+    tldr
+    toilet
+    ttop
+    yazi
+    zellij
+    zoxide
+
+    # GUI Applications
+    calibre
+    calibre-web
+    chromium
+    firefox-esr
+    firefoxpwa
+    kitty
+    librewolf-bin
+    mpv
+    nwg-displays
+    pcmanfm-qt
+    process-viewer
+    qutebrowser
+    readest
+    vlc
+    zathura
+  ];
+}

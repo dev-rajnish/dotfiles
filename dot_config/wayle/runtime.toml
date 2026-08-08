@@ -1,0 +1,66 @@
+[general]
+font-sans = "JetBrainsMono Nerd Font"
+
+[bar]
+scale = 0.75
+padding = 0.44999998807907104
+bg = "bg-base"
+background-opacity = 69
+shadow = "drop"
+button-variant = "icon-square"
+button-icon-size = 0.75
+button-icon-padding = 1.25
+button-label-weight = "medium"
+button-label-padding = 0.25
+
+[[bar.layout]]
+monitor = "*"
+show = true
+left = [
+    "niri-workspaces",
+    "window-title",
+]
+center = [
+    "clock",
+    "systray",
+]
+right = [
+    "network",
+    "brightness",
+    "battery",
+    "volume",
+    "power",
+]
+
+[styling.palette]
+bg = "#16161e"
+surface = "#1a1b26"
+elevated = "#292e42"
+fg = "#c0caf5"
+fg-muted = "#a9b1d6"
+primary = "#7aa2f7"
+red = "#f7768e"
+yellow = "#e0af68"
+green = "#9ece6a"
+blue = "#7dcfff"
+
+[modules.power]
+left-click = "wlogout"
+
+[modules.volume]
+dropdown-app-icons = "native"
+
+[osd]
+duration = 500
+margin = 50.0
+
+[wallpaper]
+engine-enabled = false
+cycling-enabled = true
+cycling-directory = "/home/rsh/ws/walls"
+cycling-same-image = true
+
+[[wallpaper.monitors]]
+name = ""
+fit-mode = "fill"
+wallpaper = ""

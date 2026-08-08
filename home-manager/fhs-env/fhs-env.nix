@@ -20,7 +20,6 @@
     zed-editor
     yazi
     stow
-    librewolf-bin
   ];
 
   myAppEnv = pkgs.buildFHSEnv {

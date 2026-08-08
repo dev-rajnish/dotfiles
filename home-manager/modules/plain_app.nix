@@ -14,7 +14,7 @@
       exit 1
     fi
 
-    exec /home/rsh/.local/state/nix/profile/bin/chromium \
+    exec zen-beta \
       "https://$gateway_ip:8443"
   '';
 

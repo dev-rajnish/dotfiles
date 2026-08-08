@@ -5,7 +5,6 @@
   ...
 }: let
   folders = [
-    ./wm
     ./fhs-env
     ./pkgs
     ./modules
@@ -25,6 +24,7 @@ in {
   programs = {
     home-manager.enable = true;
     man.enable = false;
+    bash.enable = true;
   };
   manual.manpages.enable = false;
 
@@ -37,7 +37,7 @@ in {
     inherit username;
     homeDirectory = "/home/${username}";
     enableNixpkgsReleaseCheck = false;
-    pointerCursor.enable = true;
+    #pointerCursor.enable = true;
 
     sessionVariables = {
       EDITOR = "nvim";

@@ -1,9 +1,9 @@
 function fish_greeting
-    if type -q pfetch
-        pfetch
-        return
-    else if type -q nerdfetch
+    if type -q nerdfetch
         nerdfetch
+        return
+    else if type -q pfetch
+        pfetch
         return
     else if type -q fastfetch
         fastfetch

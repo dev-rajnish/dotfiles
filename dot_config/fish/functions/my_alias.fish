@@ -9,7 +9,7 @@ function my_alias
     alias .l="cd ~/.local/"
     alias .b="cd ~/.local/bin/"
     alias .s="cd ~/.local/share/"
-    alias .d="cd ~/Downloads/"
+    alias .d="cd ~/ws/dotfiles/"
     alias .w="cd ~/walls/"
     alias rs="cd ~/ws/code/rs"
     alias .h="cd ~/ws/dotfiles/home-manager/"

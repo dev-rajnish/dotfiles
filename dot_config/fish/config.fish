@@ -18,6 +18,10 @@ if status is-interactive
   alias cd="z"
   end
 
+  if type -q exercism
+    exercism completion fish | source 
+  end
+
 end
 
 
