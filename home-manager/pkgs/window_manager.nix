@@ -37,6 +37,7 @@
 
     # Status Bar & Notifications
     swaynotificationcenter
+    libnotify
     waybar
     wayle
 

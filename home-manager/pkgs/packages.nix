@@ -20,10 +20,12 @@
     fsel
     ftop
     glow
+    gpu-screen-recorder
     htop
     httpie
     imv
     lolcat
+    lm_sensors
     ncdu
     nerdfetch
     nushell

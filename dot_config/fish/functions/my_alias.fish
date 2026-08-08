@@ -5,14 +5,14 @@
 function my_alias
     # Directory Navigation Shortcuts
     alias .f="cd ~/.config/fish/"
-    alias .c="cd ~/ws/dotfiles/dot_config/"
+    alias .c="cd ~/_ws/dotfiles/dot_config/"
     alias .l="cd ~/.local/"
     alias .b="cd ~/.local/bin/"
     alias .s="cd ~/.local/share/"
-    alias .d="cd ~/ws/dotfiles/"
+    alias .d="cd ~/_ws/dotfiles/"
     alias .w="cd ~/walls/"
-    alias rs="cd ~/ws/code/rs"
-    alias .h="cd ~/ws/dotfiles/home-manager/"
+    alias rs="cd ~/_ws/code/rs"
+    alias .h="cd ~/_ws/dotfiles/home-manager/"
 
     # Environment & Utilities
     alias dev=dev_env

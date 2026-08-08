@@ -17,14 +17,19 @@ button-label-padding = 0.25
 monitor = "*"
 show = true
 left = [
+    "custom-nixos-launcher",
     "niri-workspaces",
     "window-title",
 ]
 center = [
+    "media",
     "clock",
     "systray",
 ]
 right = [
+    "custom-cpu-temp",
+    "cpu",
+    "notifications",
     "network",
     "brightness",
     "battery",
@@ -49,6 +54,56 @@ left-click = "wlogout"
 
 [modules.volume]
 dropdown-app-icons = "native"
+
+[[modules.custom]]
+id = "cpu-temp"
+command = '''sensors | awk '/^Tctl:/ {sub(/\+/,"",$2); print $2}''''
+mode = "poll"
+interval-ms = 5000
+restart-policy = "never"
+restart-interval-ms = 1000
+format = "{{ output }}"
+hide-if-empty = false
+icon-name = "ld-thermometer-symbolic"
+icon-show = true
+icon-color = "auto"
+icon-bg-color = "auto"
+label-show = true
+label-color = "auto"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "auto"
+left-click = ""
+right-click = ""
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
+
+[[modules.custom]]
+id = "nixos-launcher"
+command = "true"
+mode = "poll"
+interval-ms = 5000
+restart-policy = "never"
+restart-interval-ms = 1000
+format = ""
+hide-if-empty = false
+icon-name = "nix-snowflake"
+icon-show = true
+icon-color = "auto"
+icon-bg-color = "auto"
+label-show = true
+label-color = "auto"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "auto"
+left-click = "fuzzel"
+right-click = "zen-beta"
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
 
 [osd]
 duration = 500
