@@ -6,7 +6,7 @@
 config.load_autoconfig(False)
 
 # 2. Theme Integration
-config.source('theme.py')
+config.source("theme.py")
 
 # 3. Fonts & Typography
 c.fonts.default_size = "14pt"
@@ -22,8 +22,8 @@ c.colors.webpage.darkmode.enabled = False
 
 # 5. Domain-Specific Dark Mode Overrides
 # Disable darkmode forcing for WhatsApp Web to preserve native web layout
-config.set('colors.webpage.darkmode.enabled', False, 'https://web.whatsapp.com/*')
-config.set('colors.webpage.darkmode.enabled', False, 'https://*.whatsapp.com/*')
+config.set("colors.webpage.darkmode.enabled", False, "https://web.whatsapp.com/*")
+config.set("colors.webpage.darkmode.enabled", False, "https://*.whatsapp.com/*")
 
 # 6. Adblocking & Content Filtering
 c.content.blocking.method = "both"

@@ -66,6 +66,8 @@
       programs.shfmt.enable = true;
       programs.taplo.enable = true;
       programs.prettier.enable = true;
+      programs.ruff-format.enable = true;
+      programs.stylua.enable = true;
     };
   in {
     checks.${vars.system}.formatting = treefmtEval.config.build.check self;

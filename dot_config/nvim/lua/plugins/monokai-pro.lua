@@ -41,14 +41,8 @@ return {
         context_start_underline = false,
       },
     },
-    override = function(scheme)
-      return {}
-    end,
-    override_palette = function(filter)
-      return {}
-    end,
-    override_scheme = function(scheme, palette, colors)
-      return {}
-    end,
+    override = function(scheme) return {} end,
+    override_palette = function(filter) return {} end,
+    override_scheme = function(scheme, palette, colors) return {} end,
   },
 }
