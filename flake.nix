@@ -22,6 +22,11 @@
         home-manager.follows = "home-manager";
       };
     };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -30,6 +35,7 @@
     home-manager,
     stylix,
     zen-browser,
+    treefmt-nix,
     ...
   }: let
     vars = import ./var.nix;
@@ -44,6 +50,7 @@
           home-manager
           stylix
           zen-browser
+          treefmt-nix
           ;
       };
 
@@ -51,7 +58,15 @@
       inherit (vars) system;
       config.allowUnfree = true;
     };
+
+    treefmtEval = treefmt-nix.lib.evalModule pkgs {
+      projectRootFile = "flake.nix";
+      programs.alejandra.enable = true;
+      programs.fish_indent.enable = true;
+    };
   in {
+    checks.${vars.system}.formatting = treefmtEval.config.build.check self;
+
     nixosConfigurations.${vars.hostname} = nixpkgs.lib.nixosSystem {
       inherit pkgs;
       inherit (vars) system;
@@ -84,6 +99,6 @@
       ];
     };
 
-    formatter.${vars.system} = pkgs.alejandra;
+    formatter.${vars.system} = treefmtEval.config.build.wrapper;
   };
 }

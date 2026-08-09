@@ -60,7 +60,7 @@
     udev.extraRules = ''SUBSYSTEM=="usb", ATTR{idVendor}=="2717", MODE="0666", GROUP="adbusers"'';
 
     upower.enable = true;
-    power-profiles-daemon.enable = false;
+    power-profiles-daemon.enable = true;
 
     # Audio Configuration (Pipewire)
     pulseaudio.enable = false;

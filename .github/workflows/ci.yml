@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  flake-check:
+    name: Flake Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            extra-experimental-features = nix-command flakes
+
+      - name: Setup Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v9
+
+      - name: Run nix flake check
+        run: nix flake check
+
+  fmt-check:
+    name: Formatting Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            extra-experimental-features = nix-command flakes
+
+      - name: Setup Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v9
+
+      - name: Check code formatting (treefmt)
+        run: nix fmt -- --fail-on-change .
+
+  build-nixos:
+    name: Build NixOS Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            extra-experimental-features = nix-command flakes
+
+      - name: Setup Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v9
+
+      - name: Build NixOS system closure
+        run: nix build .#nixosConfigurations.nixos.config.system.build.toplevel
+
+  build-home-manager:
+    name: Build Home Manager Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            extra-experimental-features = nix-command flakes
+
+      - name: Setup Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v9
+
+      - name: Build Home Manager activation package
+        run: nix build .#homeConfigurations.rsh.activationPackage

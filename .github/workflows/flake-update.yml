@@ -1,0 +1,44 @@
+name: Update Flake Lock
+
+on:
+  schedule:
+    # Run weekly every Sunday at 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-flake:
+    name: Update flake.lock
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            extra-experimental-features = nix-command flakes
+
+      - name: Setup Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v9
+
+      - name: Update flake.lock
+        run: nix flake update
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): update flake.lock"
+          title: "chore(deps): update flake.lock"
+          body: |
+            Automated update of `flake.lock` dependencies.
+            
+            This pull request updates all inputs defined in `flake.nix` to their latest revisions.
+          branch: update-flake-lock
+          delete-branch: true

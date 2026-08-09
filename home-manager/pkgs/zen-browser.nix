@@ -32,9 +32,9 @@
     # Betterfox for Zen (yokoffing/Betterfox zen/user.js, aka BetterZen):
     # privacy/telemetry/performance prefs applied as mkDefault settings —
     # any profile `settings` entry wins.
-    profiles.default.presets.betterfox.enable = true;
+    profiles.default.presets.betterfox.enable = false;
 
     # arkenfox for Zen (arkenfox/user.js)
-    profiles.default.presets.arkenfox.enable = true;
+    profiles.default.presets.arkenfox.enable = false;
   };
 }

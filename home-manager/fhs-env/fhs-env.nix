@@ -5,21 +5,17 @@
 }: let
   # Add packages to install inside FHS environment
   fhsPackages = with pkgs; [
-    fastfetch
     neovim
-    ripgrep
     fzf
-    wl-clipboard
+    yazi
     tree-sitter
     luajit
-    curl
     rustc
     rustup
     cargo
+    rustlings
     rust-analyzer
     zed-editor
-    yazi
-    stow
   ];
 
   myAppEnv = pkgs.buildFHSEnv {
@@ -36,38 +32,52 @@
     '';
   };
 
-  # Automatically inspect all packages and extract binary names from ${pkg}/bin
-  getPkgBins = pkg:
-    if builtins.pathExists "${pkg}/bin"
-    then builtins.attrNames (builtins.readDir "${pkg}/bin")
-    else [];
+  # Build wrappers & modified .desktop files at build-time (pure derivation)
+  fhsWrappers = pkgs.runCommand "fhs-env-wrappers" {} ''
+        mkdir -p $out/bin $out/libexec/fhs-env $out/share/applications
 
-  # Flatten & deduplicate all binary names automatically
-  allFhsBinaries = lib.unique (lib.flatten (map getPkgBins fhsPackages));
+        for pkg in ${lib.concatStringsSep " " (map (p: "${p}") fhsPackages)}; do
+          # 1. Generate executable wrappers for all binaries in the package
+          if [ -d "$pkg/bin" ]; then
+            for bin in "$pkg/bin"/*; do
+              if [ -x "$bin" ]; then
+                binName=$(basename "$bin")
 
-  # Automatically inspect all packages and extract .desktop files from ${pkg}/share/applications
-  # and rewrite Exec= to execute directly via ${myAppEnv}/bin/fhs-env
-  getPkgDesktops = pkg: let
-    dir = "${pkg}/share/applications";
-  in
-    if builtins.pathExists dir
-    then
-      map (fileName: {
-        name = ".local/share/applications/${fileName}";
-        value = {
-          text =
-            builtins.replaceStrings
-            ["Exec=" "TryExec="]
-            ["Exec=${myAppEnv}/bin/fhs-env " "# TryExec="]
-            (builtins.readFile "${dir}/${fileName}");
-        };
-      }) (builtins.attrNames (builtins.readDir dir))
-    else [];
+                # Create wrapper in both $out/bin and $out/libexec/fhs-env
+                for targetDir in "$out/bin" "$out/libexec/fhs-env"; do
+                  wrapper="$targetDir/$binName"
+                  if [ ! -f "$wrapper" ]; then
+                    cat <<EOF > "$wrapper"
+    #!/bin/sh
+    exec ${myAppEnv}/bin/fhs-env $binName "\$@"
+    EOF
+                    chmod +x "$wrapper"
+                  fi
+                done
+              fi
+            done
+          fi
 
-  # Flatten all desktop file attributes into a single set
-  allFhsDesktops = lib.listToAttrs (lib.flatten (map getPkgDesktops fhsPackages));
+          # 2. Copy and rewrite .desktop files to launch inside FHS environment
+          if [ -d "$pkg/share/applications" ]; then
+            for desktop in "$pkg/share/applications"/*.desktop; do
+              if [ -f "$desktop" ]; then
+                desktopName=$(basename "$desktop")
+                if [ ! -f "$out/share/applications/$desktopName" ]; then
+                  sed -e 's|^Exec=\(.*\)|Exec='${myAppEnv}'/bin/fhs-env \1|g' \
+                      -e 's|^TryExec=.*|# TryExec=|g' \
+                      "$desktop" > "$out/share/applications/$desktopName"
+                fi
+              fi
+            done
+          fi
+        done
+  '';
 in {
-  home.packages = [myAppEnv];
+  home.packages = [
+    myAppEnv
+    fhsWrappers
+  ];
 
   # Set PATH environment variables directly in Home-Manager Nix config
   home.sessionPath = [
@@ -75,18 +85,6 @@ in {
     "$HOME/.local/bin"
   ];
 
-  # Automatically generate executable wrappers in ~/.local/bin/fhs-env/ and link .desktop files
-  home.file =
-    allFhsDesktops
-    // (lib.listToAttrs (map (binName: {
-        name = ".local/bin/fhs-env/${binName}";
-        value = {
-          executable = true;
-          text = ''
-            #!/bin/sh
-            exec ${myAppEnv}/bin/fhs-env ${binName} "$@"
-          '';
-        };
-      })
-      allFhsBinaries));
+  # Symlink ~/.local/bin/fhs-env to point to the build-time wrappers directory
+  home.file.".local/bin/fhs-env".source = "${fhsWrappers}/libexec/fhs-env";
 }

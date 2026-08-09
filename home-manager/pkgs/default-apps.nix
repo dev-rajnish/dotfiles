@@ -1,53 +1,84 @@
-{config, ...}: {
+{config, ...}: let
+  browser = "zen-beta.desktop";
+  pdfViewer = "org.pwmt.zathura.desktop";
+  fileManager = "pcmanfm-qt.desktop";
+  videoPlayer = "mpv.desktop";
+  audioPlayer = "vlc.desktop";
+  imageViewer = "imv.desktop";
+in {
+  # Override imv.desktop (upstream sets NoDisplay=true by default) so it appears in Fuzzel
+  xdg.desktopEntries.imv = {
+    name = "imv";
+    genericName = "Image Viewer";
+    comment = "Fast Image Viewer";
+    exec = "imv %F";
+    icon = "multimedia-photo-viewer";
+    terminal = false;
+    categories = ["Graphics" "2DGraphics" "Viewer"];
+    mimeType = [
+      "image/png"
+      "image/jpeg"
+      "image/jpg"
+      "image/gif"
+      "image/webp"
+      "image/svg+xml"
+      "image/bmp"
+      "image/tiff"
+      "image/avif"
+      "image/heif"
+      "image/jxl"
+    ];
+  };
+
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
       # Web & Web Schemes
-      "text/html" = "librewolf.desktop";
-      "text/xml" = "librewolf.desktop";
-      "application/xhtml+xml" = "librewolf.desktop";
-      "x-scheme-handler/http" = "librewolf.desktop";
-      "x-scheme-handler/https" = "librewolf.desktop";
-      "x-scheme-handler/about" = "librewolf.desktop";
-      "x-scheme-handler/unknown" = "librewolf.desktop";
+      "text/html" = browser;
+      "text/xml" = browser;
+      "application/xhtml+xml" = browser;
+      "x-scheme-handler/http" = browser;
+      "x-scheme-handler/https" = browser;
+      "x-scheme-handler/about" = browser;
+      "x-scheme-handler/unknown" = browser;
 
       # Documents & PDF
-      "application/pdf" = "org.pwmt.zathura.desktop";
-      "application/postscript" = "org.pwmt.zathura.desktop";
-      "application/epub+zip" = "org.pwmt.zathura.desktop";
+      "application/pdf" = pdfViewer;
+      "application/postscript" = pdfViewer;
+      "application/epub+zip" = pdfViewer;
 
       # File Manager & Directories
-      "inode/directory" = "yazi.desktop";
+      "inode/directory" = fileManager;
 
       # Video Formats
-      "video/mp4" = "io.github.celluloid_player.Celluloid.desktop";
-      "video/mkv" = "io.github.celluloid_player.Celluloid.desktop";
-      "video/webm" = "io.github.celluloid_player.Celluloid.desktop";
-      "video/x-matroska" = "io.github.celluloid_player.Celluloid.desktop";
-      "video/avi" = "io.github.celluloid_player.Celluloid.desktop";
-      "video/quicktime" = "io.github.celluloid_player.Celluloid.desktop";
+      "video/mp4" = videoPlayer;
+      "video/mkv" = videoPlayer;
+      "video/webm" = videoPlayer;
+      "video/x-matroska" = videoPlayer;
+      "video/avi" = videoPlayer;
+      "video/quicktime" = videoPlayer;
 
       # Audio Formats
-      "audio/mpeg" = "vlc.desktop";
-      "audio/mp3" = "vlc.desktop";
-      "audio/flac" = "vlc.desktop";
-      "audio/wav" = "vlc.desktop";
-      "audio/ogg" = "vlc.desktop";
-      "audio/aac" = "vlc.desktop";
+      "audio/mpeg" = audioPlayer;
+      "audio/mp3" = audioPlayer;
+      "audio/flac" = audioPlayer;
+      "audio/wav" = audioPlayer;
+      "audio/ogg" = audioPlayer;
+      "audio/aac" = audioPlayer;
 
       # Image Formats
-      "image/jpeg" = "gimp.desktop";
-      "image/png" = "imv";
-      "image/gif" = "gimp.desktop";
-      "image/webp" = "gimp.desktop";
-      "image/svg+xml" = "gimp.desktop";
+      "image/jpeg" = imageViewer;
+      "image/png" = imageViewer;
+      "image/gif" = imageViewer;
+      "image/webp" = imageViewer;
+      "image/svg+xml" = imageViewer;
 
       # Archive Formats
-      "application/zip" = "yazi.desktop";
-      "application/x-tar" = "yazi.desktop";
-      "application/x-gzip" = "yazi.desktop";
-      "application/x-7z-compressed" = "yazi.desktop";
-      "application/x-rar" = "yazi.desktop";
+      "application/zip" = fileManager;
+      "application/x-tar" = fileManager;
+      "application/x-gzip" = fileManager;
+      "application/x-7z-compressed" = fileManager;
+      "application/x-rar" = fileManager;
     };
   };
 }

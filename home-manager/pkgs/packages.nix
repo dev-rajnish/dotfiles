@@ -1,63 +1,82 @@
-{pkgs, ...}: {
-  home.packages = with pkgs; [
-    # CLI Tools
-    bat
+{pkgs, ...}: let
+  # CLI Tools & Utilities
+  cli = with pkgs; [
+    # System & Hardware Monitoring
     batmon
     btop-rocm
-    cbonsai
-    choose
-    cmatrix
-    delta
-    difftastic
     duf
     dust
-    entr
-    exercism
-    eza
-    fd
-    fortune
-    fossil
-    fsel
     ftop
-    glow
-    gpu-screen-recorder
     htop
-    httpie
-    imv
-    lolcat
     lm_sensors
     ncdu
     nerdfetch
-    nushell
     pciutils
     pfetch
-    pipes
+    ttop
+
+    # File Management & Search
+    bat
+    choose
+    eza
+    fd
     ripgrep
     sd
-    starship
     stow
-    tldr
-    toilet
-    ttop
-    yazi
-    zellij
     zoxide
 
-    # GUI Applications
-    calibre
-    calibre-web
+    # Development, Networking & Shell Tools
+    cloudflared
+    delta
+    difftastic
+    entr
+    exercism
+    fossil
+    fsel
+    httpie
+    nushell
+    tldr
+    wrangler
+
+    # Terminal Customization, Visuals & Multiplexing
+    cbonsai
+    cmatrix
+    fortune
+    glow
+    lolcat
+    pipes
+    starship
+    toilet
+    zellij
+
+    # CLI Media & Capture
+    gpu-screen-recorder
+    imv
+  ];
+
+  # GUI Applications
+  gui = with pkgs; [
+    # Web Browsers & Extensions
     chromium
     firefox-esr
     firefoxpwa
-    kitty
     librewolf-bin
-    mpv
+    qutebrowser
+
+    # Desktop Environment & System Utilities
+    kitty
     nwg-displays
     pcmanfm-qt
     process-viewer
-    qutebrowser
+
+    # Media Players, E-Books & Document Viewers
+    calibre
+    calibre-web
+    mpv
     readest
     vlc
     zathura
   ];
+in {
+  home.packages = cli ++ gui;
 }
