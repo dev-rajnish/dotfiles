@@ -6,9 +6,9 @@
 @import url("tokyo-night.css");
 
 * {
-    font-family: "Inter", "Roboto", "Ubuntu", "DejaVu Sans", sans-serif;
-    font-size: 14px;
-    transition: all 0.2s ease-in-out;
+  font-family: "Inter", "Roboto", "Ubuntu", "DejaVu Sans", sans-serif;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
 }
 
 /* =============================================================================
@@ -16,77 +16,77 @@
  * ============================================================================= */
 
 .notification-row {
-    outline: none;
-    background: transparent;
+  outline: none;
+  background: transparent;
 }
 
 .notification {
-    background: @bg_card;
-    border: 1.5px solid @border_color;
-    border-radius: 12px;
-    margin: 6px 12px;
-    padding: 10px;
-    box-shadow: 0 4px 12px @shadow_color;
+  background: @bg_card;
+  border: 1.5px solid @border_color;
+  border-radius: 12px;
+  margin: 6px 12px;
+  padding: 10px;
+  box-shadow: 0 4px 12px @shadow_color;
 }
 
 /* Urgency Levels */
 .notification.low {
-    border-color: @comment;
+  border-color: @comment;
 }
 
 .notification.normal {
-    border-color: @blue;
+  border-color: @blue;
 }
 
 .notification.critical {
-    border-color: @red;
-    background: @bg_dark;
-    box-shadow: 0 0 12px rgba(247, 118, 142, 0.4);
+  border-color: @red;
+  background: @bg_dark;
+  box-shadow: 0 0 12px rgba(247, 118, 142, 0.4);
 }
 
 .notification-content {
-    background: transparent;
-    padding: 4px;
+  background: transparent;
+  padding: 4px;
 }
 
 .notification-content .summary {
-    color: @fg;
-    font-size: 15px;
-    font-weight: 700;
+  color: @fg;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .notification-content .body {
-    color: @fg_dark;
-    font-size: 13px;
-    margin-top: 4px;
+  color: @fg_dark;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
 .notification-content .app-name,
 .notification-content .time {
-    color: @comment;
-    font-size: 11px;
+  color: @comment;
+  font-size: 11px;
 }
 
 /* Inline Notification Buttons */
 .notification-action {
-    background: @bg_highlight;
-    color: @fg;
-    border: 1px solid @border_color;
-    border-radius: 8px;
-    margin-top: 8px;
-    padding: 6px 12px;
-    font-weight: 600;
+  background: @bg_highlight;
+  color: @fg;
+  border: 1px solid @border_color;
+  border-radius: 8px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  font-weight: 600;
 }
 
 .notification-action:hover {
-    background: @blue;
-    color: @bg_dark;
-    border-color: @blue;
+  background: @blue;
+  color: @bg_dark;
+  border-color: @blue;
 }
 
 .notification-default-action:hover {
-    background: rgba(122, 162, 247, 0.1);
-    border-radius: 12px;
+  background: rgba(122, 162, 247, 0.1);
+  border-radius: 12px;
 }
 
 /* =============================================================================
@@ -94,16 +94,16 @@
  * ============================================================================= */
 
 .control-center {
-    background: @bg_translucent;
-    border: 2px solid @border_color;
-    border-radius: 18px;
-    margin: 12px;
-    padding: 14px;
-    box-shadow: 0 8px 24px @shadow_color;
+  background: @bg_translucent;
+  border: 2px solid @border_color;
+  border-radius: 18px;
+  margin: 12px;
+  padding: 14px;
+  box-shadow: 0 8px 24px @shadow_color;
 }
 
 .control-center-list {
-    background: transparent;
+  background: transparent;
 }
 
 /* Widgets Base Container */
@@ -112,118 +112,117 @@
 .widget-mpris,
 .widget-volume,
 .widget-backlight {
-    background: @bg_card;
-    border: 1px solid @border_color;
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 10px;
+  background: @bg_card;
+  border: 1px solid @border_color;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
 }
 
 /* --- Widget: Title --- */
 .widget-title {
-    color: @fg;
-    font-size: 16px;
-    font-weight: 700;
+  color: @fg;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .widget-title > button {
-    background: @bg_highlight;
-    color: @fg;
-    border: 1px solid @border_color;
-    border-radius: 8px;
-    padding: 4px 10px;
-    font-size: 12px;
-    font-weight: 600;
+  background: @bg_highlight;
+  color: @fg;
+  border: 1px solid @border_color;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .widget-title > button:hover {
-    background: @red;
-    color: @bg_dark;
-    border-color: @red;
+  background: @red;
+  color: @bg_dark;
+  border-color: @red;
 }
 
 /* --- Widget: Do Not Disturb (DND) --- */
 .widget-dnd {
-    color: @fg;
-    font-weight: 600;
+  color: @fg;
+  font-weight: 600;
 }
 
 .widget-dnd switch {
-    background: @bg_highlight;
-    border: 1px solid @border_color;
-    border-radius: 14px;
+  background: @bg_highlight;
+  border: 1px solid @border_color;
+  border-radius: 14px;
 }
 
 .widget-dnd switch:checked {
-    background: @magenta;
-    border-color: @magenta;
+  background: @magenta;
+  border-color: @magenta;
 }
 
 .widget-dnd switch slider {
-    background: @fg;
-    border-radius: 50%;
+  background: @fg;
+  border-radius: 50%;
 }
 
 /* --- Widget: MPRIS Media Player --- */
 .widget-mpris {
-    padding: 10px;
+  padding: 10px;
 }
 
 .widget-mpris-player {
-    background: @bg_dark;
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 6px;
+  background: @bg_dark;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 6px;
 }
 
 .widget-mpris-title {
-    color: @fg;
-    font-weight: 700;
+  color: @fg;
+  font-weight: 700;
 }
 
 .widget-mpris-subtitle {
-    color: @cyan;
-    font-size: 12px;
+  color: @cyan;
+  font-size: 12px;
 }
 
 .widget-mpris button {
-    background: @bg_highlight;
-    color: @fg;
-    border-radius: 50%;
-    border: none;
+  background: @bg_highlight;
+  color: @fg;
+  border-radius: 50%;
+  border: none;
 }
 
 .widget-mpris button:hover {
-    background: @blue;
-    color: @bg_dark;
+  background: @blue;
+  color: @bg_dark;
 }
 
 /* --- Widget: Volume & Backlight Sliders --- */
 .widget-volume,
 .widget-backlight {
-    color: @blue;
-    font-size: 16px;
+  color: @blue;
+  font-size: 16px;
 }
 
 scale trough {
-    background: @bg_highlight;
-    border-radius: 8px;
-    min-height: 8px;
+  background: @bg_highlight;
+  border-radius: 8px;
+  min-height: 8px;
 }
 
 scale highlight {
-    background: @blue;
-    border-radius: 8px;
+  background: @blue;
+  border-radius: 8px;
 }
 
 .widget-backlight scale highlight {
-    background: @yellow;
+  background: @yellow;
 }
 
 scale slider {
-    background: @fg;
-    border-radius: 50%;
-    min-width: 14px;
-    min-height: 14px;
+  background: @fg;
+  border-radius: 50%;
+  min-width: 14px;
+  min-height: 14px;
 }
-

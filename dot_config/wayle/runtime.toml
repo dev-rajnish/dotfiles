@@ -16,25 +16,17 @@ button-label-padding = 0.25
 [[bar.layout]]
 monitor = "*"
 show = true
-left = [
-    "custom-nixos-launcher",
-    "niri-workspaces",
-    "window-title",
-]
-center = [
-    "media",
-    "clock",
-    "systray",
-]
+left = ["custom-nixos-launcher", "niri-workspaces", "window-title"]
+center = ["media", "clock", "systray"]
 right = [
-    "custom-cpu-temp",
-    "cpu",
-    "notifications",
-    "network",
-    "brightness",
-    "battery",
-    "volume",
-    "power",
+  "custom-cpu-temp",
+  "cpu",
+  "notifications",
+  "network",
+  "brightness",
+  "battery",
+  "volume",
+  "power",
 ]
 
 [styling.palette]

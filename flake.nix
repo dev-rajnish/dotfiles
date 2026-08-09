@@ -63,6 +63,9 @@
       projectRootFile = "flake.nix";
       programs.alejandra.enable = true;
       programs.fish_indent.enable = true;
+      programs.shfmt.enable = true;
+      programs.taplo.enable = true;
+      programs.prettier.enable = true;
     };
   in {
     checks.${vars.system}.formatting = treefmtEval.config.build.check self;

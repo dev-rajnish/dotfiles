@@ -4,7 +4,8 @@
 * {
   border: none;
   border-radius: 0;
-  font-family: "JetBrains Mono", "JetBrainsMono Nerd Font", "Nerd Font", sans-serif;
+  font-family:
+    "JetBrains Mono", "JetBrainsMono Nerd Font", "Nerd Font", sans-serif;
   font-weight: 600;
   font-size: 13px;
   min-height: 0;
@@ -13,7 +14,12 @@
 }
 
 window#waybar {
-  background-color: rgba(26, 27, 38, 0.85); /* Tokyo Night semi-transparent bg */
+  background-color: rgba(
+    26,
+    27,
+    38,
+    0.85
+  ); /* Tokyo Night semi-transparent bg */
   color: @fg;
   transition-property: background-color;
   transition-duration: 0.3s;

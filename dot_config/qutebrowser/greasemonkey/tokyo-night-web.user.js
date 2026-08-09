@@ -16,27 +16,44 @@
 // @grant        none
 // ==UserScript==
 
-(function() {
-    'use strict';
+(function () {
+  "use strict";
 
-    // Robust check for WhatsApp Web (handles top window, subframes, iframes & cross-origin referrers)
-    function isWhatsApp() {
-        try {
-            if (window.location && window.location.href && window.location.href.includes('whatsapp')) return true;
-            if (window.location && window.location.hostname && window.location.hostname.includes('whatsapp')) return true;
-            if (document.domain && document.domain.includes('whatsapp')) return true;
-            if (window.top && window.top.location && window.top.location.href && window.top.location.href.includes('whatsapp')) return true;
-        } catch (e) {
-            if (document.referrer && document.referrer.includes('whatsapp')) return true;
-        }
-        return false;
+  // Robust check for WhatsApp Web (handles top window, subframes, iframes & cross-origin referrers)
+  function isWhatsApp() {
+    try {
+      if (
+        window.location &&
+        window.location.href &&
+        window.location.href.includes("whatsapp")
+      )
+        return true;
+      if (
+        window.location &&
+        window.location.hostname &&
+        window.location.hostname.includes("whatsapp")
+      )
+        return true;
+      if (document.domain && document.domain.includes("whatsapp")) return true;
+      if (
+        window.top &&
+        window.top.location &&
+        window.top.location.href &&
+        window.top.location.href.includes("whatsapp")
+      )
+        return true;
+    } catch (e) {
+      if (document.referrer && document.referrer.includes("whatsapp"))
+        return true;
     }
+    return false;
+  }
 
-    if (isWhatsApp()) {
-        return;
-    }
+  if (isWhatsApp()) {
+    return;
+  }
 
-    const universalCss = `
+  const universalCss = `
         /* Force root color scheme */
         :root {
             color-scheme: dark !important;
@@ -119,31 +136,34 @@
         }
     `;
 
-    function applyTheme() {
-        let style = document.getElementById('tokyo-night-theme-style');
-        if (!style) {
-            style = document.createElement('style');
-            style.id = 'tokyo-night-theme-style';
-            style.type = 'text/css';
-            style.appendChild(document.createTextNode(universalCss));
-        }
-        
-        const target = document.head || document.documentElement;
-        if (target && target.lastElementChild !== style) {
-            target.appendChild(style);
-        }
+  function applyTheme() {
+    let style = document.getElementById("tokyo-night-theme-style");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "tokyo-night-theme-style";
+      style.type = "text/css";
+      style.appendChild(document.createTextNode(universalCss));
     }
 
+    const target = document.head || document.documentElement;
+    if (target && target.lastElementChild !== style) {
+      target.appendChild(style);
+    }
+  }
+
+  applyTheme();
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyTheme);
+  } else {
     applyTheme();
+  }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', applyTheme);
-    } else {
-        applyTheme();
-    }
-
-    const observer = new MutationObserver(applyTheme);
-    if (document.documentElement) {
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-    }
+  const observer = new MutationObserver(applyTheme);
+  if (document.documentElement) {
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+  }
 })();
