@@ -4,3 +4,7 @@
 **/fish/conf.d/
 **/fish/fish_variables
 nixos/backup
+
+# Python cache & temporary files
+**/__pycache__/
+*.idk
