@@ -2,7 +2,8 @@
   description = "NixOS & Home Manager Configuration Flake";
 
   inputs = {
-    # Note: Flake input URLs require static string literals per Nix Flake specification.
+    # Input URLs require static string
+    # literals per Nix Flake spec.
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     home-manager = {
@@ -39,6 +40,7 @@
     ...
   }: let
     vars = import ./var.nix;
+    pkgList = import ./pkg-list.nix;
 
     sharedArgs =
       vars
@@ -51,6 +53,7 @@
           stylix
           zen-browser
           treefmt-nix
+          pkgList
           ;
       };
 

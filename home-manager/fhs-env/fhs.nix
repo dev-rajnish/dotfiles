@@ -1,22 +1,11 @@
 {
   pkgs,
   lib,
+  pkgList,
   ...
 }: let
-  # Add packages to install inside FHS environment
-  fhsPackages = with pkgs; [
-    neovim
-    fzf
-    yazi
-    tree-sitter
-    luajit
-    rustc
-    rustup
-    cargo
-    rustlings
-    rust-analyzer
-    zed-editor
-  ];
+  # Packages installed inside FHS environment
+  fhsPackages = (pkgList pkgs).fhs;
 
   myAppEnv = pkgs.buildFHSEnv {
     name = "fhs-env";
@@ -32,18 +21,17 @@
     '';
   };
 
-  # Build wrappers & modified .desktop files at build-time (pure derivation)
+  # Build FHS wrappers & desktop files
   fhsWrappers = pkgs.runCommand "fhs-env-wrappers" {} ''
         mkdir -p $out/bin $out/libexec/fhs-env $out/share/applications
 
         for pkg in ${lib.concatStringsSep " " (map (p: "${p}") fhsPackages)}; do
-          # 1. Generate executable wrappers for all binaries in the package
+          # Create binary wrappers
           if [ -d "$pkg/bin" ]; then
             for bin in "$pkg/bin"/*; do
               if [ -x "$bin" ]; then
                 binName=$(basename "$bin")
 
-                # Create wrapper in both $out/bin and $out/libexec/fhs-env
                 for targetDir in "$out/bin" "$out/libexec/fhs-env"; do
                   wrapper="$targetDir/$binName"
                   if [ ! -f "$wrapper" ]; then
@@ -58,7 +46,7 @@
             done
           fi
 
-          # 2. Copy and rewrite .desktop files to launch inside FHS environment
+          # Rewrite desktop app entries
           if [ -d "$pkg/share/applications" ]; then
             for desktop in "$pkg/share/applications"/*.desktop; do
               if [ -f "$desktop" ]; then
@@ -79,12 +67,12 @@ in {
     fhsWrappers
   ];
 
-  # Set PATH environment variables directly in Home-Manager Nix config
+  # Add FHS wrappers to user PATH
   home.sessionPath = [
     "$HOME/.local/bin/fhs-env"
     "$HOME/.local/bin"
   ];
 
-  # Symlink ~/.local/bin/fhs-env to point to the build-time wrappers directory
+  # Link FHS binary wrapper directory
   home.file.".local/bin/fhs-env".source = "${fhsWrappers}/libexec/fhs-env";
 }

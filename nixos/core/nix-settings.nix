@@ -20,5 +20,12 @@
     use-xdg-base-directories = true;
   };
 
+  # Automatic Nix store garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
+  };
+
   documentation.man.cache.enable = false;
 }

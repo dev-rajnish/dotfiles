@@ -6,15 +6,14 @@
 }: let
   dotConfigPath = "${config.home.homeDirectory}/_ws/dotfiles/dot_config";
 
-  # Read all files and subdirectories in dot_config
+  # Read dot_config directory entries
   entries = builtins.readDir ../../dot_config;
 
-  # Filter out unwanted entries if any (e.g., hidden temp files or __pycache__)
+  # Filter hidden or temporary files
   validEntries = lib.filterAttrs (name: type: name != ".DS_Store" && name != "__pycache__") entries;
 
-  # Map each entry in dot_config to xdg.configFile.<name> using mkOutOfStoreSymlink
-  # This creates direct out-of-store symlinks to ~/ws/dotfiles/dot_config/<name>,
-  # allowing instant live editing without rebuilding and providing blazing fast Nix evaluation.
+  # Symlink dot_config entries to
+  # ~/.config via mkOutOfStoreSymlink
   mkConfigEntry = name: type: {
     name = name;
     value = {
@@ -24,9 +23,8 @@
 in {
   xdg.configFile = lib.mapAttrs' mkConfigEntry validEntries;
 
-  # If a target folder/file exists in ~/.config:
-  # Check if it contains any files/symlinks managed by Home Manager.
-  # If NO Home Manager symlinks are found, back up the whole folder to pkg-folder.hm.backup-date-time.
+  # Backup existing unmanaged config
+  # folders in ~/.config before linking
   home.activation.backupExistingDotConfig = lib.hm.dag.entryBefore ["linkGeneration"] ''
     run mkdir -p "$HOME/.config"
     timestamp=$(date +%Y%m%d-%H%M%S)

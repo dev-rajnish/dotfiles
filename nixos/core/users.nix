@@ -6,7 +6,7 @@
   users.users.${username} = {
     isNormalUser = true;
 
-    #shell = pkgs.fish;
+    shell = pkgs.fish;
     ignoreShellProgramCheck = true;
 
     description = username;
@@ -21,6 +21,7 @@
       "seat"
       "adbusers"
       "kvm"
+      "libvirtd"
       "audio"
     ];
   };

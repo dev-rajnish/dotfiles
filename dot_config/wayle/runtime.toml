@@ -4,6 +4,7 @@ font-sans = "JetBrainsMono Nerd Font"
 [bar]
 scale = 0.75
 padding = 0.44999998807907104
+layer = "overlay"
 bg = "bg-base"
 background-opacity = 69
 shadow = "drop"
@@ -19,9 +20,9 @@ show = true
 left = ["custom-nixos-launcher", "niri-workspaces", "window-title"]
 center = ["media", "clock", "systray"]
 right = [
+  "notifications",
   "custom-cpu-temp",
   "cpu",
-  "notifications",
   "network",
   "brightness",
   "battery",
@@ -40,6 +41,12 @@ red = "#f7768e"
 yellow = "#e0af68"
 green = "#9ece6a"
 blue = "#7dcfff"
+
+[modules.notifications]
+icon-source = "application"
+popup-position = "bottom-right"
+popup-layer = "background"
+popup-close-behavior = "remove"
 
 [modules.power]
 left-click = "wlogout"

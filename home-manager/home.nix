@@ -21,13 +21,6 @@
 in {
   inherit imports;
 
-  programs = {
-    home-manager.enable = true;
-    man.enable = false;
-    bash.enable = true;
-  };
-  manual.manpages.enable = false;
-
   news = {
     display = "silent";
   };
@@ -37,7 +30,6 @@ in {
     inherit username;
     homeDirectory = "/home/${username}";
     enableNixpkgsReleaseCheck = false;
-    #pointerCursor.enable = true;
 
     sessionVariables = {
       EDITOR = "nvim";
@@ -47,6 +39,4 @@ in {
       GIT_ASKPASS = "";
     };
   };
-
-  systemd.user.startServices = "sd-switch";
 }

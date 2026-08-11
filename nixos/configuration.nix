@@ -7,6 +7,7 @@
     ./core
     ./desktop
     ./hardware
+    ./virtualization
   ];
 
   readNixFilesFrom = folder: let

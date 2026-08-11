@@ -1,12 +1,44 @@
-{config, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   browser = "zen-beta.desktop";
   pdfViewer = "org.pwmt.zathura.desktop";
   fileManager = "pcmanfm-qt.desktop";
   videoPlayer = "mpv.desktop";
   audioPlayer = "vlc.desktop";
   imageViewer = "imv.desktop";
+
+  # PlainApp PWA Hotspot Script & Launcher
+  plainAppName = "plainapp";
+  plainAppScript = pkgs.writeShellScriptBin plainAppName ''
+    gateway_ip=$(ip route show | awk '/default/ {print $3}')
+
+    if [ -z "$gateway_ip" ]; then
+      notify-send "PlainApp Error" "Not connected to phone hotspot!"
+      exit 1
+    fi
+
+    exec zen-beta \
+      "https://$gateway_ip:8443"
+  '';
+
+  plainAppDesktop = pkgs.makeDesktopItem {
+    name = plainAppName;
+    desktopName = "PlainApp";
+    exec = "${plainAppScript}/bin/${plainAppName}";
+    icon = "mobile";
+    categories = ["Network" "Utility"];
+  };
 in {
-  # Override imv.desktop (upstream sets NoDisplay=true by default) so it appears in Fuzzel
+  home.packages = [
+    plainAppScript
+    plainAppDesktop
+  ];
+
+  # Override imv.desktop to unhide
+  # in application launcher
   xdg.desktopEntries.imv = {
     name = "imv";
     genericName = "Image Viewer";
@@ -33,7 +65,7 @@ in {
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      # Web & Web Schemes
+      # Web Browsers
       "text/html" = browser;
       "text/xml" = browser;
       "application/xhtml+xml" = browser;
@@ -42,15 +74,15 @@ in {
       "x-scheme-handler/about" = browser;
       "x-scheme-handler/unknown" = browser;
 
-      # Documents & PDF
+      # PDF & Documents
       "application/pdf" = pdfViewer;
       "application/postscript" = pdfViewer;
       "application/epub+zip" = pdfViewer;
 
-      # File Manager & Directories
+      # File Manager
       "inode/directory" = fileManager;
 
-      # Video Formats
+      # Video Players
       "video/mp4" = videoPlayer;
       "video/mkv" = videoPlayer;
       "video/webm" = videoPlayer;
@@ -58,7 +90,7 @@ in {
       "video/avi" = videoPlayer;
       "video/quicktime" = videoPlayer;
 
-      # Audio Formats
+      # Audio Players
       "audio/mpeg" = audioPlayer;
       "audio/mp3" = audioPlayer;
       "audio/flac" = audioPlayer;
@@ -66,14 +98,14 @@ in {
       "audio/ogg" = audioPlayer;
       "audio/aac" = audioPlayer;
 
-      # Image Formats
+      # Image Viewers
       "image/jpeg" = imageViewer;
       "image/png" = imageViewer;
       "image/gif" = imageViewer;
       "image/webp" = imageViewer;
       "image/svg+xml" = imageViewer;
 
-      # Archive Formats
+      # Archive Managers
       "application/zip" = fileManager;
       "application/x-tar" = fileManager;
       "application/x-gzip" = fileManager;

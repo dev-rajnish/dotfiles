@@ -1,12 +1,3 @@
-# Add to your flake.nix inputs:
-# inputs.zen-browser = {
-#   url = "github:0xc000022070/zen-browser-flake";
-#   inputs = {
-#     nixpkgs.follows = "nixpkgs";
-#     home-manager.follows = "home-manager";
-#   };
-# };
-# In your home.nix:
 {
   pkgs,
   inputs,
@@ -21,20 +12,18 @@
     setAsDefaultBrowser = true;
 
     nativeMessagingHosts = [pkgs.firefoxpwa];
-    # Catppuccin theme (catppuccin/zen-browser), symlinked into the profile's
-    # chrome/catppuccin and loaded via userChrome/userContent imports.
+
+    # Catppuccin Mocha theme preset
     profiles.default.presets.catppuccin = {
       enable = true;
-      flavor = "Mocha"; # Frappe | Latte | Macchiato | Mocha
-      accent = "Mauve"; # Blue, Flamingo, Green, Lavender, Maroon, Mauve, ...
+      flavor = "Mocha";
+      accent = "Mauve";
     };
 
-    # Betterfox for Zen (yokoffing/Betterfox zen/user.js, aka BetterZen):
-    # privacy/telemetry/performance prefs applied as mkDefault settings —
-    # any profile `settings` entry wins.
+    # Betterfox performance preset
     profiles.default.presets.betterfox.enable = false;
 
-    # arkenfox for Zen (arkenfox/user.js)
+    # Arkenfox hardening preset
     profiles.default.presets.arkenfox.enable = false;
   };
 }

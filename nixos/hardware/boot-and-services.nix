@@ -1,12 +1,16 @@
-{pkgs, ...}: {
-  # Bootloader Configuration
+{
+  pkgs,
+  config,
+  ...
+}: {
+  # Bootloader & Kernel Configuration
   boot = {
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+    kernelModules = ["snd-aloop"];
     kernelParams = ["snd_hda_intel.power_save=0"];
-    # Kernel & Temporary Filesystem
     kernelPackages = pkgs.linuxPackages_latest;
     tmp = {
       tmpfsHugeMemoryPages = "always";
@@ -14,19 +18,17 @@
     };
   };
 
-  # Memory & Virtualisation
+  # ZRAM Memory Swap
   zramSwap = {
     enable = true;
     algorithm = "zstd";
     memoryPercent = 50;
   };
 
-  virtualisation.podman.enable = true;
-
-  # Security & Realtime Privileges
+  # Realtime Privileges (rtkit)
   security.rtkit.enable = true;
 
-  # System Services Configuration
+  # Hardware Services & Display
   services = {
     # Input & Display Server
     libinput.enable = true;
@@ -60,9 +62,9 @@
     udev.extraRules = ''SUBSYSTEM=="usb", ATTR{idVendor}=="2717", MODE="0666", GROUP="adbusers"'';
 
     upower.enable = true;
-    power-profiles-daemon.enable = false;
+    power-profiles-daemon.enable = true;
 
-    # Audio Configuration (Pipewire)
+    # Pipewire Audio Server
     pulseaudio.enable = false;
     pipewire = {
       enable = true;
@@ -81,5 +83,11 @@
       RuntimeMaxUse=50M
       MaxRetentionSec=1month
     '';
+  };
+
+  # Systemd Backlight & Timeout Settings
+  systemd.services."systemd-backlight@".enable = false;
+  systemd.settings.Manager = {
+    DefaultTimeoutStopSec = "3s";
   };
 }
