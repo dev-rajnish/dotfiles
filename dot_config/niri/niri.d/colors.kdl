@@ -7,11 +7,11 @@ layout {
     background-color "transparent"
 
     // Focus Ring Colors (Active Window Highlight)
-    // focus-ring {
-    //     active-color   "#7aa2f7"
-    //     inactive-color "#414868"
-    //     urgent-color   "#f7768e"
-    // }
+     focus-ring {
+         active-color   "#7aa2f7"
+         inactive-color "#414868"
+         urgent-color   "#f7768e"
+     }
 
     // Window Border Colors
      border {

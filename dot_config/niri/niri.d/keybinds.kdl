@@ -27,13 +27,15 @@ binds {
     // -------------------------------------------------------------------------
     // 03. Hardware & Media Keys
     // -------------------------------------------------------------------------
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "swayosd-client --output-volume raise"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "swayosd-client --output-volume lower"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "swayosd-client --output-volume mute-toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "swayosd-client --input-volume mute-toggle"; }
+    // volume
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "pamixer -i 5"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "pamixer -d 5"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "pamixer -i 5 --allow-boost"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "pamixer -t"; }
 
-    XF86MonBrightnessUp   allow-when-locked=true { spawn-sh "swayosd-client --brightness raise"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "swayosd-client --brightness lower"; }
+    // brightness
+    XF86MonBrightnessUp   allow-when-locked=true { spawn-sh "brightnessctl s 5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl s 5%-"; }
 
     // -------------------------------------------------------------------------
     // 04. Window Management & Actions
@@ -136,6 +138,8 @@ binds {
     Mod+Ctrl+7 { move-column-to-workspace 7; }
     Mod+Ctrl+8 { move-column-to-workspace 8; }
     Mod+Ctrl+9 { move-column-to-workspace 9; }
+
+
 
     // -------------------------------------------------------------------------
     // 08. Column & Window Grouping (Consume / Expel)

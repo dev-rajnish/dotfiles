@@ -24,11 +24,12 @@ layout {
 
     // Border Thickness (in pixels)
     border {
-        width 2
+        width 0
     }
 
     // Focus Ring Thickness (in pixels)
     focus-ring {
-        width 1
+        width 1 
     }
 }
+

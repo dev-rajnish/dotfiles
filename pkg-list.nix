@@ -20,7 +20,7 @@ pkgs: {
 
     # Hardware & Performance Monitors
     alsa-utils
-    pavucontrol
+    pwvucontrol
     poptop
     radeontop
     usbtop
@@ -59,6 +59,8 @@ pkgs: {
     pciutils
     pfetch
     ttop
+    powertop
+    fastfetch
 
     # File Search & Text Utilities
     bat
@@ -84,6 +86,7 @@ pkgs: {
     wrangler
 
     # Terminal Visuals & Multiplexers
+    cava
     cbonsai
     cmatrix
     fortune
@@ -130,6 +133,7 @@ pkgs: {
     swaybg
     wallust
     waypaper
+    mpvpaper
 
     # Audio & Brightness Controls
     brightnessctl

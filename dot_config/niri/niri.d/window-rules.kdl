@@ -8,7 +8,7 @@ window-rule {
     background-effect {
         blur true
     }
-    geometry-corner-radius 2
+    geometry-corner-radius 0
     clip-to-geometry true
     draw-border-with-background false
 }
@@ -35,4 +35,55 @@ window-rule {
 
     block-out-from "screen-capture"
 }
+
+// =============================================================================
+// Workspace Declarations
+// =============================================================================
+workspace "browser"
+workspace "terminal"
+workspace "editor"
+
+// =============================================================================
+// Workspace Assignments
+// =============================================================================
+
+// Web Browsers -> Workspace 1 (browser)
+window-rule {
+    match app-id="firefox"
+    match app-id="org.mozilla.firefox"
+    match app-id="zen"
+    match app-id="zen-beta"
+    match app-id="zen-browser"
+    match app-id="qutebrowser"
+    match app-id="org.qutebrowser.qutebrowser"
+    match app-id="google-chrome"
+    match app-id="chromium"
+    match app-id="brave-browser"
+    match app-id="librewolf"
+    match app-id="tor-browser"
+
+    open-on-workspace "browser"
+}
+
+// Kitty Terminal -> Workspace 2 (terminal)
+window-rule {
+    match app-id="kitty"
+
+    open-on-workspace "terminal"
+}
+
+// Neovim -> Workspace 3 (editor)
+window-rule {
+    match app-id="nvim"
+    match app-id="neovim"
+    match app-id="neovide"
+    match title=r#"(?i)nvim"#
+
+    open-on-workspace "editor"
+}
+
+
+
+
+
 

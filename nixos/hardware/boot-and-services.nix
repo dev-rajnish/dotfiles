@@ -10,7 +10,10 @@
       efi.canTouchEfiVariables = true;
     };
     kernelModules = ["snd-aloop"];
-    kernelParams = ["snd_hda_intel.power_save=0"];
+    kernelParams = [
+      "snd_hda_intel.power_save=0"
+      "snd_hda_intel.power_save_controller=0"
+    ];
     kernelPackages = pkgs.linuxPackages_latest;
     tmp = {
       tmpfsHugeMemoryPages = "always";

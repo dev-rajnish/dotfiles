@@ -12,8 +12,8 @@
   };
 
   # System Service Enablements
+  # Display Manager (Ly display manager with Niri session)
   services = {
-    # Display Manager (Ly display manager with Niri session)
     displayManager = {
       defaultSession = "niri";
       ly.enable = true;

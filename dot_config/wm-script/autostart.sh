@@ -4,6 +4,7 @@
 # --- Background Services ---
 # Status bar and notification
 # waybar &
+# swaync -m fill -i ~/.config/niri/niri.d/1.png
 
 wayle panel start &
 # Clipboard manager (text & image store)

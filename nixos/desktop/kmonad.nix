@@ -41,7 +41,7 @@ in {
           ( defcfg
           input  ( device-file "${kbdDevice}" )
           output ( uinput-sink "kmonad-output" )
-          fallthrough false
+          fallthrough true
           )
           ;; ╭─────────────────────────────────────────────────────────╮
           ;; │ SOURCE                                                  │
@@ -62,7 +62,7 @@ in {
 
           ( deflayer main ;; main
 
-          tab    f1    f2   f3   f4   f5   f6   f7   f8   f9    f10   f11     f12    ins    print  XX
+          tab    f1    f2   f3   f4   f5   f6   f7   f8   f9    f10   f11     f12    ins    print  @hardl
 
           grv     1     2    3    4    5    6    7    8    9     0     -       ]     caps
 
@@ -72,7 +72,7 @@ in {
 
           lsft    g   j     m   v     q        y   c     ,    .    w     rsft  up
 
-          @hardl    fn    lmet @at           spc            @altn   _  left    down  rght
+          lalt    fn    lmet @at           spc            @altn   _  left    down  rght
 
           )
           ;; ╭─────────────────────────────────────────────────────────╮
@@ -80,12 +80,12 @@ in {
           ;; ╰─────────────────────────────────────────────────────────╯
           ( deflayer qwerty
 
-          tab   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11    f12   _     _    _
+          esc   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11    f12   _     _    @mainl
           grv   1    2    3    4    5    6    7    8    9    0    -      =     bspc
-          _   q    w    e    r    t    y    u    i    o    p    [      ]     \
-          _   a    s    d    f    g    h    j    k    l    ;    '      ret
-          _    z    x    c    v    b    n    m    ,    .    /    _   _
-          @mainl  fn  lmet @at            spc            @altn rctl left   down  rght
+          tab   q    w    e    r    t    y    u    i    o    p    [      ]     \
+          caps   a    s    d    f    g    h    j    k    l    ;    '      ret
+          lsft    z    x    c    v    b    n    m    ,    .    /    rsft   up
+          lalt  fn  lmet @at            spc            @altn rctl left   down  rght
 
           )
           ;; ╭─────────────────────────────────────────────────────────╮
@@ -103,8 +103,6 @@ in {
           mainl (layer-switch main)
 
           esct (tap-hold-next 250 esc lctl)
-
-          rsftcaps (tap-hold-next 280 caps lsft)
 
           )
 
@@ -136,7 +134,7 @@ in {
 
           _    _    _    _    _    _      _       _       _       _       _       _        _    _
           _    _    _    _    _    _      _       _       7       8       _       .        _    _
-          _    _    _    _    lsft    _      _       1       2       3       4       5    _
+          _    _    _    _    _    _      _       1       2       3       4       5    _
           _    _    _    _    _    _      0       6       _       _    9       _    _
           _    _    _    _              spc                               _    _    _    _    _
 

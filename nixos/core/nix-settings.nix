@@ -8,7 +8,7 @@
     ];
     auto-optimise-store = true;
     max-jobs = "auto";
-    cores = 10;
+    cores = 12;
     substituters = [
       "https://cache.nixos.org"
       "https://nix-community.cachix.org"

@@ -2,6 +2,7 @@
   config,
   pkgs,
   pkgList,
+  lib,
   ...
 }: {
   # Filesystem Sharing Modules
@@ -31,12 +32,18 @@
   # QEMU / KVM & Libvirt Hypervisor
   virtualisation.libvirtd = {
     enable = true;
+    onBoot = "ignore";
+    onShutdown = "shutdown";
     qemu = {
       package = pkgs.qemu_kvm;
       runAsRoot = true;
       swtpm.enable = true;
     };
   };
+
+  # Prevent libvirtd service from starting automatically on boot
+  # (socket activation starts it on demand when virt-manager is launched)
+  systemd.services.libvirtd.wantedBy = lib.mkForce [];
 
   # SPICE USB Passthrough for QEMU/KVM
   virtualisation.spiceUSBRedirection.enable = true;

@@ -8,3 +8,4 @@ nixos/backup
 # Python cache & temporary files
 **/__pycache__/
 *.idk
+.ruff_cache

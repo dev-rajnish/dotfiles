@@ -2,33 +2,41 @@
 font-sans = "JetBrainsMono Nerd Font"
 
 [bar]
-scale = 0.75
-padding = 0.44999998807907104
-layer = "overlay"
+scale = 0.6499999761581421
+padding = 0.10000000149011612
+padding-ends = 0.20000000298023224
+module-gap = 0.25
 bg = "bg-base"
-background-opacity = 69
-shadow = "drop"
-button-variant = "icon-square"
+background-opacity = 90
+button-variant = "basic"
 button-icon-size = 0.75
-button-icon-padding = 1.25
+button-icon-padding = 0.25
 button-label-weight = "medium"
 button-label-padding = 0.25
+button-rounding = "none"
+button-gap = 0.5
+button-border-location = "none"
+button-border-width = 0
 
 [[bar.layout]]
 monitor = "*"
 show = true
 left = ["custom-nixos-launcher", "niri-workspaces", "window-title"]
-center = ["media", "clock", "systray"]
+center = ["media", "clock", "systray", "cava"]
 right = [
+  "network",
   "notifications",
   "custom-cpu-temp",
   "cpu",
-  "network",
   "brightness",
   "battery",
   "volume",
   "power",
 ]
+
+[styling]
+scale = 0.949999988079071
+rounding = "none"
 
 [styling.palette]
 bg = "#16161e"
@@ -42,17 +50,64 @@ yellow = "#e0af68"
 green = "#9ece6a"
 blue = "#7dcfff"
 
+[modules.battery]
+icon-bg-color = "accent"
+label-color = "accent"
+
+[modules.brightness]
+icon-bg-color = "accent-hover"
+label-color = "accent"
+scroll-up = "brightnessctl s 1%+"
+scroll-down = "brightnessctl s 1%-"
+
+[modules.cava]
+style = "peaks"
+bar-width = 4
+bar-gap = 2
+
+[modules.clock]
+format = "%I:%M"
+icon-name = "time-symbolic"
+icon-show = false
+label-color = "status-warning"
+
+[modules.cpu]
+border-color = "accent"
+icon-bg-color = "accent"
+label-color = "accent"
+right-click = "kitty -e btop"
+
+[modules.mango-workspaces]
+app-icons-show = true
+border-show = true
+
+[modules.media]
+border-color = "accent"
+icon-bg-color = "accent"
+label-color = "accent"
+label-max-length = 15
+right-click = "focus:this"
+
 [modules.notifications]
+icon-bg-color = "blue"
+label-color = "blue"
 icon-source = "application"
-popup-position = "bottom-right"
-popup-layer = "background"
 popup-close-behavior = "remove"
 
 [modules.power]
 left-click = "wlogout"
 
 [modules.volume]
+border-color = "accent"
+icon-bg-color = "accent"
+label-color = "accent"
+right-click = "pwvucontrol"
+scroll-up = "pamixer -i 1"
+scroll-down = "pamixer -d 1"
 dropdown-app-icons = "native"
+
+[modules.window-title]
+label-max-length = 30
 
 [[modules.custom]]
 id = "cpu-temp"
@@ -74,7 +129,7 @@ button-bg-color = "bg-surface-elevated"
 border-show = false
 border-color = "auto"
 left-click = ""
-right-click = ""
+right-click = "kitty -e batmon"
 middle-click = ""
 scroll-up = ""
 scroll-down = ""
