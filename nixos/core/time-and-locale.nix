@@ -1,6 +1,13 @@
+# =============================================================================
+#  Timezone & Internationalization (i18n) Configuration
+# =============================================================================
 {
+  # System Timezone
   time.timeZone = "Asia/Kolkata";
 
+  # ---------------------------------------------------------------------------
+  # 🌐 Locale & Regional Preferences
+  # ---------------------------------------------------------------------------
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -16,6 +23,7 @@
     };
   };
 
+  # Global Language Environment Variables
   environment.variables = {
     LANG = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";

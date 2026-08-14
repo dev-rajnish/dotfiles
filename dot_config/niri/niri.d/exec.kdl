@@ -2,6 +2,9 @@
 //  Startup Applications & Autostart Services
 // =============================================================================
 
+// Sync Wayland display variables with D-Bus and systemd for portals & file picker
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "DISPLAY" "XDG_SESSION_TYPE"
+
 // Main autostart script
 spawn-at-startup "brightnessctl" "s" "80%"
 spawn-at-startup "sh" "-c" "~/.config/wm-script/autostart.sh"

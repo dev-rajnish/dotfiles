@@ -1,12 +1,18 @@
+# =============================================================================
+#  Sandboxed FHS Environment & Wrapper Script Generator
+# =============================================================================
 {
   pkgs,
   lib,
   pkgList,
   ...
 }: let
-  # Packages installed inside FHS environment
+  # Packages installed inside FHS sandbox (Rust toolchain, build essentials)
   fhsPackages = (pkgList pkgs).fhs;
 
+  # ---------------------------------------------------------------------------
+  # 1. 📦 FHS Environment Sandbox Definition
+  # ---------------------------------------------------------------------------
   myAppEnv = pkgs.buildFHSEnv {
     name = "fhs-env";
 
@@ -21,7 +27,9 @@
     '';
   };
 
-  # Build FHS wrappers & desktop files
+  # ---------------------------------------------------------------------------
+  # 2. ⚡ Wrapper Generator for FHS Binaries and Desktop Entries
+  # ---------------------------------------------------------------------------
   fhsWrappers = pkgs.runCommand "fhs-env-wrappers" {} ''
         mkdir -p $out/bin $out/libexec/fhs-env $out/share/applications
 
@@ -46,7 +54,7 @@
             done
           fi
 
-          # Rewrite desktop app entries
+          # Rewrite desktop application entries to launch inside FHS
           if [ -d "$pkg/share/applications" ]; then
             for desktop in "$pkg/share/applications"/*.desktop; do
               if [ -f "$desktop" ]; then
@@ -62,6 +70,9 @@
         done
   '';
 in {
+  # ---------------------------------------------------------------------------
+  # 3. 🚀 User Package and PATH Integration
+  # ---------------------------------------------------------------------------
   home.packages = [
     myAppEnv
     fhsWrappers

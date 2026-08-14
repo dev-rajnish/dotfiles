@@ -1,11 +1,17 @@
+# =============================================================================
+#  Virtualization, Container Engines & VM Testing Environment
+# =============================================================================
 {
   config,
   pkgs,
   pkgList,
   lib,
+  username,
   ...
 }: {
-  # Filesystem Sharing Modules
+  # ---------------------------------------------------------------------------
+  # 1. 📁 Kernel Filesystem Sharing Modules
+  # ---------------------------------------------------------------------------
   boot.kernelModules = [
     "virtiofs"
     "9p"
@@ -13,7 +19,9 @@
     "9pnet_virtio"
   ];
 
-  # Podman Container Engine
+  # ---------------------------------------------------------------------------
+  # 2. 🦭 Podman Container Engine (Rootless Docker Replacement)
+  # ---------------------------------------------------------------------------
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
@@ -21,7 +29,9 @@
   };
   virtualisation.containers.enable = true;
 
-  # Waydroid Android Container
+  # ---------------------------------------------------------------------------
+  # 3. 🤖 Waydroid Android Container
+  # ---------------------------------------------------------------------------
   virtualisation.waydroid.enable = true;
   systemd.services.waydroid-container.environment.LXC_USE_NFT = "true";
   virtualisation.waydroid.package =
@@ -29,7 +39,9 @@
     then pkgs.waydroid-nftables
     else pkgs.waydroid;
 
-  # QEMU / KVM & Libvirt Hypervisor
+  # ---------------------------------------------------------------------------
+  # 4. ⚡ QEMU / KVM & Libvirt Hypervisor
+  # ---------------------------------------------------------------------------
   virtualisation.libvirtd = {
     enable = true;
     onBoot = "ignore";
@@ -37,12 +49,12 @@
     qemu = {
       package = pkgs.qemu_kvm;
       runAsRoot = true;
-      swtpm.enable = true;
+      swtpm.enable = true; # Software TPM 2.0 emulator for Windows 11 VMs
     };
   };
 
   # Prevent libvirtd service from starting automatically on boot
-  # (socket activation starts it on demand when virt-manager is launched)
+  # (Socket activation starts it on-demand when virt-manager is launched)
   systemd.services.libvirtd.wantedBy = lib.mkForce [];
 
   # SPICE USB Passthrough for QEMU/KVM
@@ -54,6 +66,18 @@
   # Virtualization Package List
   environment.systemPackages = (pkgList pkgs).virtualization;
 
-  # SPICE Agent for Guest Clipboard
+  # SPICE Guest Clipboard Agent
   services.spice-vdagentd.enable = true;
+
+  # ---------------------------------------------------------------------------
+  # 5. 🧪 VM Testing Configuration (Applied only during `just vm`)
+  # ---------------------------------------------------------------------------
+  virtualisation.vmVariant = {
+    virtualisation = {
+      memorySize = 4096;
+      cores = 4;
+    };
+    # Explicit user password for the test VM instance
+    users.users.${username}.password = "rsh";
+  };
 }

@@ -1,19 +1,22 @@
+# =============================================================================
+#  Out-of-Store Live Config Symlinking (~/.config/*)
+# =============================================================================
 {
   config,
   lib,
   pkgs,
   ...
 }: let
+  # Absolute path to dotfiles/dot_config directory in user's home
   dotConfigPath = "${config.home.homeDirectory}/_ws/dotfiles/dot_config";
 
-  # Read dot_config directory entries
+  # Read all dot_config directory entries from repository
   entries = builtins.readDir ../../dot_config;
 
-  # Filter hidden or temporary files
+  # Filter out temporary / system metadata files
   validEntries = lib.filterAttrs (name: type: name != ".DS_Store" && name != "__pycache__") entries;
 
-  # Symlink dot_config entries to
-  # ~/.config via mkOutOfStoreSymlink
+  # Create out-of-store symlink mapping for each config folder
   mkConfigEntry = name: type: {
     name = name;
     value = {
@@ -21,10 +24,14 @@
     };
   };
 in {
+  # ---------------------------------------------------------------------------
+  # 1. 🔗 Generate Out-of-Store Live Symlinks in ~/.config/
+  # ---------------------------------------------------------------------------
   xdg.configFile = lib.mapAttrs' mkConfigEntry validEntries;
 
-  # Backup existing unmanaged config
-  # folders in ~/.config before linking
+  # ---------------------------------------------------------------------------
+  # 2. 🛡️ Pre-Activation Backup Handler for Unmanaged ~/.config Entries
+  # ---------------------------------------------------------------------------
   home.activation.backupExistingDotConfig = lib.hm.dag.entryBefore ["linkGeneration"] ''
     run mkdir -p "$HOME/.config"
     timestamp=$(date +%Y%m%d-%H%M%S)
@@ -47,6 +54,7 @@ in {
           fi
         fi
 
+        # If existing directory is unmanaged, backup safely with timestamp
         if [ "$is_managed" -eq 0 ]; then
           backup_target="$HOME/.config/$item.hm.backup-$timestamp"
           echo "Backing up unmanaged folder/file $target to $backup_target"

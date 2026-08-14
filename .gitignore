@@ -4,6 +4,8 @@
 **/fish/conf.d/
 **/fish/fish_variables
 nixos/backup
+result
+nixos.*
 
 # Python cache & temporary files
 **/__pycache__/

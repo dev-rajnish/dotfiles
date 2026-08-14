@@ -1,8 +1,12 @@
+# =============================================================================
+#  XDG Default Applications, MIME Handlers & PlainApp Hotspot Helper
+# =============================================================================
 {
   config,
   pkgs,
   ...
 }: let
+  # Default Desktop Application Handlers
   browser = "zen-beta.desktop";
   pdfViewer = "org.pwmt.zathura.desktop";
   fileManager = "pcmanfm-qt.desktop";
@@ -10,7 +14,9 @@
   audioPlayer = "vlc.desktop";
   imageViewer = "imv.desktop";
 
-  # PlainApp PWA Hotspot Script & Launcher
+  # ---------------------------------------------------------------------------
+  # 📱 PlainApp PWA Hotspot Script & Launcher
+  # ---------------------------------------------------------------------------
   plainAppName = "plainapp";
   plainAppScript = pkgs.writeShellScriptBin plainAppName ''
     gateway_ip=$(ip route show | awk '/default/ {print $3}')
@@ -32,13 +38,17 @@
     categories = ["Network" "Utility"];
   };
 in {
+  # ---------------------------------------------------------------------------
+  # 1. 📦 PlainApp Packages
+  # ---------------------------------------------------------------------------
   home.packages = [
     plainAppScript
     plainAppDesktop
   ];
 
-  # Override imv.desktop to unhide
-  # in application launcher
+  # ---------------------------------------------------------------------------
+  # 2. 🖼️ Desktop Entry Overrides (Unhide IMV in Application Launcher)
+  # ---------------------------------------------------------------------------
   xdg.desktopEntries.imv = {
     name = "imv";
     genericName = "Image Viewer";
@@ -62,10 +72,13 @@ in {
     ];
   };
 
+  # ---------------------------------------------------------------------------
+  # 3. 📄 XDG Default MIME Type Associations
+  # ---------------------------------------------------------------------------
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      # Web Browsers
+      # Web Browsers & URL Schemes
       "text/html" = browser;
       "text/xml" = browser;
       "application/xhtml+xml" = browser;
@@ -74,12 +87,12 @@ in {
       "x-scheme-handler/about" = browser;
       "x-scheme-handler/unknown" = browser;
 
-      # PDF & Documents
+      # PDF & Document Viewers
       "application/pdf" = pdfViewer;
       "application/postscript" = pdfViewer;
       "application/epub+zip" = pdfViewer;
 
-      # File Manager
+      # File Manager & Directories
       "inode/directory" = fileManager;
 
       # Video Players
@@ -105,7 +118,7 @@ in {
       "image/webp" = imageViewer;
       "image/svg+xml" = imageViewer;
 
-      # Archive Managers
+      # Archive Handlers
       "application/zip" = fileManager;
       "application/x-tar" = fileManager;
       "application/x-gzip" = fileManager;

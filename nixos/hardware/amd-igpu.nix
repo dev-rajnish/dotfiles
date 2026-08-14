@@ -1,19 +1,35 @@
+# =============================================================================
+#  AMD GPU Drivers, Hardware Acceleration & Display Flicker Fix
+# =============================================================================
 {
   config,
   lib,
   pkgs,
   ...
 }: {
-  # 1. Force early kernel mode setting for AMD GPU
+  # ---------------------------------------------------------------------------
+  # 1. 🚀 Early Kernel Mode Setting (KMS) for AMD GPU
+  # ---------------------------------------------------------------------------
   boot.initrd.kernelModules = ["amdgpu"];
 
-  # 2. Specify AMD GPU video driver
+  # ---------------------------------------------------------------------------
+  # 2. ⚡ Disable Panel Self Refresh (PSR) on eDP to prevent screen flickering
+  # ---------------------------------------------------------------------------
+  boot.kernelParams = [
+    "amdgpu.dcdebugmask=0x10"
+  ];
+
+  # ---------------------------------------------------------------------------
+  # 3. 🖥️ Video Drivers
+  # ---------------------------------------------------------------------------
   services.xserver.videoDrivers = ["amdgpu"];
 
-  # 3. Enable Hardware Graphics Acceleration & 32-bit support (Steam/Wine)
+  # ---------------------------------------------------------------------------
+  # 4. 🎮 Hardware Graphics Acceleration & 32-bit Support (Steam/Wine)
+  # ---------------------------------------------------------------------------
   hardware.graphics = {
     enable = true;
-    enable32Bit = true; # Enables 32-bit graphics acceleration for Steam/Wine
+    enable32Bit = true; # 32-bit graphics acceleration for Wine & Steam
     extraPackages = with pkgs; [
       libva
       libvdpau-va-gl

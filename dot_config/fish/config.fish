@@ -28,7 +28,9 @@ if status is-interactive
     if type -q direnv
         direnv hook fish | source
     end
-
+    if type -q just
+        JUST_COMPLETE=fish just | source
+    end
 end
 
 # Added by Antigravity CLI installer

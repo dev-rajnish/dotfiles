@@ -2,7 +2,7 @@
 font-sans = "JetBrainsMono Nerd Font"
 
 [bar]
-scale = 0.6499999761581421
+scale = 0.75
 padding = 0.10000000149011612
 padding-ends = 0.20000000298023224
 module-gap = 0.25
@@ -108,6 +108,7 @@ dropdown-app-icons = "native"
 
 [modules.window-title]
 label-max-length = 30
+left-click = "niri msg action close-window"
 
 [[modules.custom]]
 id = "cpu-temp"

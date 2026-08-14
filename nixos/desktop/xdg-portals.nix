@@ -1,29 +1,46 @@
-{pkgs, ...}: {
-  # XDG Desktop Portals Configuration
+# =============================================================================
+#  XDG Desktop Portals Configuration (Wayland Desktop Integration)
+# =============================================================================
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  # ---------------------------------------------------------------------------
+  # 1. 🪟 XDG Desktop Portals Engine
+  # ---------------------------------------------------------------------------
   xdg.portal = {
     enable = true;
-    wlr.enable = false; # Gnome portal used for Niri
+    wlr.enable = false; # GNOME portal backend used for Niri
+
+    # Desktop portal backends
     extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
       xdg-desktop-portal-gtk
+      xdg-desktop-portal-gnome
     ];
+
+    # Portal routing rules for Niri Wayland Compositor
     config = {
       common = {
-        default = ["gnome" "gtk"];
-        "org.freedesktop.impl.portal.Screencast" = "gnome";
-        "org.freedesktop.impl.portal.Screenshot" = "gnome";
-        "org.freedesktop.impl.portal.FileChooser" = "gtk";
+        default = lib.mkDefault ["gtk"];
       };
       niri = {
-        default = ["gnome" "gtk"];
-        "org.freedesktop.impl.portal.Screencast" = "gnome";
+        default = lib.mkForce ["gnome" "gtk"];
+        # Screen casting & recording via GNOME portal backend
+        "org.freedesktop.impl.portal.ScreenCast" = "gnome";
         "org.freedesktop.impl.portal.Screenshot" = "gnome";
+        # Dialogs, Pickers & App settings via GTK portal backend
         "org.freedesktop.impl.portal.FileChooser" = "gtk";
+        "org.freedesktop.impl.portal.OpenURI" = "gtk";
+        "org.freedesktop.impl.portal.AppChooser" = "gtk";
+        "org.freedesktop.impl.portal.Settings" = "gtk";
       };
     };
   };
 
-  # Portal Utilities
+  # ---------------------------------------------------------------------------
+  # 2. 🧰 Portal Command-Line Utilities
+  # ---------------------------------------------------------------------------
   environment.systemPackages = with pkgs; [
     xdg-utils
   ];

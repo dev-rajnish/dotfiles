@@ -1,56 +1,49 @@
 # Package Single Source of Truth
-# Accepts pkgs and returns categorized
-# package lists for NixOS & Home Manager.
-pkgs: {
-  # Core System & Hardware Utilities
+# Categorized package lists for NixOS System & Home Manager.
+pkgs: rec {
+  # ---------------------------------------------------------------------------
+  # 1. ❄️ System-Wide Core Packages (NixOS Level)
+  # ---------------------------------------------------------------------------
   systemCore = with pkgs; [
-    # Core CLI & Build Tools
-    fish
-    alejandra
     curl
-    gcc
     git
     home-manager
-    starship
+    just
     unzip
     wget
-
-    # Android & Device Tools
-    android-tools
-
-    # Hardware & Performance Monitors
-    alsa-utils
-    pwvucontrol
-    poptop
-    radeontop
-    usbtop
-
-    # Wayland & System Helpers
     seatd
     xwayland-satellite
   ];
 
-  # Virtualization & Container Tools
+  # ---------------------------------------------------------------------------
+  # 2. 📦 Virtualization & Container Tools
+  # ---------------------------------------------------------------------------
   virtualization = with pkgs; [
-    # QEMU & Libvirt Helpers
-    virt-viewer
-    virtiofsd # VirtioFS host-guest sharing
-
-    # USB Passthrough Utilities
-    usbutils
-    usbredir
-
-    # Container Tools
     distrobox
+    usbredir
+    usbutils
+    virt-viewer
+    virtiofsd
   ];
 
-  # User CLI Utilities & Shell Tools
+  # ---------------------------------------------------------------------------
+  # 3. 💻 User CLI Utilities & Editors (Home Manager -> hmPackages)
+  # ---------------------------------------------------------------------------
   cli = with pkgs; [
-    # System & Hardware Monitors
+    # Core Editors, Fuzzy Finders & File Managers
+    neovim
+    yazi
+    fzf
+    tree-sitter
+    luajit
+
+    # System, Hardware & GPU Monitors
+    alsa-utils
     batmon
     btop-rocm
     duf
     dust
+    fastfetch
     ftop
     htop
     lm_sensors
@@ -58,11 +51,16 @@ pkgs: {
     nerdfetch
     pciutils
     pfetch
-    ttop
+    poptop
     powertop
-    fastfetch
+    radeontop
+    ttop
+    usbtop
 
-    # File Search & Text Utilities
+    # Device & Hardware Tools
+    android-tools
+
+    # File, Search & Text Utilities
     bat
     choose
     eza
@@ -72,16 +70,21 @@ pkgs: {
     stow
     zoxide
 
-    # Development & Network Tools
+    # Development, Shell & Network Tools
+    alejandra
     cloudflared
     delta
     difftastic
     entr
     exercism
+    fish
     fossil
     fsel
+    gcc
+    gh
     httpie
     nushell
+    python3
     tldr
     wrangler
 
@@ -97,25 +100,33 @@ pkgs: {
     toilet
     zellij
 
-    # Media & Capture Utilities
+    # CLI Media Tools
     gpu-screen-recorder
     imv
   ];
 
-  # User GUI Applications
+  # ---------------------------------------------------------------------------
+  # 4. 🖥️ User GUI Applications & Editors (Home Manager -> hmPackages)
+  # ---------------------------------------------------------------------------
   gui = with pkgs; [
+    # GUI Code Editors
+    zed-editor
+
     # Web Browsers
     chromium
     firefox-esr
-    firefoxpwa
-    librewolf-bin
     qutebrowser
 
-    # Desktop Utilities
+    # Desktop Utilities & Volume Controls
     kitty
     nwg-displays
     pcmanfm-qt
     process-viewer
+    pwvucontrol
+
+    # Qt Platform Themes (qt5ct & qt6ct)
+    libsForQt5.qt5ct
+    qt6Packages.qt6ct
 
     # Media & Document Readers
     calibre
@@ -126,26 +137,28 @@ pkgs: {
     zathura
   ];
 
-  # Desktop Environment & Wayland Tools
+  # ---------------------------------------------------------------------------
+  # 5. 🪟 Desktop Environment & Wayland Tools (Home Manager -> hmPackages)
+  # ---------------------------------------------------------------------------
   windowManager = with pkgs; [
     # Launchers & Wallpaper Tools
     fuzzel
+    mpvpaper
     swaybg
     wallust
     waypaper
-    mpvpaper
 
-    # Audio & Brightness Controls
+    # Hardware & Audio Controls
     brightnessctl
     pamixer
     playerctl
 
-    # Lock & Session Management
+    # Lock, Idle & Session Management
     swayidle
     swaylock-effects
     wlogout
 
-    # Notifications & Bars
+    # Notifications & Status Bars
     libnotify
     swaynotificationcenter
     waybar
@@ -153,25 +166,94 @@ pkgs: {
 
     # Clipboard & Screen Capture
     cliphist
-    nwg-clipman
-    wl-clipboard
     grim
+    nwg-clipman
     slurp
     wev
+    wl-clipboard
   ];
 
-  # FHS Environment Packages
+  # ---------------------------------------------------------------------------
+  # 6. 🛠️ FHS Environment (Sandboxed Rust Toolchains & C Build Essentials)
+  # ---------------------------------------------------------------------------
   fhs = with pkgs; [
-    neovim
-    fzf
-    yazi
-    tree-sitter
-    luajit
-    rustc
-    rustup
+    # Rust Toolchain & SDKs
     cargo
-    rustlings
     rust-analyzer
-    zed-editor
+    rustc
+    rustlings
+    rustup
+
+    # Standard Build Tools & C Headers for Cargo C-bindings
+    cmake
+    gcc
+    glibc.dev
+    gnumake
+    libxml2.dev
+    openssl.dev
+    pkg-config
+    zlib.dev
   ];
+
+  # ---------------------------------------------------------------------------
+  # 7. 🔗 nix-ld Runtime Shared Libraries (Unpatched Host Binaries)
+  # ---------------------------------------------------------------------------
+  nixLd = with pkgs; [
+    # C/C++ & Core Runtimes
+    bzip2
+    glibc
+    stdenv.cc.cc.lib
+    xz
+    zlib
+    zstd
+
+    # System & Utilities
+    icu
+    libxml2
+    systemd
+    util-linux
+
+    # Security & Crypto
+    libkrb5
+    libpsl
+    openssl
+
+    # Network & Transfer
+    curl
+    nghttp2
+
+    # GLib & Desktop Foundations
+    dbus
+    glib
+    libffi
+
+    # Graphics, Rendering & Wayland
+    libGL
+    libglvnd
+    libxkbcommon
+    mesa
+    vulkan-loader
+    wayland
+
+    # Audio
+    alsa-lib
+    libpulseaudio
+
+    # X11 Top-Level Libraries
+    libX11
+    libXcursor
+    libXext
+    libXfixes
+    libXi
+    libXinerama
+    libXrandr
+    libXrender
+    libXtst
+    libxcb
+  ];
+
+  # ---------------------------------------------------------------------------
+  # 8. 🌟 Consolidated Home Manager User Packages
+  # ---------------------------------------------------------------------------
+  hmPackages = cli ++ gui ++ windowManager;
 }
