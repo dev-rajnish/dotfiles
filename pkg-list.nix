@@ -162,9 +162,11 @@ pkgs: rec {
 
     # Notifications & Status Bars
     libnotify
-    swaynotificationcenter
-    waybar
     wayle
+
+    #swaynotificationcenter
+    #waybar
+    
 
     # Clipboard & Screen Capture
     cliphist

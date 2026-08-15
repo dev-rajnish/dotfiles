@@ -1,4 +1,4 @@
-function set_color_scheme
+function colors
     # =========================================================================
     # Tokyo Night (Night / Storm) Color Scheme for Fish Shell
     # =========================================================================

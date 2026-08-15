@@ -3,7 +3,7 @@
  * Location: ~/.config/wlogout/style.css
  * ============================================================================= */
 
-@import url("tokyo-night.css");
+@import url("colors.css");
 
 * {
   background-image: none;

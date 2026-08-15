@@ -3,7 +3,7 @@
  * Location: ~/.config/swaync/style.css
  * ============================================================================= */
 
-@import url("tokyo-night.css");
+@import url("colors.css");
 
 * {
   font-family: "Inter", "Roboto", "Ubuntu", "DejaVu Sans", sans-serif;

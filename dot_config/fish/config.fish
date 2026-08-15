@@ -3,7 +3,7 @@ if status is-interactive
     my_alias
     my_var
     my_path
-    set_color_scheme
+    colors
 
     if test -f ~/.config/fish/functions/dev_env.fish
         dev_env
