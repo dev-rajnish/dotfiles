@@ -1,0 +1,137 @@
+# =============================================================================
+#  💫 Starship Sleek Tokyo Night Prompt Configuration
+# =============================================================================
+
+# Add a blank line between shell commands for clean readability
+add_newline = true
+
+# -----------------------------------------------------------------------------
+# 📐 Prompt Layout Blueprint
+# -----------------------------------------------------------------------------
+format = """
+$directory$git_branch$git_status$nix_shell$rust$python$nodejs$cmd_duration
+$character"""
+
+# Right-aligned prompt (clean dim time display)
+right_format = """$time"""
+
+# -----------------------------------------------------------------------------
+# 🎨 Palette Definition (Tokyo Night Theme)
+# -----------------------------------------------------------------------------
+palette = "tokyo_night"
+
+[palettes.tokyo_night]
+bg_dark = "#1a1b26"
+bg_light = "#24283b"
+fg_text = "#c0caf5"
+fg_dim = "#565f89"
+blue = "#7aa2f7"
+cyan = "#7dcfff"
+purple = "#bb9af7"
+magenta = "#bb9af7"
+green = "#9ece6a"
+yellow = "#e0af68"
+orange = "#ff9e64"
+red = "#f7768e"
+
+# -----------------------------------------------------------------------------
+# ⚡ Character (Prompt Symbol & States)
+# -----------------------------------------------------------------------------
+[character]
+success_symbol = "[❯](bold purple)"
+error_symbol = "[❯](bold red)"
+vicmd_symbol = "[❮](bold yellow)"
+
+# -----------------------------------------------------------------------------
+# 📁 Directory Module
+# -----------------------------------------------------------------------------
+[directory]
+truncation_length = 3
+truncation_symbol = "…/"
+home_symbol = "󰋜 ~"
+read_only = " 󰌾"
+read_only_style = "red"
+style = "bold cyan"
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[directory.substitutions]
+"Documents" = "󰈙 Documents"
+"Downloads" = " Downloads"
+"Music" = " Music"
+"Pictures" = " Pictures"
+"_ws" = "󰲋 _ws"
+"dotfiles" = "󱄅 dotfiles"
+
+# -----------------------------------------------------------------------------
+# 🌿 Git Modules (Branch & Status)
+# -----------------------------------------------------------------------------
+[git_branch]
+symbol = " "
+style = "bold purple"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "bold yellow"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "󰞇 "
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?${count} "
+stashed = "󰏗 "
+modified = "!${count} "
+staged = "+${count} "
+renamed = "»${count} "
+deleted = "✘${count} "
+
+# -----------------------------------------------------------------------------
+# ❄️ NixOS Shell Indicator
+# -----------------------------------------------------------------------------
+[nix_shell]
+symbol = " "
+style = "bold blue"
+format = "via [$symbol$state( \\($name\\))]($style) "
+impure_msg = "impure"
+pure_msg = "pure"
+
+# -----------------------------------------------------------------------------
+# 🦀 Rust Toolchain Module
+# -----------------------------------------------------------------------------
+[rust]
+symbol = "🦀 "
+style = "bold orange"
+format = "via [$symbol($version)]($style) "
+
+# -----------------------------------------------------------------------------
+# 🐍 Python Environment Module
+# -----------------------------------------------------------------------------
+[python]
+symbol = "🐍 "
+style = "bold yellow"
+pyenv_prefix = "venv "
+format = "via [${symbol}${pyenv_prefix}(${version} )(\\($virtualenv\\))]($style) "
+
+# -----------------------------------------------------------------------------
+#  Node.js Module
+# -----------------------------------------------------------------------------
+[nodejs]
+symbol = "󰎙 "
+style = "bold green"
+format = "via [$symbol($version)]($style) "
+
+# -----------------------------------------------------------------------------
+# ⏱️ Command Execution Duration
+# -----------------------------------------------------------------------------
+[cmd_duration]
+min_time = 2_000
+style = "bold yellow"
+format = "took [󱎫 $duration]($style) "
+
+# -----------------------------------------------------------------------------
+# 🕒 Time Display (Right Prompt)
+# -----------------------------------------------------------------------------
+[time]
+disabled = false
+time_format = "%R"
+style = "fg_dim"
+format = "[$time]($style)"

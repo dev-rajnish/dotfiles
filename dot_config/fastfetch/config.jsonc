@@ -1,0 +1,113 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "kitty",
+    "source": "~/.config/fastfetch/Miku.png",
+    "height": 18,
+    "padding": {
+      "top": 1,
+      "left": 1,
+      "right": 3
+    }
+  },
+  "display": {
+    "separator": " 󰄾 ",
+    "percent": {
+      "type": 3
+    }
+  },
+  "modules": [
+    {
+      "type": "title",
+      "format": "{user-name-colored}{at-symbol-colored}{host-name-colored}"
+    },
+    {
+      "type": "separator",
+      "string": "─"
+    },
+    {
+      "type": "os",
+      "key": " OS        ",
+      "keyColor": "blue"
+    },
+    {
+      "type": "kernel",
+      "key": " Kernel    ",
+      "keyColor": "blue"
+    },
+    {
+      "type": "uptime",
+      "key": "󰅐 Uptime    ",
+      "keyColor": "blue"
+    },
+    {
+      "type": "packages",
+      "key": "󰏖 Packages  ",
+      "keyColor": "blue"
+    },
+    {
+      "type": "break"
+    },
+    {
+      "type": "wm",
+      "key": " Compositor",
+      "keyColor": "magenta"
+    },
+    {
+      "type": "terminal",
+      "key": " Terminal  ",
+      "keyColor": "magenta"
+    },
+    {
+      "type": "shell",
+      "key": "󰞷 Shell     ",
+      "keyColor": "magenta"
+    },
+    {
+      "type": "break"
+    },
+    {
+      "type": "host",
+      "key": "󰌢 Machine   ",
+      "keyColor": "cyan"
+    },
+    {
+      "type": "cpu",
+      "key": "󰍛 CPU       ",
+      "keyColor": "cyan"
+    },
+    {
+      "type": "gpu",
+      "key": "󰢮 GPU       ",
+      "keyColor": "cyan"
+    },
+    {
+      "type": "memory",
+      "key": "󰑭 Memory    ",
+      "keyColor": "cyan"
+    },
+    {
+      "type": "swap",
+      "key": "󰿠 ZRAM      ",
+      "keyColor": "cyan"
+    },
+    {
+      "type": "disk",
+      "key": "󰋊 Disk      ",
+      "keyColor": "cyan",
+      "folders": "/"
+    },
+    {
+      "type": "battery",
+      "key": "󰁹 Battery   ",
+      "keyColor": "green"
+    },
+    {
+      "type": "break"
+    },
+    {
+      "type": "colors",
+      "symbol": "square"
+    }
+  ]
+}

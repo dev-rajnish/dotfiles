@@ -13,10 +13,12 @@
   boot.initrd.kernelModules = ["amdgpu"];
 
   # ---------------------------------------------------------------------------
-  # 2. ⚡ Disable Panel Self Refresh (PSR) on eDP to prevent screen flickering
+  # 2. ⚡ Display Flicker & Green Flash Fixes (PSR, SubVP, Scatter-Gather, ABM)
   # ---------------------------------------------------------------------------
   boot.kernelParams = [
-    "amdgpu.dcdebugmask=0x10"
+    "amdgpu.sg_display=0" # Fix green frame drops by forcing contiguous VRAM buffer on APUs
+    "amdgpu.dcdebugmask=0x410" # Disable PSR (0x10) + SubVP memory clock transition hitching (0x400)
+    "amdgpu.abmlevel=0" # Disable adaptive backlight contrast shifts to prevent panel flicker
   ];
 
   # ---------------------------------------------------------------------------

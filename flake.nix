@@ -116,7 +116,7 @@
         home-manager.nixosModules.home-manager
         {
           home-manager = {
-            useGlobalPkgs = false;
+            useGlobalPkgs = true;
             useUserPackages = true;
             backupFileExtension = "backup";
             sharedModules = [stylix.homeModules.stylix];

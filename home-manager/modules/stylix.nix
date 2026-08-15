@@ -33,7 +33,7 @@
     icons = {
       enable = true;
       package = pkgs.tela-circle-icon-theme;
-      dark = "Tela-circle";
+      dark = "Tela-circle-dark";
       light = "Tela-circle-light";
     };
 

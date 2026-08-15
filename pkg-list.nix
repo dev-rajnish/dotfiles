@@ -49,6 +49,7 @@ pkgs: rec {
     lm_sensors
     ncdu
     nerdfetch
+    onefetch
     pciutils
     pfetch
     poptop
@@ -125,8 +126,8 @@ pkgs: rec {
     pwvucontrol
 
     # Qt Platform Themes (qt5ct & qt6ct)
-    libsForQt5.qt5ct
-    qt6Packages.qt6ct
+    # libsForQt5.qt5ct
+    # qt6Packages.qt6ct
 
     # Media & Document Readers
     calibre

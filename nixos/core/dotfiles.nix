@@ -1,37 +1,43 @@
 # =============================================================================
 #  Fresh Install & VM Dotfiles Automatic Initialization
 # =============================================================================
-{username, ...}: let
-  # Captures the entire dotfiles repository from the flake root into the Nix store
-  dotfilesSrc = ../../.;
+{
+  username,
+  self ? null,
+  ...
+}: let
   userHome = "/home/${username}";
   targetDir = "${userHome}/_ws/dotfiles";
+  flakeSrc =
+    if self != null
+    then "${self.outPath}"
+    else "";
 in {
   # ---------------------------------------------------------------------------
-  # 🚀 System Activation Script: Bootstrap Full Dotfiles Repo
+  # 🚀 System Activation Script: Bootstrap Full Dotfiles Repo on the fly
   # ---------------------------------------------------------------------------
   system.activationScripts.initDotfiles = {
     text = ''
       TARGET_DIR="${targetDir}"
       USER_NAME="${username}"
       USER_HOME="${userHome}"
+      FLAKE_SRC="${flakeSrc}"
 
       # Ensure base workspace parent directory exists
       mkdir -p "$USER_HOME/_ws"
 
-      # If dotfiles directory does not exist, initialize it with full repository from Nix store
-      if [ ! -d "$TARGET_DIR" ]; then
-        echo ":: Initializing full dotfiles repository from Nix store to $TARGET_DIR..."
+      # If dotfiles directory does not exist, initialize it with running flake source
+      if [ ! -d "$TARGET_DIR" ] && [ -n "$FLAKE_SRC" ] && [ -d "$FLAKE_SRC" ]; then
+        echo ":: Initializing dotfiles repository to $TARGET_DIR..."
         mkdir -p "$TARGET_DIR"
-        cp -rn ${dotfilesSrc}/. "$TARGET_DIR/" || true
-      else
-        # Copy any missing files/directories without overwriting existing working copies
-        cp -rn ${dotfilesSrc}/. "$TARGET_DIR/" 2>/dev/null || true
+        cp -rn "$FLAKE_SRC"/. "$TARGET_DIR/" 2>/dev/null || true
       fi
 
       # Ensure user ownership and write permissions for out-of-store editing
-      chown -R "$USER_NAME":users "$USER_HOME/_ws"
-      chmod -R u+rwX "$USER_HOME/_ws"
+      if [ -d "$USER_HOME/_ws" ]; then
+        chown -R "$USER_NAME":users "$USER_HOME/_ws"
+        chmod -R u+rwX "$USER_HOME/_ws"
+      fi
     '';
   };
 }
