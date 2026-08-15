@@ -19,6 +19,7 @@
   programs = {
     # Home Manager self-management
     home-manager.enable = true;
+    nix-index.enable = true;
 
     # Bash compatibility
     bash.enable = true;

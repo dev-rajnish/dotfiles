@@ -25,12 +25,12 @@
   };
 in {
   # ---------------------------------------------------------------------------
-  # 1. 🔗 Generate Out-of-Store Live Symlinks in ~/.config/
+  # 🔗 Generate Out-of-Store Live Symlinks in ~/.config/
   # ---------------------------------------------------------------------------
   xdg.configFile = lib.mapAttrs' mkConfigEntry validEntries;
 
   # ---------------------------------------------------------------------------
-  # 2. 🛡️ Pre-Activation Backup Handler for Unmanaged ~/.config Entries
+  # 🛡️ Pre-Activation Backup Handler for Unmanaged ~/.config Entries
   # ---------------------------------------------------------------------------
   home.activation.backupExistingDotConfig = lib.hm.dag.entryBefore ["linkGeneration"] ''
     run mkdir -p "$HOME/.config"

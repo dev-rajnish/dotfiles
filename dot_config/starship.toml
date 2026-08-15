@@ -10,7 +10,7 @@ add_newline = true
 # -----------------------------------------------------------------------------
 format = """
 $directory$git_branch$git_status$nix_shell$rust$python$nodejs$cmd_duration
-$character"""
+${env_var.CONTAINER_ID}$character"""
 
 # Right-aligned prompt (clean dim time display)
 right_format = """$time"""
@@ -35,12 +35,21 @@ orange = "#ff9e64"
 red = "#f7768e"
 
 # -----------------------------------------------------------------------------
+# 📦 Distrobox / Container Indicator ($CONTAINER_ID)
+# -----------------------------------------------------------------------------
+[env_var.CONTAINER_ID]
+variable = "CONTAINER_ID"
+format = "[$symbol$env_value]($style) "
+style = "bold blue"
+symbol = "󰏖 "
+
+# -----------------------------------------------------------------------------
 # ⚡ Character (Prompt Symbol & States)
 # -----------------------------------------------------------------------------
 [character]
-success_symbol = "[❯](bold purple)"
-error_symbol = "[❯](bold red)"
-vicmd_symbol = "[❮](bold yellow)"
+success_symbol = "[➜](bold purple)"
+error_symbol = "[➜](bold red)"
+vicmd_symbol = "[⬅](bold yellow)"
 
 # -----------------------------------------------------------------------------
 # 📁 Directory Module

@@ -2,6 +2,12 @@ function my_var
     set -Ux FISH_VAR "set from function"
     set -Ux FASTBOOT "fastboot -S 32K"
 
+    # Default Editor
+    if type -q nvim
+        set -gx EDITOR nvim
+        set -gx VISUAL nvim
+    end
+
     # Pfetch Minimalist Customization (Custom Anime ASCII & Tokyo Night Theme)
     set -gx PF_INFO "ascii title os host kernel uptime pkgs memory wm shell palette"
     set -gx PF_CUSTOM_ASCII "$HOME/.config/pfetch/ascii.txt"

@@ -1,0 +1,21 @@
+# =============================================================================
+#  Glow Terminal Markdown Renderer Configuration
+# =============================================================================
+
+# Style name, builtin style, or absolute path to a JSON theme file
+style: "/home/rsh/.config/glow/colors.json"
+
+# Show local files only; no network
+local: true
+
+# Mouse support (scroll wheel, clicking in TUI)
+mouse: true
+
+# Word-wrap line width (0 to disable wrapping)
+width: 100
+
+# Display with pager
+pager: false
+
+# Preserve newlines in output
+preserveNewLines: false

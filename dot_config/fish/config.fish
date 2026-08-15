@@ -4,6 +4,7 @@ if status is-interactive
     my_var
     my_path
     colors
+    distrobox_aliases
 
     if test -f ~/.config/fish/functions/dev_env.fish
         dev_env
