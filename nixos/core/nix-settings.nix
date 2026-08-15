@@ -6,7 +6,7 @@
   nixpkgs.hostPlatform = system;
 
   # ---------------------------------------------------------------------------
-  # 1. ⚙️ Nix Settings & Performance Flags
+  # ⚙️ Nix Settings & Performance Flags
   # ---------------------------------------------------------------------------
   nix.settings = {
     # Enable modern Nix Command and Flakes features
@@ -38,7 +38,7 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 2. 🧹 Automatic Store Garbage Collection
+  # 🧹 Automatic Store Garbage Collection
   # ---------------------------------------------------------------------------
   nix.gc = {
     automatic = true;

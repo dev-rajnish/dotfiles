@@ -7,7 +7,7 @@
   ...
 }: {
   # ---------------------------------------------------------------------------
-  # 1. 🪟 XDG Desktop Portals Engine
+  # 🪟 XDG Desktop Portals Engine
   # ---------------------------------------------------------------------------
   xdg.portal = {
     enable = true;
@@ -39,7 +39,7 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 2. 🧰 Portal Command-Line Utilities
+  # 🧰 Portal Command-Line Utilities
   # ---------------------------------------------------------------------------
   environment.systemPackages = with pkgs; [
     xdg-utils

@@ -8,12 +8,12 @@
   ...
 }: {
   # ---------------------------------------------------------------------------
-  # 1. 🚀 Early Kernel Mode Setting (KMS) for AMD GPU
+  # 🚀 Early Kernel Mode Setting (KMS) for AMD GPU
   # ---------------------------------------------------------------------------
   boot.initrd.kernelModules = ["amdgpu"];
 
   # ---------------------------------------------------------------------------
-  # 2. ⚡ Display Flicker & Green Flash Fixes (PSR, SubVP, Scatter-Gather, ABM)
+  # ⚡ Display Flicker & Green Flash Fixes (PSR, SubVP, Scatter-Gather, ABM)
   # ---------------------------------------------------------------------------
   boot.kernelParams = [
     "amdgpu.sg_display=0" # Fix green frame drops by forcing contiguous VRAM buffer on APUs
@@ -22,12 +22,12 @@
   ];
 
   # ---------------------------------------------------------------------------
-  # 3. 🖥️ Video Drivers
+  # 🖥️ Video Drivers
   # ---------------------------------------------------------------------------
   services.xserver.videoDrivers = ["amdgpu"];
 
   # ---------------------------------------------------------------------------
-  # 4. 🎮 Hardware Graphics Acceleration & 32-bit Support (Steam/Wine)
+  # 🎮 Hardware Graphics Acceleration & 32-bit Support (Steam/Wine)
   # ---------------------------------------------------------------------------
   hardware.graphics = {
     enable = true;

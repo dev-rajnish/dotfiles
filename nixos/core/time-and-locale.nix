@@ -8,6 +8,13 @@
   # ---------------------------------------------------------------------------
   # 🌐 Locale & Regional Preferences
   # ---------------------------------------------------------------------------
+  # Global Language Environment Variables
+  environment.variables = {
+    LANG = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
+  };
+
+  # Regional
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -21,11 +28,5 @@
       LC_TELEPHONE = "en_IN";
       LC_TIME = "en_IN";
     };
-  };
-
-  # Global Language Environment Variables
-  environment.variables = {
-    LANG = "en_US.UTF-8";
-    LC_ALL = "en_US.UTF-8";
   };
 }

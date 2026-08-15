@@ -2,7 +2,7 @@
 # Categorized package lists for NixOS System & Home Manager.
 pkgs: rec {
   # ---------------------------------------------------------------------------
-  # 1. ❄️ System-Wide Core Packages (NixOS Level)
+  # ❄️ System-Wide Core Packages (NixOS Level)
   # ---------------------------------------------------------------------------
   systemCore = with pkgs; [
     curl
@@ -16,7 +16,7 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 2. 📦 Virtualization & Container Tools
+  # 📦 Virtualization & Container Tools
   # ---------------------------------------------------------------------------
   virtualization = with pkgs; [
     distrobox
@@ -27,7 +27,7 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 3. 💻 User CLI Utilities & Editors (Home Manager -> hmPackages)
+  # 💻 User CLI Utilities & Editors (Home Manager -> hmPackages)
   # ---------------------------------------------------------------------------
   cli = with pkgs; [
     # Core Editors, Fuzzy Finders & File Managers
@@ -108,7 +108,7 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 4. 🖥️ User GUI Applications & Editors (Home Manager -> hmPackages)
+  # 🖥️ User GUI Applications & Editors (Home Manager -> hmPackages)
   # ---------------------------------------------------------------------------
   gui = with pkgs; [
     # GUI Code Editors
@@ -140,7 +140,7 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 5. 🪟 Desktop Environment & Wayland Tools (Home Manager -> hmPackages)
+  # 🪟 Desktop Environment & Wayland Tools (Home Manager -> hmPackages)
   # ---------------------------------------------------------------------------
   windowManager = with pkgs; [
     # Launchers & Wallpaper Tools
@@ -176,7 +176,7 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 6. 🛠️ FHS Environment (Sandboxed Rust Toolchains & C Build Essentials)
+  # 🛠️ FHS Environment (Sandboxed Rust Toolchains & C Build Essentials)
   # ---------------------------------------------------------------------------
   fhs = with pkgs; [
     # Rust Toolchain & SDKs
@@ -198,7 +198,7 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 7. 🔗 nix-ld Runtime Shared Libraries (Unpatched Host Binaries)
+  # 🔗 nix-ld Runtime Shared Libraries (Unpatched Host Binaries)
   # ---------------------------------------------------------------------------
   nixLd = with pkgs; [
     # C/C++ & Core Runtimes
@@ -255,7 +255,24 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 8. 🌟 Consolidated Home Manager User Packages
+  # 🔤 System, Desktop & Developer Nerd Fonts
+  # ---------------------------------------------------------------------------
+  fonts = with pkgs; [
+    # Developer Nerd Fonts
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
+    nerd-fonts.victor-mono
+
+    # General & Emoji Fonts
+    noto-fonts
+    noto-fonts-color-emoji
+    font-awesome
+  ];
+
+  # ---------------------------------------------------------------------------
+  # 🌟 Consolidated Home Manager User Packages
   # ---------------------------------------------------------------------------
   hmPackages = cli ++ gui ++ windowManager;
 }

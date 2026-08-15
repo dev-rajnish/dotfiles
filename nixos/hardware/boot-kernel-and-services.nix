@@ -1,5 +1,5 @@
 # =============================================================================
-#  Bootloader, Kernel, Audio, Power & System Services
+#  Bootloader, Kernel, Audio, Console Typography & Core System Services
 # =============================================================================
 {
   pkgs,
@@ -7,7 +7,7 @@
   ...
 }: {
   # ---------------------------------------------------------------------------
-  # 1. 🚀 Bootloader & Kernel Configuration
+  # 🚀 Bootloader & Kernel Configuration
   # ---------------------------------------------------------------------------
   boot = {
     loader = {
@@ -26,7 +26,16 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 2. ⚡ ZRAM Memory Swap Compression
+  # 🖥️ Linux Virtual Console / TTY Typography
+  # ---------------------------------------------------------------------------
+  console = {
+    enable = true;
+    packages = [pkgs.terminus_font];
+    font = "ter-v32n"; # Large HiDPI Terminus bitmap font for crisp early boot console
+  };
+
+  # ---------------------------------------------------------------------------
+  # ⚡ ZRAM Memory Swap Compression
   # ---------------------------------------------------------------------------
   zramSwap = {
     enable = true;
@@ -35,12 +44,12 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 3. 🎯 Realtime Privileges (rtkit)
+  # 🎯 Realtime Privileges (rtkit)
   # ---------------------------------------------------------------------------
   security.rtkit.enable = true;
 
   # ---------------------------------------------------------------------------
-  # 4. 🧰 Hardware Services & Display Server
+  # 🧰 Hardware Services & Display Server
   # ---------------------------------------------------------------------------
   services = {
     # Libinput touchpad & pointer driver
@@ -53,18 +62,6 @@
         layout = "us";
         variant = "";
       };
-    };
-
-    # Console Display (KMSCon)
-    kmscon = {
-      enable = false;
-      fonts = [
-        {
-          name = "JetBrains Mono";
-          package = pkgs.jetbrains-mono;
-        }
-      ];
-      extraOptions = "--term xterm-256color --font-size=18";
     };
 
     # SSD TRIM automation
@@ -82,18 +79,10 @@
 
     # Power Management & Dynamic Profiles
     upower.enable = true;
-    upower.ignoreLid = true;
     power-profiles-daemon.enable = true;
 
-    # Ignore Lid events in systemd-logind to prevent false actions
-    logind.settings.Login = {
-      HandleLidSwitch = "ignore";
-      HandleLidSwitchExternalPower = "ignore";
-      HandleLidSwitchDocked = "ignore";
-    };
-
     # -------------------------------------------------------------------------
-    # 5. 🎵 PipeWire Low-Latency Audio Server
+    # 🎵 PipeWire Low-Latency Audio Server
     # -------------------------------------------------------------------------
     pulseaudio.enable = false;
     pipewire = {
@@ -116,37 +105,10 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 6. ⏱️ Systemd Backlight, Fast Shutdown Timeouts & ACPI Wakeups Disable
+  # ⏱️ Systemd Backlight & Fast Shutdown Timeouts
   # ---------------------------------------------------------------------------
   systemd.services."systemd-backlight@".enable = false;
   systemd.settings.Manager = {
     DefaultTimeoutStopSec = "3s";
-  };
-
-  # Disable ACPI wakeup triggers (Lid, Wi-Fi, USB, Touchpad, NVMe) before every sleep & boot
-  systemd.services.disable-acpi-wakeups = {
-    description = "Disable ACPI False Wakeups from Suspend";
-    wantedBy = [
-      "multi-user.target"
-      "sleep.target"
-      "suspend.target"
-      "hibernate.target"
-      "hybrid-sleep.target"
-    ];
-    before = [
-      "sleep.target"
-      "suspend.target"
-      "hibernate.target"
-      "hybrid-sleep.target"
-    ];
-    script = ''
-      # Disable lid, wifi, usb ports, touchpad, and storage wakeups if currently enabled
-      for dev in LID0 GPP1 GPP6 GPP7 XHC0 XHC1 XHC2 XHC3 XHC4 GP19; do
-        if grep -q "^$dev.*enabled" /proc/acpi/wakeup 2>/dev/null; then
-          echo "$dev" > /proc/acpi/wakeup || true
-        fi
-      done
-    '';
-    serviceConfig.Type = "oneshot";
   };
 }

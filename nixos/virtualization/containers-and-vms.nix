@@ -10,7 +10,7 @@
   ...
 }: {
   # ---------------------------------------------------------------------------
-  # 1. 📁 Kernel Filesystem Sharing Modules
+  # 📁 Kernel Filesystem Sharing Modules
   # ---------------------------------------------------------------------------
   boot.kernelModules = [
     "virtiofs"
@@ -20,7 +20,7 @@
   ];
 
   # ---------------------------------------------------------------------------
-  # 2. 🦭 Podman Container Engine (Rootless Docker Replacement)
+  # 🦭 Podman Container Engine (Rootless Docker Replacement)
   # ---------------------------------------------------------------------------
   virtualisation.podman = {
     enable = true;
@@ -30,7 +30,7 @@
   virtualisation.containers.enable = true;
 
   # ---------------------------------------------------------------------------
-  # 3. 🤖 Waydroid Android Container
+  # 🤖 Waydroid Android Container
   # ---------------------------------------------------------------------------
   virtualisation.waydroid.enable = true;
   systemd.services.waydroid-container.environment.LXC_USE_NFT = "true";
@@ -40,7 +40,7 @@
     else pkgs.waydroid;
 
   # ---------------------------------------------------------------------------
-  # 4. ⚡ QEMU / KVM & Libvirt Hypervisor
+  # ⚡ QEMU / KVM & Libvirt Hypervisor
   # ---------------------------------------------------------------------------
   virtualisation.libvirtd = {
     enable = true;
@@ -70,7 +70,7 @@
   services.spice-vdagentd.enable = true;
 
   # ---------------------------------------------------------------------------
-  # 5. 🧪 VM Testing Configuration (Applied only during `just vm`)
+  # 🧪 VM Testing Configuration (Applied only during `just vm`)
   # ---------------------------------------------------------------------------
   virtualisation.vmVariant = {
     virtualisation = {
