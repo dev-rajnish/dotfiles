@@ -16,7 +16,7 @@
   # ---------------------------------------------------------------------------
   programs.zen-browser = {
     enable = true;
-    setAsDefaultBrowser = true;
+    setAsDefaultBrowser = false;
 
     # Progressive Web Apps (PWA) native messaging host
     nativeMessagingHosts = [pkgs.firefoxpwa];

@@ -4,15 +4,17 @@
 {
   pkgs,
   pkgList,
+  enableDevPkg ? true,
+  enableProgrammingLang ? true,
   ...
 }: {
   # ---------------------------------------------------------------------------
-  # 1. 🌟 Consolidated User Packages (Imported from pkg-list.nix -> hmPackages)
+  # 🌟 Consolidated User Packages (Imported from 1-pkg-list.nix -> hmPackages)
   # ---------------------------------------------------------------------------
-  home.packages = (pkgList pkgs).hmPackages;
+  home.packages = (pkgList {inherit pkgs enableDevPkg enableProgrammingLang;}).hmPackages;
 
   # ---------------------------------------------------------------------------
-  # 2. 🛠️ Home Manager Program Enablements & Shell Integrations
+  # 🛠️ Home Manager Program Enablements & Shell Integrations
   # ---------------------------------------------------------------------------
   programs = {
     # Home Manager self-management
@@ -41,7 +43,7 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 3. 📡 Home Manager User Service Enablements
+  # 📡 Home Manager User Service Enablements
   # ---------------------------------------------------------------------------
   services = {
     # Wayle Wayland status bar daemon

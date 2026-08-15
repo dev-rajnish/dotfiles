@@ -5,6 +5,9 @@
   lib,
   username,
   homeVersion,
+  editor,
+  terminal,
+  browser,
   ...
 }: let
   # Subdirectories containing modular Home Manager configuration files
@@ -43,7 +46,9 @@ in {
 
     # Global User Shell & Editor Variables
     sessionVariables = {
-      EDITOR = "nvim";
+      EDITOR = editor;
+      TERMINAL = terminal;
+      BROWSER = lib.mkDefault browser;
       SHELL = "fish";
       MAN_DISABLE_CACHE = 1;
       SSH_ASKPASS = "";

@@ -2,7 +2,7 @@
 #  NixOS & Home Manager Dotfiles Task Runner (justfile)
 # =============================================================================
 
-# Default host and user variables (matching var.nix)
+# Default host and user variables (matching 0-var.nix)
 hostname := "nixos"
 username := "rsh"
 

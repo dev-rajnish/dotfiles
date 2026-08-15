@@ -1,12 +1,16 @@
 # =============================================================================
 #  Bluetooth Subsystem Configuration (BlueZ & Hardware Management)
 # =============================================================================
-{pkgs, ...}: {
+{
+  pkgs,
+  enableBluetooth,
+  ...
+}: {
   # ---------------------------------------------------------------------------
   # 📡 Bluetooth Hardware Daemon & Power Configuration
   # ---------------------------------------------------------------------------
   hardware.bluetooth = {
-    enable = true;
+    enable = enableBluetooth;
     powerOnBoot = true; # Automatically power on Bluetooth controller on boot
     settings = {
       General = {
@@ -25,5 +29,5 @@
   # ---------------------------------------------------------------------------
   # 🧰 Bluetooth GUI & Management Integration
   # ---------------------------------------------------------------------------
-  services.blueman.enable = true;
+  services.blueman.enable = enableBluetooth;
 }

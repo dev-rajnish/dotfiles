@@ -4,6 +4,8 @@
 {
   pkgs,
   hostname,
+  enableTailscale,
+  enableFirewall,
   ...
 }: {
   networking = {
@@ -48,10 +50,10 @@
     # };
 
     # -------------------------------------------------------------------------
-    # 🛡️ Firewall & Open Ports (DISABLED / Configured)
+    # 🛡️ Firewall & Open Ports (Configured via 0-var.nix)
     # -------------------------------------------------------------------------
     firewall = {
-      enable = false; # Set true to enable strict incoming traffic packet filtering
+      enable = enableFirewall; # Controlled dynamically via 0-var.nix
 
       # Inbound TCP Ports
       allowedTCPPorts = [
@@ -120,10 +122,10 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 🚀 Tailscale Mesh VPN Daemon (DISABLED)
+  # 🚀 Tailscale Mesh VPN Daemon (Configured via 0-var.nix)
   # ---------------------------------------------------------------------------
   services.tailscale = {
-    enable = false; # Set true to activate Tailscale mesh network
+    enable = enableTailscale;
     useRoutingFeatures = "client";
   };
 }

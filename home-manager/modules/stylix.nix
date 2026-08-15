@@ -3,7 +3,7 @@
 # =============================================================================
 {pkgs, ...}: {
   # ---------------------------------------------------------------------------
-  # 1. 🎨 Stylix Base Scheme & Targets
+  # 🎨 Stylix Base Scheme & Targets
   # ---------------------------------------------------------------------------
   stylix = {
     enable = true;
@@ -63,7 +63,7 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 2. 🌙 Global Dark Mode Preference for XDG Portals, GNOME, GTK & Flatpaks
+  # 🌙 Global Dark Mode Preference for XDG Portals, GNOME, GTK & Flatpaks
   # ---------------------------------------------------------------------------
   dconf.settings = {
     "org/gnome/desktop/interface" = {

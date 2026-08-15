@@ -36,14 +36,10 @@
       "multi-user.target"
       "sleep.target"
       "suspend.target"
-      "hibernate.target"
-      "hybrid-sleep.target"
     ];
     before = [
       "sleep.target"
       "suspend.target"
-      "hibernate.target"
-      "hybrid-sleep.target"
     ];
     script = ''
       # Inhibit Lid Switch input device at kernel driver layer so it emits zero events

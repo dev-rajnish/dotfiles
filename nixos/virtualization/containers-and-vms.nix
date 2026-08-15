@@ -7,6 +7,8 @@
   pkgList,
   lib,
   username,
+  enableWaydroid,
+  enableLibvirt,
   ...
 }: {
   # ---------------------------------------------------------------------------
@@ -32,18 +34,20 @@
   # ---------------------------------------------------------------------------
   # 🤖 Waydroid Android Container
   # ---------------------------------------------------------------------------
-  virtualisation.waydroid.enable = true;
+  virtualisation.waydroid = {
+    enable = enableWaydroid;
+    package =
+      if config.networking.nftables.enable
+      then pkgs.waydroid-nftables
+      else pkgs.waydroid;
+  };
   systemd.services.waydroid-container.environment.LXC_USE_NFT = "true";
-  virtualisation.waydroid.package =
-    if config.networking.nftables.enable
-    then pkgs.waydroid-nftables
-    else pkgs.waydroid;
 
   # ---------------------------------------------------------------------------
   # ⚡ QEMU / KVM & Libvirt Hypervisor
   # ---------------------------------------------------------------------------
   virtualisation.libvirtd = {
-    enable = true;
+    enable = enableLibvirt;
     onBoot = "ignore";
     onShutdown = "shutdown";
     qemu = {
@@ -58,16 +62,16 @@
   systemd.services.libvirtd.wantedBy = lib.mkForce [];
 
   # SPICE USB Passthrough for QEMU/KVM
-  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.spiceUSBRedirection.enable = enableLibvirt;
 
   # Virt-Manager GUI Tool
-  programs.virt-manager.enable = true;
+  programs.virt-manager.enable = enableLibvirt;
 
   # Virtualization Package List
   environment.systemPackages = (pkgList pkgs).virtualization;
 
   # SPICE Guest Clipboard Agent
-  services.spice-vdagentd.enable = true;
+  services.spice-vdagentd.enable = enableLibvirt;
 
   # ---------------------------------------------------------------------------
   # 🧪 VM Testing Configuration (Applied only during `just vm`)

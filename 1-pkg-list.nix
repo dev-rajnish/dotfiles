@@ -1,6 +1,22 @@
-# Package Single Source of Truth
-# Categorized package lists for NixOS System & Home Manager.
-pkgs: rec {
+# =============================================================================
+#  Package Single Source of Truth
+#  Categorized package lists for NixOS System & Home Manager.
+# =============================================================================
+args: let
+  pkgs =
+    if builtins.isAttrs args && args ? pkgs
+    then args.pkgs
+    else args;
+  enableDevPkg =
+    if builtins.isAttrs args && args ? enableDevPkg
+    then args.enableDevPkg
+    else true;
+  enableProgrammingLang =
+    if builtins.isAttrs args && args ? enableProgrammingLang
+    then args.enableProgrammingLang
+    else true;
+  lib = pkgs.lib;
+in rec {
   # ---------------------------------------------------------------------------
   # ❄️ System-Wide Core Packages (NixOS Level)
   # ---------------------------------------------------------------------------
@@ -35,7 +51,6 @@ pkgs: rec {
     yazi
     fzf
     tree-sitter
-    luajit
 
     # System, Hardware & GPU Monitors
     alsa-utils
@@ -71,24 +86,12 @@ pkgs: rec {
     sd
     stow
     zoxide
-
-    # Development, Shell & Network Tools
-    alejandra
-    cloudflared
-    delta
-    difftastic
-    entr
-    exercism
-    fish
-    fossil
-    fsel
-    gcc
-    gh
-    httpie
-    nushell
-    python3
     tldr
-    wrangler
+    entr
+
+    # Shell Environments
+    fish
+    nushell
 
     # Terminal Visuals & Multiplexers
     cava
@@ -105,6 +108,72 @@ pkgs: rec {
     # CLI Media Tools
     gpu-screen-recorder
     imv
+  ];
+
+  # ---------------------------------------------------------------------------
+  # 🐍 Programming Languages, Compilers & Code Formatters
+  # ---------------------------------------------------------------------------
+  programmingLang = with pkgs; [
+    # Python Runtime & Package Tools
+    python3
+    python3Packages.pip
+    python3Packages.virtualenv
+    uv # Fast Python package and project manager
+
+    # JavaScript / TypeScript / Node Runtimes
+    nodejs_22
+    bun
+    deno
+
+    # Systems & Compiled Languages
+    go
+    rustup
+    # rustc
+    # cargo
+    gcc
+    zig
+
+    # Scripting & Lua
+    luajit
+
+    # Code Formatters & Linters
+    alejandra # Nix Formatter
+    shfmt # Shell Script Formatter
+    shellcheck # Shell Linter
+    stylua # Lua Formatter
+    ruff # Fast Python Linter & Formatter
+    prettier # Web, Markdown & JSON Formatter
+    clang-tools # C/C++ Clang-Format
+  ];
+
+  # ---------------------------------------------------------------------------
+  # 🛠️ Developer, Git & Toolchain Utilities
+  # ---------------------------------------------------------------------------
+  devPkg = with pkgs; [
+    # Version Control & Collaboration
+    gh # GitHub CLI
+    delta # Syntax-highlighting pager for git
+    difftastic # Semantic structural diff tool
+    lazygit # Terminal UI for git
+    fossil # Distributed software configuration management
+    exercism # Code practice platform CLI
+    rustlings
+
+    # API & Cloud / Web Development
+    httpie # User-friendly HTTP API client
+    cloudflared # Cloudflare Tunnel daemon
+    wrangler # Cloudflare Workers CLI
+
+    # Build Systems & Compiling Essentials
+    cmake
+    ninja
+    gnumake
+    pkg-config
+
+    # Data, JSON & Database Tools
+    sqlite
+    jq # Lightweight JSON processor
+    jnv # Interactive JSON navigator and jq filter
   ];
 
   # ---------------------------------------------------------------------------
@@ -166,7 +235,6 @@ pkgs: rec {
 
     #swaynotificationcenter
     #waybar
-    
 
     # Clipboard & Screen Capture
     cliphist
@@ -178,17 +246,12 @@ pkgs: rec {
   ];
 
   # ---------------------------------------------------------------------------
-  # 🛠️ FHS Environment (Sandboxed Rust Toolchains & C Build Essentials)
+  # 🛠️ FHS Environment (Sandboxed C Headers & External Build Essentials)
   # ---------------------------------------------------------------------------
   fhs = with pkgs; [
-    # Rust Toolchain & SDKs
-    cargo
-    rust-analyzer
-    rustc
-    rustlings
-    rustup
+    # External Toolchain Managers
 
-    # Standard Build Tools & C Headers for Cargo C-bindings
+    # C Build Essentials & Development Headers for Cargo C-bindings
     cmake
     gcc
     glibc.dev
@@ -243,6 +306,19 @@ pkgs: rec {
     alsa-lib
     libpulseaudio
 
+    # Font & Text Rendering (Mason LSPs & GUI tools)
+    fontconfig
+    freetype
+    expat
+
+    # Security, Browser Runtimes & Async IO (Electron / Headless tools)
+    nss
+    nspr
+    libuv
+
+    # AppImage & Filesystem Passthrough
+    fuse3
+
     # X11 Top-Level Libraries
     libX11
     libXcursor
@@ -276,5 +352,10 @@ pkgs: rec {
   # ---------------------------------------------------------------------------
   # 🌟 Consolidated Home Manager User Packages
   # ---------------------------------------------------------------------------
-  hmPackages = cli ++ gui ++ windowManager;
+  hmPackages =
+    cli
+    ++ gui
+    ++ windowManager
+    ++ (lib.optionals enableProgrammingLang programmingLang)
+    ++ (lib.optionals enableDevPkg devPkg);
 }

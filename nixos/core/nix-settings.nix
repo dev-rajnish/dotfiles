@@ -1,7 +1,12 @@
 # =============================================================================
 #  Nix Daemon Settings, Binary Caches & Garbage Collection
 # =============================================================================
-{system, ...}: {
+{
+  system,
+  buildCores,
+  autoGcOlderThan,
+  ...
+}: {
   # Host Platform
   nixpkgs.hostPlatform = system;
 
@@ -20,7 +25,7 @@
 
     # Build Concurrency
     max-jobs = "auto";
-    cores = 12;
+    cores = buildCores;
 
     # Binary Cache Substituters
     substituters = [
@@ -43,7 +48,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than 7d";
+    options = "--delete-older-than ${autoGcOlderThan}";
   };
 
   # Disable documentation manual page cache generation to speed up builds

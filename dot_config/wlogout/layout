@@ -1,4 +1,10 @@
 {
+    "label" : "back",
+    "action" : "killall wlogout || pkill wlogout",
+    "text" : "Back",
+    "keybind" : "b"
+}
+{
     "label" : "lock",
     "action" : "swaylock -f -c 1a1b26 || hyprlock || loginctl lock-session",
     "text" : "Lock",
@@ -15,12 +21,6 @@
     "action" : "systemctl suspend",
     "text" : "Suspend",
     "keybind" : "u"
-}
-{
-    "label" : "hibernate",
-    "action" : "systemctl hibernate",
-    "text" : "Hibernate",
-    "keybind" : "h"
 }
 {
     "label" : "reboot",

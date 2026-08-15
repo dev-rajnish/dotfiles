@@ -4,6 +4,7 @@
 {
   pkgs,
   config,
+  keyboardLayout,
   ...
 }: {
   # ---------------------------------------------------------------------------
@@ -59,7 +60,7 @@
     xserver = {
       enable = false;
       xkb = {
-        layout = "us";
+        layout = keyboardLayout;
         variant = "";
       };
     };

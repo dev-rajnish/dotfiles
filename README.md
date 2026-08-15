@@ -26,8 +26,8 @@ A high-performance, modular **NixOS 26.05** and **Home Manager** flake configura
 ```
 .
 ├── flake.nix                          # Flake inputs, treefmt definitions & system outputs
-├── var.nix                            # Single source of truth for user/host metadata
-├── pkg-list.nix                       # Categorized package lists for NixOS, HM & nix-ld
+├── 0-var.nix                          # Single source of truth for user/host metadata
+├── 1-pkg-list.nix                     # Categorized package lists for NixOS, HM & nix-ld
 ├── justfile                           # Task runner for building, formatting, and maintenance
 ├── only-first-time-install.sh         # Bootstrap script for initial NixOS installations
 ├── README.md
@@ -127,7 +127,7 @@ The configuration includes a `justfile` task runner for all routine operations:
 
 ## 🛠️ Customization & Live Editing
 
-- **Adding Packages**: Edit [`pkg-list.nix`](pkg-list.nix). All packages automatically propagate to NixOS (`systemCore`) or Home Manager (`hmPackages`).
+- **Adding Packages**: Edit [`1-pkg-list.nix`](1-pkg-list.nix). All packages automatically propagate to NixOS (`systemCore`) or Home Manager (`hmPackages`).
 - **Live Dotfiles Editing**: All directories in `dot_config/*` are live-symlinked to `~/.config/*`. Any edit saved in `dot_config/` takes effect immediately without rebuilding!
 - **Unpatched Binaries & LSPs**: Mason and precompiled tools run directly on the host via `nix-ld`.
 - **Sandboxed Builds**: Run `fhs-env` or launch tools inside `~/.local/bin/fhs-env/` for isolated traditional Linux builds.

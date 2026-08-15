@@ -15,5 +15,4 @@ spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPL
 // Main autostart script
 
 spawn-at-startup "sh" "-c" "~/.config/autostart-script/wm-autostart.sh"
-spawn-at-startup "sh" "-c" "~/.config/autostart-script/clipboard.sh"
 

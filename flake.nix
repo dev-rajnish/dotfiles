@@ -57,8 +57,8 @@
     ...
   }: let
     # Load global variables & package lists
-    vars = import ./var.nix;
-    pkgList = import ./pkg-list.nix;
+    vars = import ./0-var.nix;
+    pkgList = import ./1-pkg-list.nix;
 
     # Arguments passed to all sub-modules
     sharedArgs =
