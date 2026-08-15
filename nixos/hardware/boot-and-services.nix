@@ -82,7 +82,15 @@
 
     # Power Management & Dynamic Profiles
     upower.enable = true;
+    upower.ignoreLid = true;
     power-profiles-daemon.enable = true;
+
+    # Ignore Lid events in systemd-logind to prevent false actions
+    logind.settings.Login = {
+      HandleLidSwitch = "ignore";
+      HandleLidSwitchExternalPower = "ignore";
+      HandleLidSwitchDocked = "ignore";
+    };
 
     # -------------------------------------------------------------------------
     # 5. 🎵 PipeWire Low-Latency Audio Server
@@ -108,10 +116,37 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 6. ⏱️ Systemd Backlight & Fast Shutdown Timeouts
+  # 6. ⏱️ Systemd Backlight, Fast Shutdown Timeouts & ACPI Wakeups Disable
   # ---------------------------------------------------------------------------
   systemd.services."systemd-backlight@".enable = false;
   systemd.settings.Manager = {
     DefaultTimeoutStopSec = "3s";
+  };
+
+  # Disable ACPI wakeup triggers (Lid, Wi-Fi, USB, Touchpad, NVMe) before every sleep & boot
+  systemd.services.disable-acpi-wakeups = {
+    description = "Disable ACPI False Wakeups from Suspend";
+    wantedBy = [
+      "multi-user.target"
+      "sleep.target"
+      "suspend.target"
+      "hibernate.target"
+      "hybrid-sleep.target"
+    ];
+    before = [
+      "sleep.target"
+      "suspend.target"
+      "hibernate.target"
+      "hybrid-sleep.target"
+    ];
+    script = ''
+      # Disable lid, wifi, usb ports, touchpad, and storage wakeups if currently enabled
+      for dev in LID0 GPP1 GPP6 GPP7 XHC0 XHC1 XHC2 XHC3 XHC4 GP19; do
+        if grep -q "^$dev.*enabled" /proc/acpi/wakeup 2>/dev/null; then
+          echo "$dev" > /proc/acpi/wakeup || true
+        fi
+      done
+    '';
+    serviceConfig.Type = "oneshot";
   };
 }

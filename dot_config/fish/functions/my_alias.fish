@@ -27,5 +27,6 @@ function my_alias
 
     # cli tools and Utilities
     alias h="herdr"
+    alias cmatrix="cmatrix -C blue"
 
 end

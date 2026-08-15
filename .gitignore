@@ -1,8 +1,5 @@
 
 # Fish shell entries to ignore
-**/fish/completions/
-**/fish/conf.d/
-**/fish/fish_variables
 nixos/backup
 result
 nixos.*

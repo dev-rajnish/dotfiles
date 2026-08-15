@@ -66,6 +66,7 @@ pkgs: rec {
     choose
     eza
     fd
+    file
     ripgrep
     sd
     stow
