@@ -8,7 +8,12 @@ window-rule {
     clip-to-geometry true
     draw-border-with-background false
 }
-
+blur {
+    passes 2
+    offset 4.0
+    noise 0.01
+    saturation 1.5
+}
 // -----------------------------------------------------------------------------
 // 🌑 Inactive / Background Windows (Deep Dark Dimming behind Active Popups)
 // -----------------------------------------------------------------------------

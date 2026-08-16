@@ -3,42 +3,40 @@
 # =============================================================================
 {
   lib,
+  pkgs,
   username,
-  enableAutoLogin ? true,
+  enableAutoLogin ? false,
   ...
 }: {
   # ---------------------------------------------------------------------------
-  # 🔑 Automatic TTY User Login (TTY1)
+  # 🔑 Automatic TTY User Login (TTY1) - Enabled only when enableAutoLogin = true
   # ---------------------------------------------------------------------------
   services.getty.autologinUser = lib.mkIf enableAutoLogin username;
 
   # ---------------------------------------------------------------------------
-  # 🖥️ Optional Display Manager Selection (Disabled by default)
+  # 🖥️ Greetd with Tuigreet (Robust, Lightweight TUI Greeter)
   # ---------------------------------------------------------------------------
-  # To enable a graphical / TUI display manager instead of TTY autologin:
+  services.greetd = lib.mkIf (!enableAutoLogin) {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions /run/current-system/sw/share/wayland-sessions:/run/current-system/sw/share/xsessions --cmd niri-session --asterisks --theme border=yellow;text=white;prompt=green;time=yellow;action=blue;button=yellow;container=black;input=white";
+        user = "greeter";
+      };
+    };
+  };
 
-  # Option 1: Ly (Lightweight TUI Display Manager)
-  # services.displayManager = {
-  #   defaultSession = "niri";
-  #   ly = {
-  #     enable = true;
-  #   };
-  # };
-
-  # Option 2: Greetd with tuigreet (Modern Minimalist TUI Greeter)
-  # services.greetd = {
-  #   enable = true;
-  #   settings = {
-  #     default_session = {
-  #       command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri";
-  #       user = "greeter";
-  #     };
-  #   };
-  # };
-
-  # Option 3: SDDM (Modern Wayland / Qt Display Manager)
-  # services.displayManager.sddm = {
-  #   enable = true;
-  #   wayland.enable = true;
-  # };
+  # ---------------------------------------------------------------------------
+  # 🛡️ Greetd Service Hardening & Clean VT Handover
+  # ---------------------------------------------------------------------------
+  # Ensures seamless terminal reset, prevents flickering, and avoids screen spam
+  systemd.services.greetd.serviceConfig = lib.mkIf (!enableAutoLogin) {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal"; # Direct stderr to journald to prevent garbled login screen
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
+  };
 }

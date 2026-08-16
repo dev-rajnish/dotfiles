@@ -2,8 +2,8 @@
 #  Glow Terminal Markdown Renderer Configuration
 # =============================================================================
 
-# Style name, builtin style, or absolute path to a JSON theme file
-style: "/home/rsh/.config/glow/colors.json"
+# Style name, builtin style ("dark", "light", "auto"), or path to a JSON theme file
+style: "dark"
 
 # Show local files only; no network
 local: true

@@ -39,7 +39,15 @@ end
 # -----------------------------------------------------------------------------
 autostart_niri_on_boot
 
-set -gx PATH /home/rsh/_ws/dotfiles/scripts/ $PATH
+# Dynamically add dotfiles scripts to PATH
+for scripts_dir in "$HOME/_ws/dotfiles/scripts" "$HOME/dotfiles/scripts" "$HOME/.dotfiles/scripts"
+    if test -d "$scripts_dir"
+        set -gx PATH "$scripts_dir" $PATH
+        break
+    end
+end
 
-# Added by Antigravity CLI installer
-set -gx PATH "/home/rsh/.local/bin" $PATH
+# Standard user local binaries
+if test -d "$HOME/.local/bin"
+    set -gx PATH "$HOME/.local/bin" $PATH
+end

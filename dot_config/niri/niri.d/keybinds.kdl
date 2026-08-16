@@ -6,8 +6,8 @@ binds {
     // -------------------------------------------------------------------------
     // 01. System & Session Binds
     // -------------------------------------------------------------------------
-    Mod+Shift+E     { quit; }
-    Ctrl+Alt+Delete { quit; }
+    Mod+Shift+E     hotkey-overlay-title="Power & Session Menu: Fuzzel" { spawn-sh "power-menu.sh"; }
+    Ctrl+Alt+Delete hotkey-overlay-title="Power & Session Menu: Fuzzel" { spawn-sh "power-menu.sh"; }
     Mod+Shift+P     { power-off-monitors; }
     Mod+Escape      allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Slash { show-hotkey-overlay; }
@@ -21,7 +21,7 @@ binds {
     Mod+B        hotkey-overlay-title="Web Browser: librewolf" { spawn "librewolf"; }
     Super+Alt+L  hotkey-overlay-title="Lock Screen: Swaylock" { spawn "swaylock"; }
     Mod+N        repeat=false { spawn-sh "wayle panel stop || wayle panel start"; }
-    Mod+C        repeat=false { spawn-sh "~/.config/autostart-script/clipboard.sh"; }
+    Mod+C        repeat=false { spawn-sh "clipboard.sh"; }
     Super+Alt+S  allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
     // -------------------------------------------------------------------------

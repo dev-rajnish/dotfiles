@@ -2,9 +2,9 @@
 #  NixOS & Home Manager Dotfiles Task Runner (justfile)
 # =============================================================================
 
-# Default host and user variables (matching 0-var.nix)
-hostname := "nixos"
-username := "rsh"
+# Dynamically extract host and user variables from 0-system-vars.nix (with fallbacks)
+hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' 0-system-vars.nix 2>/dev/null || echo "nixos"`
+username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' 0-system-vars.nix 2>/dev/null || whoami`
 
 # Default recipe: List available commands
 default:
@@ -15,11 +15,11 @@ default:
 # ❄️ NixOS System Management
 # -----------------------------------------------------------------------------
 
-# Fetch latest Antigravity CLI version and update home-manager/pkgs/agy.nix
+# Fetch latest Antigravity CLI version and update home-manager/pkgs/antigravity-cli.nix
 update-agy:
-    @./scripts/update-agy.sh
+    @./home-manager/scripts/update-agy.sh
 
-# Rebuild and switch to the new NixOS system configuration (updates agy and formats code first)
+# Rebuild and switch to the new NixOS system configuration
 switch: 
     sudo nixos-rebuild switch --flake .#{{hostname}}
 

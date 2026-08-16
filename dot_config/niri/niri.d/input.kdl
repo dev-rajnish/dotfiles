@@ -47,15 +47,15 @@ input {
         // scroll-factor 1.0
 
         // Tap & Drag Options
-         tap
-         drag true
-         //drag-lock
-         tap-button-map "left-right-middle"
+        tap
+        drag true
+        //drag-lock
+        tap-button-map "left-right-middle"
 
         // Additional Options
-         left-handed
+        // left-handed
         // disabled-on-external-mouse
-         middle-emulation
+        middle-emulation
     }
 
     // Mouse Configuration
@@ -87,12 +87,12 @@ input {
 
     // Graphics Tablet Mapping
     tablet {
-        map-to-output "eDP-1"
+        // map-to-output "eDP-1"
         // left-handed
     }
 
     // Touchscreen Mapping
     touch {
-        map-to-output "eDP-1"
+        // map-to-output "eDP-1"
     }
 }

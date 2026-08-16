@@ -4,28 +4,29 @@
  * ============================================================================= */
 
 @import "colors.css";
+@import "vars.css";
 
 * {
   background-image: none;
   box-shadow: none;
-  font-family: "JetBrainsMono Nerd Font", "JetBrains Mono NF", sans-serif;
+  font-family: @font_family;
   transition: 150ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Screen Overlay Backdrop */
 window {
-  background-color: rgba(26, 27, 38, 0.88);
+  background-color: @bg_dark_translucent;
 }
 
-/* Action Buttons (Sharp 0px Geometry matching Fuzzel & Niri) */
+/* Action Buttons (Geometry populated from vars.css / xdg-config-var.nix) */
 button {
   color: @fg;
   background-color: @bg_card;
-  border: 2px solid @border_color;
-  border-radius: 0px; /* 📐 Sharp Corners */
+  border: @border_width solid @border_color;
+  border-radius: @border_radius;
   margin: 14px;
   padding: 12px;
-  font-size: 14px;
+  font-size: @font_size;
   font-weight: 700;
   letter-spacing: 0.5px;
   background-repeat: no-repeat;
@@ -47,103 +48,67 @@ button:hover {
 
 /* --- Default Icon Background Images --- */
 #back {
-  background-image: image(
-    url("icons/back.png"),
-    url("/home/rsh/.config/wlogout/icons/back.png")
-  );
+  background-image: image(url("icons/back.png"));
 }
 
 #lock {
-  background-image: image(
-    url("icons/lock.png"),
-    url("/home/rsh/.config/wlogout/icons/lock.png")
-  );
+  background-image: image(url("icons/lock.png"));
 }
 
 #logout {
-  background-image: image(
-    url("icons/logout.png"),
-    url("/home/rsh/.config/wlogout/icons/logout.png")
-  );
+  background-image: image(url("icons/logout.png"));
 }
 
 #suspend {
-  background-image: image(
-    url("icons/suspend.png"),
-    url("/home/rsh/.config/wlogout/icons/suspend.png")
-  );
+  background-image: image(url("icons/suspend.png"));
 }
 
 #reboot {
-  background-image: image(
-    url("icons/reboot.png"),
-    url("/home/rsh/.config/wlogout/icons/reboot.png")
-  );
+  background-image: image(url("icons/reboot.png"));
 }
 
 #shutdown {
-  background-image: image(
-    url("icons/shutdown.png"),
-    url("/home/rsh/.config/wlogout/icons/shutdown.png")
-  );
+  background-image: image(url("icons/shutdown.png"));
 }
 
 /* --- Hover State Icon Background Images & Sharp Accents --- */
 #back:hover {
-  background-image: image(
-    url("icons/back_hover.png"),
-    url("/home/rsh/.config/wlogout/icons/back_hover.png")
-  );
+  background-image: image(url("icons/back_hover.png"));
   border-color: @teal;
   color: @teal;
   box-shadow: 0 0 20px rgba(26, 188, 156, 0.45);
 }
 
 #lock:hover {
-  background-image: image(
-    url("icons/lock_hover.png"),
-    url("/home/rsh/.config/wlogout/icons/lock_hover.png")
-  );
+  background-image: image(url("icons/lock_hover.png"));
   border-color: @blue;
   color: @blue;
   box-shadow: 0 0 20px rgba(122, 162, 247, 0.45);
 }
 
 #logout:hover {
-  background-image: image(
-    url("icons/logout_hover.png"),
-    url("/home/rsh/.config/wlogout/icons/logout_hover.png")
-  );
+  background-image: image(url("icons/logout_hover.png"));
   border-color: @magenta;
   color: @magenta;
   box-shadow: 0 0 20px rgba(187, 154, 247, 0.45);
 }
 
 #suspend:hover {
-  background-image: image(
-    url("icons/suspend_hover.png"),
-    url("/home/rsh/.config/wlogout/icons/suspend_hover.png")
-  );
+  background-image: image(url("icons/suspend_hover.png"));
   border-color: @cyan;
   color: @cyan;
   box-shadow: 0 0 20px rgba(125, 207, 255, 0.45);
 }
 
 #reboot:hover {
-  background-image: image(
-    url("icons/reboot_hover.png"),
-    url("/home/rsh/.config/wlogout/icons/reboot_hover.png")
-  );
+  background-image: image(url("icons/reboot_hover.png"));
   border-color: @orange;
   color: @orange;
   box-shadow: 0 0 20px rgba(255, 158, 100, 0.45);
 }
 
 #shutdown:hover {
-  background-image: image(
-    url("icons/shutdown_hover.png"),
-    url("/home/rsh/.config/wlogout/icons/shutdown_hover.png")
-  );
+  background-image: image(url("icons/shutdown_hover.png"));
   border-color: @red;
   color: @red;
   box-shadow: 0 0 20px rgba(247, 118, 142, 0.45);

@@ -56,9 +56,10 @@
     treefmt-nix,
     ...
   }: let
-    # Load global variables & package lists
-    vars = import ./0-var.nix;
-    pkgList = import ./1-pkg-list.nix;
+    # Load global system variables, package manifest & desktop theme variables
+    vars = import ./0-system-vars.nix;
+    pkgList = import ./1-package-manifest.nix;
+    xdgVars = import ./2-desktop-theme-vars.nix;
 
     # Arguments passed to all sub-modules
     sharedArgs =
@@ -74,6 +75,7 @@
           zen-browser
           treefmt-nix
           pkgList
+          xdgVars
           ;
       };
 

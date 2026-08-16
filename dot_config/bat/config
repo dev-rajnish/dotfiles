@@ -1,2 +1,2 @@
-# Set bat theme to tokyo night
---theme="tokyonight_night"
+# Use base16 theme to inherit dynamic terminal palette
+--theme="base16"

@@ -15,24 +15,6 @@ ${env_var.CONTAINER_ID}$character"""
 # Right-aligned prompt (clean dim time display)
 right_format = """$time"""
 
-# -----------------------------------------------------------------------------
-# 🎨 Palette Definition (Tokyo Night Theme)
-# -----------------------------------------------------------------------------
-palette = "tokyo_night"
-
-[palettes.tokyo_night]
-bg_dark = "#1a1b26"
-bg_light = "#24283b"
-fg_text = "#c0caf5"
-fg_dim = "#565f89"
-blue = "#7aa2f7"
-cyan = "#7dcfff"
-purple = "#bb9af7"
-magenta = "#bb9af7"
-green = "#9ece6a"
-yellow = "#e0af68"
-orange = "#ff9e64"
-red = "#f7768e"
 
 # -----------------------------------------------------------------------------
 # 📦 Distrobox / Container Indicator ($CONTAINER_ID)
@@ -142,5 +124,5 @@ format = "took [󱎫 $duration]($style) "
 [time]
 disabled = false
 time_format = "%R"
-style = "fg_dim"
+style = "bright-black"
 format = "[$time]($style)"

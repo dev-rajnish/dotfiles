@@ -3,9 +3,6 @@
 // =============================================================================
 
 layout {
-    // Gap size (in pixels) around windows and screen edges
-    gaps 6
-
     // Automatic Column Centering
     center-focused-column "always"
     always-center-single-column
@@ -20,16 +17,6 @@ layout {
     // Default Column Width for new windows
     default-column-width {
         proportion 0.9
-    }
-
-    // Border Thickness (in pixels)
-    border {
-        width 0
-    }
-
-    // Focus Ring Thickness (in pixels)
-    focus-ring {
-        width 1 
     }
 }
 

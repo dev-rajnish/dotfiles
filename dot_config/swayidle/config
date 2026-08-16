@@ -1,23 +1,8 @@
-# =============================================================================
-# Swayidle Configuration (Tokyo Night Themed)
-# Location: ~/.config/swayidle/config
-# =============================================================================
-
-# Event: Lock screen on lock signal
-lock 'swaylock -f --color 1a1b26 --ring-color 7aa2f7 --key-hl-color bb9af7 --line-color 24283b --inside-color 16161e --text-color c0caf5'
-
-# Event: Lock screen before system sleep
-before-sleep 'swaylock -f --color 1a1b26 --ring-color 7aa2f7 --key-hl-color bb9af7 --line-color 24283b --inside-color 16161e --text-color c0caf5'
-
-# 1. Timeout 270s (4.5 minutes): Send idle notification warning
+# Auto-generated from Stylix base16 theme - Do not edit manually
+lock 'swaylock -f'
+before-sleep 'swaylock -f'
 timeout 270 'notify-send -u normal -i time "Idle Warning" "Screen will lock in 30 seconds..."'
-
-# 2. Timeout 300s (5 minutes): Lock screen
-timeout 300 'swaylock -f --color 1a1b26 --ring-color 7aa2f7 --key-hl-color bb9af7 --line-color 24283b --inside-color 16161e --text-color c0caf5'
-
-# 3. Timeout 600s (10 minutes): Turn off display outputs (DPMS)
+timeout 300 'swaylock -f'
 timeout 600 'niri msg action power-off-monitors || hyprctl dispatch dpms off || swaymsg "output * dpms off"'
 resume 'niri msg action power-on-monitors || hyprctl dispatch dpms on || swaymsg "output * dpms on"'
-
-# 4. Timeout 1800s (30 minutes): Suspend system
 timeout 1800 'systemctl suspend'

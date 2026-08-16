@@ -29,10 +29,11 @@ include "niri.d/input.kdl"
 include "niri.d/outputs.kdl"
 
 // 04. Window Layout & Geometry
+include "niri.d/appearance.kdl"
 include "niri.d/layout.kdl"
 
-// 05. Theme Colors & Visual Accents
-include "niri.d/colors.kdl"
+// 05. Theme Colors & Visual Accents (Handled dynamically by appearance.kdl)
+// include "niri.d/colors.kdl"
 
 // 06. Animations & Custom Shaders
 //include "niri.d/animations.kdl"

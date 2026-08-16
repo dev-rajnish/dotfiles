@@ -6,7 +6,7 @@ scale = 0.75
 padding = 0.10000000149011612
 padding-ends = 0.20000000298023224
 module-gap = 0.25
-bg = "bg-base"
+bg = "#131721"
 background-opacity = 90
 button-variant = "basic"
 button-icon-size = 0.75
@@ -40,16 +40,16 @@ scale = 0.949999988079071
 rounding = "none"
 
 [styling.palette]
-bg = "#16161e"
-surface = "#1a1b26"
-elevated = "#292e42"
-fg = "#c0caf5"
-fg-muted = "#a9b1d6"
-primary = "#7aa2f7"
-red = "#f7768e"
-yellow = "#e0af68"
-green = "#9ece6a"
-blue = "#7dcfff"
+bg = "#131721"
+surface = "#0b0e14"
+elevated = "#202229"
+fg = "#e6e1cf"
+fg-muted = "#bfbdb6"
+primary = "#59c2ff"
+red = "#f07178"
+yellow = "#ffb454"
+green = "#aad94c"
+blue = "#95e6cb"
 
 [modules.battery]
 icon-bg-color = "accent"
@@ -113,7 +113,7 @@ left-click = "niri msg action close-window"
 
 [[modules.custom]]
 id = "cpu-temp"
-command = '''sensors | awk '/^Tctl:/ {sub(/\+/,"",$2); print $2}''''
+command = '''sensors 2>/dev/null | awk '/^(Tctl|Package id 0|Core 0):/ {sub(/\+/,"",$2); print $2; exit}''''
 mode = "poll"
 interval-ms = 5000
 restart-policy = "never"
@@ -168,7 +168,7 @@ margin = 50.0
 [wallpaper]
 engine-enabled = false
 cycling-enabled = true
-cycling-directory = "/home/rsh/ws/walls"
+cycling-directory = "~/Pictures/Wallpapers"
 cycling-same-image = true
 
 [[wallpaper.monitors]]

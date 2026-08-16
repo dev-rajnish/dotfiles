@@ -25,7 +25,12 @@
     lib.mapAttrsToList toImport (lib.filterAttrs filterNixFiles dir);
 
   # Flatten all imported nix files across all folders
-  imports = lib.flatten (map readNixFilesFrom folders);
+  imports =
+    [
+      ./dynamic-theming/0-stylix.nix
+      ./dynamic-theming/2-home-activation.nix
+    ]
+    ++ lib.flatten (map readNixFilesFrom folders);
 in {
   # Dynamically imported modules & standalone package derivations
   inherit imports;

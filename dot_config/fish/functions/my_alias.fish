@@ -5,14 +5,30 @@
 function my_alias
     # Directory Navigation Shortcuts
     alias .f="cd ~/.config/fish/"
-    alias .c="cd ~/_ws/dotfiles/dot_config/"
     alias .l="cd ~/.local/"
     alias .b="cd ~/.local/bin/"
     alias .s="cd ~/.local/share/"
-    alias .d="cd ~/_ws/dotfiles/"
-    alias .w="cd ~/walls/"
-    alias rs="cd ~/_ws/code/rs"
-    alias .h="cd ~/_ws/dotfiles/home-manager/"
+
+    # Dynamic dotfiles navigation shortcuts
+    if test -d ~/_ws/dotfiles
+        alias .d="cd ~/_ws/dotfiles/"
+        alias .c="cd ~/_ws/dotfiles/dot_config/"
+        alias .h="cd ~/_ws/dotfiles/home-manager/"
+    else if test -d ~/dotfiles
+        alias .d="cd ~/dotfiles/"
+        alias .c="cd ~/dotfiles/dot_config/"
+        alias .h="cd ~/dotfiles/home-manager/"
+    else if test -d ~/.dotfiles
+        alias .d="cd ~/.dotfiles/"
+        alias .c="cd ~/.dotfiles/dot_config/"
+        alias .h="cd ~/.dotfiles/home-manager/"
+    end
+
+    if test -d ~/ws/walls
+        alias .w="cd ~/ws/walls/"
+    else if test -d ~/Pictures/Wallpapers
+        alias .w="cd ~/Pictures/Wallpapers/"
+    end
 
     # Environment & Utilities
     alias dev=dev_env
@@ -20,10 +36,9 @@ function my_alias
 
     # misc
     alias c="clear"
-    #alias nvim="fhs-env nvim"
 
     # home-manager and nixos
-    alias hms="nix run .#homeConfigurations.rsh.activationPackage"
+    alias hms="home-manager switch --flake . || nix run .#homeConfigurations.(whoami).activationPackage"
 
     # cli tools and Utilities
     alias h="herdr"
