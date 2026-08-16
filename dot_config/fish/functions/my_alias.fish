@@ -30,4 +30,7 @@ function my_alias
     alias cmatrix="cmatrix -C blue"
     alias glow="glow -t"
 
+    # Wayland Compositor (silent launch from TTY)
+    alias n="niri >/dev/null 2>&1"
+
 end

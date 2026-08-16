@@ -1,11 +1,21 @@
 # =============================================================================
-#  Display Manager & Graphical Login Service
+#  Display Manager & TTY Auto-Login Service
 # =============================================================================
-{pkgs, ...}: {
+{
+  lib,
+  username,
+  enableAutoLogin ? true,
+  ...
+}: {
   # ---------------------------------------------------------------------------
-  # 🖥️ Display Manager Selection (Disabled for Clean Manual TTY Login)
+  # 🔑 Automatic TTY User Login (TTY1)
   # ---------------------------------------------------------------------------
-  # To enable a display manager, uncomment your preferred service below:
+  services.getty.autologinUser = lib.mkIf enableAutoLogin username;
+
+  # ---------------------------------------------------------------------------
+  # 🖥️ Optional Display Manager Selection (Disabled by default)
+  # ---------------------------------------------------------------------------
+  # To enable a graphical / TUI display manager instead of TTY autologin:
 
   # Option 1: Ly (Lightweight TUI Display Manager)
   # services.displayManager = {

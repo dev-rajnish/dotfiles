@@ -4,13 +4,34 @@
 
 // Global Window Appearance Rules
 window-rule {
-    match is-floating=false
-    background-effect {
-        blur true
-    }
     geometry-corner-radius 0
     clip-to-geometry true
     draw-border-with-background false
+}
+
+// -----------------------------------------------------------------------------
+// 🌑 Inactive / Background Windows (Deep Dark Dimming behind Active Popups)
+// -----------------------------------------------------------------------------
+window-rule {
+    match is-focused=false
+    opacity 0.45
+    draw-border-with-background true
+}
+
+// -----------------------------------------------------------------------------
+// 🪟 Floating Popup Windows, Modals & Dialogs (Elevated Deep Shadow)
+// -----------------------------------------------------------------------------
+window-rule {
+    match is-floating=true
+    opacity 1.0
+    draw-border-with-background false
+    shadow {
+        on
+        softness 50
+        spread 15
+        offset x=0 y=12
+        color "#000000e0"
+    }
 }
 
 // Workaround: WezTerm Initial Configure Bug
@@ -19,7 +40,7 @@ window-rule {
     default-column-width {}
 }
 
-// Open Floating Windows (Picture-in-Picture, Waypaper, Volume Control)
+// Open Floating Windows (Picture-in-Picture, Waypaper, Volume Control, Dialogs)
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     match title="Waypaper"
@@ -81,9 +102,3 @@ window-rule {
 
     open-on-workspace "editor"
 }
-
-
-
-
-
-

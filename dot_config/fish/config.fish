@@ -34,5 +34,10 @@ if status is-interactive
     end
 end
 
+# -----------------------------------------------------------------------------
+# 🚀 Auto-start Niri session on fresh boot
+# -----------------------------------------------------------------------------
+autostart_niri_on_boot
+
 # Added by Antigravity CLI installer
 set -gx PATH "/home/rsh/.local/bin" $PATH

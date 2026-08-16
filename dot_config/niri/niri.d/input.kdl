@@ -24,9 +24,9 @@ input {
         // Enable NumLock on startup
         numlock
 
-        // Key Repeat Settings
-        // repeat-delay 600
-        // repeat-rate 25
+        // Key Repeat Settings (Balanced & comfortable)
+        repeat-delay 250
+        repeat-rate 35
         // track-layout "global"
     }
 

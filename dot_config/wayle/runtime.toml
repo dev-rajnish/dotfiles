@@ -25,12 +25,13 @@ left = ["custom-nixos-launcher", "niri-workspaces", "window-title"]
 center = ["media", "clock", "systray", "cava"]
 right = [
   "network",
+  "bluetooth",
   "notifications",
-  "custom-cpu-temp",
-  "cpu",
   "brightness",
-  "battery",
   "volume",
+  "cpu",
+  "custom-cpu-temp",
+  "battery",
   "power",
 ]
 

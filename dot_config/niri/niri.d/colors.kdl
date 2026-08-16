@@ -3,42 +3,30 @@
 // =============================================================================
 
 layout {
-    // Transparent background under windows/gaps
-    background-color "transparent"
+    // Dark Tokyo Night surface background behind windows
+    background-color "#16161e"
 
     // Focus Ring Colors (Active Window Highlight)
-     focus-ring {
-         active-color   "#7aa2f7"
-         inactive-color "#414868"
-         urgent-color   "#f7768e"
-     }
+    focus-ring {
+        active-color   "#7aa2f7"
+        inactive-color "#1f2335"
+        urgent-color   "#f7768e"
+    }
 
     // Window Border Colors
-     border {
-         active-color   "#7aa2f7"
-         inactive-color "#414868"
-         urgent-color   "#f7768e"
-     }
+    border {
+        active-color   "#7aa2f7"
+        inactive-color "#1f2335"
+        urgent-color   "#f7768e"
+    }
 
     // Window Shadow Color
     shadow {
-        color "#00000070"
+        color "#00000090"
     }
-    //
-    // // Tabbed Column Indicator Colors
-    // tab-indicator {
-    //     active-color   "#7aa2f7"
-    //     inactive-color "#414868"
-    //     urgent-color   "#f7768e"
-    // }
-    //
-    // // Drag-and-Drop / Window Insertion Indicator
-    // insert-hint {
-    //     color "#7aa2f780"
-    // }
 }
 
 // Overview Mode Backdrop (Tokyo Night Theme)
 overview {
-    backdrop-color "#1a1b26"
+    backdrop-color "#0f0f17e0"
 }

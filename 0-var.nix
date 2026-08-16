@@ -21,7 +21,7 @@
   timeZone = "Asia/Kolkata";
   defaultLocale = "en_US.UTF-8";
   keyboardLayout = "us";
-  keyboardPath = ""; # Auto-detected dynamically in kmonad.nix
+  keyboardPath = ""; # Auto-detected dynamically in kanata.nix
 
   # ---------------------------------------------------------------------------
   # 🖥️ Default Applications & Workflow (Populated to XDG MIME Handlers)
@@ -39,6 +39,7 @@
   # ---------------------------------------------------------------------------
   # ⚡ Feature & Virtualization Toggles
   # ---------------------------------------------------------------------------
+  enableAutoLogin = true; # 🔑 TTY1 Automatic login on boot
   enableWaydroid = true;
   enableLibvirt = true;
   enableBluetooth = true;

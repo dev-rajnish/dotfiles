@@ -8,16 +8,25 @@
   security.polkit.enable = true;
 
   # ---------------------------------------------------------------------------
-  # 📁 Polkit Rules: Passwordless Udisks2 Disk Mounting for Wheel Users
+  # 📁 Polkit Rules: Passwordless Udisks2 & Secret Service for Wheel Users
   # ---------------------------------------------------------------------------
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
-      if ((action.id == "org.freedesktop.udisks2.filesystem-mount" ||
-           action.id == "org.freedesktop.udisks2.filesystem-mount-system" ||
-           action.id == "org.freedesktop.udisks2.encrypted-unlock" ||
-           action.id == "org.freedesktop.udisks2.eject-media") &&
-          subject.isInGroup("wheel")) {
-        return polkit.Result.YES;
+      if (subject.isInGroup("wheel")) {
+        // Auto-allow secret service and credential store queries without popup prompt
+        if (action.id.indexOf("org.freedesktop.secrets") === 0 ||
+            action.id.indexOf("org.freedesktop.secret") === 0 ||
+            action.id.indexOf("org.gnome.keyring") === 0) {
+          return polkit.Result.YES;
+        }
+
+        // Auto-allow udisks2 filesystem mounting, unlocking and ejecting
+        if (action.id == "org.freedesktop.udisks2.filesystem-mount" ||
+            action.id == "org.freedesktop.udisks2.filesystem-mount-system" ||
+            action.id == "org.freedesktop.udisks2.encrypted-unlock" ||
+            action.id == "org.freedesktop.udisks2.eject-media") {
+          return polkit.Result.YES;
+        }
       }
     });
   '';
