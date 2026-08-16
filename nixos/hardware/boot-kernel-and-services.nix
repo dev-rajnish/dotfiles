@@ -17,8 +17,13 @@
     };
     kernelModules = ["snd-aloop"];
     kernelParams = [
-      "snd_hda_intel.power_save=0" # Prevent audio popping on power state change
+      #"snd_hda_intel.power_save=0" # Prevent audio codec power state change
+      #"snd_hda_intel.power_save_controller=0" # Prevent audio controller D3 power state change
+      #"snd_hda_intel.position_fix=1" # Fix Conexant SN6140 DMA pointer drift on AMD HD Audio
     ];
+    # extraModprobeConfig = ''
+    #  options snd_hda_intel power_save=0 power_save_controller=N position_fix=1
+    # '';
     kernelPackages = pkgs.linuxPackages_latest;
     tmp = {
       tmpfsHugeMemoryPages = "always";
@@ -94,7 +99,30 @@
       };
       pulse.enable = true;
       jack.enable = true;
-      wireplumber.enable = true;
+      wireplumber = {
+        enable = true;
+        extraConfig = {
+          "10-disable-suspension" = {
+            "monitor.alsa.rules" = [
+              {
+                matches = [
+                  {
+                    "node.name" = "~alsa_input.*";
+                  }
+                  {
+                    "node.name" = "~alsa_output.*";
+                  }
+                ];
+                actions = {
+                  update-props = {
+                    "session.suspend-timeout-seconds" = 0;
+                  };
+                };
+              }
+            ];
+          };
+        };
+      };
     };
 
     # System Journal Limits

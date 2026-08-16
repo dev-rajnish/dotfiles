@@ -39,5 +39,7 @@ end
 # -----------------------------------------------------------------------------
 autostart_niri_on_boot
 
+set -gx PATH /home/rsh/_ws/dotfiles/scripts/ $PATH
+
 # Added by Antigravity CLI installer
 set -gx PATH "/home/rsh/.local/bin" $PATH

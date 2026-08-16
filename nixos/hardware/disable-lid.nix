@@ -30,7 +30,7 @@
   # ---------------------------------------------------------------------------
   # ⚡ Disable ACPI, I2C Sensor & Input Wakeups Before Every Sleep / Suspend
   # ---------------------------------------------------------------------------
-  systemd.services.disable-acpi-wakeups = {
+  systemd.services.disable-lid-touchpad-wakeups = {
     description = "Disable ACPI and I2C Sensor False Wakeups from Suspend";
     wantedBy = [
       "multi-user.target"

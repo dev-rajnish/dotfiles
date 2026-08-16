@@ -55,7 +55,7 @@ in {
           alt-num   (tap-hold-press 0 80 lalt (layer-toggle number))
 
           ;; Tap: Escape | Hold: Left Control (0ms repress delay, 200ms timeout)
-          esc-ctrl  (tap-hold-press 0 200 esc lctl)
+          esc-ctrl  (tap-hold-press 0 100 esc lctl)
 
           ;; Layer Switchers
           to-qwerty (layer-switch qwerty)
@@ -103,14 +103,14 @@ in {
         ;; │ Arrow Key & Symbols Layer (Held via @spc-nav / Space)   │
         ;; ╰─────────────────────────────────────────────────────────╯
         (deflayermap (arrow-key)
-          ;; Row 1: * $ % & ! \ # up " _ ^
-          q S-8   w S-4   e S-5   r S-7   t S-1   y \   u S-3   i up   o S-'   p S--   [ S-6
+          ;; Row 1: * $ % & ? \ # up " _ ^
+          q S-8   w S-4   e S-5   r S-7   t S-/   y \   u S-3   i up   o S-'   p S--   [ S-6
 
           ;; Row 2: ( { [ / + = left down right right :
           a S-9   s S-[   d [     f /     g S-=   h =   j left  k down l rght  ; rght  ' S-;
 
-          ;; Row 3: ) } ] @ ! | ~ < > ;
-          z S-0   x S-]   c ]     v S-2   b S-1   n S-\ m S-grv , S-,  . S-.   / ;
+          ;; Row 3: ) } ] @ | ! ~ < > ;
+          z S-0   x S-]   c ]     v S-2   b S-\   n S-1 m S-grv , S-,  . S-.   / ;
         )
 
         ;; ╭─────────────────────────────────────────────────────────╮

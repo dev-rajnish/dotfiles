@@ -22,7 +22,7 @@ button-border-width = 0
 monitor = "*"
 show = true
 left = ["custom-nixos-launcher", "niri-workspaces", "window-title"]
-center = ["media", "clock", "systray", "cava"]
+center = ["media", "clock", "systray"]
 right = [
   "network",
   "bluetooth",
