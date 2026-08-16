@@ -12,3 +12,4 @@ wl-paste --type image --watch cliphist store &
 
 # --- Autostart Applications ---
 kitty &
+distrobox enter arch &

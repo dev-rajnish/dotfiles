@@ -14,7 +14,7 @@ window-rule {
 // -----------------------------------------------------------------------------
 window-rule {
     match is-focused=false
-    opacity 0.45
+    opacity 0.75
     draw-border-with-background true
 }
 
@@ -27,7 +27,7 @@ window-rule {
     draw-border-with-background false
     shadow {
         on
-        softness 50
+        softness 10
         spread 15
         offset x=0 y=12
         color "#000000e0"

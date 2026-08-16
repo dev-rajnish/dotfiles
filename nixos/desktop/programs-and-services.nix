@@ -54,6 +54,12 @@
   };
 
   # ---------------------------------------------------------------------------
+  # 🛠️ System services Enablements & Integrations
+  # ---------------------------------------------------------------------------
+  # flatpak
+  services.flatpak.enable = true;
+
+  # ---------------------------------------------------------------------------
   # 🐚 Provide /bin/bash for scripts with hardcoded #!/bin/bash shebangs
   # ---------------------------------------------------------------------------
   system.activationScripts.binbash = {

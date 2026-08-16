@@ -25,8 +25,8 @@ input {
         numlock
 
         // Key Repeat Settings (Balanced & comfortable)
-        repeat-delay 250
-        repeat-rate 35
+        repeat-delay 300
+        repeat-rate 30
         // track-layout "global"
     }
 
