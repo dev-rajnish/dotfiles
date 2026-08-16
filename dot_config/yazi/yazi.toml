@@ -39,13 +39,13 @@ edit = [
   { run = 'code -w %*', desc = "code (block)", block = true, for = "windows" },
 ]
 open = [
-  { run = 'nvim "$1"', desc = "Open", for = "linux" },
-  { run = 'open "$@"', desc = "Open", for = "macos" },
+  { run = 'xdg-open "$@"', desc = "Open", orphan = true, for = "linux" },
+  { run = 'open "$@"', desc = "Open", orphan = true, for = "macos" },
   { run = 'start "" "%1"', desc = "Open", orphan = true, for = "windows" },
 ]
 reveal = [
-  { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal", for = "linux" },
-  { run = 'open -R "$1"', desc = "Reveal", for = "macos" },
+  { run = 'xdg-open "$(dirname "$1")"', desc = "Reveal", orphan = true, for = "linux" },
+  { run = 'open -R "$1"', desc = "Reveal", orphan = true, for = "macos" },
   { run = 'explorer /select,"%1"', desc = "Reveal", orphan = true, for = "windows" },
   { run = '''exiftool "$1"; echo "Press enter to exit"; read _''', desc = "Show EXIF", block = true, for = "unix" },
 ]
@@ -57,6 +57,60 @@ play = [
   { run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
   { run = 'mpv --force-window %*', orphan = true, for = "windows" },
   { run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', desc = "Show media info", block = true, for = "unix" },
+]
+
+[open]
+rules = [
+  # Folder
+  { url = "*/", use = [
+    "edit",
+    "open",
+    "reveal",
+  ] },
+  # Documents, PDF & E-Books (Must precede Archive rules so EPUB is not treated as generic zip)
+  { mime = "application/{pdf,postscript,epub+zip,oxps,x-mobipocket-ebook,vnd.amazon.ebook,vnd.comicbook+zip,vnd.comicbook-rar,x-cbr,x-cbz,x-djvu}", use = [
+    "open",
+    "reveal",
+  ] },
+  { mime = "image/vnd.djvu", use = [
+    "open",
+    "reveal",
+  ] },
+  # Text & Code Files
+  { mime = "text/*", use = [
+    "edit",
+    "reveal",
+  ] },
+  # Image Files
+  { mime = "image/*", use = [
+    "open",
+    "reveal",
+  ] },
+  # Media Files (Audio & Video)
+  { mime = "{audio,video}/*", use = [
+    "play",
+    "reveal",
+  ] },
+  # Archive Files
+  { mime = "application/{zip,x-zip,x-zip-compressed,x-tar,x-gzip,gzip,x-bzip*,x-7z-compressed,x-xz,x-rar*,x-compressed-tar,zstd,x-zstd,x-cpio,x-iso9660-image,x-archive}", use = [
+    "extract",
+    "reveal",
+  ] },
+  # JSON, Scripts & Config Files
+  { mime = "application/{json,x-ndjson,javascript,typescript,xml,yaml,toml,x-shellscript}", use = [
+    "edit",
+    "reveal",
+  ] },
+  # Empty files
+  { mime = "inode/empty", use = [
+    "edit",
+    "reveal",
+  ] },
+  # Fallback to system default handlers via xdg-open "$@"
+  { url = "*", use = [
+    "open",
+    "reveal",
+  ] },
 ]
 
 # 4. Input Dialog Geometry
