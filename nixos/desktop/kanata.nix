@@ -55,7 +55,7 @@ in {
           alt-num   (tap-hold-press 0 80 lalt (layer-toggle number))
 
           ;; Tap: Escape | Hold: Left Control (0ms repress delay, 200ms timeout)
-          esc-ctrl  (tap-hold-press 0 100 esc lctl)
+          esc-ctrl  (tap-hold-press 0 180 esc lctl)
 
           ;; Layer Switchers
           to-qwerty (layer-switch qwerty)
