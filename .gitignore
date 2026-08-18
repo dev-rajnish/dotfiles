@@ -11,9 +11,5 @@ docs/
 **/.idk
 .ruff_cache
 
-# Rust build artifacts
-target/
-user/bin-rs/target/
-
 # Live uncommitted config workspace
 config.live/

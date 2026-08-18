@@ -12,16 +12,6 @@ default:
 
 
 # -----------------------------------------------------------------------------
-# 🦀 Rust Dotfiles System Tools
-# -----------------------------------------------------------------------------
-
-# Build optimized release binaries for the Rust toolset in user/bin-rs
-build-tools:
-    cargo build --release --manifest-path user/bin-rs/Cargo.toml
-    cp user/bin-rs/target/release/{loader,wallpaper,power-menu,update-agy,dot,installer,y} home-manager/scripts/ 2>/dev/null || true
-
-
-# -----------------------------------------------------------------------------
 # 🔄 Live Workspace & Snapshot Lock Management
 # -----------------------------------------------------------------------------
 
@@ -67,14 +57,6 @@ link: link-live
 # -----------------------------------------------------------------------------
 # ❄️ NixOS System Management
 # -----------------------------------------------------------------------------
-
-# Fetch latest Antigravity CLI version and update home-manager/pkgs/antigravity-cli.nix
-update-agy:
-    @./user/bin-rs/target/release/update-agy 2>/dev/null || ./home-manager/scripts/update-agy
-
-# Run health diagnostics on system and dotfiles
-doctor:
-    @./user/bin-rs/target/release/dot doctor 2>/dev/null || ./home-manager/scripts/dot doctor
 
 # Rebuild and switch to the new NixOS system configuration
 switch: 
@@ -137,7 +119,7 @@ check:
     nix flake check
 
 # Update all flake inputs or a specific input (e.g., `just update nixpkgs`)
-update input="": update-agy
+update input="":
     #!/usr/bin/env bash
     if [ -z "{{input}}" ]; then
         nix flake update

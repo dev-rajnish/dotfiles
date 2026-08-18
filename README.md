@@ -55,9 +55,6 @@ This repository includes a comprehensive `justfile` task runner for daily operat
 | **🏠 Home Manager** | `just home` (or `hm`)                | Switch standalone Home Manager profile (`home-manager switch --flake .#rsh`)           |
 |                     | `just home-build`                    | Build Home Manager activation package                                                  |
 |                     | `just sync` (or `all`)               | Rebuild both NixOS system and Home Manager configurations                              |
-| **🦀 Rust Tools**   | `just build-tools`                   | Compile release binaries for the Rust toolset in `user/bin-rs`                         |
-|                     | `just doctor`                        | Run comprehensive system and dotfiles health diagnostics                               |
-|                     | `just update-agy`                    | Fetch and update Antigravity CLI version                                               |
 | **🛠️ Code Quality** | `just fmt`                           | Format all Nix, Shell, TOML, and Rust code with `treefmt` (`alejandra`, `shfmt`, etc.) |
 |                     | `just check`                         | Run `nix flake check` to validate evaluations and formatting                           |
 |                     | `just update`                        | Update flake inputs and dependencies (`nix flake update`)                              |
@@ -182,5 +179,4 @@ reboot
 │   └── ...                    # Fuzzel, Yazi, Starship, Swaylock, Wlogout, Fastfetch
 │
 ├── config.live/               # ⚡ Live local workspace (git-ignored, symlinked to ~/.config)
-└── user/                      # 🛠️ Custom CLI tools, environment KV pairs & Rust toolset
 ```

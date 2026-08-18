@@ -3,7 +3,6 @@
 # =============================================================================
 {
   imports = [
-    ./custom-scripts.nix
     ./environment.nix
     ./fhs-environment.nix
     ./git-configuration.nix
