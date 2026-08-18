@@ -1,14 +1,9 @@
 # =============================================================================
 #  Nix Daemon Settings, Binary Caches & Garbage Collection
 # =============================================================================
-{
-  system,
-  buildCores,
-  autoGcOlderThan,
-  ...
-}: {
+{env, ...}: {
   # Host Platform
-  nixpkgs.hostPlatform = system;
+  nixpkgs.hostPlatform = env.system;
 
   # ---------------------------------------------------------------------------
   # ⚙️ Nix Settings & Performance Flags
@@ -25,7 +20,7 @@
 
     # Build Concurrency
     max-jobs = "auto";
-    cores = buildCores;
+    cores = env.buildCores;
 
     # Binary Cache Substituters
     substituters = [
@@ -48,7 +43,7 @@
   nix.gc = {
     automatic = true;
     dates = "weekly";
-    options = "--delete-older-than ${autoGcOlderThan}";
+    options = "--delete-older-than ${env.autoGcOlderThan}";
   };
 
   # ---------------------------------------------------------------------------

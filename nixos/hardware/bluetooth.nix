@@ -3,14 +3,14 @@
 # =============================================================================
 {
   pkgs,
-  enableBluetooth,
+  env,
   ...
 }: {
   # ---------------------------------------------------------------------------
   # 📡 Bluetooth Hardware Daemon & Power Configuration
   # ---------------------------------------------------------------------------
   hardware.bluetooth = {
-    enable = enableBluetooth;
+    enable = env.enableBluetooth or false;
     powerOnBoot = true; # Automatically power on Bluetooth controller on boot
     settings = {
       General = {
@@ -29,5 +29,5 @@
   # ---------------------------------------------------------------------------
   # 🧰 Bluetooth GUI & Management Integration
   # ---------------------------------------------------------------------------
-  services.blueman.enable = enableBluetooth;
+  services.blueman.enable = env.enableBluetooth or false;
 }

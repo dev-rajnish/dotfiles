@@ -52,6 +52,7 @@ format = "[$path]($style)[$read_only]($read_only_style) "
 "Pictures" = " Pictures"
 "_ws" = "󰲋 _ws"
 "dotfiles" = "󱄅 dotfiles"
+"dot" = "󱄅 dot"
 
 # -----------------------------------------------------------------------------
 # 🌿 Git Modules (Branch & Status)

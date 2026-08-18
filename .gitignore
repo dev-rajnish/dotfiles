@@ -1,15 +1,35 @@
-
-# Fish shell entries to ignore
+# System & Nix backup / build artifacts
 nixos/backup
-**/**/history.txt
 result/
+result-*
 nixos.*
 docs/
 
-# Python cache & temporary files
+# Python cache & temporary files (Recursive wildcard patterns)
+**/__pycache__/**
 **/__pycache__/
+__pycache__
+**/*.py[cod]
+**/*.pyc
+**/*.pyo
+**/.ruff_cache/**
+**/.pytest_cache/**
 **/.idk
-.ruff_cache
+
+# Rust build artifacts
+**/target/**
+**/target/
+target/
+
+# Shell & interactive logs
+**/**/history.txt
+**/history.txt
+
+# Backup & temporary files
+**/*.bak
+**/*.swp
+**/*.tmp
+*~
 
 # Live uncommitted config workspace
 config.live/

@@ -3,16 +3,14 @@
 # =============================================================================
 {
   pkgs,
-  hostname,
-  enableTailscale,
-  enableFirewall,
+  env,
   ...
 }: {
   networking = {
     # -------------------------------------------------------------------------
     # 🏷️ System Hostname
     # -------------------------------------------------------------------------
-    hostName = hostname;
+    hostName = env.hostname;
 
     # -------------------------------------------------------------------------
     # 📶 Wi-Fi & Network Interface Management (HIGH-SPEED ZERO-PROBE BOOT)
@@ -65,10 +63,10 @@
     # };
 
     # -------------------------------------------------------------------------
-    # 🛡️ Firewall & Open Ports (Configured via 0-var.nix)
+    # 🛡️ Firewall & Open Ports (Configured via env/features.toml)
     # -------------------------------------------------------------------------
     firewall = {
-      enable = enableFirewall; # Controlled dynamically via 0-var.nix
+      enable = env.enableFirewall; # Controlled dynamically via env/features.toml
 
       # Inbound TCP Ports
       allowedTCPPorts = [
@@ -137,10 +135,10 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 🚀 Tailscale Mesh VPN Daemon (Configured via 0-var.nix)
+  # 🚀 Tailscale Mesh VPN Daemon (Configured via env/features.toml)
   # ---------------------------------------------------------------------------
   services.tailscale = {
-    enable = enableTailscale;
+    enable = env.enableTailscale;
     useRoutingFeatures = "client";
   };
 

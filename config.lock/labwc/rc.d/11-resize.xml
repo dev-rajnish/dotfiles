@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     11-RESIZE-BEHAVIOR.XML
+     Interactive Window Resizing, OSD Coordinates & Geometry Limits
+     Reference: man labwc-config(5) -> RESIZE
+     ============================================================================= -->
+<resize>
+  <!-- Resize Geometry Popup HUD [Never | Always | Nonpixel]
+       Controls display of dimension tooltip (e.g. 1920x1080 or 80x24) during resize:
+       - Never: Do not show tooltip HUD (default).
+       - Always: Always show geometry tooltip.
+       - Nonpixel: Show only for terminal clients that resize in grid character cells. -->
+  <popupShow>Never</popupShow>
+
+  <!-- Live Redraw Window Contents [yes | no]
+       Actively forces application to redraw its buffer during interactive resizing. Default: yes -->
+  <drawContents>yes</drawContents>
+
+  <!-- Corner Grab Range (in pixels)
+       Pixel distance from corners for activating diagonal resize cursors. Default: 10 -->
+  <cornerRange>10</cornerRange>
+
+  <!-- Minimum Allowed Window Dimensions (WIDTHxHEIGHT in pixels)
+       Prevents windows from being resized smaller than usable boundaries. -->
+  <minimumArea>100x100</minimumArea>
+</resize>

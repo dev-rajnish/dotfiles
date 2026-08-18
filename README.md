@@ -68,29 +68,18 @@ This repository includes a comprehensive `justfile` task runner for daily operat
 
 ## 🛠️ How to Configure This System
 
-### 1. Global System Manifest ([`0-system-vars.nix`](0-system-vars.nix))
+### 1. Unified Environment System ([`env/`](env/))
 
-The single source of truth for your system profile:
+All system settings, desktop design tokens, default applications, and package sets are modularized inside `env/` and loaded via `env/default.nix`:
 
-- **System & User**: `username`, `hostname`, `dotfilesDir`
-- **Hardware Profile**: `deviceType = "laptop"`, `gpuDriver = "amd"`, `enableKanata = true`
-- **Theme & Polarity**: `theme = "catppuccin-mocha"`, `polarity = "dark"`
-- **Default Applications**: `terminal = "kitty"`, `editor = "codium"`, `browser = "google-chrome"`, `fileManager = "thunar"`
-- **Feature Toggles**: `enableAppImage`, `enableWaydroid`, `enableLibvirt`, `enableBluetooth`, `enableTailscale`, `enableFirewall`
-
-### 2. Package Manifest ([`1-package-manifest.nix`](1-package-manifest.nix))
-
-Structured package sets categorized by purpose:
-
-- `systemCore` (essential shell runtimes, just, git, zoxide, direnv)
-- `cliCore` / `cliMonitoring` / `cliFileOps` / `cliArchive` (fastfetch, btop, bat, eza, ripgrep, ouch)
-- `gui` (desktop applications, media players, document viewers)
-- `devPkg` / `programmingLang` (Python, Node, Go, Rust, Zig, Lua, formatters)
-- `virtualization` (AppImage runner, Distrobox, QEMU/KVM virtiofs tools)
-
-### 3. XDG Tokens & Typography ([`2-xdg-config-vars.nix`](2-xdg-config-vars.nix))
-
-Customize font families (Mono, Sans, Serif), font sizes for terminal/launcher/bar, border radii, and workspace gaps.
+- **[`env/default.nix`](env/default.nix)**: Single entrypoint loader defining `tomlFiles = [ ... ]` and merging all settings.
+- **[`env/system.toml`](env/system.toml)**: Machine platform, CPU/GC, user ID, locale, and git credentials.
+- **[`env/apps.toml`](env/apps.toml)**: Default desktop application handlers (terminal, editor, browser, viewer, player).
+- **[`env/features.toml`](env/features.toml)**: Feature and virtualization toggles (Libvirt, AppImage, Waydroid, Bluetooth).
+- **[`env/theme.toml`](env/theme.toml)**: Desktop theme palette and dark/light polarity (`theme = "rose-pine"`).
+- **[`env/appearance.toml`](env/appearance.toml)**: Typography, sizes, window geometry, gaps, borders, opacity, cursor, and icon theme.
+- **[`env/shell.toml`](env/shell.toml)**: Shell session environment variables and CLI aliases.
+- **[`env/packages.nix`](env/packages.nix)**: Categorized Nix package sets and software manifests.
 
 ---
 
@@ -132,9 +121,9 @@ mount /dev/disk/by-label/boot /mnt/boot
 nixos-generate-config --root /mnt
 
 # 2. Clone dotfiles repository into target user home
-mkdir -p /mnt/home/rsh/_ws
-nix-shell -p git --run "git clone https://github.com/dev-rajnish/dotfiles.git /mnt/home/rsh/_ws/dotfiles"
-cd /mnt/home/rsh/_ws/dotfiles
+mkdir -p /mnt/home/rsh
+nix-shell -p git --run "git clone https://github.com/dev-rajnish/dotfiles.git /mnt/home/rsh/dot"
+cd /mnt/home/rsh/dot
 
 # 3. Copy generated hardware configuration into the flake
 cp /mnt/etc/nixos/hardware-configuration.nix nixos/hardware-configuration.nix
@@ -152,9 +141,15 @@ reboot
 
 ```
 .
-├── 0-system-vars.nix          # Global system manifest & feature toggles
-├── 1-package-manifest.nix     # Categorized system & user package sets
-├── 2-xdg-config-vars.nix      # XDG geometry, typography, opacity & tokens
+├── env/                       # 🌐 Modular environment, TOML configs & package manifest
+│   ├── default.nix            # Dynamic Nix loader importing tomlFiles = [ ... ]
+│   ├── system.toml            # Host platform, hardware, user identity & locale
+│   ├── apps.toml              # Default desktop applications & MIME handlers
+│   ├── features.toml          # Feature, virtualization & service toggles
+│   ├── theme.toml             # Active theme & dark/light polarity
+│   ├── appearance.toml        # Fonts, sizes, geometry, gaps, borders & opacity
+│   ├── shell.toml             # Shell session variables & aliases
+│   └── packages.nix           # Categorized system & user package manifest
 ├── flake.nix                  # Flake entrypoint & outputs
 ├── justfile                   # Daily task runner
 │

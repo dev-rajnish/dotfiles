@@ -1,26 +1,22 @@
 # =============================================================================
 #  Timezone & Internationalization (i18n) Configuration
 # =============================================================================
-{
-  timeZone,
-  defaultLocale,
-  ...
-}: {
+{env, ...}: {
   # System Timezone
-  time.timeZone = timeZone;
+  time.timeZone = env.timeZone;
 
   # ---------------------------------------------------------------------------
   # 🌐 Locale & Regional Preferences
   # ---------------------------------------------------------------------------
   # Global Language Environment Variables
   environment.variables = {
-    LANG = defaultLocale;
-    LC_ALL = defaultLocale;
+    LANG = env.defaultLocale;
+    LC_ALL = env.defaultLocale;
   };
 
   # Regional
   i18n = {
-    defaultLocale = defaultLocale;
+    defaultLocale = env.defaultLocale;
     extraLocaleSettings = {
       LC_ADDRESS = "en_IN";
       LC_IDENTIFICATION = "en_IN";

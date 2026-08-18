@@ -1,0 +1,14 @@
+# =============================================================================
+#  Shell & Session Environment Configuration
+# =============================================================================
+
+[session]
+EDITOR = "codium"
+TERMINAL = "kitty"
+BROWSER = "google-chrome"
+SHELL = "bash"
+MAN_DISABLE_CACHE = 1
+
+[aliases]
+d = "cd ~/dot"
+c = "cd ~/.config"

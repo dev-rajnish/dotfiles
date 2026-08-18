@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     01-CORE-AND-RENDERING.XML
+     Labwc Core Engine, Output Synchronization, Window Gaps & Prompts
+     Reference: man labwc-config(5) -> CORE
+     ============================================================================= -->
+<core>
+  <!-- Window Decoration Mode [server | client]
+       Default: server. When set to server, labwc draws server-side titlebars
+       and borders on windows that support xdg-decoration. -->
+  <decoration>server</decoration>
+
+  <!-- Window Gaps (in pixels)
+       Space reserved around windows when tiled, maximized or snapped. Default: 0 -->
+  <gap>0</gap>
+
+  <!-- Variable Refresh Rate / Adaptive Sync [yes | no | fullscreen]
+       Enables G-Sync / FreeSync for supported monitors.
+       - yes: Always enable VRR if display supports it.
+       - no: Disable VRR (default).
+       - fullscreen: Enable VRR only when an application is running fullscreen. -->
+  <adaptiveSync>no</adaptiveSync>
+
+  <!-- Screen Tearing / Asynchronous Pageflips [yes | no | fullscreen | fullscreenForced]
+       Allows immediate page flips without waiting for V-Sync (useful for low-latency gaming).
+       - yes: Allow tearing when requested by clients via wp_tearing_control_v1.
+       - no: Disallow tearing (default, tear-free rendering).
+       - fullscreen: Allow tearing only for fullscreen surfaces requesting it.
+       - fullscreenForced: Force tearing on fullscreen surfaces regardless of client request. -->
+  <allowTearing>no</allowTearing>
+
+  <!-- Output Auto-Enable [yes | no]
+       Automatically enable newly connected displays. Default: yes -->
+  <autoEnableOutputs>yes</autoEnableOutputs>
+
+  <!-- Reuse Output Mode [yes | no]
+       Reuses the current display mode (resolution & refresh rate) when initializing outputs. Default: yes -->
+  <reuseOutputMode>yes</reuseOutputMode>
+
+  <!-- XWayland Persistence [yes | no]
+       Keep XWayland server alive after last X11 application terminates. Default: no (lazy on-demand XWayland) -->
+  <xwaylandPersistence>no</xwaylandPersistence>
+
+  <!-- Primary Selection [yes | no]
+       Enables middle-click paste / primary selection buffer under Wayland. Default: yes -->
+  <primarySelection>yes</primarySelection>
+
+  <!-- Prompt Command
+       Command executed when labwc prompts the user for arbitrary input. -->
+  <promptCommand>fuzzel</promptCommand>
+</core>

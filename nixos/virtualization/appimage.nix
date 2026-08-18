@@ -4,9 +4,11 @@
 {
   pkgs,
   lib,
-  enableAppImage ? true,
+  env,
   ...
-}: {
+}: let
+  enableAppImage = env.enableAppImage or true;
+in {
   # ---------------------------------------------------------------------------
   # 📦 AppImage Execution Engine & Kernel Binfmt Integration
   # ---------------------------------------------------------------------------
@@ -26,8 +28,8 @@
   # 🛠️ AppImage Utilities
   # ---------------------------------------------------------------------------
   environment.systemPackages = lib.optionals enableAppImage (with pkgs; [
-    appimage-run # CLI launcher for unpatched binary AppImages on NixOS
-    squashfsTools # Extraction & inspection tools for AppImage files
-    fuse3 # Modern user-space filesystem library
+    appimage-run
+    squashfsTools
+    fuse3
   ]);
 }

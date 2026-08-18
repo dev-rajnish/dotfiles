@@ -1,0 +1,30 @@
+# Python cache & compiled bytecode (Wildcard matching across all subdirectories)
+**/__pycache__/**
+**/__pycache__/
+__pycache__
+**/*.py[cod]
+**/*.pyc
+**/*.pyo
+**/.ruff_cache/**
+**/.pytest_cache/**
+
+# Rust / Build artifacts
+**/target/**
+**/target/
+target/
+bin-src/target/
+
+# Backup, lock, and temporary editor files
+**/*.bak
+**/*.lock
+**/*.swp
+**/*.tmp
+**/*~
+
+# Shell history & interactive session logs
+**/history.txt
+history.txt
+
+# Git repository directory
+**/.git/**
+.git/

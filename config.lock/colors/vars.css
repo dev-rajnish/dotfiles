@@ -2,42 +2,42 @@
  *  Wallust Generated CSS Variables
  * ============================================================================= */
 
-@define-color bg #1E1E2E;
-@define-color bg_dark #1E1E2E;
-@define-color bg_card #6C7086;
-@define-color bg_highlight #6C7086;
+@define-color bg #191724;
+@define-color bg_dark #191724;
+@define-color bg_card #6E6A86;
+@define-color bg_highlight #6E6A86;
 
-@define-color fg #CDD6F4;
-@define-color fg_muted #CDD6F4;
-@define-color comment #6C7086;
+@define-color fg #E0DEF4;
+@define-color fg_muted #E0DEF4;
+@define-color comment #6E6A86;
 
-@define-color blue #89B4FA;
-@define-color cyan #94E2D5;
-@define-color teal #94E2D5;
-@define-color green #A6E3A1;
-@define-color yellow #F9E2AF;
-@define-color orange #FAB387;
-@define-color red #F38BA8;
-@define-color magenta #CBA6F7;
+@define-color blue #C4A7E7;
+@define-color cyan #9CCFD8;
+@define-color teal #9CCFD8;
+@define-color green #31748F;
+@define-color yellow #EBBCBA;
+@define-color orange #F6C177;
+@define-color red #EB6F92;
+@define-color magenta #F6C177;
 
-@define-color border_color #6C7086;
-@define-color border_focus #89B4FA;
-@define-color accent #89B4FA;
+@define-color border_color #6E6A86;
+@define-color border_focus #C4A7E7;
+@define-color accent #C4A7E7;
 
 /* Base16 standard color indices */
-@define-color color0 #1E1E2E;
-@define-color color1 #F38BA8;
-@define-color color2 #A6E3A1;
-@define-color color3 #F9E2AF;
-@define-color color4 #89B4FA;
-@define-color color5 #CBA6F7;
-@define-color color6 #94E2D5;
-@define-color color7 #CDD6F4;
-@define-color color8 #6C7086;
-@define-color color9 #F38BA8;
-@define-color color10 #A6E3A1;
-@define-color color11 #FAB387;
-@define-color color12 #89B4FA;
-@define-color color13 #CBA6F7;
-@define-color color14 #94E2D5;
-@define-color color15 #B4BEFE;
+@define-color color0 #191724;
+@define-color color1 #EB6F92;
+@define-color color2 #31748F;
+@define-color color3 #EBBCBA;
+@define-color color4 #C4A7E7;
+@define-color color5 #F6C177;
+@define-color color6 #9CCFD8;
+@define-color color7 #E0DEF4;
+@define-color color8 #6E6A86;
+@define-color color9 #EB6F92;
+@define-color color10 #31748F;
+@define-color color11 #F6C177;
+@define-color color12 #C4A7E7;
+@define-color color13 #F6C177;
+@define-color color14 #9CCFD8;
+@define-color color15 #524F67;

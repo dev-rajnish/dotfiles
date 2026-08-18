@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     09-THEME-AND-TYPOGRAPHY.XML
+     Titlebar Layout, Corner Radius, Drop Shadows & Fonts
+     Reference: man labwc-config(5) -> THEME & man labwc-theme(5)
+     ============================================================================= -->
+<theme>
+  <!-- Active Openbox / Labwc Theme Name -->
+  <name>macos</name>
+
+  <!-- System Icon Theme for Window Titlebars & Menus -->
+  <icon>Papirus-Dark</icon>
+
+  <!-- Fallback Application Icon when client provides none -->
+  <fallbackAppIcon>application-x-executable</fallbackAppIcon>
+
+  <!-- Titlebar Layout & Visibility
+       - layout: Button ordering (e.g. icon:iconify,max,close or CSL:I)
+       - showTitle: [yes | no] Display window title text string. -->
+  <titlebar>
+    <layout>close,iconify,max:</layout>
+    <showTitle>yes</showTitle>
+  </titlebar>
+
+  <!-- Corner Radius (in pixels)
+       Curvature for window borders and titlebar corners. Default: 8 -->
+  <cornerRadius>8</cornerRadius>
+
+  <!-- Keep Border [yes | no]
+       Retain 1px border around windows even when titlebars are disabled. Default: yes -->
+  <keepBorder>yes</keepBorder>
+
+  <!-- Maximized Window Decoration [titlebar | none]
+       Controls whether titlebars are retained when a window is maximized. Default: none -->
+  <maximizedDecoration>none</maximizedDecoration>
+
+  <!-- Drop Shadows [yes | no]
+       Renders soft shadows beneath floating windows. Default: yes -->
+  <dropShadows>yes</dropShadows>
+
+  <!-- Drop Shadows on Tiled Windows [yes | no]
+       Disable shadows on tiled/snapped windows to maintain crisp adjacent borders. Default: no -->
+  <dropShadowsOnTiled>no</dropShadowsOnTiled>
+
+  <!-- Typography & Font Definitions -->
+  <!-- 1. Active Window Titlebar Font -->
+  <font place="ActiveWindow">
+    <name>JetBrainsMono Nerd Font</name>
+    <size>11</size>
+    <weight>bold</weight>
+  </font>
+
+  <!-- 2. Inactive Window Titlebar Font -->
+  <font place="InactiveWindow">
+    <name>JetBrainsMono Nerd Font</name>
+    <size>11</size>
+    <weight>normal</weight>
+  </font>
+
+  <!-- 3. Context Menu Font -->
+  <font place="MenuItem">
+    <name>JetBrainsMono Nerd Font</name>
+    <size>11</size>
+  </font>
+
+  <!-- 4. On-Screen Display (OSD) / Window Switcher Font -->
+  <font place="OnScreenDisplay">
+    <name>JetBrainsMono Nerd Font</name>
+    <size>12</size>
+    <weight>bold</weight>
+  </font>
+</theme>

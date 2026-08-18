@@ -4,7 +4,7 @@
 {
   pkgs,
   config,
-  keyboardLayout,
+  env,
   ...
 }: {
   # ---------------------------------------------------------------------------
@@ -67,7 +67,7 @@
     xserver = {
       enable = false;
       xkb = {
-        layout = keyboardLayout;
+        layout = env.keyboardLayout;
         variant = "";
       };
     };

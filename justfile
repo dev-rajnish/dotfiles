@@ -2,9 +2,9 @@
 #  NixOS & Home Manager Dotfiles Task Runner (justfile)
 # =============================================================================
 
-# Dynamically extract host and user variables from 0-system-vars.nix (with fallbacks)
-hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' 0-system-vars.nix 2>/dev/null || echo "nixos"`
-username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' 0-system-vars.nix 2>/dev/null || whoami`
+# Dynamically extract host and user variables from env/system.toml (with fallbacks)
+hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/system.toml 2>/dev/null || echo "nixos"`
+username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/system.toml 2>/dev/null || whoami`
 
 # Default recipe: List available commands
 default:
@@ -17,28 +17,42 @@ default:
 
 # Lock current live configurations from config.live/ into git-tracked config.lock/
 lock-config:
-    @mkdir -p config.lock config.live
-    @rsync -av --delete \
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p config.lock config.live
+    # 1. Unlock config.lock (temporarily grant write permissions)
+    chmod -R u+rwX config.lock 2>/dev/null || true
+    # 2. Sync live configuration into config.lock (respecting .gitignore)
+    rsync -av --delete \
+        --filter=':- .gitignore' \
         --exclude='.git' \
-        --exclude='*.bak' \
-        --exclude='*.lock' \
-        --exclude='__pycache__' \
         config.live/ config.lock/
-    @echo "✔ Live configuration locked into config.lock/ (ready to commit to Git)"
+    # 3. Re-lock config.lock (set read-only 444 for files, 555 for directories)
+    find config.lock -type d -exec chmod 555 {} +
+    find config.lock -type f -exec chmod 444 {} +
+    echo "✔ Live configuration locked into read-only config.lock/ (ready to commit to Git)"
 
 # Alias for lock-config
 lock: lock-config
 
 # Restore live configuration from git-tracked config.lock/ into config.live/
 restore-config:
-    @mkdir -p config.live config.lock
-    @rsync -av --delete config.lock/ config.live/
-    @echo "✔ config.live/ restored from config.lock/"
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p config.live config.lock
+    # 1. Sync locked configurations to live (respecting .gitignore)
+    rsync -av --delete \
+        --filter=':- .gitignore' \
+        --exclude='.git' \
+        config.lock/ config.live/
+    # 2. Ensure config.live is fully writable for live editing
+    chmod -R u+rwX config.live
+    echo "✔ config.live/ restored and unlocked from config.lock/"
 
 # Alias for restore-config
 restore: restore-config
 
-# Symlink all config.live subdirectories into ~/.config/
+# Symlink all config.live subdirectories and env into ~/.config/
 link-live:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -46,10 +60,18 @@ link-live:
     for item in config.live/*; do
         if [ -e "$item" ]; then
             name=$(basename "$item")
-            ln -sfn "$(pwd)/config.live/$name" "$HOME/.config/$name"
+            target="$HOME/.config/$name"
+            if [ -d "$target" ] && [ ! -L "$target" ]; then
+                rm -rf "$target"
+            fi
+            ln -sfn "$(pwd)/config.live/$name" "$target"
         fi
     done
-    echo "✔ ~/.config/ entries symlinked to config.live/"
+    # Symlink env/ directly to ~/.config/env for unified live editing
+    if [ -d "env" ]; then
+        ln -sfn "$(pwd)/env" "$HOME/.config/env"
+    fi
+    echo "✔ ~/.config/ entries & ~/.config/env symlinked successfully"
 
 # Alias for link-live
 link: link-live

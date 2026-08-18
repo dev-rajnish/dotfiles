@@ -5,14 +5,14 @@
   config,
   pkgs,
   lib,
-  enableWaydroid ? false,
+  env,
   ...
 }: {
   # ---------------------------------------------------------------------------
   # 🤖 Waydroid Android Container
   # ---------------------------------------------------------------------------
   virtualisation.waydroid = {
-    enable = enableWaydroid;
+    enable = env.enableWaydroid or false;
     package =
       if config.networking.nftables.enable
       then pkgs.waydroid-nftables
@@ -20,5 +20,5 @@
   };
 
   # Safe conditional environment override (avoids bad unit file errors when disabled)
-  systemd.services.waydroid-container.environment.LXC_USE_NFT = lib.mkIf enableWaydroid "true";
+  systemd.services.waydroid-container.environment.LXC_USE_NFT = lib.mkIf (env.enableWaydroid or false) "true";
 }

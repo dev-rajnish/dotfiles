@@ -5,13 +5,7 @@
   config,
   pkgs,
   lib,
-  editor,
-  browser,
-  fileManager,
-  pdfViewer,
-  videoPlayer,
-  audioPlayer,
-  imageViewer,
+  env,
   ...
 }: let
   toDesktop = app:
@@ -19,14 +13,14 @@
     then app
     else "${app}.desktop";
 
-  # Default Desktop Application Handlers (Populated dynamically from 0-system-vars.nix)
-  defaultEditor = toDesktop editor;
-  defaultBrowser = toDesktop browser;
-  defaultPdfViewer = toDesktop pdfViewer;
-  defaultFileManager = toDesktop fileManager;
-  defaultVideoPlayer = toDesktop videoPlayer;
-  defaultAudioPlayer = toDesktop audioPlayer;
-  defaultImageViewer = toDesktop imageViewer;
+  # Default Desktop Application Handlers (Populated dynamically from env/apps.toml)
+  defaultEditor = toDesktop env.editor;
+  defaultBrowser = toDesktop env.browser;
+  defaultPdfViewer = toDesktop env.pdfViewer;
+  defaultFileManager = toDesktop env.fileManager;
+  defaultVideoPlayer = toDesktop env.videoPlayer;
+  defaultAudioPlayer = toDesktop env.audioPlayer;
+  defaultImageViewer = toDesktop env.imageViewer;
 
   # Mappings from Application Handler -> List of MIME types
   mimeMap = {
@@ -295,33 +289,7 @@
   };
 in {
   # ---------------------------------------------------------------------------
-  # 🖼️ Desktop Entry Overrides (Unhide IMV in Application Launcher)
-  # ---------------------------------------------------------------------------
-  xdg.desktopEntries.imv = {
-    name = "imv";
-    genericName = "Image Viewer";
-    comment = "Fast Image Viewer";
-    exec = "imv %F";
-    icon = "multimedia-photo-viewer";
-    terminal = false;
-    categories = ["Graphics" "2DGraphics" "Viewer"];
-    mimeType = [
-      "image/png"
-      "image/jpeg"
-      "image/jpg"
-      "image/gif"
-      "image/webp"
-      "image/svg+xml"
-      "image/bmp"
-      "image/tiff"
-      "image/avif"
-      "image/heif"
-      "image/jxl"
-    ];
-  };
-
-  # ---------------------------------------------------------------------------
-  # 📄 XDG Default MIME Type Associations (Single Source of Truth: 0-system-vars.nix)
+  # 📄 XDG Default MIME Type Associations (Single Source of Truth: env/apps.toml)
   # ---------------------------------------------------------------------------
   xdg.mimeApps = {
     enable = true;

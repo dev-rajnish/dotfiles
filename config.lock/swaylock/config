@@ -14,34 +14,34 @@ fade-in=0.2
 grace=2
 grace-no-mouse
 grace-no-touch
-font="Noto Sans"
+font="Inter"
 
-color=1E1E2E
+color=191724
 
-ring-color=89B4FA
-ring-clear-color=A6E3A1
-ring-caps-lock-color=F9E2AF
-ring-ver-color=89B4FA
-ring-wrong-color=F38BA8
+ring-color=C4A7E7
+ring-clear-color=31748F
+ring-caps-lock-color=EBBCBA
+ring-ver-color=C4A7E7
+ring-wrong-color=EB6F92
 
-inside-color=1E1E2Eb3
-inside-clear-color=1E1E2Eb3
-inside-caps-lock-color=1E1E2Eb3
-inside-ver-color=1E1E2Eb3
-inside-wrong-color=1E1E2Eb3
+inside-color=191724b3
+inside-clear-color=191724b3
+inside-caps-lock-color=191724b3
+inside-ver-color=191724b3
+inside-wrong-color=191724b3
 
-key-hl-color=CBA6F7
-bs-hl-color=F38BA8
+key-hl-color=F6C177
+bs-hl-color=EB6F92
 
-line-color=1E1E2E00
-line-clear-color=1E1E2E00
-line-caps-lock-color=1E1E2E00
-line-ver-color=1E1E2E00
-line-wrong-color=1E1E2E00
-separator-color=1E1E2E00
+line-color=19172400
+line-clear-color=19172400
+line-caps-lock-color=19172400
+line-ver-color=19172400
+line-wrong-color=19172400
+separator-color=19172400
 
-text-color=CDD6F4
-text-clear-color=CDD6F4
-text-caps-lock-color=F9E2AF
-text-ver-color=CDD6F4
-text-wrong-color=F38BA8
+text-color=E0DEF4
+text-clear-color=E0DEF4
+text-caps-lock-color=EBBCBA
+text-ver-color=E0DEF4
+text-wrong-color=EB6F92

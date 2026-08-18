@@ -2,13 +2,12 @@
 #  Fresh Install & VM Dotfiles Automatic Initialization
 # =============================================================================
 {
-  username,
-  dotfilesDir ? "_ws/dotfiles",
+  env,
   self ? null,
   ...
 }: let
-  userHome = "/home/${username}";
-  targetDir = "${userHome}/${dotfilesDir}";
+  userHome = "/home/${env.username}";
+  targetDir = "${userHome}/${env.dotfilesDir}";
   parentDir = dirOf targetDir;
   flakeSrc =
     if self != null
@@ -21,7 +20,7 @@ in {
   system.activationScripts.initDotfiles = {
     text = ''
       TARGET_DIR="${targetDir}"
-      USER_NAME="${username}"
+      USER_NAME="${env.username}"
       USER_HOME="${userHome}"
       PARENT_DIR="${parentDir}"
       FLAKE_SRC="${flakeSrc}"

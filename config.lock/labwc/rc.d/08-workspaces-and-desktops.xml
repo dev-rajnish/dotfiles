@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     08-WORKSPACES-AND-DESKTOPS.XML
+     Virtual Desktops, Workspace Count, Names & Popup HUD
+     Reference: man labwc-config(5) -> WORKSPACES / DESKTOPS
+     ============================================================================= -->
+<!-- Attributes:
+     - number: Total number of virtual workspaces (e.g. 9). Default: 1 -->
+<desktops number="9">
+  <!-- Named Workspaces (Mirrors Niri Desktop Architecture) -->
+  <names>
+    <name>browser</name>
+    <name>terminal</name>
+    <name>editor</name>
+    <name>4</name>
+    <name>5</name>
+    <name>6</name>
+    <name>7</name>
+    <name>8</name>
+    <name>9</name>
+  </names>
+
+  <!-- Initial Active Desktop (1-indexed). Default: 1 -->
+  <initial>1</initial>
+
+  <!-- Desktop Switch OSD Popup Display Time (in milliseconds)
+       Set to 0 to disable the popup HUD completely. Default: 0 -->
+  <popupTime>0</popupTime>
+
+  <!-- Prefix for unnamed workspaces. Default: "Workspace " -->
+  <prefix>Workspace </prefix>
+</desktops>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     06-WINDOW-SNAPPING.XML
+     Screen Edge & Corner Window Tiling, Snap Overlays & Maximize Triggers
+     Reference: man labwc-config(5) -> WINDOW SNAPPING
+     ============================================================================= -->
+<snapping>
+  <!-- Edge Snap Trigger Ranges (in pixels)
+       - inner: Distance inside screen edge to initiate snapping.
+       - outer: Maximum distance outside screen edge to trigger snapping. -->
+  <range>
+    <inner>10</inner>
+    <outer>15</outer>
+  </range>
+
+  <!-- Corner Snap Range (in pixels)
+       Target region size in corners for triggering quarter-screen grid tiling. Default: 20 -->
+  <cornerRange>20</cornerRange>
+
+  <!-- Top-Edge Maximize [yes | no]
+       Dragging a window to the top edge of the display triggers fullscreen maximization. Default: yes -->
+  <topMaximize>yes</topMaximize>
+
+  <!-- Client Snapping Notification [always | region | edge | never]
+       Notifies client application of snap geometry via Wayland protocols. Default: region -->
+  <notifyClient>region</notifyClient>
+
+  <!-- Visual Snap Overlay Preview -->
+  <overlay>
+    <!-- Enabled [yes | no]
+         Renders graphical transparent highlight rectangle before snapping commits. Default: yes -->
+    <enabled>yes</enabled>
+
+    <!-- Overlay Render Delays (in milliseconds)
+         Delay before preview overlay is drawn when dragging near boundaries. -->
+    <delay>
+      <inner>100</inner>
+      <outer>100</outer>
+    </delay>
+  </overlay>
+</snapping>

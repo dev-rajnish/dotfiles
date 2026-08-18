@@ -1,7 +1,7 @@
 # =============================================================================
 #  NixOS Main Entrypoint & Static Module Importer
 # =============================================================================
-{systemVersion, ...}: {
+{stateVersion, ...}: {
   # Statically import host hardware configuration & all subsystem module entrypoints
   imports = [
     ./hardware-configuration.nix
@@ -11,6 +11,6 @@
     ./virtualization
   ];
 
-  # NixOS State Version (Matches 0-system-vars.nix)
-  system.stateVersion = systemVersion;
+  # NixOS State Version (Matches system.toml stateVersion)
+  system.stateVersion = stateVersion;
 }

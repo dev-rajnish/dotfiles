@@ -2,21 +2,21 @@
 #  User Accounts, Permission Groups & Shell Configuration
 # =============================================================================
 {
-  username,
   pkgs,
+  env,
   ...
 }: {
   users.users = {
     # -------------------------------------------------------------------------
     # 👤 Primary User Account
     # -------------------------------------------------------------------------
-    ${username} = {
+    ${env.username} = {
       isNormalUser = true;
-      initialPassword = username;
+      initialPassword = env.username;
       shell = pkgs.bash;
       ignoreShellProgramCheck = true;
 
-      description = username;
+      description = env.username;
 
       # Permission groups for hardware, virtualization, and audio
       extraGroups = [

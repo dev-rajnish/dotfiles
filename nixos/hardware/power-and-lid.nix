@@ -4,10 +4,10 @@
 {
   lib,
   pkgs,
-  enableLidInhibit ? false,
+  env,
   ...
 }:
-lib.mkIf enableLidInhibit {
+lib.mkIf (env.enableLidInhibit or false) {
   # ---------------------------------------------------------------------------
   # 🚀 Kernel Parameters to Prevent EC Wakeup on Lid Events
   # ---------------------------------------------------------------------------

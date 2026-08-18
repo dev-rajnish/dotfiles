@@ -14,7 +14,7 @@ fade-in=0.2
 grace=2
 grace-no-mouse
 grace-no-touch
-font="Noto Sans"
+font="Inter"
 
 color={{background | strip}}
 

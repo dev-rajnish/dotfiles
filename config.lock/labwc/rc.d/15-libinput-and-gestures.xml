@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     15-LIBINPUT-AND-GESTURES.XML
+     Touchpad Multi-Finger Gestures, Scroll Factor, Tap-and-Drag & Mouse Profiles
+     Reference: man labwc-config(5) -> LIBINPUT & man labwc-actions(5)
+     ============================================================================= -->
+<libinput>
+  <!-- =========================================================================
+       1. Precision Touchpad Device Profile & Gestures
+       ========================================================================= -->
+  <device category="touchpad">
+    <!-- Natural / Inverted Scrolling [yes | no] -->
+    <naturalScroll>no</naturalScroll>
+
+    <!-- Pointer Acceleration & Speed [-1.0 to 1.0] -->
+    <pointerSpeed>0.6</pointerSpeed>
+
+    <!-- Scroll Sensitivity / Factor (Default is 1.0; 0.3 provides smooth controlled scrolling) -->
+    <scrollFactor>0.1</scrollFactor>
+
+    <!-- Pointer Acceleration Profile [flat | adaptive] -->
+    <accelProfile>adaptive</accelProfile>
+
+    <!-- Tap to Click [yes | no] -->
+    <tap>yes</tap>
+
+    <!-- Tap and Drag Gesture [yes | no] (Double-tap and drag) -->
+    <tapAndDrag>yes</tapAndDrag>
+
+    <!-- Drag Lock [yes | no | timeout] (Preserves drag state when finger lifts momentarily) -->
+    <dragLock>no</dragLock>
+
+    <!-- Three Finger Drag Gesture [no | yes | 3 | 4] (Drag windows with 3 fingers) -->
+    <threeFingerDrag>3</threeFingerDrag>
+
+    <!-- Multi-Finger Tap Button Map [lrm | lmr] (1-tap: Left, 2-tap: Right, 3-tap: Middle) -->
+    <tapButtonMap>lrm</tapButtonMap>
+
+    <!-- Physical Click Method [none | buttonAreas | clickfinger] (1-click: Left, 2-click: Right, 3-click: Middle) -->
+    <clickMethod>clickfinger</clickMethod>
+
+    <!-- Scrolling Method [none | twofinger | edge] -->
+    <scrollMethod>twofinger</scrollMethod>
+
+    <!-- Disable Touchpad While Typing (DWT) [yes | no] (Palm rejection) -->
+    <disableWhileTyping>yes</disableWhileTyping>
+
+    <!-- Middle Button Click Emulation [yes | no] (Simultaneous Left+Right press) -->
+    <middleEmulation>yes</middleEmulation>
+  </device>
+
+  <!-- =========================================================================
+       2. Traditional Mouse Profile
+       ========================================================================= -->
+  <device category="non-touch">
+    <naturalScroll>yes</naturalScroll>
+    <middleEmulation>yes</middleEmulation>
+  </device>
+</libinput>

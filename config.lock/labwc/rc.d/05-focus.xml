@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     05-FOCUS-POLICY.XML
+     Window Focus Behavior, Hover Tracking & Stacking
+     Reference: man labwc-config(5) -> FOCUS
+     ============================================================================= -->
+<focus>
+  <!-- Follow Mouse [yes | no]
+       Automatically shift focus to windows under the mouse pointer (Focus-Follows-Mouse). Default: no -->
+  <followMouse>no</followMouse>
+
+  <!-- Follow Mouse Requires Movement [yes | no]
+       When followMouse is enabled, requires physical mouse movement across window boundary
+       before transferring focus (prevents focus stealing upon window closing). Default: no -->
+  <followMouseRequiresMovement>no</followMouseRequiresMovement>
+
+  <!-- Raise on Focus [yes | no]
+       Automatically raise focused window to the top of the stack. Default: no (retains stacking order) -->
+  <raiseOnFocus>no</raiseOnFocus>
+</focus>

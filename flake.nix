@@ -56,14 +56,12 @@
     treefmt-nix,
     ...
   }: let
-    # Load global system variables, package manifest & XDG configuration variables
-    vars = import ./0-system-vars.nix;
-    pkgList = import ./1-package-manifest.nix;
-    xdgVars = import ./2-xdg-config-vars.nix;
+    # Load unified environment configuration and package manifest
+    inherit (import ./env) env pkgList;
 
     # Arguments passed to all sub-modules
     sharedArgs =
-      vars
+      env
       // {
         inherit
           inputs
@@ -75,13 +73,13 @@
           zen-browser
           treefmt-nix
           pkgList
-          xdgVars
+          env
           ;
       };
 
     # Import nixpkgs with unfree software support
     pkgs = import nixpkgs {
-      inherit (vars) system;
+      inherit (env) system;
       config.allowUnfree = true;
     };
 
@@ -89,8 +87,11 @@
     treefmtEval = treefmt-nix.lib.evalModule pkgs {
       projectRootFile = "flake.nix";
       settings.global.excludes = [
-        "config.lock/wallust/templates/*"
+        "config.lock/*"
+        "config.lock/**/*"
         "config.live/wallust/templates/*"
+        "config.live/bin-src/target/*"
+        "config.live/bin-src/target/**/*"
         "dot_config/wallust/templates/*"
         "home-manager/dynamic-theming.bak/*"
       ];
@@ -104,14 +105,14 @@
     };
   in {
     # Flake check: verify code formatting
-    checks.${vars.system}.formatting = treefmtEval.config.build.check self;
+    checks.${env.system}.formatting = treefmtEval.config.build.check self;
 
     # -------------------------------------------------------------------------
     # ❄️ NixOS System Configuration
     # -------------------------------------------------------------------------
-    nixosConfigurations.${vars.hostname} = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.${env.hostname} = nixpkgs.lib.nixosSystem {
       inherit pkgs;
-      inherit (vars) system;
+      inherit (env) system;
       specialArgs = sharedArgs;
 
       modules = [
@@ -128,7 +129,7 @@
             useUserPackages = true;
             backupFileExtension = "backup";
             sharedModules = [stylix.homeModules.stylix];
-            users.${vars.username} = import ./home-manager/home.nix;
+            users.${env.username} = import ./home-manager/home.nix;
             extraSpecialArgs = sharedArgs;
           };
         }
@@ -138,7 +139,7 @@
     # -------------------------------------------------------------------------
     # 🏠 Standalone Home Manager Configuration
     # -------------------------------------------------------------------------
-    homeConfigurations.${vars.username} = home-manager.lib.homeManagerConfiguration {
+    homeConfigurations.${env.username} = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = sharedArgs;
 
@@ -149,6 +150,6 @@
     };
 
     # Treefmt CLI wrapper (`nix fmt`)
-    formatter.${vars.system} = treefmtEval.config.build.wrapper;
+    formatter.${env.system} = treefmtEval.config.build.wrapper;
   };
 }

@@ -3,13 +3,10 @@
 # =============================================================================
 {
   pkgs,
-  theme ? "tokyo-night-dark",
-  polarity ? "dark",
-  xdgVars ? import ../../2-xdg-config-vars.nix,
+  env,
   ...
 }: let
-  inherit (xdgVars) fonts appearance;
-  desktopFontSize = toString (builtins.floor fonts.sizes.desktop);
+  desktopFontSize = toString (builtins.floor (env.fonts.sizes.desktop or 12.0));
 in {
   # ---------------------------------------------------------------------------
   # 🎨 Stylix Base Scheme & Targets
@@ -18,8 +15,8 @@ in {
     enable = true;
     autoEnable = false;
     enableReleaseChecks = false;
-    inherit polarity;
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/${theme}.yaml";
+    inherit (env) polarity;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/${env.theme}.yaml";
 
     targets = {
       gtk.enable = true;
@@ -28,45 +25,45 @@ in {
     };
 
     # -------------------------------------------------------------------------
-    # 🖱️ Cursor Theme (Configured in 2-xdg-config-vars.nix)
+    # 🖱️ Cursor Theme (Configured in env/appearance.toml)
     # -------------------------------------------------------------------------
     cursor = {
-      name = appearance.cursor.name;
-      size = appearance.cursor.size;
+      name = env.appearance.cursor.name;
+      size = env.appearance.cursor.size;
       package = pkgs.bibata-cursors;
     };
 
     # -------------------------------------------------------------------------
-    # 🖼️ Icon Theme (Configured in 2-xdg-config-vars.nix)
+    # 🖼️ Icon Theme (Configured in env/appearance.toml)
     # -------------------------------------------------------------------------
     icons = {
       enable = true;
       package = pkgs.tela-circle-icon-theme;
-      dark = appearance.iconTheme;
+      dark = env.appearance.iconTheme;
       light = "Tela-circle-light";
     };
 
     # -------------------------------------------------------------------------
-    # 🔤 System & Application Fonts (Configured in 2-xdg-config-vars.nix)
+    # 🔤 System & Application Fonts (Configured in env/appearance.toml)
     # -------------------------------------------------------------------------
     fonts = {
-      sizes.applications = builtins.floor fonts.sizes.desktop;
+      sizes.applications = builtins.floor env.fonts.sizes.desktop;
 
       emoji = {
-        name = fonts.emoji.family;
+        name = env.fonts.emoji.family;
         package = pkgs.noto-fonts-color-emoji;
       };
       monospace = {
-        name = fonts.mono.family;
+        name = env.fonts.mono.family;
         package = pkgs.nerd-fonts.jetbrains-mono;
       };
       sansSerif = {
-        name = fonts.sans.family;
-        package = pkgs.noto-fonts;
+        name = env.fonts.sans.family;
+        package = pkgs.inter;
       };
       serif = {
-        name = fonts.serif.family;
-        package = pkgs.noto-fonts;
+        name = env.fonts.serif.family;
+        package = pkgs.inter;
       };
     };
   };
@@ -80,18 +77,18 @@ in {
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme =
-        if polarity == "dark"
+        if env.polarity == "dark"
         then "prefer-dark"
         else "default";
-      cursor-theme = appearance.cursor.name;
-      cursor-size = appearance.cursor.size;
+      cursor-theme = env.appearance.cursor.name;
+      cursor-size = env.appearance.cursor.size;
       icon-theme =
-        if polarity == "dark"
-        then appearance.iconTheme
+        if env.polarity == "dark"
+        then env.appearance.iconTheme
         else "Tela-circle-light";
-      font-name = "${fonts.sans.family} ${desktopFontSize}";
-      document-font-name = "${fonts.sans.family} ${desktopFontSize}";
-      monospace-font-name = "${fonts.mono.family} ${desktopFontSize}";
+      font-name = "${env.fonts.sans.family} ${desktopFontSize}";
+      document-font-name = "${env.fonts.sans.family} ${desktopFontSize}";
+      monospace-font-name = "${env.fonts.mono.family} ${desktopFontSize}";
     };
   };
 }

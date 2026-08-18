@@ -1,0 +1,33 @@
+# =============================================================================
+#  System & Host Configuration (Single Source of Truth)
+# =============================================================================
+
+# ⚙️ Host Platform, CPU & Garbage Collection
+system = "x86_64-linux"
+buildCores = 0
+autoGcOlderThan = "7d"
+
+# 👤 User & Host Identification
+username = "rsh"
+hostname = "nixos"
+dotfilesDir = "dot"
+
+# 💻 Hardware & Platform Profile
+deviceType = "laptop"
+gpuDriver = "amd"
+enableEarlyKms = false
+enableLidInhibit = true
+enableKanata = true
+
+# 🌐 System Localization, Timezone & Keyboard
+timeZone = "Asia/Kolkata"
+defaultLocale = "en_US.UTF-8"
+keyboardLayout = "us"
+keyboardPath = ""
+
+# 🐙 Git & GitHub Credentials
+ghUsername = "dev-rajnish"
+ghEmail = "dev.rajnish@proton.me"
+
+# 🏷️ NixOS & Home Manager State Version
+stateVersion = "26.05"

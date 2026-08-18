@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     13-MOUSE-AND-ACTIONS.XML
+     Pointer Contexts, Button Drags, Window Moves & Desktop Gestures
+     Reference: man labwc-config(5) -> MOUSE & man labwc-actions(5)
+     Contexts: Frame, Title, TitleBar, Icon, Close, Border, Root/Desktop, Client
+     Actions: Press, Release, Click, DoubleClick, Drag, Scroll
+     ============================================================================= -->
+<mouse>
+  <!-- Double Click Speed (in milliseconds) -->
+  <doubleClickTime>500</doubleClickTime>
+
+  <!-- Load Default Openbox Mousebinds Fallback -->
+  <default />
+
+  <!-- 1. Window Frame & Border Interactions -->
+  <context name="Frame">
+    <!-- Super + Left Drag: Move Window -->
+    <mousebind button="W-Left" action="Drag">
+      <action name="Move" />
+    </mousebind>
+    <!-- Super + Right Drag: Resize Window -->
+    <mousebind button="W-Right" action="Drag">
+      <action name="Resize" />
+    </mousebind>
+  </context>
+
+  <!-- 2. Window Titlebar Interactions -->
+  <context name="Title">
+    <!-- Double Left Click: Toggle Maximize -->
+    <mousebind button="Left" action="DoubleClick">
+      <action name="ToggleMaximize" />
+    </mousebind>
+    <!-- Middle Click: Lower Window beneath others -->
+    <mousebind button="Middle" action="Click">
+      <action name="Lower" />
+    </mousebind>
+    <!-- Scroll Up on Titlebar: Roll up / Shade window -->
+    <mousebind direction="Up" action="Scroll">
+      <action name="Shade" />
+    </mousebind>
+    <!-- Scroll Down on Titlebar: Roll down / Unshade window -->
+    <mousebind direction="Down" action="Scroll">
+      <action name="Unshade" />
+    </mousebind>
+  </context>
+
+  <!-- 3. Desktop Background Interactions -->
+  <context name="Root">
+    <!-- Right Click on Wallpaper: Context Applications Menu -->
+    <mousebind button="Right" action="Press">
+      <action name="ShowMenu" menu="root-menu" />
+    </mousebind>
+    <!-- Middle Click on Wallpaper: Active Windows List Menu -->
+    <mousebind button="Middle" action="Press">
+      <action name="ShowMenu" menu="client-list-combined-menu" />
+    </mousebind>
+    <!-- Super + Scroll on Wallpaper: Switch Workspaces -->
+    <mousebind direction="W-Up" action="Scroll">
+      <action name="GoToDesktop" to="left" />
+    </mousebind>
+    <mousebind direction="W-Down" action="Scroll">
+      <action name="GoToDesktop" to="right" />
+    </mousebind>
+  </context>
+</mouse>

@@ -4,9 +4,11 @@
 {
   pkgs,
   lib,
-  enableLibvirt ? true,
+  env,
   ...
-}: {
+}: let
+  enableLibvirt = env.enableLibvirt or true;
+in {
   # ---------------------------------------------------------------------------
   # 📁 Kernel Filesystem Sharing Modules for VM Guest Mounts
   # ---------------------------------------------------------------------------

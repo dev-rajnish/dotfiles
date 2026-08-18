@@ -1,4 +1,4 @@
-# Auto-generated from 2-xdg-config-vars.nix - Do not edit manually
+# Auto-generated from env/appearance.toml - Do not edit manually
 [general]
 font-sans = "JetBrainsMono Nerd Font"
 

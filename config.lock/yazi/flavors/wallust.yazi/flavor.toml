@@ -7,144 +7,144 @@
 # 01. Manager & File List
 # -----------------------------------------------------------------------------
 [mgr]
-cwd = { fg = "#94E2D5", italic = true }
+cwd = { fg = "#9CCFD8", italic = true }
 
 # Hovered
-hovered = { bg = "#6C7086", fg = "#1E1E2E", bold = true }
-preview_hovered = { bg = "#6C7086" }
+hovered         = { bg = "#6E6A86", fg = "#191724", bold = true }
+preview_hovered = { bg = "#6E6A86" }
 
 # Find
-find_keyword = { fg = "#1E1E2E", bg = "#F9E2AF", bold = true }
-find_position = { fg = "#94E2D5", bg = "#6C7086", bold = true }
+find_keyword  = { fg = "#191724", bg = "#EBBCBA", bold = true }
+find_position = { fg = "#9CCFD8", bg = "#6E6A86", bold = true }
 
 # Marker
-marker_copied = { fg = "#A6E3A1", bg = "#A6E3A1" }
-marker_cut = { fg = "#F38BA8", bg = "#F38BA8" }
-marker_marked = { fg = "#CBA6F7", bg = "#CBA6F7" }
-marker_selected = { fg = "#89B4FA", bg = "#89B4FA" }
+marker_copied   = { fg = "#31748F", bg = "#31748F" }
+marker_cut      = { fg = "#EB6F92", bg = "#EB6F92" }
+marker_marked   = { fg = "#F6C177", bg = "#F6C177" }
+marker_selected = { fg = "#C4A7E7", bg = "#C4A7E7" }
 
 # Count
-count_copied = { fg = "#CDD6F4", bg = "#A6E3A1" }
-count_cut = { fg = "#CDD6F4", bg = "#F38BA8" }
-count_selected = { fg = "#CDD6F4", bg = "#89B4FA" }
+count_copied   = { fg = "#E0DEF4", bg = "#31748F" }
+count_cut      = { fg = "#E0DEF4", bg = "#EB6F92" }
+count_selected = { fg = "#E0DEF4", bg = "#C4A7E7" }
 
 # Border
 border_symbol = "│"
-border_style = { fg = "#94E2D5" }
+border_style  = { fg = "#9CCFD8" }
 
 # Tabs
 [tabs]
-active = { fg = "#1E1E2E", bg = "#89B4FA", bold = true }
-inactive = { fg = "#1E1E2E", bg = "#6C7086" }
+active   = { fg = "#191724", bg = "#C4A7E7", bold = true }
+inactive = { fg = "#191724", bg = "#6E6A86" }
 
 # -----------------------------------------------------------------------------
 # 02. Operating Modes (Normal / Select / Unset)
 # -----------------------------------------------------------------------------
 [mode]
-normal_main = { fg = "#1E1E2E", bg = "#89B4FA", bold = true }
-normal_alt = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
+normal_main = { fg = "#191724", bg = "#C4A7E7", bold = true }
+normal_alt  = { fg = "#191724", bg = "#6E6A86", bold = true }
 
-select_main = { fg = "#1E1E2E", bg = "#CBA6F7", bold = true }
-select_alt = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
+select_main = { fg = "#191724", bg = "#F6C177", bold = true }
+select_alt  = { fg = "#191724", bg = "#6E6A86", bold = true }
 
-unset_main = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
-unset_alt = { fg = "#1E1E2E", bg = "#1E1E2E", bold = true }
+unset_main  = { fg = "#191724", bg = "#6E6A86", bold = true }
+unset_alt   = { fg = "#191724", bg = "#191724", bold = true }
 
 # -----------------------------------------------------------------------------
 # 03. Status Bar
 # -----------------------------------------------------------------------------
 [status]
-overall = { fg = "#CDD6F4", bg = "#1E1E2E" }
-separator_open = ""
+overall         = { fg = "#E0DEF4", bg = "#191724" }
+separator_open  = ""
 separator_close = ""
 
 # Progress
-progress_label = { fg = "#CDD6F4", bold = true }
-progress_normal = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
-progress_error = { fg = "#1E1E2E", bg = "#F38BA8", bold = true }
+progress_label  = { fg = "#E0DEF4", bold = true }
+progress_normal = { fg = "#191724", bg = "#6E6A86", bold = true }
+progress_error  = { fg = "#191724", bg = "#EB6F92", bold = true }
 
 # Permissions
-perm_type = { fg = "#89B4FA" }
-perm_read = { fg = "#F9E2AF" }
-perm_write = { fg = "#F38BA8" }
-perm_exec = { fg = "#A6E3A1" }
-perm_sep = { fg = "#6C7086" }
+perm_type  = { fg = "#C4A7E7" }
+perm_read  = { fg = "#EBBCBA" }
+perm_write = { fg = "#EB6F92" }
+perm_exec  = { fg = "#31748F" }
+perm_sep   = { fg = "#6E6A86" }
 
 # -----------------------------------------------------------------------------
 # 04. Selection Pickers & Menus
 # -----------------------------------------------------------------------------
 [pick]
-border = { fg = "#94E2D5" }
-active = { fg = "#CDD6F4", bg = "#6C7086" }
-inactive = { fg = "#CDD6F4" }
+border   = { fg = "#9CCFD8" }
+active   = { fg = "#E0DEF4", bg = "#6E6A86" }
+inactive = { fg = "#E0DEF4" }
 
 # -----------------------------------------------------------------------------
 # 05. Input Dialogs
 # -----------------------------------------------------------------------------
 [input]
-border = { fg = "#94E2D5" }
-title = { fg = "#94E2D5" }
-value = { fg = "#CBA6F7" }
-selected = { bg = "#6C7086" }
+border   = { fg = "#9CCFD8" }
+title    = { fg = "#9CCFD8" }
+value    = { fg = "#F6C177" }
+selected = { bg = "#6E6A86" }
 
 # -----------------------------------------------------------------------------
 # 06. Completions
 # -----------------------------------------------------------------------------
 [cmp]
-border = { fg = "#94E2D5" }
-active = { fg = "#CDD6F4", bg = "#6C7086" }
-inactive = { fg = "#CDD6F4" }
+border   = { fg = "#9CCFD8" }
+active   = { fg = "#E0DEF4", bg = "#6E6A86" }
+inactive = { fg = "#E0DEF4" }
 
-icon_file = ""
-icon_folder = ""
+icon_file    = ""
+icon_folder  = ""
 icon_command = ""
 
 # -----------------------------------------------------------------------------
 # 07. Tasks Manager
 # -----------------------------------------------------------------------------
 [tasks]
-border = { fg = "#94E2D5" }
-title = { fg = "#94E2D5" }
-hovered = { fg = "#CDD6F4", bg = "#6C7086" }
+border  = { fg = "#9CCFD8" }
+title   = { fg = "#9CCFD8" }
+hovered = { fg = "#E0DEF4", bg = "#6E6A86" }
 
 # -----------------------------------------------------------------------------
 # 08. Which Key Helper
 # -----------------------------------------------------------------------------
 [which]
-cols = 3
-mask = { bg = "#1E1E2E" }
-cand = { fg = "#94E2D5" }
-rest = { fg = "#89B4FA" }
-desc = { fg = "#CBA6F7" }
-separator = " ➜ "
-separator_style = { fg = "#6C7086" }
+cols            = 3
+mask            = { bg = "#191724" }
+cand            = { fg = "#9CCFD8" }
+rest            = { fg = "#C4A7E7" }
+desc            = { fg = "#F6C177" }
+separator       = " ➜ "
+separator_style = { fg = "#6E6A86" }
 
 # -----------------------------------------------------------------------------
 # 09. Confirmation Dialogs
 # -----------------------------------------------------------------------------
 [confirm]
-border = { fg = "#94E2D5" }
-title = { fg = "#94E2D5" }
+border  = { fg = "#9CCFD8" }
+title   = { fg = "#9CCFD8" }
 content = {}
-list = {}
-btn_yes = { bg = "#6C7086" }
-btn_no = {}
-btn_labels = ["  [Y]es  ", "  (N)o  "]
+list    = {}
+btn_yes = { bg = "#6E6A86" }
+btn_no  = {}
+btn_labels = [ "  [Y]es  ", "  (N)o  " ]
 
 # -----------------------------------------------------------------------------
 # 10. Spotting & Inspection
 # -----------------------------------------------------------------------------
 [spot]
-border = { fg = "#94E2D5" }
-title = { fg = "#94E2D5" }
+border  = { fg = "#9CCFD8" }
+title   = { fg = "#9CCFD8" }
 
 # -----------------------------------------------------------------------------
 # 11. System Notifications
 # -----------------------------------------------------------------------------
 [notify]
-title_info = { fg = "#94E2D5" }
-title_warn = { fg = "#F9E2AF" }
-title_error = { fg = "#F38BA8" }
+title_info  = { fg = "#9CCFD8" }
+title_warn  = { fg = "#EBBCBA" }
+title_error = { fg = "#EB6F92" }
 
 icon_error = ""
 icon_warn = ""
@@ -154,11 +154,11 @@ icon_info = ""
 # 12. Help & Keybindings Overlay
 # -----------------------------------------------------------------------------
 [help]
-on = { fg = "#A6E3A1" }
-run = { fg = "#CBA6F7" }
-desc = { fg = "#94E2D5" }
-hovered = { bg = "#6C7086" }
-footer = { fg = "#CDD6F4", bg = "#1E1E2E" }
+on      = { fg = "#31748F" }
+run     = { fg = "#F6C177" }
+desc    = { fg = "#9CCFD8" }
+hovered = { bg = "#6E6A86" }
+footer  = { fg = "#E0DEF4", bg = "#191724" }
 
 # -----------------------------------------------------------------------------
 # 13. File-specific & MIME Highlighting
@@ -166,22 +166,22 @@ footer = { fg = "#CDD6F4", bg = "#1E1E2E" }
 [filetype]
 
 rules = [
-  # Images
-  { mime = "image/*", fg = "#F9E2AF" },
+	# Images
+	{ mime = "image/*", fg = "#EBBCBA" },
 
-  # Media (Audio & Video)
-  { mime = "{audio,video}/*", fg = "#CBA6F7" },
+	# Media (Audio & Video)
+	{ mime = "{audio,video}/*", fg = "#F6C177" },
 
-  # Archives
-  { mime = "application/*zip", fg = "#F38BA8" },
-  { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#F38BA8" },
+	# Archives
+	{ mime = "application/*zip", fg = "#EB6F92" },
+	{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#EB6F92" },
 
-  # Documents
-  { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#94E2D5" },
+	# Documents
+	{ mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#9CCFD8" },
 
-  # Directories
-  { mime = "inode/directory", fg = "#89B4FA", bold = true },
+	# Directories
+	{ mime = "inode/directory", fg = "#C4A7E7", bold = true },
 
-  # Fallback
-  { mime = "*", fg = "#CDD6F4" },
+	# Fallback
+	{ mime = "*", fg = "#E0DEF4" }
 ]

@@ -52,12 +52,12 @@ in {
     */
     ''
           # Write Stylix-generated palette to stylix.jsonc
-          cat << 'EOF' > "$HOME/.config/wallust/colorschemes/stylix.jsonc"
+          cat << 'EOF' > "${config.xdg.configHome}/wallust/colorschemes/stylix.jsonc"
       ${stylixColorschemeJson}
       EOF
-      chmod 644 "$HOME/.config/wallust/colorschemes/stylix.jsonc"
+      chmod 644 "${config.xdg.configHome}/wallust/colorschemes/stylix.jsonc"
 
           # Apply colorscheme via Wallust to render all templates
-          ${pkgs.wallust}/bin/wallust cs "$HOME/.config/wallust/colorschemes/stylix.jsonc"
+          ${pkgs.wallust}/bin/wallust cs "${config.xdg.configHome}/wallust/colorschemes/stylix.jsonc"
     '';
 }

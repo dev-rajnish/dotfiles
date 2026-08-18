@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     07-TILING-REGIONS.XML
+     Custom Screen Snap Regions, Grid Coordinates & Multi-Column Layouts
+     Reference: man labwc-config(5) -> REGIONS
+     ============================================================================= -->
+<regions>
+  <!-- Half-Screen Halves -->
+  <region name="left" x="0%" y="0%" width="50%" height="100%" />
+  <region name="right" x="50%" y="0%" width="50%" height="100%" />
+  <region name="top" x="0%" y="0%" width="100%" height="50%" />
+  <region name="bottom" x="0%" y="50%" width="100%" height="50%" />
+
+  <!-- Quarter-Screen Grid Quadrants -->
+  <region name="top-left" x="0%" y="0%" width="50%" height="50%" />
+  <region name="top-right" x="50%" y="0%" width="50%" height="50%" />
+  <region name="bottom-left" x="0%" y="50%" width="50%" height="50%" />
+  <region name="bottom-right" x="50%" y="50%" width="50%" height="50%" />
+
+  <!-- Centered Focus Layout (60% width centered) -->
+  <region name="center" x="20%" y="0%" width="60%" height="100%" />
+
+  <!-- Triple Column Grid (Left 25%, Center 50%, Right 25%) -->
+  <region name="column-left" x="0%" y="0%" width="25%" height="100%" />
+  <region name="column-center" x="25%" y="0%" width="50%" height="100%" />
+  <region name="column-right" x="75%" y="0%" width="25%" height="100%" />
+</regions>

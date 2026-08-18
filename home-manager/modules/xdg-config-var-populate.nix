@@ -1,29 +1,38 @@
 # =============================================================================
 #  XDG Config Appearance Populator (Typography & Geometry Tokens)
-#  Renders layout, font, and geometry parameters from 2-xdg-config-vars.nix
+#  Renders layout, font, and geometry parameters from env/appearance.toml
 # =============================================================================
 {
   config,
   lib,
   pkgs,
-  terminal ? "kitty",
-  dotfilesDir ? "_ws/dotfiles",
-  xdgVars ? import ../../2-xdg-config-vars.nix,
+  env,
   ...
 }: let
-  inherit (xdgVars) fonts appearance;
-  dotConfigPath = "${config.home.homeDirectory}/.config";
+  inherit (env) fonts appearance terminal;
+  dotConfigPath = config.xdg.configHome;
 
-  kittyAppearanceConf = ''
-    # Auto-generated from 2-xdg-config-vars.nix - Do not edit manually
-    font_family      ${fonts.mono.family}
-    italic_font      ${fonts.mono.italicFamily}
-    font_features    ${fonts.mono.features}
-    font_size        ${toString fonts.sizes.terminal}
-  '';
+  kittyAppearanceConf =
+    ''
+      # Auto-generated from env/appearance.toml - Do not edit manually
+      font_family      ${fonts.mono.family}
+      font_size        ${toString fonts.sizes.terminal}
+    ''
+    + lib.optionalString (fonts.mono ? italicFamily && fonts.mono.italicFamily != "") ''
+      italic_font      ${fonts.mono.italicFamily}
+    ''
+    + lib.optionalString (fonts.mono ? boldFamily && fonts.mono.boldFamily != "") ''
+      bold_font        ${fonts.mono.boldFamily}
+    ''
+    + lib.optionalString (fonts.mono ? boldItalicFamily && fonts.mono.boldItalicFamily != "") ''
+      bold_italic_font ${fonts.mono.boldItalicFamily}
+    ''
+    + lib.optionalString (fonts.mono ? features && fonts.mono.features != "") ''
+      font_features    ${fonts.mono.features}
+    '';
 
   fuzzelAppearanceIni = ''
-    # Auto-generated from 2-xdg-config-vars.nix - Do not edit manually
+    # Auto-generated from env/appearance.toml - Do not edit manually
     [main]
     font=${fonts.mono.family}:size=${toString (builtins.floor fonts.sizes.launcher)}
     terminal=${terminal}
@@ -34,14 +43,16 @@
   '';
 
   colorsAppearanceCss = ''
-    /* Auto-generated from 2-xdg-config-vars.nix - Do not edit manually */
+    /* Auto-generated from env/appearance.toml - Do not edit manually */
 
     @define-color font_mono "${fonts.mono.family}";
+    @define-color font_italic "${fonts.italic.family or fonts.mono.italicFamily or fonts.mono.family}";
     @define-color font_sans "${fonts.sans.family}";
     @define-color font_serif "${fonts.serif.family}";
 
     :root, * {
       --font-mono: "${fonts.mono.family}";
+      --font-italic: "${fonts.italic.family or fonts.mono.italicFamily or fonts.mono.family}";
       --font-sans: "${fonts.sans.family}";
       --font-serif: "${fonts.serif.family}";
       --font-size-terminal: ${toString fonts.sizes.terminal}pt;
@@ -57,7 +68,7 @@
   '';
 
   wlogoutAppearanceCss = ''
-    /* Auto-generated from 2-xdg-config-vars.nix - Do not edit manually */
+    /* Auto-generated from env/appearance.toml - Do not edit manually */
     @define-color font_family "${fonts.sans.family}";
     @define-color font_size ${toString fonts.sizes.powerMenu}pt;
     @define-color border_radius ${toString appearance.borderRadius}px;
@@ -72,7 +83,7 @@
   '';
 
   wayleAppearanceToml = ''
-    # Auto-generated from 2-xdg-config-vars.nix - Do not edit manually
+    # Auto-generated from env/appearance.toml - Do not edit manually
     [general]
     font-sans = "${fonts.mono.family}"
 

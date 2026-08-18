@@ -4,13 +4,13 @@
 {
   lib,
   pkgs,
-  username,
-  enableAutoLogin ? false,
+  env,
   ...
 }: let
+  enableAutoLogin = env.enableAutoLogin or false;
+
   # Dynamic session paths on NixOS (System & Home Manager user profiles)
-  waylandSessions = "/run/current-system/sw/share/wayland-sessions:/etc/profiles/per-user/${username}/share/wayland-sessions";
-  xSessions = "/run/current-system/sw/share/xsessions:/etc/profiles/per-user/${username}/share/xsessions";
+  waylandSessions = "${pkgs.niri}/share/wayland-sessions";
 
   # Formatted tuigreet arguments
   tuigreetArgs = lib.concatStringsSep " " [
@@ -28,17 +28,16 @@
     "--container-padding 2"
     "--prompt-padding 1"
     "--sessions ${waylandSessions}"
-    "--xsessions ${xSessions}"
-    "--cmd labwc"
+
+    "--cmd niri"
     "--power-shutdown 'systemctl poweroff'"
     "--power-reboot 'systemctl reboot'"
-    "--theme 'border=blue;text=white;prompt=magenta;time=cyan;action=blue;button=yellow;container=black;title=blue;greet=cyan;input=white'"
   ];
 in {
   # ---------------------------------------------------------------------------
   # 🔑 Automatic TTY User Login (TTY1) - Enabled only when enableAutoLogin = true
   # ---------------------------------------------------------------------------
-  services.getty.autologinUser = lib.mkIf enableAutoLogin username;
+  services.getty.autologinUser = lib.mkIf enableAutoLogin env.username;
 
   # ---------------------------------------------------------------------------
   # 🖥️ tuigreet Minimalist Terminal Greeter on Greetd

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     17-MENU-BEHAVIOR.XML
+     Context & Application Menu Timing and Icon Rendering
+     Reference: man labwc-config(5) -> MENU & man labwc-menu(5)
+     ============================================================================= -->
+<menu>
+  <!-- Button Release Ignore Period (in milliseconds)
+       Prevents accidental selection of menu items during fast click-release sequences. Default: 250 -->
+  <ignoreButtonReleasePeriod>250</ignoreButtonReleasePeriod>
+
+  <!-- Show Icons in Menus [yes | no]
+       Renders application icons next to menu labels via libsfdo. Default: yes -->
+  <showIcons>yes</showIcons>
+</menu>

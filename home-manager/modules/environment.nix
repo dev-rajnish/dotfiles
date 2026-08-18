@@ -3,25 +3,22 @@
 # =============================================================================
 {
   lib,
-  username,
-  editor,
-  terminal,
-  browser,
+  env,
   ...
 }: {
   # Suppress Home Manager release news popups
   news.display = "silent";
 
   home = {
-    inherit username;
-    homeDirectory = "/home/${username}";
+    username = env.username;
+    homeDirectory = "/home/${env.username}";
     enableNixpkgsReleaseCheck = true;
 
-    # Global User Shell & Editor Session Variables
+    # Global User Shell & Editor Session Variables (Populated dynamically from env)
     sessionVariables = {
-      EDITOR = editor;
-      TERMINAL = terminal;
-      BROWSER = lib.mkDefault browser;
+      EDITOR = env.editor;
+      TERMINAL = env.terminal;
+      BROWSER = lib.mkDefault env.browser;
       SHELL = "bash";
       MAN_DISABLE_CACHE = 1;
       SSH_ASKPASS = "";

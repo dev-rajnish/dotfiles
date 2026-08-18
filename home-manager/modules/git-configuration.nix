@@ -1,21 +1,17 @@
 # =============================================================================
 #  Git Version Control & User Credentials
 # =============================================================================
-{
-  ghUsername,
-  ghEmail,
-  ...
-}: {
+{env, ...}: {
   # ---------------------------------------------------------------------------
   # 🐙 Git Configuration & Global Settings
   # ---------------------------------------------------------------------------
   programs.git = {
     enable = true;
     settings = {
-      # User identity (Imported from var.nix)
+      # User identity (Imported from env/system.toml)
       user = {
-        name = ghUsername;
-        email = ghEmail;
+        name = env.ghUsername;
+        email = env.ghEmail;
       };
 
       # Credential helper to cache logins

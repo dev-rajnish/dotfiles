@@ -4,14 +4,17 @@
 {
   pkgs,
   pkgList,
-  enableDevPkg ? true,
-  enableProgrammingLang ? true,
+  env,
   ...
 }: {
   # ---------------------------------------------------------------------------
-  # 🌟 Consolidated User Packages (Imported from 1-package-manifest.nix -> hmPackages)
+  # 🌟 Consolidated User Packages (Imported from env/packages.nix -> hmPackages)
   # ---------------------------------------------------------------------------
-  home.packages = (pkgList {inherit pkgs enableDevPkg enableProgrammingLang;}).hmPackages;
+  home.packages =
+    (pkgList {
+      inherit pkgs;
+      inherit (env) enableDevPkg enableProgrammingLang;
+    }).hmPackages;
 
   # Home Manager self-management & command lookup
   programs.home-manager.enable = true;

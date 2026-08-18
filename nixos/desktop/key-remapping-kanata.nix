@@ -4,25 +4,23 @@
 {
   lib,
   pkgs,
-  username,
-  keyboardPath ? null,
-  enableKanata ? false,
+  env,
   ...
 }: let
   # Standard internal laptop keyboard event device
   defaultKeyboardPath = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
 
   kbdDevice =
-    if keyboardPath != null && keyboardPath != ""
-    then keyboardPath
+    if (env.keyboardPath or null) != null && env.keyboardPath != ""
+    then env.keyboardPath
     else defaultKeyboardPath;
 in
-  lib.mkIf enableKanata {
+  lib.mkIf (env.enableKanata or false) {
     environment.systemPackages = [pkgs.kanata];
 
     hardware.uinput.enable = true;
-    services.udev.extraRules = ''KERNEL=="uinput", OWNER="${username}", MODE="0600"'';
-    users.users.${username}.extraGroups = ["input" "uinput"];
+    services.udev.extraRules = ''KERNEL=="uinput", OWNER="${env.username}", MODE="0600"'';
+    users.users.${env.username}.extraGroups = ["input" "uinput"];
 
     services.kanata = {
       enable = true;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- =============================================================================
+     04-EDGE-AND-WINDOW-RESISTANCE.XML
+     Screen Edge Magnetic Snapping & Drag Resistance Thresholds
+     Reference: man labwc-config(5) -> RESISTANCE
+     ============================================================================= -->
+<resistance>
+  <!-- Screen Edge Resistance (in pixels)
+       Distance in pixels cursor must move past screen boundary before window crosses it. Default: 20 -->
+  <screenEdgeStrength>20</screenEdgeStrength>
+
+  <!-- Window Edge Resistance (in pixels)
+       Distance in pixels before window boundary slides across adjacent window edges. Default: 10 -->
+  <windowEdgeStrength>10</windowEdgeStrength>
+
+  <!-- Un-Snap Threshold (in pixels)
+       Pixel pull distance required to detach/unsnap a window from an edge or region. Default: 30 -->
+  <unSnapThreshold>30</unSnapThreshold>
+
+  <!-- Un-Maximize Threshold (in pixels)
+       Pixel drag pull distance required to restore/un-maximize a maximized window. Default: 40 -->
+  <unMaximizeThreshold>40</unMaximizeThreshold>
+</resistance>
