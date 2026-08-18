@@ -1,0 +1,187 @@
+# =============================================================================
+#  Wallust Generated Yazi Flavor (flavor.toml)
+#  Dynamic Tokyo Night inspired palette mapping
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 01. Manager & File List
+# -----------------------------------------------------------------------------
+[mgr]
+cwd = { fg = "#94E2D5", italic = true }
+
+# Hovered
+hovered = { bg = "#6C7086", fg = "#1E1E2E", bold = true }
+preview_hovered = { bg = "#6C7086" }
+
+# Find
+find_keyword = { fg = "#1E1E2E", bg = "#F9E2AF", bold = true }
+find_position = { fg = "#94E2D5", bg = "#6C7086", bold = true }
+
+# Marker
+marker_copied = { fg = "#A6E3A1", bg = "#A6E3A1" }
+marker_cut = { fg = "#F38BA8", bg = "#F38BA8" }
+marker_marked = { fg = "#CBA6F7", bg = "#CBA6F7" }
+marker_selected = { fg = "#89B4FA", bg = "#89B4FA" }
+
+# Count
+count_copied = { fg = "#CDD6F4", bg = "#A6E3A1" }
+count_cut = { fg = "#CDD6F4", bg = "#F38BA8" }
+count_selected = { fg = "#CDD6F4", bg = "#89B4FA" }
+
+# Border
+border_symbol = "│"
+border_style = { fg = "#94E2D5" }
+
+# Tabs
+[tabs]
+active = { fg = "#1E1E2E", bg = "#89B4FA", bold = true }
+inactive = { fg = "#1E1E2E", bg = "#6C7086" }
+
+# -----------------------------------------------------------------------------
+# 02. Operating Modes (Normal / Select / Unset)
+# -----------------------------------------------------------------------------
+[mode]
+normal_main = { fg = "#1E1E2E", bg = "#89B4FA", bold = true }
+normal_alt = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
+
+select_main = { fg = "#1E1E2E", bg = "#CBA6F7", bold = true }
+select_alt = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
+
+unset_main = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
+unset_alt = { fg = "#1E1E2E", bg = "#1E1E2E", bold = true }
+
+# -----------------------------------------------------------------------------
+# 03. Status Bar
+# -----------------------------------------------------------------------------
+[status]
+overall = { fg = "#CDD6F4", bg = "#1E1E2E" }
+separator_open = ""
+separator_close = ""
+
+# Progress
+progress_label = { fg = "#CDD6F4", bold = true }
+progress_normal = { fg = "#1E1E2E", bg = "#6C7086", bold = true }
+progress_error = { fg = "#1E1E2E", bg = "#F38BA8", bold = true }
+
+# Permissions
+perm_type = { fg = "#89B4FA" }
+perm_read = { fg = "#F9E2AF" }
+perm_write = { fg = "#F38BA8" }
+perm_exec = { fg = "#A6E3A1" }
+perm_sep = { fg = "#6C7086" }
+
+# -----------------------------------------------------------------------------
+# 04. Selection Pickers & Menus
+# -----------------------------------------------------------------------------
+[pick]
+border = { fg = "#94E2D5" }
+active = { fg = "#CDD6F4", bg = "#6C7086" }
+inactive = { fg = "#CDD6F4" }
+
+# -----------------------------------------------------------------------------
+# 05. Input Dialogs
+# -----------------------------------------------------------------------------
+[input]
+border = { fg = "#94E2D5" }
+title = { fg = "#94E2D5" }
+value = { fg = "#CBA6F7" }
+selected = { bg = "#6C7086" }
+
+# -----------------------------------------------------------------------------
+# 06. Completions
+# -----------------------------------------------------------------------------
+[cmp]
+border = { fg = "#94E2D5" }
+active = { fg = "#CDD6F4", bg = "#6C7086" }
+inactive = { fg = "#CDD6F4" }
+
+icon_file = ""
+icon_folder = ""
+icon_command = ""
+
+# -----------------------------------------------------------------------------
+# 07. Tasks Manager
+# -----------------------------------------------------------------------------
+[tasks]
+border = { fg = "#94E2D5" }
+title = { fg = "#94E2D5" }
+hovered = { fg = "#CDD6F4", bg = "#6C7086" }
+
+# -----------------------------------------------------------------------------
+# 08. Which Key Helper
+# -----------------------------------------------------------------------------
+[which]
+cols = 3
+mask = { bg = "#1E1E2E" }
+cand = { fg = "#94E2D5" }
+rest = { fg = "#89B4FA" }
+desc = { fg = "#CBA6F7" }
+separator = " ➜ "
+separator_style = { fg = "#6C7086" }
+
+# -----------------------------------------------------------------------------
+# 09. Confirmation Dialogs
+# -----------------------------------------------------------------------------
+[confirm]
+border = { fg = "#94E2D5" }
+title = { fg = "#94E2D5" }
+content = {}
+list = {}
+btn_yes = { bg = "#6C7086" }
+btn_no = {}
+btn_labels = ["  [Y]es  ", "  (N)o  "]
+
+# -----------------------------------------------------------------------------
+# 10. Spotting & Inspection
+# -----------------------------------------------------------------------------
+[spot]
+border = { fg = "#94E2D5" }
+title = { fg = "#94E2D5" }
+
+# -----------------------------------------------------------------------------
+# 11. System Notifications
+# -----------------------------------------------------------------------------
+[notify]
+title_info = { fg = "#94E2D5" }
+title_warn = { fg = "#F9E2AF" }
+title_error = { fg = "#F38BA8" }
+
+icon_error = ""
+icon_warn = ""
+icon_info = ""
+
+# -----------------------------------------------------------------------------
+# 12. Help & Keybindings Overlay
+# -----------------------------------------------------------------------------
+[help]
+on = { fg = "#A6E3A1" }
+run = { fg = "#CBA6F7" }
+desc = { fg = "#94E2D5" }
+hovered = { bg = "#6C7086" }
+footer = { fg = "#CDD6F4", bg = "#1E1E2E" }
+
+# -----------------------------------------------------------------------------
+# 13. File-specific & MIME Highlighting
+# -----------------------------------------------------------------------------
+[filetype]
+
+rules = [
+  # Images
+  { mime = "image/*", fg = "#F9E2AF" },
+
+  # Media (Audio & Video)
+  { mime = "{audio,video}/*", fg = "#CBA6F7" },
+
+  # Archives
+  { mime = "application/*zip", fg = "#F38BA8" },
+  { mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#F38BA8" },
+
+  # Documents
+  { mime = "application/{pdf,doc,rtf,vnd.*}", fg = "#94E2D5" },
+
+  # Directories
+  { mime = "inode/directory", fg = "#89B4FA", bold = true },
+
+  # Fallback
+  { mime = "*", fg = "#CDD6F4" },
+]

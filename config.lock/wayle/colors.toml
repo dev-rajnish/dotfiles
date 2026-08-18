@@ -1,0 +1,15 @@
+# =============================================================================
+#  Wallust Generated wayle theme ( colors.toml )
+# =============================================================================
+
+[styling.palette]
+bg = "#1E1E2E"
+surface = "#1E1E2E"
+elevated = "#1E1E2E"
+fg = "#CDD6F4"
+fg-muted = "#CDD6F4"
+primary = "#CBA6F7"
+red = "#F38BA8"
+yellow = "#F9E2AF"
+green = "#A6E3A1"
+blue = "#89B4FA"

@@ -1,0 +1,7 @@
+// =============================================================================
+//  Startup Applications & Autostart Services
+// =============================================================================
+// Panel and Wallpaper
+spawn-at-startup "wallpaper" "--restore"
+spawn-at-startup "brightnessctl" "s" "80%"
+spawn-at-startup "wayle" "panel" "restart"

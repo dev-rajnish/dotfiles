@@ -1,26 +1,45 @@
 # =============================================================================
-#  Dynamic User Script Packager (scripts/*.sh -> home.packages)
+#  Dynamic User Binary Packager (user/bin-rs/target/release -> home.packages)
 # =============================================================================
 {
   pkgs,
   lib,
   ...
 }: let
-  scriptsDir = ../scripts;
+  userBinRs = ../../user/bin-rs/target/release;
 
-  # Read all files in scripts/ and filter strictly for regular *.sh files
-  rawFiles = builtins.readDir scriptsDir;
-  scriptFiles = lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".sh" name) rawFiles;
+  # Helper to package a directory of compiled release binaries
+  packageDir = dir:
+    if builtins.pathExists dir
+    then let
+      raw = builtins.readDir dir;
+      files =
+        lib.filterAttrs (
+          name: type:
+            type
+            == "regular"
+            && !(lib.hasPrefix "." name)
+            && !(lib.hasSuffix ".d" name)
+            && !(lib.hasSuffix ".rlib" name)
+            && !(lib.hasSuffix ".lock" name)
+        )
+        raw;
+    in
+      lib.mapAttrsToList (
+        name: _:
+          pkgs.runCommand name {} ''
+            mkdir -p $out/bin
+            cp "${dir}/${name}" $out/bin/${name}
+            chmod +x $out/bin/${name}
+          ''
+      )
+      files
+    else [];
 
-  # Create derivations strictly preserving the exact filename with `.sh`
-  # (e.g. power-menu.sh, sleep.sh, clipboard.sh to prevent collisions with system binaries like 'sleep')
-  mkScriptPkg = fileName:
-    pkgs.writeShellScriptBin fileName (builtins.readFile (scriptsDir + "/${fileName}"));
-
-  customScriptPackages = lib.mapAttrsToList (name: _: mkScriptPkg name) scriptFiles;
+  customPackages = packageDir userBinRs;
 in {
   # ---------------------------------------------------------------------------
-  # 📦 Custom User Script Packages
+  # 📦 Custom User Packages
   # ---------------------------------------------------------------------------
-  home.packages = customScriptPackages;
+  home.packages = customPackages;
 }

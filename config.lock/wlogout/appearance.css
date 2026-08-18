@@ -1,0 +1,13 @@
+/* Auto-generated from 2-xdg-config-vars.nix - Do not edit manually */
+@define-color font_family "Noto Sans";
+@define-color font_size 14.000000pt;
+@define-color border_radius 0px;
+@define-color border_width 1px;
+
+:root,
+* {
+  --font-family: "Noto Sans";
+  --font-size: 14pt;
+  --border-radius: 0px;
+  --border-width: 1px;
+}

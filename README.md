@@ -1,153 +1,153 @@
 # ❄️ NixOS & Home Manager Dotfiles
 
-A high-performance, modular **NixOS 26.05** & **Home Manager** flake featuring the **Niri** scrollable Wayland compositor, **Stylix Base16** dynamic theming, **Fish**, **Kitty**, **Wayle**, **nix-ld** dynamic binary linking, and container virtualization.
+A high-performance, modular **NixOS 26.05** & **Home Manager** flake featuring the **Niri** scrollable Wayland compositor, **Stylix Base16** dynamic theming, **Fish/Nushell/Bash**, **Kitty**, **Wayle**, **nix-ld** dynamic binary linking, **iwd** ultra-fast networking, and container virtualization.
 
 ---
 
-## 💿 Fresh NixOS Installation Guide (UEFI + `cfdisk`)
+## 📖 User Guide: The `config.live` & `config.lock` Workflow
 
-Follow this step-by-step guide to install NixOS from a standard [NixOS Minimal ISO](https://nixos.org/download.html).
+This repository uses the **Live Workspace & Snapshot Lock Pattern** to give you instant hot-reloading for desktop configuration without polluting your Git working tree.
 
-### 1. Identify Your Target Disk
-
-```bash
-lsblk
-# Example target disk: /dev/nvme0n1 (or /dev/sda)
+```
+┌────────────────────────────────┐         just lock-config         ┌────────────────────────────────┐
+│   config.live/ (~/.config)     │ ───────────────────────────────> │   config.lock/                 │
+│   • Live editable workspace    │                                  │   • Clean reference snapshot   │
+│   • Ignored by Git (.gitignore)│ <─────────────────────────────── │   • Committed to Git repository│
+└────────────────────────────────┘        just restore-config       └────────────────────────────────┘
 ```
 
-### 2. Partition with `cfdisk`
+### 1. How It Works
 
-```bash
-cfdisk /dev/nvme0n1
-```
+- **`config.live/`**: Your live working directory, symlinked directly to `~/.config/`. Any edit to Niri keybinds, Kitty colors, Fuzzel, Wayle, or Yazi takes effect **instantly**. Because it is in `.gitignore`, runtime cache files and dynamic themes will **never** dirty your Git tree.
+- **`config.lock/`**: The clean, authoritative configuration snapshot tracked and committed in Git.
 
-Create a **GPT** partition table with the following layout:
+### 2. Daily Workflow
 
-- **Partition 1 (EFI Boot)**: Size `1G` ➔ Type: `EFI System`
-- **Partition 2 (Optional Swap)**: Size `8G` (or `16G`) ➔ Type: `Linux swap`
-- **Partition 3 (Root Filesystem)**: Size `Remaining Space` ➔ Type: `Linux filesystem`
-- Select **[ Write ]**, type `yes`, then **[ Quit ]**.
-
-### 3. Format Partitions
-
-```bash
-# Format EFI System Partition
-mkfs.fat -F 32 -n boot /dev/nvme0n1p1
-
-# (Optional) Format and enable Swap
-mkswap -L swap /dev/nvme0n1p2
-swapon /dev/nvme0n1p2
-
-# Format Root (ext4)
-mkfs.ext4 -L nixos /dev/nvme0n1p3
-```
-
-### 4. Mount Filesystems
-
-```bash
-# Mount Root
-mount /dev/disk/by-label/nixos /mnt
-
-# Mount EFI Boot Partition
-mkdir -p /mnt/boot
-mount /dev/disk/by-label/boot /mnt/boot
-```
-
-### 5. Generate Hardware Configuration & Clone Dotfiles
-
-```bash
-# 1. Generate baseline hardware config
-nixos-generate-config --root /mnt
-
-# 2. Enter nix-shell with git
-nix-shell -p git
-
-# 3. Clone dotfiles repository into target user home
-mkdir -p /mnt/home/rsh/_ws
-git clone https://github.com/dev-rajnish/dotfiles.git /mnt/home/rsh/_ws/dotfiles
-cd /mnt/home/rsh/_ws/dotfiles
-
-# 4. Copy generated hardware configuration into the flake
-cp /mnt/etc/nixos/hardware-configuration.nix nixos/hardware-configuration.nix
-```
-
-### 6. Install NixOS
-
-```bash
-# Install system via flake (replaces hostname if customized in 0-system-vars.nix)
-nixos-install --flake .#nixos
-
-# Set your user password when prompted, then reboot
-reboot
-```
+1. **Live Editing**: Edit configs in `~/.config/<app>` or `config.live/<app>`. Changes apply immediately in your active session.
+2. **Locking Changes to Git**: When you are happy with your tweaks and want to commit them:
+   ```bash
+   just lock-config   # (or `just lock`) Syncs config.live -> config.lock
+   git add config.lock
+   git commit -m "feat(ui): update niri keybinds and kitty config"
+   ```
+3. **Restoring / Fresh Setup**: If you ever want to revert experimental changes or set up on a fresh machine:
+   ```bash
+   just restore-config # (or `just restore`) Restores config.live from config.lock
+   just link-live      # (or `just link`) Symlinks ~/.config to config.live
+   ```
 
 ---
 
-## ⚡ Setup on an Existing NixOS System
+## ⌨️ Routine Task Commands (`just`)
 
-If you already have a running NixOS installation:
+This repository includes a comprehensive `justfile` task runner for daily operations:
 
-```bash
-# 1. Clone dotfiles
-git clone https://github.com/dev-rajnish/dotfiles.git ~/_ws/dotfiles
-cd ~/_ws/dotfiles
-
-# 2. Run automated bootstrap installer
-./only-first-time-install.sh
-```
-
-> **Note**: The installer auto-detects your user, hostname, GPU driver, chassis type, and timezone, opens `0-system-vars.nix` in your editor for a quick review, copies `/etc/nixos/hardware-configuration.nix`, and builds the system.
+| Category            | Command                              | Description                                                                            |
+| :------------------ | :----------------------------------- | :------------------------------------------------------------------------------------- |
+| **🔄 Config Sync**  | `just lock-config` (or `lock`)       | Snapshot clean live configs from `config.live/` to git-tracked `config.lock/`          |
+|                     | `just restore-config` (or `restore`) | Overwrite/restore `config.live/` from git-tracked `config.lock/`                       |
+|                     | `just link-live` (or `link`)         | Symlink all `config.live/` subfolders into `~/.config/`                                |
+| **❄️ System**       | `just switch` (or `nixos`)           | Rebuild and switch NixOS system (`sudo nixos-rebuild switch --flake .#nixos`)          |
+|                     | `just test`                          | Test configuration without adding a new bootloader entry                               |
+|                     | `just boot`                          | Build system and add to bootloader menu without switching immediately                  |
+|                     | `just build`                         | Build NixOS system toplevel derivation (outputs `./result`)                            |
+|                     | `just vm`                            | Build and run a QEMU VM instance of your configuration                                 |
+| **🏠 Home Manager** | `just home` (or `hm`)                | Switch standalone Home Manager profile (`home-manager switch --flake .#rsh`)           |
+|                     | `just home-build`                    | Build Home Manager activation package                                                  |
+|                     | `just sync` (or `all`)               | Rebuild both NixOS system and Home Manager configurations                              |
+| **🦀 Rust Tools**   | `just build-tools`                   | Compile release binaries for the Rust toolset in `user/bin-rs`                         |
+|                     | `just doctor`                        | Run comprehensive system and dotfiles health diagnostics                               |
+|                     | `just update-agy`                    | Fetch and update Antigravity CLI version                                               |
+| **🛠️ Code Quality** | `just fmt`                           | Format all Nix, Shell, TOML, and Rust code with `treefmt` (`alejandra`, `shfmt`, etc.) |
+|                     | `just check`                         | Run `nix flake check` to validate evaluations and formatting                           |
+|                     | `just update`                        | Update flake inputs and dependencies (`nix flake update`)                              |
+|                     | `just lock-flake`                    | Update `flake.lock`                                                                    |
+| **🧹 Maintenance**  | `just gc [days=7d]`                  | Collect old generations (default 7 days) and optimize Nix store                        |
+|                     | `just optimise`                      | Deduplicate and hardlink identical Nix store files                                     |
+|                     | `just clean`                         | Remove temporary build symlinks (`result`, `result-*`)                                 |
+|                     | `just generations`                   | List recent NixOS and Home Manager generation history                                  |
 
 ---
 
-## 🛠️ How to Interact With & Configure This Repo
+## 🛠️ How to Configure This System
 
 ### 1. Global System Manifest ([`0-system-vars.nix`](0-system-vars.nix))
 
 The single source of truth for your system profile:
 
 - **System & User**: `username`, `hostname`, `dotfilesDir`
-- **Theme & Polarity**: `theme = "ayu-dark"` (Base16 scheme), `polarity = "dark"`
-- **Default Apps**: `terminal = "kitty"`, `browser = "librewolf"`, `pdfViewer = "readest"`, `editor = "nvim"`
-- **Feature Toggles**: `enableWaydroid`, `enableLibvirt`, `enableBluetooth`, `enableTailscale`, `enableFirewall`
+- **Hardware Profile**: `deviceType = "laptop"`, `gpuDriver = "amd"`, `enableKanata = true`
+- **Theme & Polarity**: `theme = "catppuccin-mocha"`, `polarity = "dark"`
+- **Default Applications**: `terminal = "kitty"`, `editor = "codium"`, `browser = "google-chrome"`, `fileManager = "thunar"`
+- **Feature Toggles**: `enableAppImage`, `enableWaydroid`, `enableLibvirt`, `enableBluetooth`, `enableTailscale`, `enableFirewall`
 
-### 2. Package Management ([`1-package-manifest.nix`](1-package-manifest.nix))
+### 2. Package Manifest ([`1-package-manifest.nix`](1-package-manifest.nix))
 
-Add or remove packages categorized cleanly by purpose:
+Structured package sets categorized by purpose:
 
-- `systemCore` (essential tools & shell runtimes)
-- `cli` (terminal utilities, finders, diagnostics)
-- `gui` (desktop apps, media players, utilities)
-- `devPkg` / `programmingLang` (toolchains, compilers, linters, formatters)
-- `nixLd` (libraries for running unpatched dynamic binaries & Mason LSPs)
+- `systemCore` (essential shell runtimes, just, git, zoxide, direnv)
+- `cliCore` / `cliMonitoring` / `cliFileOps` / `cliArchive` (fastfetch, btop, bat, eza, ripgrep, ouch)
+- `gui` (desktop applications, media players, document viewers)
+- `devPkg` / `programmingLang` (Python, Node, Go, Rust, Zig, Lua, formatters)
+- `virtualization` (AppImage runner, Distrobox, QEMU/KVM virtiofs tools)
 
-### 3. Desktop Tokens & Fonts ([`2-desktop-theme-vars.nix`](2-desktop-theme-vars.nix))
+### 3. XDG Tokens & Typography ([`2-xdg-config-vars.nix`](2-xdg-config-vars.nix))
 
-Customize font families, desktop font scaling, border radii, gaps, and terminal opacity.
-
-### 4. User Shell Scripts ([`home-manager/scripts/`](home-manager/scripts/))
-
-Drop any executable `*.sh` script into `home-manager/scripts/`. It is automatically compiled into your `$PATH` preserving its exact `.sh` name (e.g. `power-menu.sh`, `clipboard.sh`, `sleep.sh`).
-
-### 5. Live Dotfile Editing ([`dot_config/`](dot_config/))
-
-All subfolders in `dot_config/` are live out-of-store symlinked to `~/.config/`. Any edit to Niri keybinds, Kitty, Fish, Fuzzel, Wayle, or Yazi takes effect immediately without rebuilding.
+Customize font families (Mono, Sans, Serif), font sizes for terminal/launcher/bar, border radii, and workspace gaps.
 
 ---
 
-## ⌨️ Routine Task Commands (`just`)
+## 💿 Fresh NixOS Installation Guide (UEFI + `cfdisk`)
 
-This repository includes a `justfile` task runner for daily operations:
+Follow this guide to install NixOS from a standard [NixOS Minimal ISO](https://nixos.org/download.html).
 
-| Command                      | Description                                                                   |
-| :--------------------------- | :---------------------------------------------------------------------------- |
-| `just switch` / `just nixos` | Rebuild and switch NixOS system (`sudo nixos-rebuild switch --flake .#nixos`) |
-| `just hm` / `just home`      | Switch user Home Manager configuration (`home-manager switch --flake .#rsh`)  |
-| `just fmt`                   | Format all Nix, Fish, Lua, TOML, and Shell files via `treefmt`                |
-| `just check`                 | Run `nix flake check` to validate build outputs and formatting                |
-| `just update`                | Update flake inputs and Antigravity CLI                                       |
-| `just gc`                    | Collect garbage and optimize Nix store                                        |
-| `just generations`           | View recent NixOS and Home Manager generation history                         |
+### 1. Partition with `cfdisk`
+
+```bash
+cfdisk /dev/nvme0n1
+```
+
+Create a **GPT** partition table:
+
+- **Partition 1 (EFI Boot)**: `1G` ➔ Type: `EFI System`
+- **Partition 2 (Optional Swap)**: `8G` (or `16G`) ➔ Type: `Linux swap`
+- **Partition 3 (Root Filesystem)**: `Remaining Space` ➔ Type: `Linux filesystem`
+- Select **[ Write ]**, type `yes`, then **[ Quit ]**.
+
+### 2. Format & Mount Partitions
+
+```bash
+# Format Partitions
+mkfs.fat -F 32 -n boot /dev/nvme0n1p1
+mkswap -L swap /dev/nvme0n1p2 && swapon /dev/nvme0n1p2
+mkfs.ext4 -L nixos /dev/nvme0n1p3
+
+# Mount Filesystems
+mount /dev/disk/by-label/nixos /mnt
+mkdir -p /mnt/boot
+mount /dev/disk/by-label/boot /mnt/boot
+```
+
+### 3. Clone Dotfiles & Install
+
+```bash
+# 1. Generate baseline hardware config
+nixos-generate-config --root /mnt
+
+# 2. Clone dotfiles repository into target user home
+mkdir -p /mnt/home/rsh/_ws
+nix-shell -p git --run "git clone https://github.com/dev-rajnish/dotfiles.git /mnt/home/rsh/_ws/dotfiles"
+cd /mnt/home/rsh/_ws/dotfiles
+
+# 3. Copy generated hardware configuration into the flake
+cp /mnt/etc/nixos/hardware-configuration.nix nixos/hardware-configuration.nix
+
+# 4. Install NixOS
+nixos-install --flake .#nixos
+
+# 5. Set user password when prompted, then reboot
+reboot
+```
 
 ---
 
@@ -157,22 +157,30 @@ This repository includes a `justfile` task runner for daily operations:
 .
 ├── 0-system-vars.nix          # Global system manifest & feature toggles
 ├── 1-package-manifest.nix     # Categorized system & user package sets
-├── 2-desktop-theme-vars.nix   # XDG geometry, typography, opacity & fallback colors
+├── 2-xdg-config-vars.nix      # XDG geometry, typography, opacity & tokens
 ├── flake.nix                  # Flake entrypoint & outputs
 ├── justfile                   # Daily task runner
-├── only-first-time-install.sh # Interactive bootstrap installer
 │
-├── nixos/                     # ❄️ NixOS system modules
-│   ├── core/                  # User accounts, networking, locale, nix settings
-│   ├── desktop/               # Greetd login, Kanata remap, Polkit, portals
+├── nixos/                     # ❄️ NixOS system modules (Static default.nix structure)
+│   ├── configuration.nix      # System entrypoint
+│   ├── core/                  # User accounts, fast networking (iwd), locale, nix settings
+│   ├── desktop/               # Greetd login, Kanata keyboard remap, Polkit, portals
 │   ├── hardware/              # AMD GPU, PipeWire audio, Bluetooth, bootloader
-│   └── virtualization/        # Waydroid, Podman/Distrobox, Libvirt QEMU/KVM
+│   └── virtualization/        # AppImage runner, Distrobox, Libvirt QEMU/KVM
 │
-├── home-manager/              # 🏠 User environment modules
-│   ├── dynamic-theming/       # Base16 live generators (Kitty, Niri, Fuzzel, Yazi)
-│   ├── modules/               # Mime apps, live symlinks, custom scripts, FHS
-│   ├── scripts/               # Packaged user shell scripts (*.sh)
+├── home-manager/              # 🏠 User environment modules (Static default.nix structure)
+│   ├── home.nix               # User entrypoint
+│   ├── modules/               # Stylix, Wallust, Mime defaults, Packages, Services
 │   └── pkgs/                  # Custom derivations (Antigravity CLI, LibreWolf, Zen)
 │
-└── dot_config/                # ⚙️ Live-symlinked workspace configs (~/.config)
+├── config.lock/               # 🔒 Git-tracked authoritative configuration snapshot
+│   ├── kitty/                 # Terminal emulator config
+│   ├── niri/                  # Scrollable Wayland compositor rules & keybinds
+│   ├── labwc/                 # Stacking Wayland compositor config
+│   ├── wayle/                 # Status bar & widgets
+│   ├── wallust/               # Dynamic theming templates
+│   └── ...                    # Fuzzel, Yazi, Starship, Swaylock, Wlogout, Fastfetch
+│
+├── config.live/               # ⚡ Live local workspace (git-ignored, symlinked to ~/.config)
+└── user/                      # 🛠️ Custom CLI tools, environment KV pairs & Rust toolset
 ```

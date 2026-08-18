@@ -51,6 +51,15 @@
     options = "--delete-older-than ${autoGcOlderThan}";
   };
 
-  # Disable documentation manual page cache generation to speed up builds
-  documentation.man.cache.enable = false;
+  # ---------------------------------------------------------------------------
+  # 📚 Documentation Minimization (Speed up builds & trim store size)
+  # ---------------------------------------------------------------------------
+  documentation = {
+    enable = true;
+    man.enable = true;
+    man.cache.enable = false;
+    nixos.enable = false; # Disable heavy NixOS HTML manual derivation
+    doc.enable = false; # Disable extra documentation
+    info.enable = false; # Disable GNU info pages
+  };
 }

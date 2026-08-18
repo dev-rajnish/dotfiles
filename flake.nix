@@ -56,10 +56,10 @@
     treefmt-nix,
     ...
   }: let
-    # Load global system variables, package manifest & desktop theme variables
+    # Load global system variables, package manifest & XDG configuration variables
     vars = import ./0-system-vars.nix;
     pkgList = import ./1-package-manifest.nix;
-    xdgVars = import ./2-desktop-theme-vars.nix;
+    xdgVars = import ./2-xdg-config-vars.nix;
 
     # Arguments passed to all sub-modules
     sharedArgs =
@@ -88,6 +88,12 @@
     # Treefmt formatting rules
     treefmtEval = treefmt-nix.lib.evalModule pkgs {
       projectRootFile = "flake.nix";
+      settings.global.excludes = [
+        "config.lock/wallust/templates/*"
+        "config.live/wallust/templates/*"
+        "dot_config/wallust/templates/*"
+        "home-manager/dynamic-theming.bak/*"
+      ];
       programs.alejandra.enable = true;
       programs.fish_indent.enable = true;
       programs.shfmt.enable = true;

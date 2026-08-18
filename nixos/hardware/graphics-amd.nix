@@ -6,6 +6,7 @@
   lib,
   pkgs,
   gpuDriver ? "generic",
+  enableEarlyKms ? false,
   ...
 }: let
   isAmd = gpuDriver == "amd";
@@ -13,7 +14,7 @@ in {
   # ---------------------------------------------------------------------------
   # 🚀 Early Kernel Mode Setting (KMS) for AMD GPU
   # ---------------------------------------------------------------------------
-  boot.initrd.kernelModules = lib.mkIf isAmd ["amdgpu"];
+  boot.initrd.kernelModules = lib.mkIf (isAmd && enableEarlyKms) ["amdgpu"];
 
   # ---------------------------------------------------------------------------
   # ⚡ Display Flicker & Green Flash Fixes (PSR, SubVP, Scatter-Gather, ABM)

@@ -1,0 +1,40 @@
+# =============================================================================
+#  Wallust v3 Theming Engine Configuration
+# =============================================================================
+backend = "resized"
+color_space = "lchansi"
+palette = "ansidark16"
+check_contrast = true
+
+[templates]
+# --- Core CSS & Shell Environment Variables ---
+vars_css = { src = "vars.css", dst = "~/.config/colors/vars.css" }
+wlogout_vars = { src = "vars.css", dst = "~/.config/wlogout/vars.css" }
+colors_sh = { src = "colors.sh", dst = "~/.config/colors/colors.sh" }
+
+# --- Terminal & Shell Themes ---
+kitty = { src = "kitty.conf", dst = "~/.config/kitty/colors.conf" }
+
+# --- Window Manager & Application Launcher ---
+niri = { src = "niri.kdl", dst = "~/.config/niri/colors.kdl" }
+labwc = { src = "themerc", dst = "~/.config/labwc/themerc-override" }
+fuzzel = { src = "fuzzel.ini", dst = "~/.config/fuzzel/colors.ini" }
+
+# --- Lock Screen & Security ---
+swaylock = { src = "swaylock", dst = "~/.config/swaylock/config" }
+
+# --- Wayle Status Bar Palette ---
+wayle_toml = { src = "wayle.toml", dst = "~/.config/wayle/colors.toml" }
+
+# --- Yazi File Manager Flavor ---
+yazi_flavor = { src = "yazi-flavor.toml", dst = "~/.config/yazi/flavors/wallust.yazi/flavor.toml" }
+yazi_tmtheme = { src = "yazi-tmtheme.xml", dst = "~/.config/yazi/flavors/wallust.yazi/tmtheme.xml" }
+
+# --- Zed Code Editor ---
+zed = { src = "zed.json", dst = "~/.config/zed/themes/wallust.json" }
+
+# =============================================================================
+#  Post-Run Execution Hooks (Wallust v3.5+)
+# =============================================================================
+[hooks]
+post_run = "wayle panel restart 2>/dev/null; labwc --reconfigure 2>/dev/null || true; pkill -SIGUSR1 kitty 2>/dev/null || true"

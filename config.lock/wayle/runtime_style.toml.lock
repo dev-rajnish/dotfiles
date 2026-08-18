@@ -1,0 +1,230 @@
+[general]
+font-sans = "JetBrainsMono Nerd Font"
+
+[bar]
+scale = 0.8500000238418579
+padding = 0.10000000149011612
+padding-ends = 0.20000000298023224
+module-gap = 0.25
+background-opacity = 90
+button-variant = "basic"
+button-icon-size = 0.75
+button-icon-padding = 0.25
+button-label-weight = "medium"
+button-label-padding = 0.25
+button-rounding = "none"
+button-gap = 0.5
+button-border-location = "none"
+button-border-width = 0
+
+[[bar.layout]]
+monitor = "*"
+show = true
+left = [
+    "custom-nixos-launcher",
+    "niri-workspaces",
+    "window-title",
+]
+center = [
+    "media",
+    "clock",
+    "systray",
+]
+right = [
+    "ram",
+    "cpu",
+    "network",
+    "bluetooth",
+    "notifications",
+    "volume",
+    "brightness",
+    "custom-cpu-temp",
+    "battery",
+    "power",
+]
+
+[styling]
+scale = 0.949999988079071
+rounding = "none"
+
+#
+# [styling.palette]
+# bg = "#11111b"
+# surface = "#181825"
+# elevated = "#1e1e2e"
+# fg = "#cdd6f4"
+# fg-muted = "#bac2de"
+# primary = "#b4befe"
+# red = "#f38ba8"
+# yellow = "#f9e2af"
+# green = "#a6e3a1"
+# blue = "#74c7ec"
+#
+
+[styling.palette]
+bg = "#1E1E2E"
+surface = "#1E1E2E"
+elevated = "#1E1E2E"
+fg = "#CDD6F4"
+fg-muted = "#CDD6F4"
+primary = "#CBA6F7"
+red = "#F38BA8"
+yellow = "#F9E2AF"
+green = "#A6E3A1"
+blue = "#89B4FA"
+
+
+[modules.battery]
+icon-color = "green"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+
+[modules.bluetooth]
+border-show = false
+icon-color = "blue"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+button-bg-color = "bg-surface-elevated"
+
+[modules.brightness]
+icon-color = "yellow"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+scroll-up = "brightnessctl s 1%+"
+scroll-down = "brightnessctl s 1%-"
+
+[modules.cava]
+style = "peaks"
+bar-width = 4
+bar-gap = 2
+
+[modules.clock]
+format = "%I:%M"
+icon-name = "time-symbolic"
+icon-show = false
+label-color = "fg-default"
+
+[modules.cpu]
+icon-color = "yellow"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+right-click = "kitty -e btop"
+
+[modules.dashboard]
+icon-bg-color = "bg-surface"
+
+[modules.media]
+icon-color = "blue"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+label-max-length = 15
+right-click = "focus:this"
+
+[modules.network]
+border-show = false
+icon-color = "blue"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+button-bg-color = "bg-surface-elevated"
+
+[modules.niri-workspaces]
+urgent-show = true
+active-indicator = "underline"
+active-color = "accent"
+occupied-color = "fg-default"
+empty-color = "fg-muted"
+container-bg-color = "bg-surface-elevated"
+
+[modules.notifications]
+icon-color = "blue"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+icon-source = "application"
+popup-close-behavior = "remove"
+
+[modules.power]
+icon-color = "red"
+icon-bg-color = "bg-surface-elevated"
+left-click = "power-menu"
+
+[modules.volume]
+icon-color = "blue"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+right-click = "pwvucontrol"
+scroll-up = "pamixer -i 1"
+scroll-down = "pamixer -d 1"
+dropdown-app-icons = "native"
+
+[modules.window-title]
+border-show = false
+icon-color = "accent"
+icon-bg-color = "bg-surface-elevated"
+label-color = "fg-default"
+label-max-length = 30
+button-bg-color = "bg-surface-elevated"
+left-click = "niri msg action close-window"
+
+[[modules.custom]]
+id = "cpu-temp"
+command = '''sensors 2>/dev/null | awk -F: '/^(Tctl|Package id 0|Core 0|temp1):/ { sub(/\+/,"",$2); gsub(/ /,"",$2); print $2; exit }' '''
+mode = "poll"
+interval-ms = 2000
+restart-policy = "never"
+restart-interval-ms = 1000
+hide-if-empty = false
+icon-name = "ld-thermometer-symbolic"
+icon-show = true
+icon-color = "yellow"
+icon-bg-color = "bg-surface-elevated"
+label-show = true
+label-color = "fg-default"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "border-default"
+left-click = "kitty -e btop"
+right-click = "kitty -e batmon"
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
+
+[[modules.custom]]
+id = "nixos-launcher"
+command = "true"
+mode = "poll"
+interval-ms = 5000
+restart-policy = "never"
+restart-interval-ms = 1000
+format = "NixOS"
+hide-if-empty = false
+icon-name = "si-nixos-symbolic"
+icon-show = true
+icon-color = "accent"
+icon-bg-color = "bg-surface-elevated"
+label-show = true
+label-color = "fg-default"
+label-max-length = 0
+button-bg-color = "bg-surface-elevated"
+border-show = false
+border-color = "border-default"
+left-click = "fuzzel"
+right-click = "zen-beta"
+middle-click = ""
+scroll-up = ""
+scroll-down = ""
+
+[osd]
+duration = 500
+margin = 50.0
+
+[wallpaper]
+engine-enabled = false
+cycling-enabled = true
+cycling-directory = "~/Pictures/Wallpapers"
+cycling-same-image = true
+
+[[wallpaper.monitors]]
+name = ""
+fit-mode = "fill"
+wallpaper = ""

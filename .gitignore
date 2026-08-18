@@ -1,10 +1,19 @@
 
 # Fish shell entries to ignore
 nixos/backup
-result
+**/**/history.txt
+result/
 nixos.*
+docs/
 
 # Python cache & temporary files
 **/__pycache__/
-*.idk
+**/.idk
 .ruff_cache
+
+# Rust build artifacts
+target/
+user/bin-rs/target/
+
+# Live uncommitted config workspace
+config.live/

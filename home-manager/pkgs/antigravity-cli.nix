@@ -34,7 +34,6 @@
       runHook preInstall
 
       install -m755 -D antigravity $out/bin/agy
-      ln -s $out/bin/agy $out/bin/antigravity
 
       runHook postInstall
     '';

@@ -1,0 +1,2 @@
+# Wayle configuration file
+imports = ["colors.toml"]

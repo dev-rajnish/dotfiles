@@ -46,6 +46,16 @@
       libraries = (pkgList pkgs).nixLd;
     };
 
+    # Thunar File Manager & Plugin Extensions
+    thunar = {
+      enable = true;
+      plugins = with pkgs; [
+        thunar-archive-plugin
+        thunar-volman
+        thunar-media-tags-plugin
+      ];
+    };
+
     # Direnv shell environment loader
     direnv = {
       enable = true;
@@ -56,8 +66,14 @@
   # ---------------------------------------------------------------------------
   # 🛠️ System services Enablements & Integrations
   # ---------------------------------------------------------------------------
-  # flatpak
+  # Flatpak application sandboxing
   services.flatpak.enable = true;
+
+  # Mounting, trash, and filesystem abstractions for Thunar
+  services.gvfs.enable = true;
+
+  # D-Bus Thumbnailer service (images, pdfs, videos)
+  services.tumbler.enable = true;
 
   # ---------------------------------------------------------------------------
   # 🐚 Provide /bin/bash for scripts with hardcoded #!/bin/bash shebangs

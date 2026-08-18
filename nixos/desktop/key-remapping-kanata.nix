@@ -9,22 +9,13 @@
   enableKanata ? false,
   ...
 }: let
-  byPath = "/dev/input/by-path";
-  autoKeyboardPath =
-    if builtins.pathExists byPath
-    then let
-      files = builtins.attrNames (builtins.readDir byPath);
-      kbdFiles = builtins.filter (f: builtins.match ".*-event-kbd" f != null || builtins.match ".*kbd.*" f != null) files;
-    in
-      if kbdFiles != []
-      then "${byPath}/${builtins.head kbdFiles}"
-      else "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-    else "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+  # Standard internal laptop keyboard event device
+  defaultKeyboardPath = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
 
   kbdDevice =
     if keyboardPath != null && keyboardPath != ""
     then keyboardPath
-    else autoKeyboardPath;
+    else defaultKeyboardPath;
 in
   lib.mkIf enableKanata {
     environment.systemPackages = [pkgs.kanata];

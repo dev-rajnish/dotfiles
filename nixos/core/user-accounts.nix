@@ -13,7 +13,7 @@
     ${username} = {
       isNormalUser = true;
       initialPassword = username;
-      shell = pkgs.fish;
+      shell = pkgs.bash;
       ignoreShellProgramCheck = true;
 
       description = username;

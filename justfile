@@ -12,12 +12,69 @@ default:
 
 
 # -----------------------------------------------------------------------------
+# 🦀 Rust Dotfiles System Tools
+# -----------------------------------------------------------------------------
+
+# Build optimized release binaries for the Rust toolset in user/bin-rs
+build-tools:
+    cargo build --release --manifest-path user/bin-rs/Cargo.toml
+    cp user/bin-rs/target/release/{loader,wallpaper,power-menu,update-agy,dot,installer,y} home-manager/scripts/ 2>/dev/null || true
+
+
+# -----------------------------------------------------------------------------
+# 🔄 Live Workspace & Snapshot Lock Management
+# -----------------------------------------------------------------------------
+
+# Lock current live configurations from config.live/ into git-tracked config.lock/
+lock-config:
+    @mkdir -p config.lock config.live
+    @rsync -av --delete \
+        --exclude='.git' \
+        --exclude='*.bak' \
+        --exclude='*.lock' \
+        --exclude='__pycache__' \
+        config.live/ config.lock/
+    @echo "✔ Live configuration locked into config.lock/ (ready to commit to Git)"
+
+# Alias for lock-config
+lock: lock-config
+
+# Restore live configuration from git-tracked config.lock/ into config.live/
+restore-config:
+    @mkdir -p config.live config.lock
+    @rsync -av --delete config.lock/ config.live/
+    @echo "✔ config.live/ restored from config.lock/"
+
+# Alias for restore-config
+restore: restore-config
+
+# Symlink all config.live subdirectories into ~/.config/
+link-live:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    mkdir -p config.live "$HOME/.config"
+    for item in config.live/*; do
+        if [ -e "$item" ]; then
+            name=$(basename "$item")
+            ln -sfn "$(pwd)/config.live/$name" "$HOME/.config/$name"
+        fi
+    done
+    echo "✔ ~/.config/ entries symlinked to config.live/"
+
+# Alias for link-live
+link: link-live
+
+# -----------------------------------------------------------------------------
 # ❄️ NixOS System Management
 # -----------------------------------------------------------------------------
 
 # Fetch latest Antigravity CLI version and update home-manager/pkgs/antigravity-cli.nix
 update-agy:
-    @./home-manager/scripts/update-agy.sh
+    @./user/bin-rs/target/release/update-agy 2>/dev/null || ./home-manager/scripts/update-agy
+
+# Run health diagnostics on system and dotfiles
+doctor:
+    @./user/bin-rs/target/release/dot doctor 2>/dev/null || ./home-manager/scripts/dot doctor
 
 # Rebuild and switch to the new NixOS system configuration
 switch: 
@@ -89,8 +146,11 @@ update input="": update-agy
     fi
 
 # Update flake lockfile
-lock:
+lock-flake:
     nix flake lock
+
+# Alias for lock-flake
+flake-lock: lock-flake
 
 # -----------------------------------------------------------------------------
 # 🧹 Maintenance & Clean-up

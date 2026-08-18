@@ -1,0 +1,21 @@
+/* Auto-generated from 2-xdg-config-vars.nix - Do not edit manually */
+
+@define-color font_mono "JetBrainsMono Nerd Font";
+@define-color font_sans "Noto Sans";
+@define-color font_serif "Noto Serif";
+
+:root,
+* {
+  --font-mono: "JetBrainsMono Nerd Font";
+  --font-sans: "Noto Sans";
+  --font-serif: "Noto Serif";
+  --font-size-terminal: 16pt;
+  --font-size-bar: 12pt;
+  --font-size-launcher: 18pt;
+  --font-size-desktop: 12pt;
+  --font-size-power-menu: 14pt;
+  --border-radius: 0px;
+  --border-width: 1px;
+  --gap-inner: 6px;
+  --gap-outer: 6px;
+}

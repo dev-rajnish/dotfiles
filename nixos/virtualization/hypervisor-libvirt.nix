@@ -35,9 +35,9 @@
   # (Socket activation starts it on-demand when virt-manager is launched)
   systemd.services.libvirtd.wantedBy = lib.mkIf enableLibvirt (lib.mkForce []);
 
-  # SPICE USB Passthrough & Clipboard Agent
+  # SPICE USB Passthrough
   virtualisation.spiceUSBRedirection.enable = enableLibvirt;
-  services.spice-vdagentd.enable = enableLibvirt;
+  services.spice-vdagentd.enable = false;
 
   # Virt-Manager GUI Tool
   programs.virt-manager.enable = enableLibvirt;

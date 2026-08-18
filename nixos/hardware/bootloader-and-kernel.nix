@@ -13,8 +13,10 @@
   boot = {
     loader = {
       systemd-boot.enable = true;
+      timeout = 1; # Set to 0s for fast boot (hold Space on power-on for menu)
       efi.canTouchEfiVariables = true;
     };
+    initrd.systemd.enable = true; # Parallelized stage-1 systemd initialization
     kernelModules = ["snd-aloop"];
     kernelParams = [
       #"snd_hda_intel.power_save=0" # Prevent audio codec power state change

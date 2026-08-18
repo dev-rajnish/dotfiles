@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1700000000000001-1</unique-id>
+	<command>kitty --directory %f</command>
+	<description>Open Kitty terminal in the selected folder</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>text-editor</icon>
+	<name>Open with Neovim</name>
+	<submenu></submenu>
+	<unique-id>1700000000000002-2</unique-id>
+	<command>kitty -e nvim %F</command>
+	<description>Open selected file(s) in Neovim</description>
+	<range></range>
+	<patterns>*</patterns>
+	<other-files/>
+	<text-files/>
+</action>
+<action>
+	<icon>archive-extract</icon>
+	<name>Extract Here</name>
+	<submenu></submenu>
+	<unique-id>1700000000000003-3</unique-id>
+	<command>file-roller -h %F</command>
+	<description>Extract archive contents into the current directory</description>
+	<range></range>
+	<patterns>*.tar;*.tar.gz;*.tgz;*.tar.bz2;*.tbz2;*.tar.xz;*.txz;*.tar.zst;*.zip;*.7z;*.rar;*.iso;*.deb;*.rpm;*.tar.zstandard;*.gz;*.bz2;*.xz;*.zst</patterns>
+	<other-files/>
+</action>
+<action>
+	<icon>archive-extract</icon>
+	<name>Extract to Subfolder</name>
+	<submenu></submenu>
+	<unique-id>1700000000000004-4</unique-id>
+	<command>file-roller -f %F</command>
+	<description>Extract archive contents to a chosen directory</description>
+	<range></range>
+	<patterns>*.tar;*.tar.gz;*.tgz;*.tar.bz2;*.tbz2;*.tar.xz;*.txz;*.tar.zst;*.zip;*.7z;*.rar;*.iso;*.deb;*.rpm;*.tar.zstandard;*.gz;*.bz2;*.xz;*.zst</patterns>
+	<other-files/>
+</action>
+<action>
+	<icon>archive-insert</icon>
+	<name>Create Archive...</name>
+	<submenu></submenu>
+	<unique-id>1700000000000005-5</unique-id>
+	<command>file-roller -d %F</command>
+	<description>Create a compressed archive from selected item(s)</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>edit-copy</icon>
+	<name>Copy Full Path</name>
+	<submenu></submenu>
+	<unique-id>1700000000000006-6</unique-id>
+	<command>sh -c &apos;printf &quot;%s&quot; &quot;$*&quot; | wl-copy&apos; dummy %F</command>
+	<description>Copy full file/directory path to system clipboard</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+<action>
+	<icon>preferences-desktop-wallpaper</icon>
+	<name>Set as Wallpaper</name>
+	<submenu></submenu>
+	<unique-id>1700000000000007-7</unique-id>
+	<command>waypaper --wallpaper %f</command>
+	<description>Set selected image as wallpaper via Waypaper</description>
+	<range></range>
+	<patterns>*.png;*.jpg;*.jpeg;*.webp;*.gif;*.bmp</patterns>
+	<image-files/>
+</action>
+</actions>

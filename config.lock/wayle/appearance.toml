@@ -1,0 +1,6 @@
+# Auto-generated from 2-xdg-config-vars.nix - Do not edit manually
+[general]
+font-sans = "JetBrainsMono Nerd Font"
+
+[styling]
+rounding = "none"

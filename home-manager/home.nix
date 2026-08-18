@@ -1,63 +1,13 @@
 # =============================================================================
-#  Home Manager Main Entrypoint & Dynamic Sub-Module Importer
+#  Home Manager Main Entrypoint & Static Module Importer
 # =============================================================================
-{
-  lib,
-  username,
-  homeVersion,
-  editor,
-  terminal,
-  browser,
-  ...
-}: let
-  # Subdirectories containing modular Home Manager configuration files
-  folders = [
-    ./pkgs
+{homeVersion, ...}: {
+  # Statically import all Home Manager module groups & package integrations
+  imports = [
     ./modules
+    ./pkgs
   ];
 
-  # Helper: Recursively load all regular `.nix` files inside specified directory
-  readNixFilesFrom = folder: let
-    dir = builtins.readDir folder;
-    filterNixFiles = key: value: value == "regular" && lib.hasSuffix ".nix" key;
-    toImport = name: _: folder + ("/" + name);
-  in
-    lib.mapAttrsToList toImport (lib.filterAttrs filterNixFiles dir);
-
-  # Flatten all imported nix files across all folders
-  imports =
-    [
-      ./dynamic-theming/0-stylix.nix
-      ./dynamic-theming/2-home-activation.nix
-    ]
-    ++ lib.flatten (map readNixFilesFrom folders);
-in {
-  # Dynamically imported modules & standalone package derivations
-  inherit imports;
-
-  # Suppress Home Manager release news popups
-  news = {
-    display = "silent";
-  };
-
-  # ---------------------------------------------------------------------------
-  # 👤 User Environment & Session Variables
-  # ---------------------------------------------------------------------------
-  home = {
-    stateVersion = homeVersion;
-    inherit username;
-    homeDirectory = "/home/${username}";
-    enableNixpkgsReleaseCheck = false;
-
-    # Global User Shell & Editor Variables
-    sessionVariables = {
-      EDITOR = editor;
-      TERMINAL = terminal;
-      BROWSER = lib.mkDefault browser;
-      SHELL = "fish";
-      MAN_DISABLE_CACHE = 1;
-      SSH_ASKPASS = "";
-      GIT_ASKPASS = "";
-    };
-  };
+  # Home Manager State Version (Matches 0-system-vars.nix)
+  home.stateVersion = homeVersion;
 }

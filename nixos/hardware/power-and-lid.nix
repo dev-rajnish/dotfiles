@@ -44,7 +44,6 @@ lib.mkIf enableLidInhibit {
   systemd.services.disable-lid-touchpad-wakeups = {
     description = "Disable ACPI and I2C Sensor False Wakeups from Suspend";
     wantedBy = [
-      "multi-user.target"
       "sleep.target"
       "suspend.target"
     ];

@@ -1,0 +1,47 @@
+# =============================================================================
+#  Wallust Generated Swaylock-Effects Config
+# =============================================================================
+
+screenshots
+clock
+indicator
+indicator-radius=120
+indicator-thickness=10
+indicator-idle-visible
+effect-blur=7x5
+effect-vignette=0.5:0.5
+fade-in=0.2
+grace=2
+grace-no-mouse
+grace-no-touch
+font="Noto Sans"
+
+color=1E1E2E
+
+ring-color=89B4FA
+ring-clear-color=A6E3A1
+ring-caps-lock-color=F9E2AF
+ring-ver-color=89B4FA
+ring-wrong-color=F38BA8
+
+inside-color=1E1E2Eb3
+inside-clear-color=1E1E2Eb3
+inside-caps-lock-color=1E1E2Eb3
+inside-ver-color=1E1E2Eb3
+inside-wrong-color=1E1E2Eb3
+
+key-hl-color=CBA6F7
+bs-hl-color=F38BA8
+
+line-color=1E1E2E00
+line-clear-color=1E1E2E00
+line-caps-lock-color=1E1E2E00
+line-ver-color=1E1E2E00
+line-wrong-color=1E1E2E00
+separator-color=1E1E2E00
+
+text-color=CDD6F4
+text-clear-color=CDD6F4
+text-caps-lock-color=F9E2AF
+text-ver-color=CDD6F4
+text-wrong-color=F38BA8

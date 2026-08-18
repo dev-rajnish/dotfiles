@@ -21,6 +21,7 @@ rec {
   # ---------------------------------------------------------------------------
   deviceType = "laptop";
   gpuDriver = "amd";
+  enableEarlyKms = false; # Set to true to load GPU driver in initrd (stage 1); false speeds up initrd / sysroot boot
   enableLidInhibit = true; # Set to true to disable laptop lid-switch sleep triggers
   enableKanata = true; # Advanced keyboard remap daemon (Set to true to activate custom layout)
 
@@ -35,16 +36,16 @@ rec {
   # ---------------------------------------------------------------------------
   # 🎨 Desktop Theme & Palette (Stylix & Base16)
   # ---------------------------------------------------------------------------
-  theme = "ayu-dark";
+  theme = "catppuccin-mocha";
   polarity = "dark"; # "dark" | "light"
 
   # ---------------------------------------------------------------------------
   # 🖥️ Default Applications & Workflow (Populated to XDG MIME Handlers)
   # ---------------------------------------------------------------------------
   terminal = "kitty";
-  editor = "nvim";
-  browser = "librewolf";
-  fileManager = "pcmanfm-qt"; # GUI File Manager & Archive Handler
+  editor = "codium";
+  browser = "google-chrome";
+  fileManager = "thunar"; # GUI File Manager & Archive Handler
   pdfViewer = "readest"; # PDF & Document Reader
   videoPlayer = "mpv"; # Video Player
   audioPlayer = "vlc"; # Audio Player
@@ -56,6 +57,7 @@ rec {
   enableAutoLogin = false; # 🔑 TTY1 Automatic login on boot (Set to false for Display Manager / Greetd login)
   enableWaydroid = false;
   enableLibvirt = true;
+  enableAppImage = true; # 📦 AppImage runner & binfmt execution support
   enableBluetooth = true;
   enableTailscale = false;
   enableFirewall = false;
