@@ -1,0 +1,91 @@
+# =============================================================================
+#  Theme, Palette & Color Tokens (env/token.kv/theme.toml)
+#  Auto-managed by theme-switcher
+# =============================================================================
+
+theme = "tokyo-night"
+polarity = "dark"
+
+[palette]
+bg = "#1a1b26"
+bg_alt = "#15161e"
+fg = "#c0caf5"
+fg_muted = "#414868"
+cursor = "#c0caf5"
+primary = "#7aa2f7"
+red = "#f7768e"
+green = "#9ece6a"
+blue = "#7aa2f7"
+yellow = "#e0af68"
+color3 = "#e0af68"
+shadow = "#00000080"
+overlay_backdrop = "#1a1b26e0"
+
+[[ansi_colors]]
+name = "color0"
+hex = "#15161e"
+
+[[ansi_colors]]
+name = "color1"
+hex = "#f7768e"
+
+[[ansi_colors]]
+name = "color2"
+hex = "#9ece6a"
+
+[[ansi_colors]]
+name = "color3"
+hex = "#e0af68"
+
+[[ansi_colors]]
+name = "color4"
+hex = "#7aa2f7"
+
+[[ansi_colors]]
+name = "color5"
+hex = "#bb9af7"
+
+[[ansi_colors]]
+name = "color6"
+hex = "#7dcfff"
+
+[[ansi_colors]]
+name = "color7"
+hex = "#a9b1d6"
+
+[[ansi_colors]]
+name = "color8"
+hex = "#414868"
+
+[[ansi_colors]]
+name = "color9"
+hex = "#f7768e"
+
+[[ansi_colors]]
+name = "color10"
+hex = "#9ece6a"
+
+[[ansi_colors]]
+name = "color11"
+hex = "#ff9e64"
+
+[[ansi_colors]]
+name = "color12"
+hex = "#7aa2f7"
+
+[[ansi_colors]]
+name = "color13"
+hex = "#bb9af7"
+
+[[ansi_colors]]
+name = "color14"
+hex = "#7dcfff"
+
+[[ansi_colors]]
+name = "color15"
+hex = "#c0caf5"
+
+[borders]
+active = "#7aa2f7"
+inactive = "#414868"
+urgent = "#f7768e"

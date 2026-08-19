@@ -87,13 +87,13 @@
     treefmtEval = treefmt-nix.lib.evalModule pkgs {
       projectRootFile = "flake.nix";
       settings.global.excludes = [
-        "config.lock/*"
-        "config.lock/**/*"
-        "config.live/wallust/templates/*"
-        "config.live/bin-src/target/*"
-        "config.live/bin-src/target/**/*"
-        "dot_config/wallust/templates/*"
-        "home-manager/dynamic-theming.bak/*"
+        "*.png"
+        "*.jpg"
+        "*.jpeg"
+        "*.scm"
+        "*.xml"
+        "templates/*"
+        "templates/**/*"
       ];
       programs.alejandra.enable = true;
       programs.fish_indent.enable = true;
@@ -128,7 +128,10 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             backupFileExtension = "backup";
-            sharedModules = [stylix.homeModules.stylix];
+            sharedModules = [
+              stylix.homeModules.stylix
+              nix-index-database.homeModules.default
+            ];
             users.${env.username} = import ./home-manager/home.nix;
             extraSpecialArgs = sharedArgs;
           };
@@ -146,6 +149,7 @@
       modules = [
         ./home-manager/home.nix
         stylix.homeModules.stylix
+        nix-index-database.homeModules.default
       ];
     };
 

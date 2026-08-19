@@ -1,0 +1,13 @@
+# =============================================================================
+#  Feature, Virtualization & Service Toggles (env/token.kv/features.toml)
+# =============================================================================
+
+enableAutoLogin = false
+enableWaydroid = false
+enableLibvirt = true
+enableAppImage = true
+enableBluetooth = true
+enableTailscale = false
+enableFirewall = false
+enableProgrammingLang = true
+enableDevPkg = true

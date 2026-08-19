@@ -2,6 +2,8 @@
 #  User Environment, Session Variables & Base Configuration
 # =============================================================================
 {
+  config,
+  pkgs,
   lib,
   env,
   ...
@@ -19,10 +21,14 @@
       EDITOR = env.editor;
       TERMINAL = env.terminal;
       BROWSER = lib.mkDefault env.browser;
-      SHELL = "bash";
+      SHELL = "${pkgs.fish}/bin/fish";
       MAN_DISABLE_CACHE = 1;
       SSH_ASKPASS = "";
       GIT_ASKPASS = "";
     };
+
+    sessionPath = [
+      "${config.home.homeDirectory}/shoelace/bin"
+    ];
   };
 }

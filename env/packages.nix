@@ -96,7 +96,7 @@ in rec {
   # 🐚 07. CLI: Shell Environments
   # ---------------------------------------------------------------------------
   cliShells = with pkgs; [
-    nushell
+    fish
   ];
 
   # ---------------------------------------------------------------------------
@@ -195,7 +195,6 @@ in rec {
     fuzzel
     mpvpaper
     swaybg
-    wallust
     waypaper
     brightnessctl
     pamixer

@@ -1,0 +1,58 @@
+# =============================================================================
+#  Shell Aliases & Command Shortcuts (shell/alias.toml)
+# =============================================================================
+[[aliases]]
+name = ".sl"
+command = "cd ~/.config/shoelace/"
+
+[[aliases]]
+name = "sl"
+command = "cd ~/shoelace"
+
+[[aliases]]
+name = "d"
+command = "cd ~/shoelace"
+
+[[aliases]]
+name = "c"
+command = "cd ~/.config"
+
+[[aliases]]
+name = "ls"
+command = "eza --icons --group-directories-first"
+
+[[aliases]]
+name = "ll"
+command = "eza -l --icons --git --group-directories-first"
+
+[[aliases]]
+name = "la"
+command = "eza -la --icons --git --group-directories-first"
+
+[[aliases]]
+name = "lt"
+command = "eza --tree --icons --level=2"
+
+[[aliases]]
+name = "cat"
+command = "bat --style=header,grid"
+
+[[aliases]]
+name = "grep"
+command = "rg"
+
+[[aliases]]
+name = "find"
+command = "fd"
+
+[[aliases]]
+name = "top"
+command = "btop"
+
+[[aliases]]
+name = "q"
+command = "exit"
+
+[[aliases]]
+name = "n"
+command = "niri"

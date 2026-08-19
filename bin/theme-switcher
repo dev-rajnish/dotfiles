@@ -1,0 +1,349 @@
+#!/usr/bin/env lua
+-- =============================================================================
+--  Shoelace Pure-Lua Theme Switcher
+--  Selects theme from env/themes/*.toml, updates env/token.db/theme.toml, & renders
+-- =============================================================================
+
+local function get_root_dir()
+    local env_dir = os.getenv("SHOELACE_DIR") or os.getenv("DOTFILES_DIR")
+    if env_dir and env_dir ~= "" then
+        return env_dir:gsub("^~", os.getenv("HOME") or "/home/rsh")
+    end
+
+    local script_path = arg and arg[0]
+    if not script_path or script_path == "" or script_path:sub(1,1) == "=" then
+        local src = debug.getinfo(1, "S").source
+        if src and src:sub(1,1) == "@" then
+            script_path = src:sub(2)
+        end
+    end
+
+    if script_path and script_path ~= "" then
+        local p = io.popen('readlink -f "' .. script_path .. '" 2>/dev/null')
+        if p then
+            local real = p:read("*l")
+            p:close()
+            if real and real ~= "" then
+                local dir = real:match("(.*/)")
+                if dir then
+                    local root = dir:gsub("/bin/?$", "")
+                    local f = io.open(root .. "/env", "r")
+                    if f then
+                        f:close()
+                        return root
+                    end
+                end
+            end
+        end
+    end
+
+    local home = os.getenv("HOME") or "/home/rsh"
+    local candidates = {
+        home .. "/shoelace",
+        home .. "/dot",
+        "/home/rsh/shoelace",
+        "/home/rsh/dot"
+    }
+    for _, c in ipairs(candidates) do
+        local f = io.open(c .. "/env", "r")
+        if f then
+            f:close()
+            return c
+        end
+    end
+
+    return "/home/rsh/shoelace"
+end
+
+local ROOT_DIR = get_root_dir()
+local THEMES_DIR = ROOT_DIR .. "/env/themes"
+
+local function find_theme_config_path()
+    local candidates = {
+        ROOT_DIR .. "/env/token.db/theme.toml",
+        ROOT_DIR .. "/env/token.kv/theme.toml",
+        ROOT_DIR .. "/env/token/theme.toml",
+        ROOT_DIR .. "/env/theme.toml",
+        ROOT_DIR .. "/env/token.db/colors.toml",
+        ROOT_DIR .. "/env/token.kv/colors.toml"
+    }
+    for _, path in ipairs(candidates) do
+        local f = io.open(path, "r")
+        if f then
+            f:close()
+            return path
+        end
+    end
+    return ROOT_DIR .. "/env/token.db/theme.toml"
+end
+
+local parse_toml_value
+parse_toml_value = function(val_str)
+    val_str = val_str:match("^%s*(.-)%s*$")
+    if not val_str or val_str == "" then return nil end
+    if (val_str:sub(1,1) == '"' and val_str:sub(-1) == '"') or (val_str:sub(1,1) == "'" and val_str:sub(-1) == "'") then
+        return val_str:sub(2, -2)
+    end
+    if val_str == "true" then return true end
+    if val_str == "false" then return false end
+    local num = tonumber(val_str)
+    if num ~= nil then return num end
+    return val_str
+end
+
+local function load_theme_file(filepath)
+    local f = io.open(filepath, "r")
+    if not f then return nil end
+    local content = f:read("*a")
+    f:close()
+
+    local theme = { colors = {} }
+    local current_sec = "root"
+
+    for line in content:gmatch("[^\r\n]+") do
+        local clean = line:match("^%s*(.-)%s*$")
+        if clean and clean ~= "" and clean:sub(1, 1) ~= "#" then
+            local sec = clean:match("^%[([%w_%-]+)%]$")
+            if sec then
+                current_sec = sec
+            else
+                local k, v = clean:match("^([%w_%-]+)%s*=%s*(.+)$")
+                if k and v then
+                    local parsed_v = parse_toml_value(v)
+                    if current_sec == "colors" then
+                        theme.colors[k] = parsed_v
+                    else
+                        theme[k] = parsed_v
+                    end
+                end
+            end
+        end
+    end
+
+    return theme
+end
+
+local function get_available_themes()
+    local themes = {}
+    local p = io.popen('find "' .. THEMES_DIR .. '" -type f -name "*.toml" 2>/dev/null')
+    if p then
+        for line in p:lines() do
+            local th = load_theme_file(line)
+            if th and th.name then
+                table.insert(themes, th)
+            end
+        end
+        p:close()
+    end
+    table.sort(themes, function(a, b) return a.name < b.name end)
+    return themes
+end
+
+local function apply_theme(theme_name)
+    local themes = get_available_themes()
+    local selected = nil
+    for _, t in ipairs(themes) do
+        if t.name:lower() == theme_name:lower() or (t.display_name and t.display_name:lower() == theme_name:lower()) then
+            selected = t
+            break
+        end
+    end
+
+    if not selected then
+        print("\27[1;31m❌ Error:\27[0m Theme '" .. theme_name .. "' not found.")
+        return false
+    end
+
+    local c = selected.colors
+    local bg = c.background or "#1e1e2e"
+    local fg = c.foreground or "#cdd6f4"
+    local cursor = c.cursor or fg
+    local color0 = c.color0 or bg
+    local color1 = c.color1 or "#f38ba8"
+    local color2 = c.color2 or "#a6e3a1"
+    local color3 = c.color3 or "#f9e2af"
+    local color4 = c.color4 or "#89b4fa"
+    local color5 = c.color5 or "#cba6f7"
+    local color6 = c.color6 or "#94e2d5"
+    local color7 = c.color7 or fg
+    local color8 = c.color8 or "#6c7086"
+    local color9 = c.color9 or color1
+    local color10 = c.color10 or color2
+    local color11 = c.color11 or "#fab387"
+    local color12 = c.color12 or color4
+    local color13 = c.color13 or color5
+    local color14 = c.color14 or color6
+    local color15 = c.color15 or fg
+    local accent = c.accent or color4
+
+    local toml_out = string.format([===[# =============================================================================
+#  Theme, Palette & Color Tokens (env/token.kv/theme.toml)
+#  Auto-managed by theme-switcher
+# =============================================================================
+
+theme = "%s"
+polarity = "%s"
+
+[palette]
+bg = "%s"
+bg_alt = "%s"
+fg = "%s"
+fg_muted = "%s"
+cursor = "%s"
+primary = "%s"
+red = "%s"
+green = "%s"
+blue = "%s"
+yellow = "%s"
+color3 = "%s"
+shadow = "#00000080"
+overlay_backdrop = "%se0"
+
+[[ansi_colors]]
+name = "color0"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color1"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color2"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color3"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color4"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color5"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color6"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color7"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color8"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color9"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color10"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color11"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color12"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color13"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color14"
+hex = "%s"
+
+[[ansi_colors]]
+name = "color15"
+hex = "%s"
+
+[borders]
+active = "%s"
+inactive = "%s"
+urgent = "%s"
+]===],
+        selected.name,
+        selected.polarity or "dark",
+        bg, color0, fg, color8, cursor, accent, color1, color2, color4, color3, color3, bg,
+        color0, color1, color2, color3, color4, color5, color6, color7,
+        color8, color9, color10, color11, color12, color13, color14, color15,
+        accent, color8, color1
+    )
+
+    local target_file = find_theme_config_path()
+    local f = io.open(target_file, "w")
+    if not f then
+        print("\27[1;31m❌ Error writing to:\27[0m " .. target_file)
+        return false
+    end
+    f:write(toml_out)
+    f:close()
+
+    print(string.format("\27[1;32m✔ Applied theme:\27[0m \27[1m%s\27[0m (%s)", selected.display_name or selected.name, selected.polarity or "dark"))
+
+    -- Trigger sl-render
+    os.execute('"' .. ROOT_DIR .. '/bin/sl-render"')
+
+    -- Reload desktop apps
+    os.execute('niri msg action reload-config 2>/dev/null || true')
+    os.execute('pkill -SIGUSR2 wayle 2>/dev/null || true')
+    os.execute('notify-send -i preferences-desktop-theme "🎨 Theme Switcher" "Switched to ' .. (selected.display_name or selected.name) .. '" 2>/dev/null || true')
+
+    return true
+end
+
+local function run_fuzzel_menu()
+    local themes = get_available_themes()
+    local menu_lines = {}
+    local name_map = {}
+
+    for _, t in ipairs(themes) do
+        local icon = (t.polarity == "light") and "☀️ " or "🌙 "
+        local label = string.format("%s %-20s (%s)", icon, t.display_name or t.name, t.name)
+        table.insert(menu_lines, label)
+        name_map[label] = t.name
+    end
+
+    local input_str = table.concat(menu_lines, "\n")
+    local cmd = 'printf "%s" ' .. string.format("%q", input_str) .. ' | fuzzel --dmenu --prompt "🎨 Theme: " 2>/dev/null'
+    local p = io.popen(cmd)
+    if not p then return end
+    local choice = p:read("*l")
+    p:close()
+
+    if choice and choice ~= "" then
+        local matched_name = name_map[choice]
+        if matched_name then
+            apply_theme(matched_name)
+        end
+    end
+end
+
+-- CLI Entrypoint
+local arg1 = arg[1]
+if arg1 == "--list" or arg1 == "-l" then
+    local themes = get_available_themes()
+    print("\n\27[1;36m=== 🎨 Available Desktop Themes ===\27[0m")
+    for _, t in ipairs(themes) do
+        local tag = (t.polarity == "light") and "\27[33m[light]\27[0m" or "\27[34m[dark]\27[0m"
+        print(string.format("  • \27[1m%-20s\27[0m %-25s %s", t.name, "(" .. (t.display_name or t.name) .. ")", tag))
+    end
+    print(string.format("\nTotal: %d themes available in env/themes/\n", #themes))
+elseif arg1 == "--set" or arg1 == "-s" then
+    local theme_name = arg[2]
+    if not theme_name or theme_name == "" then
+        print("Usage: theme-switcher --set <theme-name>")
+    else
+        apply_theme(theme_name)
+    end
+elseif arg1 and arg1 ~= "" and arg1:sub(1,1) ~= "-" then
+    apply_theme(arg1)
+else
+    run_fuzzel_menu()
+end

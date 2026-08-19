@@ -1,23 +1,41 @@
 # =============================================================================
-#  Unified Environment Loader
-# =============================================================================
+#  Unified Environment Loader (Nix Single Source of Truth)
 let
-  # List of all modular TOML configuration files to import
-  tomlFiles = [
-    ./system.toml
-    ./apps.toml
-    ./features.toml
-    ./theme.toml
-    ./appearance.toml
-    ./shell.toml
-  ];
+  # Helper to find and parse TOML file across candidate token directory names
+  findToml = name: let
+    candidates = [
+      (./. + "/token.db/${name}")
+      (./. + "/token.kv/${name}")
+      (./. + "/token/${name}")
+      (./. + "/${name}")
+    ];
+    existing = builtins.filter builtins.pathExists candidates;
+  in
+    if existing != []
+    then builtins.fromTOML (builtins.readFile (builtins.head existing))
+    else {};
 
-  # Load and merge all TOML files into a single flat environment attribute set
+  # Read active configuration modules needed by NixOS & Home Manager
+  system = findToml "system.toml";
+  features = findToml "features.toml";
+  apps = findToml "apps.toml";
+  theme = findToml "theme.toml";
+  ui = findToml "ui.toml";
+
+  # Merged flat & structured environment accessible across NixOS and Home Manager
   env =
-    builtins.foldl' (
-      acc: file: acc // (builtins.fromTOML (builtins.readFile file))
-    ) {}
-    tomlFiles;
+    system
+    // features
+    // apps
+    // theme
+    // ui
+    // {
+      inherit
+        features
+        apps
+        ui
+        ;
+    };
 
   # Package definitions
   pkgList = import ./packages.nix;

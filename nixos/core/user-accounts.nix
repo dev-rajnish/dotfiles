@@ -13,7 +13,7 @@
     ${env.username} = {
       isNormalUser = true;
       initialPassword = env.username;
-      shell = pkgs.bash;
+      shell = pkgs.fish;
       ignoreShellProgramCheck = true;
 
       description = env.username;

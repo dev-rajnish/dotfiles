@@ -26,22 +26,18 @@
       };
     };
 
-    # 2. Path Watcher: Monitors ~/shoelace/config.live/shoelace for changes
+    # 2. Path Watcher: Monitors ~/shoelace/config.live/shoelace & ~/shoelace/env/token.kv
     paths.sl-render = {
       Unit = {
-        Description = "Watch Shoelace data, templates, and config for modifications";
+        Description = "Watch Shoelace env/token.kv, appname.sl, and config for modifications";
       };
       Path = {
         PathModified = [
-          "%h/shoelace/config.live/shoelace/data"
-          "%h/shoelace/config.live/shoelace/data/shell"
-          "%h/shoelace/config.live/shoelace/templates"
+          "%h/shoelace/env/token.kv"
           "%h/shoelace/config.live/shoelace/shoelace.toml"
         ];
         PathChanged = [
-          "%h/shoelace/config.live/shoelace/data"
-          "%h/shoelace/config.live/shoelace/data/shell"
-          "%h/shoelace/config.live/shoelace/templates"
+          "%h/shoelace/env/token.kv"
           "%h/shoelace/config.live/shoelace/shoelace.toml"
         ];
         Unit = "sl-render.service";

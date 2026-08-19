@@ -11,7 +11,6 @@
     ./services.nix
     ./shell.nix
     ./stylix.nix
-    ./wallust.nix
-    ./xdg-config-var-populate.nix
+    ./symlinks.nix
   ];
 }

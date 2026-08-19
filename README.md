@@ -1,139 +1,70 @@
-# ❄️ NixOS & Home Manager Dotfiles
+# ❄️ NixOS & Home Manager Dotfiles (Shoelace)
 
-A high-performance, modular **NixOS 26.05** & **Home Manager** flake featuring the **Niri** scrollable Wayland compositor, **Stylix Base16** dynamic theming, **Fish/Nushell/Bash**, **Kitty**, **Wayle**, **nix-ld** dynamic binary linking, **iwd** ultra-fast networking, and container virtualization.
+A high-performance, modular **NixOS 26.05** & **Home Manager** flake featuring the **Niri** scrollable Wayland compositor, **Stylix Base16** dynamic theming, **Fish Shell**, **Lua Template Engine**, **Kitty**, **Wayle**, **nix-ld** dynamic binary linking, **iwd** ultra-fast networking, and container virtualization.
 
 ---
 
-## 📖 User Guide: The `config.live` & `config.lock` Workflow
+## 📖 Architecture & Workflow: Single Source of Truth & Live Symlinks
 
-This repository uses the **Live Workspace & Snapshot Lock Pattern** to give you instant hot-reloading for desktop configuration without polluting your Git working tree.
+This repository uses **`env/`** as the **Single Source of Truth** and **Home Manager `mkOutOfStoreSymlink`** for instant live editing:
 
 ```
-┌────────────────────────────────┐         just lock-config         ┌────────────────────────────────┐
-│   config.live/ (~/.config)     │ ───────────────────────────────> │   config.lock/                 │
-│   • Live editable workspace    │                                  │   • Clean reference snapshot   │
-│   • Ignored by Git (.gitignore)│ <─────────────────────────────── │   • Committed to Git repository│
-└────────────────────────────────┘        just restore-config       └────────────────────────────────┘
+┌────────────────────────────────┐         lua bin/sl-render        ┌────────────────────────────────┐
+│   env/token.kv/ (*.toml)       │ ───────────────────────────────> │   config/ (~/.config)          │
+│   • Single Source of Truth     │                                  │   • Direct Live Symlinks       │
+│   • Themes, UI, Keybinds, Apps │ <─────────────────────────────── │   • Committed to Git repository│
+└────────────────────────────────┘      config.lib.file.mkOutOfStore │   • Instant Hot Reloading      │
+                                              Symlink               └────────────────────────────────┘
 ```
 
 ### 1. How It Works
 
-- **`config.live/`**: Your live working directory, symlinked directly to `~/.config/`. Any edit to Niri keybinds, Kitty colors, Fuzzel, Wayle, or Yazi takes effect **instantly**. Because it is in `.gitignore`, runtime cache files and dynamic themes will **never** dirty your Git tree.
-- **`config.lock/`**: The clean, authoritative configuration snapshot tracked and committed in Git.
-
-### 2. Daily Workflow
-
-1. **Live Editing**: Edit configs in `~/.config/<app>` or `config.live/<app>`. Changes apply immediately in your active session.
-2. **Locking Changes to Git**: When you are happy with your tweaks and want to commit them:
-   ```bash
-   just lock-config   # (or `just lock`) Syncs config.live -> config.lock
-   git add config.lock
-   git commit -m "feat(ui): update niri keybinds and kitty config"
-   ```
-3. **Restoring / Fresh Setup**: If you ever want to revert experimental changes or set up on a fresh machine:
-   ```bash
-   just restore-config # (or `just restore`) Restores config.live from config.lock
-   just link-live      # (or `just link`) Symlinks ~/.config to config.live
-   ```
+- **`env/`**: Single source of truth. Contains modular TOML tokens (`system.toml`, `theme.toml`, `ui.toml`, `keybinds.toml`, `layout-and-window.toml`, `apps.toml`, `shell.d/`) and package manifests (`packages.nix`).
+- **`config/`**: Clean, git-tracked application configurations symlinked directly to `~/.config/` via `mkOutOfStoreSymlink`.
+- **`templates/`**: Mustache templates for Niri, Kitty, Fuzzel, Wayle, Swaylock, and Fish.
+- **`bin/sl-render`**: Lightweight pure-Lua template renderer that parses `env/token.kv/*.toml` and renders `templates/` into `config/`.
+- **`bin/theme-switcher`**: Interactive Fuzzel theme switcher that selects themes from `env/themes/`, updates `env/token.kv/theme.toml`, and regenerates configs on the fly.
 
 ---
 
-## ⌨️ Routine Task Commands (`just`)
+## ⌨️ Daily Commands (`just`)
 
-This repository includes a comprehensive `justfile` task runner for daily operations:
-
-| Category            | Command                              | Description                                                                            |
-| :------------------ | :----------------------------------- | :------------------------------------------------------------------------------------- |
-| **🔄 Config Sync**  | `just lock-config` (or `lock`)       | Snapshot clean live configs from `config.live/` to git-tracked `config.lock/`          |
-|                     | `just restore-config` (or `restore`) | Overwrite/restore `config.live/` from git-tracked `config.lock/`                       |
-|                     | `just link-live` (or `link`)         | Symlink all `config.live/` subfolders into `~/.config/`                                |
-| **❄️ System**       | `just switch` (or `nixos`)           | Rebuild and switch NixOS system (`sudo nixos-rebuild switch --flake .#nixos`)          |
-|                     | `just test`                          | Test configuration without adding a new bootloader entry                               |
-|                     | `just boot`                          | Build system and add to bootloader menu without switching immediately                  |
-|                     | `just build`                         | Build NixOS system toplevel derivation (outputs `./result`)                            |
-|                     | `just vm`                            | Build and run a QEMU VM instance of your configuration                                 |
-| **🏠 Home Manager** | `just home` (or `hm`)                | Switch standalone Home Manager profile (`home-manager switch --flake .#rsh`)           |
-|                     | `just home-build`                    | Build Home Manager activation package                                                  |
-|                     | `just sync` (or `all`)               | Rebuild both NixOS system and Home Manager configurations                              |
-| **🛠️ Code Quality** | `just fmt`                           | Format all Nix, Shell, TOML, and Rust code with `treefmt` (`alejandra`, `shfmt`, etc.) |
-|                     | `just check`                         | Run `nix flake check` to validate evaluations and formatting                           |
-|                     | `just update`                        | Update flake inputs and dependencies (`nix flake update`)                              |
-|                     | `just lock-flake`                    | Update `flake.lock`                                                                    |
-| **🧹 Maintenance**  | `just gc [days=7d]`                  | Collect old generations (default 7 days) and optimize Nix store                        |
-|                     | `just optimise`                      | Deduplicate and hardlink identical Nix store files                                     |
-|                     | `just clean`                         | Remove temporary build symlinks (`result`, `result-*`)                                 |
-|                     | `just generations`                   | List recent NixOS and Home Manager generation history                                  |
+| Category                | Command             | Description                                                                              |
+| :---------------------- | :------------------ | :--------------------------------------------------------------------------------------- |
+| **🎨 Theming & Render** | `just render`       | Re-render all Mustache templates from `env/` tokens into `config/`                       |
+|                         | `just theme [name]` | Interactive Fuzzel theme switcher or apply theme by name (e.g. `just theme tokyo-night`) |
+|                         | `just themes`       | List all 15 available themes in `env/themes/`                                            |
+| **❄️ System**           | `just switch`       | Rebuild and switch NixOS system (`sudo nixos-rebuild switch --flake .#nixos`)            |
+|                         | `just test`         | Test configuration without adding a new bootloader entry                                 |
+|                         | `just boot`         | Build system and add to bootloader menu without switching immediately                    |
+|                         | `just build`        | Build NixOS system toplevel derivation (outputs `./result`)                              |
+|                         | `just vm`           | Build and run a QEMU VM instance of your configuration                                   |
+| **🏠 Home Manager**     | `just home`         | Switch standalone Home Manager profile (`home-manager switch --flake .#rsh`)             |
+|                         | `just sync`         | Rebuild both NixOS system and Home Manager configurations                                |
+| **🛠️ Code Quality**     | `just fmt`          | Format all Nix, Lua, Shell, Fish, and TOML code with `treefmt`                           |
+|                         | `just check`        | Run `nix flake check` to validate evaluations and formatting                             |
+|                         | `just update`       | Update flake inputs and dependencies (`nix flake update`)                                |
+| **🧹 Maintenance**      | `just gc [days=7d]` | Collect old generations (default 7 days) and optimize Nix store                          |
+|                         | `just clean`        | Remove temporary build symlinks (`result`, `result-*`)                                   |
 
 ---
 
 ## 🛠️ How to Configure This System
 
-### 1. Unified Environment System ([`env/`](env/))
+### Unified Environment System ([`env/`](env/))
 
-All system settings, desktop design tokens, default applications, and package sets are modularized inside `env/` and loaded via `env/default.nix`:
+All system settings, design tokens, default applications, and package sets are modularized inside `env/`:
 
-- **[`env/default.nix`](env/default.nix)**: Single entrypoint loader defining `tomlFiles = [ ... ]` and merging all settings.
-- **[`env/system.toml`](env/system.toml)**: Machine platform, CPU/GC, user ID, locale, and git credentials.
-- **[`env/apps.toml`](env/apps.toml)**: Default desktop application handlers (terminal, editor, browser, viewer, player).
-- **[`env/features.toml`](env/features.toml)**: Feature and virtualization toggles (Libvirt, AppImage, Waydroid, Bluetooth).
-- **[`env/theme.toml`](env/theme.toml)**: Desktop theme palette and dark/light polarity (`theme = "rose-pine"`).
-- **[`env/appearance.toml`](env/appearance.toml)**: Typography, sizes, window geometry, gaps, borders, opacity, cursor, and icon theme.
-- **[`env/shell.toml`](env/shell.toml)**: Shell session environment variables and CLI aliases.
-- **[`env/packages.nix`](env/packages.nix)**: Categorized Nix package sets and software manifests.
-
----
-
-## 💿 Fresh NixOS Installation Guide (UEFI + `cfdisk`)
-
-Follow this guide to install NixOS from a standard [NixOS Minimal ISO](https://nixos.org/download.html).
-
-### 1. Partition with `cfdisk`
-
-```bash
-cfdisk /dev/nvme0n1
-```
-
-Create a **GPT** partition table:
-
-- **Partition 1 (EFI Boot)**: `1G` ➔ Type: `EFI System`
-- **Partition 2 (Optional Swap)**: `8G` (or `16G`) ➔ Type: `Linux swap`
-- **Partition 3 (Root Filesystem)**: `Remaining Space` ➔ Type: `Linux filesystem`
-- Select **[ Write ]**, type `yes`, then **[ Quit ]**.
-
-### 2. Format & Mount Partitions
-
-```bash
-# Format Partitions
-mkfs.fat -F 32 -n boot /dev/nvme0n1p1
-mkswap -L swap /dev/nvme0n1p2 && swapon /dev/nvme0n1p2
-mkfs.ext4 -L nixos /dev/nvme0n1p3
-
-# Mount Filesystems
-mount /dev/disk/by-label/nixos /mnt
-mkdir -p /mnt/boot
-mount /dev/disk/by-label/boot /mnt/boot
-```
-
-### 3. Clone Dotfiles & Install
-
-```bash
-# 1. Generate baseline hardware config
-nixos-generate-config --root /mnt
-
-# 2. Clone dotfiles repository into target user home
-mkdir -p /mnt/home/rsh
-nix-shell -p git --run "git clone https://github.com/dev-rajnish/dotfiles.git /mnt/home/rsh/dot"
-cd /mnt/home/rsh/dot
-
-# 3. Copy generated hardware configuration into the flake
-cp /mnt/etc/nixos/hardware-configuration.nix nixos/hardware-configuration.nix
-
-# 4. Install NixOS
-nixos-install --flake .#nixos
-
-# 5. Set user password when prompted, then reboot
-reboot
-```
+- **[`env/default.nix`](env/default.nix)**: Single entrypoint loader merging all `env/token.kv/*.toml` into `env`.
+- **[`env/token.kv/system.toml`](env/token.kv/system.toml)**: Host platform, user identity, and locale.
+- **[`env/token.kv/apps.toml`](env/token.kv/apps.toml)**: Default desktop application handlers (terminal, editor, browser, viewer, player).
+- **[`env/token.kv/theme.toml`](env/token.kv/theme.toml)**: Active desktop theme palette and dark/light polarity.
+- **[`env/token.kv/ui.toml`](env/token.kv/ui.toml)**: Typography, sizes, cursor, and icon theme.
+- **[`env/token.kv/keybinds.toml`](env/token.kv/keybinds.toml)**: Global desktop & compositor keybindings.
+- **[`env/token.kv/layout-and-window.toml`](env/token.kv/layout-and-window.toml)**: Window rules, border radii, gaps, and opacity.
+- **[`env/token.kv/shell.d/`](env/token.kv/shell.d/)**: Shell aliases, environment variables, and PATH entries.
+- **[`env/packages.nix`](env/packages.nix)**: Categorized Nix package manifest for system and user packages.
+- **[`env/themes/`](env/themes/)**: 15 pre-configured desktop themes (Catppuccin, Tokyo Night, Gruvbox, Rosé Pine, Nord, Dracula, etc.).
 
 ---
 
@@ -141,37 +72,50 @@ reboot
 
 ```
 .
-├── env/                       # 🌐 Modular environment, TOML configs & package manifest
-│   ├── default.nix            # Dynamic Nix loader importing tomlFiles = [ ... ]
-│   ├── system.toml            # Host platform, hardware, user identity & locale
-│   ├── apps.toml              # Default desktop applications & MIME handlers
-│   ├── features.toml          # Feature, virtualization & service toggles
-│   ├── theme.toml             # Active theme & dark/light polarity
-│   ├── appearance.toml        # Fonts, sizes, geometry, gaps, borders & opacity
-│   ├── shell.toml             # Shell session variables & aliases
-│   └── packages.nix           # Categorized system & user package manifest
-├── flake.nix                  # Flake entrypoint & outputs
-├── justfile                   # Daily task runner
+├── bin/                       # 🚀 Clean Lua & Shell executable helper scripts
+│   ├── sl-render              # Pure Lua TOML + Mustache template renderer
+│   ├── theme-switcher         # Interactive Fuzzel theme switcher
+│   └── power-menu             # Wayland power and session menu
 │
-├── nixos/                     # ❄️ NixOS system modules (Static default.nix structure)
+├── config/                    # 📂 Authoritative dotfiles (symlinked to ~/.config via mkOutOfStoreSymlink)
+│   ├── fish/                  # Fish shell config & conf.d/
+│   ├── fuzzel/                # Fuzzel application launcher config
+│   ├── kitty/                 # Kitty terminal emulator config
+│   ├── niri/                  # Niri Wayland compositor config & window rules
+│   ├── nvim/                  # Neovim configuration
+│   ├── qutebrowser/           # Qutebrowser configuration
+│   ├── swaylock/              # Swaylock lock screen config
+│   ├── wayle/                 # Wayle status bar config
+│   ├── yazi/                  # Yazi terminal file manager
+│   ├── wlogout/               # Wlogout session menu
+│   └── starship.toml          # Cross-shell Starship prompt
+│
+├── env/                       # 🌐 Single Source of Truth
+│   ├── default.nix            # Nix environment loader
+│   ├── packages.nix           # Consolidated system & user package manifest
+│   ├── themes/                # Theme palette library (15 TOML themes)
+│   └── token.kv/              # Modular TOML configuration tokens
+│
+├── templates/                 # 📄 Mustache templates rendered into config/
+│   ├── fish/
+│   ├── fuzzel/
+│   ├── kitty/
+│   ├── niri/
+│   ├── swaylock/
+│   └── wayle/
+│
+├── home-manager/              # 🏠 User environment modules
+│   ├── home.nix               # User entrypoint
+│   ├── modules/               # Stylix, Symlinks (mkOutOfStoreSymlink), Shell, Packages
+│   └── pkgs/                  # Custom package derivations
+│
+├── nixos/                     # ❄️ NixOS system modules
 │   ├── configuration.nix      # System entrypoint
-│   ├── core/                  # User accounts, fast networking (iwd), locale, nix settings
+│   ├── core/                  # User accounts, fish shell default, networking, nix settings
 │   ├── desktop/               # Greetd login, Kanata keyboard remap, Polkit, portals
 │   ├── hardware/              # AMD GPU, PipeWire audio, Bluetooth, bootloader
 │   └── virtualization/        # AppImage runner, Distrobox, Libvirt QEMU/KVM
 │
-├── home-manager/              # 🏠 User environment modules (Static default.nix structure)
-│   ├── home.nix               # User entrypoint
-│   ├── modules/               # Stylix, Wallust, Mime defaults, Packages, Services
-│   └── pkgs/                  # Custom derivations (Antigravity CLI, LibreWolf, Zen)
-│
-├── config.lock/               # 🔒 Git-tracked authoritative configuration snapshot
-│   ├── kitty/                 # Terminal emulator config
-│   ├── niri/                  # Scrollable Wayland compositor rules & keybinds
-│   ├── labwc/                 # Stacking Wayland compositor config
-│   ├── wayle/                 # Status bar & widgets
-│   ├── wallust/               # Dynamic theming templates
-│   └── ...                    # Fuzzel, Yazi, Starship, Swaylock, Wlogout, Fastfetch
-│
-├── config.live/               # ⚡ Live local workspace (git-ignored, symlinked to ~/.config)
+├── flake.nix                  # Flake entrypoint & outputs
+└── justfile                   # Daily task runner
 ```

@@ -2,9 +2,9 @@
 #  NixOS & Home Manager Dotfiles Task Runner (justfile)
 # =============================================================================
 
-# Dynamically extract host and user variables from env/system.toml (with fallbacks)
-hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/system.toml 2>/dev/null || echo "nixos"`
-username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/system.toml 2>/dev/null || whoami`
+# Dynamically extract host and user variables from env/token.kv/system.toml
+hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/token.kv/system.toml 2>/dev/null | head -n 1`
+username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/token.kv/system.toml 2>/dev/null | head -n 1`
 
 # Default recipe: List available commands
 default:
@@ -12,87 +12,25 @@ default:
 
 
 # -----------------------------------------------------------------------------
-# 🔄 Live Workspace & Snapshot Lock Management
+# 📄 Template & Theme Management (Lua Engine)
 # -----------------------------------------------------------------------------
 
-# Lock current live configurations from config.live/ into git-tracked config.lock/
-lock-config:
+# Render all Mustache templates from env/ tokens into config/
+render:
+    lua bin/sl-render
+
+# Switch desktop theme interactively or by name (e.g. `just theme tokyo-night`)
+theme name="":
     #!/usr/bin/env bash
-    set -euo pipefail
-    mkdir -p config.lock config.live
-    # 1. Unlock config.lock (temporarily grant write permissions)
-    chmod -R u+rwX config.lock 2>/dev/null || true
-    # 2. Sync live configuration into config.lock (respecting .gitignore)
-    rsync -av --delete \
-        --filter=':- .gitignore' \
-        --exclude='.git' \
-        config.live/ config.lock/
-    # 3. Re-lock config.lock (set read-only 444 for files, 555 for directories)
-    find config.lock -type d -exec chmod 555 {} +
-    find config.lock -type f -exec chmod 444 {} +
-    echo "✔ Live configuration locked into read-only config.lock/ (ready to commit to Git)"
-
-# Alias for lock-config
-lock: lock-config
-
-# Restore live configuration from git-tracked config.lock/ into config.live/
-restore-config:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    mkdir -p config.live config.lock
-    # 1. Sync locked configurations to live (respecting .gitignore)
-    rsync -av --delete \
-        --filter=':- .gitignore' \
-        --exclude='.git' \
-        config.lock/ config.live/
-    # 2. Ensure config.live is fully writable for live editing
-    chmod -R u+rwX config.live
-    echo "✔ config.live/ restored and unlocked from config.lock/"
-
-# Alias for restore-config
-restore: restore-config
-
-# Symlink all config.live subdirectories and env into ~/.config/
-link-live:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    mkdir -p config.live "$HOME/.config"
-    for item in config.live/*; do
-        if [ -e "$item" ]; then
-            name=$(basename "$item")
-            target="$HOME/.config/$name"
-            if [ -d "$target" ] && [ ! -L "$target" ]; then
-                rm -rf "$target"
-            fi
-            ln -sfn "$(pwd)/config.live/$name" "$target"
-        fi
-    done
-    # Symlink env/ directly to ~/.config/env for unified live editing
-    if [ -d "env" ]; then
-        ln -sfn "$(pwd)/env" "$HOME/.config/env"
+    if [ -z "{{name}}" ]; then
+        bin/theme-switcher
+    else
+        bin/theme-switcher --set "{{name}}"
     fi
-    echo "✔ ~/.config/ entries & ~/.config/env symlinked successfully"
 
-# Alias for link-live
-link: link-live
-
-# Render configuration templates using sl-render
-render *args="":
-    sl-render {{args}}
-
-# Alias for render
-tmpl: render
-
-# Compile all Rust tools in bin-src/ to ~/.local/bin/
-build-bins:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    cd config.live/bin-src
-    cargo build --release
-    mkdir -p "$HOME/.local/bin" "$(pwd)/../bin"
-    cp target/release/appearance-populator target/release/power-menu target/release/theme-switcher target/release/sl-render "$HOME/.local/bin/"
-    cp target/release/appearance-populator target/release/power-menu target/release/theme-switcher target/release/sl-render "$(pwd)/../bin/"
-    echo "✔ All binaries compiled and installed to ~/.local/bin/ & config.live/bin/"
+# List all available desktop themes
+themes:
+    bin/theme-switcher --list
 
 
 # -----------------------------------------------------------------------------
@@ -100,63 +38,54 @@ build-bins:
 # -----------------------------------------------------------------------------
 
 # Rebuild and switch to the new NixOS system configuration
-switch: 
+switch:
     sudo nixos-rebuild switch --flake .#{{hostname}}
 
-# Alias for switch
-nixos: switch
-
 # Test configuration without adding to bootloader menu
-test: 
+test:
     sudo nixos-rebuild test --flake .#{{hostname}}
 
 # Build configuration and set as default in bootloader (without switching now)
-boot: 
+boot:
     sudo nixos-rebuild boot --flake .#{{hostname}}
 
 # Build NixOS system toplevel without switching (produces ./result)
-build: 
+build:
     nix build .#nixosConfigurations.{{hostname}}.config.system.build.toplevel
 
 # Build a QEMU VM runner for testing the configuration
-vm: 
+vm:
     nixos-rebuild build-vm --flake .#{{hostname}}
+
 
 # -----------------------------------------------------------------------------
 # 🏠 Home Manager Management
 # -----------------------------------------------------------------------------
 
 # Switch to the standalone Home Manager configuration
-home: 
+home:
     home-manager switch --flake .#{{username}}
-
-# Alias for home
-hm: home
 
 # Build Home Manager activation package without switching
 home-build:
     nix build .#homeConfigurations.{{username}}.activationPackage
 
-# -----------------------------------------------------------------------------
-# 🔄 Combined Operations
-# -----------------------------------------------------------------------------
-
 # Rebuild both NixOS system and Home Manager configurations
-all: switch home
+sync:
+    sudo nixos-rebuild switch --flake .#{{hostname}}
+    home-manager switch --flake .#{{username}}
 
-# Alias for all
-sync: all
 
 # -----------------------------------------------------------------------------
 # 🛠️ Flake & Code Quality
 # -----------------------------------------------------------------------------
 
-# Format all Nix and configuration files using treefmt
+# Format all Nix, Lua, Shell, Fish, and TOML files using treefmt
 fmt:
     nix fmt
 
 # Run flake checks and verify build evaluations
-check: 
+check:
     nix flake check
 
 # Update all flake inputs or a specific input (e.g., `just update nixpkgs`)
@@ -168,45 +97,13 @@ update input="":
         nix flake update {{input}}
     fi
 
-# Update flake lockfile
-lock-flake:
-    nix flake lock
-
-# Alias for lock-flake
-flake-lock: lock-flake
-
-# -----------------------------------------------------------------------------
-# 🧹 Maintenance & Clean-up
-# -----------------------------------------------------------------------------
-
-# Clean older generations (default 7 days) and optimize the Nix store
-gc days="7d":
-    nix-collect-garbage --delete-older-than {{days}}
-    sudo nix-collect-garbage --delete-older-than {{days}}
-    nix store optimise
-    sudo nix store optimise
-
-# Deduplicate and optimize the Nix store
-optimise:
-    nix store optimise
-    sudo nix store optimise
-
-# Remove temporary build symlinks (result, result-*)
+# Clean up build artifacts, GC roots, and result symlinks
 clean:
     rm -rf result result-*
+    echo "✔ Temporary build artifacts and result links cleaned"
 
-# -----------------------------------------------------------------------------
-# 📜 Information & History
-# -----------------------------------------------------------------------------
-
-# List recent NixOS and Home Manager generations
-generations:
-    @echo "=== ❄️ NixOS Generations ==="
-    sudo nixos-rebuild list-generations
-    @echo ""
-    @echo "=== 🏠 Home Manager Generations ==="
-    home-manager generations
-
-# Show git status of the dotfiles repository
-status:
-    git status -s
+# Run Nix garbage collection and optimize the /nix/store
+gc:
+    nix-collect-garbage --delete-older-than 7d
+    nix store optimise
+    echo "✔ Nix store garbage collected and hard-links optimized"

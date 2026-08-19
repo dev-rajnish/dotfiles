@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# =============================================================================
+#  Shoelace Power & Session Menu (power-menu)
+#  Fast Wayland session manager using Fuzzel
+# =============================================================================
+set -euo pipefail
+
+action_lock() {
+    swaylock -f || hyprlock || loginctl lock-session || true
+}
+
+action_logout() {
+    niri msg action quit 2>/dev/null || labwc --exit 2>/dev/null || loginctl terminate-user "$USER" || true
+}
+
+action_suspend() {
+    systemctl suspend
+}
+
+action_hibernate() {
+    systemctl hibernate
+}
+
+action_reboot() {
+    systemctl reboot
+}
+
+action_shutdown() {
+    systemctl poweroff
+}
+
+action_uefi() {
+    systemctl reboot --firmware-setup
+}
+
+show_menu() {
+    local options="  Lock\n󰍃  Logout\n󰤄  Suspend\n󰒲  Hibernate\n󰑐  Reboot\n󰐥  Shutdown\n󰌢  UEFI Firmware Setup\n  Cancel"
+    local choice
+    choice=$(printf "%b" "$options" | fuzzel --dmenu --prompt "⏻  Power: " 2>/dev/null || true)
+
+    case "$choice" in
+        *"Lock"*) action_lock ;;
+        *"Logout"*) action_logout ;;
+        *"Suspend"*) action_suspend ;;
+        *"Hibernate"*) action_hibernate ;;
+        *"Reboot"*) action_reboot ;;
+        *"Shutdown"*) action_shutdown ;;
+        *"UEFI"*) action_uefi ;;
+        *) exit 0 ;;
+    esac
+}
+
+case "${1:-menu}" in
+    lock|--lock) action_lock ;;
+    logout|--logout) action_logout ;;
+    suspend|--suspend) action_suspend ;;
+    hibernate|--hibernate) action_hibernate ;;
+    reboot|--reboot) action_reboot ;;
+    shutdown|--shutdown|poweroff) action_shutdown ;;
+    uefi|--uefi) action_uefi ;;
+    menu|*) show_menu ;;
+esac

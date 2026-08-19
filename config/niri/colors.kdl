@@ -1,0 +1,37 @@
+// =============================================================================
+//  Wallust Generated Niri Appearance & Border Colors
+// =============================================================================
+
+layout {
+    background-color "#191724"
+
+    border {
+        active-color "#C4A7E7"
+        inactive-color "#6E6A86"
+        urgent-color "#EB6F92"
+    }
+
+    focus-ring {
+        active-color "#C4A7E7"
+        inactive-color "#6E6A86"
+        urgent-color "#EB6F92"
+    }
+
+    shadow {
+        color "#00000080"
+    }
+
+    tab-indicator {
+        active-color "#C4A7E7"
+        inactive-color "#6E6A86"
+        urgent-color "#EB6F92"
+    }
+
+    insert-hint {
+        color "#C4A7E780"
+    }
+}
+
+overview {
+    backdrop-color "#191724e0"
+}

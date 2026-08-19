@@ -30,6 +30,3 @@ target/
 **/*.swp
 **/*.tmp
 *~
-
-# Live uncommitted config workspace
-config.live/
