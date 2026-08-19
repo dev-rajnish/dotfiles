@@ -3,7 +3,6 @@
 # =============================================================================
 {
   imports = [
-    ./dotfiles-sync.nix
     ./networking.nix
     ./nix-settings.nix
     ./shell
