@@ -1,0 +1,89 @@
+# =============================================================================
+#  Theme Palette & System Colors (colors.toml)
+# =============================================================================
+
+theme = "rose-pine"
+polarity = "dark"
+
+[palette]
+bg = "#191724"
+bg_alt = "#1f1d2e"
+fg = "#e0def4"
+fg_muted = "#908caa"
+cursor = "#e0def4"
+primary = "#f6c177"
+red = "#eb6f92"
+green = "#31748f"
+blue = "#c4a7e7"
+yellow = "#ebbcba"
+shadow = "#00000080"
+overlay_backdrop = "#191724e0"
+
+[[ansi_colors]]
+name = "color0"
+hex = "#191724"
+
+[[ansi_colors]]
+name = "color1"
+hex = "#eb6f92"
+
+[[ansi_colors]]
+name = "color2"
+hex = "#31748f"
+
+[[ansi_colors]]
+name = "color3"
+hex = "#f6c177"
+
+[[ansi_colors]]
+name = "color4"
+hex = "#9ccfd8"
+
+[[ansi_colors]]
+name = "color5"
+hex = "#c4a7e7"
+
+[[ansi_colors]]
+name = "color6"
+hex = "#ebbcba"
+
+[[ansi_colors]]
+name = "color7"
+hex = "#e0def4"
+
+[[ansi_colors]]
+name = "color8"
+hex = "#26233a"
+
+[[ansi_colors]]
+name = "color9"
+hex = "#eb6f92"
+
+[[ansi_colors]]
+name = "color10"
+hex = "#31748f"
+
+[[ansi_colors]]
+name = "color11"
+hex = "#f6c177"
+
+[[ansi_colors]]
+name = "color12"
+hex = "#9ccfd8"
+
+[[ansi_colors]]
+name = "color13"
+hex = "#c4a7e7"
+
+[[ansi_colors]]
+name = "color14"
+hex = "#ebbcba"
+
+[[ansi_colors]]
+name = "color15"
+hex = "#e0def4"
+
+[borders]
+active = "#c4a7e7"
+inactive = "#6e6a86"
+urgent = "#eb6f92"

@@ -76,6 +76,25 @@ link-live:
 # Alias for link-live
 link: link-live
 
+# Render configuration templates using sl-render
+render *args="":
+    sl-render {{args}}
+
+# Alias for render
+tmpl: render
+
+# Compile all Rust tools in bin-src/ to ~/.local/bin/
+build-bins:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd config.live/bin-src
+    cargo build --release
+    mkdir -p "$HOME/.local/bin" "$(pwd)/../bin"
+    cp target/release/appearance-populator target/release/power-menu target/release/theme-switcher target/release/sl-render "$HOME/.local/bin/"
+    cp target/release/appearance-populator target/release/power-menu target/release/theme-switcher target/release/sl-render "$(pwd)/../bin/"
+    echo "✔ All binaries compiled and installed to ~/.local/bin/ & config.live/bin/"
+
+
 # -----------------------------------------------------------------------------
 # ❄️ NixOS System Management
 # -----------------------------------------------------------------------------

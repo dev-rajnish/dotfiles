@@ -1,0 +1,48 @@
+# =============================================================================
+#  Typography & Desktop Geometry (appearance.toml)
+# =============================================================================
+
+[fonts]
+mono = "JetBrainsMono Nerd Font"
+sans = "Inter"
+serif = "Inter"
+emoji = "Noto Color Emoji"
+
+[sizes]
+terminal = 16.0
+launcher = 18
+bar = 11.0
+desktop = 12.0
+power_menu = 14.0
+
+[geometry]
+border_width = 1
+border_radius = 0
+rounding = "none"
+gap_inner = 6
+gap_outer = 12
+lock_indicator_radius = 120
+lock_indicator_thickness = 10
+
+[opacity]
+focused = "1.0"
+unfocused = "0.75"
+floating = "1.0"
+
+[cursor]
+name = "Bibata-Modern-Classic"
+size = 24
+
+[[window_rules]]
+match = "is-focused=false"
+opacity = "0.75"
+draw_border_with_background = "true"
+
+[[window_rules]]
+match = "is-floating=true"
+opacity = "1.0"
+draw_border_with_background = "false"
+shadow_softness = 10
+shadow_spread = 10
+shadow_offset_x = 0
+shadow_offset_y = 12

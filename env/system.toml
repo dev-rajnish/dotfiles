@@ -10,7 +10,7 @@ autoGcOlderThan = "7d"
 # 👤 User & Host Identification
 username = "rsh"
 hostname = "nixos"
-dotfilesDir = "dot"
+dotfilesDir = "shoelace"
 
 # 💻 Hardware & Platform Profile
 deviceType = "laptop"

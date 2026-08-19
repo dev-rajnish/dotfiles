@@ -1,0 +1,45 @@
+// =============================================================================
+//  Shoelace Modular Keybindings (sl_keybinds.kdl)
+// =============================================================================
+
+binds {
+    // System & Session Binds
+{{#system_binds}}
+    {{key}}{{#allow_inhibiting_false}} allow-inhibiting=false{{/allow_inhibiting_false}}{{#allow_when_locked}} allow-when-locked=true{{/allow_when_locked}}{{#repeat_false}} repeat=false{{/repeat_false}}{{#title}} hotkey-overlay-title="{{{title}}}"{{/title}} { {{{action}}}; }
+{{/system_binds}}
+
+    // Application Launchers
+{{#app_binds}}
+    {{key}}{{#repeat_false}} repeat=false{{/repeat_false}}{{#title}} hotkey-overlay-title="{{{title}}}"{{/title}} { {{{action}}}; }
+{{/app_binds}}
+
+    // Hardware & Media Keys
+{{#media_binds}}
+    {{key}} allow-when-locked=true { {{{action}}}; }
+{{/media_binds}}
+
+    // Window Management & Actions
+{{#window_binds}}
+    {{key}}{{#repeat_false}} repeat=false{{/repeat_false}} { {{{action}}}; }
+{{/window_binds}}
+
+    // Focus Navigation
+{{#nav_binds}}
+    {{key}} { {{{action}}}; }
+{{/nav_binds}}
+
+    // Move Columns & Windows
+{{#move_binds}}
+    {{key}} { {{{action}}}; }
+{{/move_binds}}
+
+    // Sizing & Presets
+{{#sizing_binds}}
+    {{key}} { {{{action}}}; }
+{{/sizing_binds}}
+
+    // Workspaces
+{{#workspace_binds}}
+    {{key}} { {{{action}}}; }
+{{/workspace_binds}}
+}

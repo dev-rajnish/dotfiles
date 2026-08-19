@@ -10,5 +10,6 @@ SHELL = "bash"
 MAN_DISABLE_CACHE = 1
 
 [aliases]
-d = "cd ~/dot"
+sl = "cd ~/shoelace"
+d = "cd ~/shoelace"
 c = "cd ~/.config"

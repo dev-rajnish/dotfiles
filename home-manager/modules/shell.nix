@@ -2,12 +2,15 @@
 #  Shell Integration & Modern CLI Tools
 # =============================================================================
 {
-  # ---------------------------------------------------------------------------
-  # 🐚 Pure Bare-Minimum Shell Configuration
-  # ---------------------------------------------------------------------------
   programs = {
-    # Pure Bare-Minimum Bash (No custom rc or prompt hooks)
-    bash.enable = true;
+    # Pure Bare-Minimum Bash (With Shoelace dynamic hooks)
+    bash = {
+      enable = true;
+      initExtra = ''
+        [[ -f ~/.config/shell/sl_env.bash ]] && source ~/.config/shell/sl_env.bash
+        [[ -f ~/.config/shell/sl_alias.bash ]] && source ~/.config/shell/sl_alias.bash
+      '';
+    };
 
     # CLI Utilities (Standalone usage)
     atuin.enable = true;

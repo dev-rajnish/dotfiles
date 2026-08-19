@@ -1,0 +1,31 @@
+# =============================================================================
+#  Shoelace Template Variables (data.toml)
+# =============================================================================
+
+username = "rsh"
+editor = "nvim"
+visual = "nvim"
+terminal = "kitty"
+browser = "google-chrome"
+shoelace_dir = "~/shoelace"
+
+# Theme & Appearance
+theme = "rose-pine"
+font_mono = "JetBrainsMono Nerd Font"
+font_sans = "Inter"
+font_size_terminal = "11.0"
+font_size_bar = "11.0"
+
+[aliases]
+sl = "cd ~/shoelace"
+d = "cd ~/shoelace"
+c = "cd ~/.config"
+ls = "eza --icons --group-directories-first"
+ll = "eza -l --icons --git --group-directories-first"
+la = "eza -la --icons --git --group-directories-first"
+lt = "eza --tree --icons --level=2"
+cat = "bat --style=header,grid"
+grep = "rg"
+find = "fd"
+top = "btop"
+q = "exit"

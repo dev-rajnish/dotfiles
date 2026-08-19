@@ -1,2 +1,2 @@
 # Wayle configuration file
-imports = ["colors.toml"]
+imports = ["sl_colors.toml", "sl_appearance.toml"]

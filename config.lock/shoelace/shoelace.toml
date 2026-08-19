@@ -1,0 +1,92 @@
+# =============================================================================
+#  Shoelace Application & Configuration Mappings (shoelace.toml)
+#  Format: [appname] template = "..." dest = "..."
+# =============================================================================
+
+# 🪟 Niri Compositor
+[niri_keybinds]
+template = "niri_keybinds.kdl"
+dest = "~/.config/niri/sl_keybinds.kdl"
+
+[niri_appearance]
+template = "niri_appearance.kdl"
+dest = "~/.config/niri/sl_appearance.kdl"
+
+[niri_colors]
+template = "niri_colors.kdl"
+dest = "~/.config/niri/sl_colors.kdl"
+
+# 🚀 Fuzzel Launcher
+[fuzzel_appearance]
+template = "fuzzel_appearance.ini"
+dest = "~/.config/fuzzel/sl_appearance.ini"
+
+[fuzzel_colors]
+template = "fuzzel_colors.ini"
+dest = "~/.config/fuzzel/sl_colors.ini"
+
+# 🐱 Kitty Terminal Emulator
+[kitty_appearance]
+template = "kitty_appearance.conf"
+dest = "~/.config/kitty/sl_appearance.conf"
+
+[kitty_colors]
+template = "kitty_colors.conf"
+dest = "~/.config/kitty/sl_colors.conf"
+
+# 📊 Wayle Status Bar
+[wayle_appearance]
+template = "wayle_appearance.toml"
+dest = "~/.config/wayle/sl_appearance.toml"
+
+[wayle_colors]
+template = "wayle_colors.toml"
+dest = "~/.config/wayle/sl_colors.toml"
+
+# 🔒 Swaylock Screen Lock
+[swaylock]
+template = "swaylock_config"
+dest = [
+    "~/.config/swaylock/sl_config",
+    "~/.config/swaylock/config"
+]
+
+# 🐚 Nushell Shell
+[nushell_alias]
+template = "nushell_alias.nu"
+dest = "~/.config/nushell/sl_alias.nu"
+
+[nushell_path]
+template = "nushell_path.nu"
+dest = "~/.config/nushell/sl_path.nu"
+
+[nushell_env]
+template = "nushell_env.nu"
+dest = "~/.config/nushell/sl_env.nu"
+
+# 🐚 Bash Shell
+[bash_alias]
+template = "bash_alias.bash"
+dest = "~/.config/shell/sl_alias.bash"
+
+[bash_env]
+template = "bash_env.bash"
+dest = "~/.config/shell/sl_env.bash"
+
+# 🐟 Fish Shell
+[fish_alias]
+template = "fish_alias.fish"
+dest = "~/.config/fish/conf.d/sl_aliases.fish"
+
+[fish_path]
+template = "fish_path.fish"
+dest = "~/.config/fish/conf.d/sl_paths.fish"
+
+# 🐚 Zsh Shell
+[zsh_alias]
+template = "zsh_alias.zsh"
+dest = "~/.config/zsh/sl_aliases.zsh"
+
+[zsh_env]
+template = "zsh_env.zsh"
+dest = "~/.config/zsh/sl_env.zsh"

@@ -80,7 +80,8 @@ alias .nu = cd ~/.config/nushell/
 alias .l = cd ~/.local/
 alias .b = cd ~/.local/bin/
 alias .s = cd ~/.local/share/
-alias .d = cd ~/dot
+alias .sl = cd ~/shoelace
+alias .d = cd ~/shoelace
 alias .appearance = xdg-open ~/.config/0-apperance/appearance.toml
 alias .c = cd ~/.config/
 alias .h = cd ~/_ws/dotfiles/home-manager/
@@ -103,12 +104,8 @@ source ~/.config/nushell/atuin.nu
 use ~/.config/nushell/starship.nu
 
 # -----------------------------------------------------------------------------
-# 6. Container / Distrobox Host Helper
+# 6. Shoelace Dynamic Aliases
 # -----------------------------------------------------------------------------
-def --wrapped host [...args] {
-    if (which distrobox-host-exec | is-not-empty) {
-        ^distrobox-host-exec ...$args
-    } else {
-        run-external ($args | first) ...($args | skip 1)
-    }
-}
+source ~/.config/nushell/sl_alias.nu
+
+
