@@ -75,14 +75,4 @@
 
   # D-Bus Thumbnailer service (images, pdfs, videos)
   services.tumbler.enable = true;
-
-  # ---------------------------------------------------------------------------
-  # 🐚 Provide /bin/bash for scripts with hardcoded #!/bin/bash shebangs
-  # ---------------------------------------------------------------------------
-  system.activationScripts.binbash = {
-    text = ''
-      mkdir -m 0755 -p /bin
-      ln -sfn ${pkgs.bash}/bin/bash /bin/bash
-    '';
-  };
 }

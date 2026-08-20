@@ -325,12 +325,20 @@ local function run_fuzzel_menu()
         name_map[label] = t.name
     end
 
-    local input_str = table.concat(menu_lines, "\n")
-    local cmd = 'printf "%s" ' .. string.format("%q", input_str) .. ' | fuzzel --dmenu --prompt "🎨 Theme: " 2>/dev/null'
+    local tmp_path = "/tmp/sl_theme_menu_" .. os.time() .. "_" .. os.getenv("USER")
+    local tmp_f = io.open(tmp_path, "w")
+    if not tmp_f then return end
+    tmp_f:write(table.concat(menu_lines, "\n") .. "\n")
+    tmp_f:close()
+
+    local cmd = 'fuzzel --dmenu --prompt "🎨 Theme: " < "' .. tmp_path .. '" 2>/dev/null'
     local p = io.popen(cmd)
-    if not p then return end
-    local choice = p:read("*l")
-    p:close()
+    local choice = nil
+    if p then
+        choice = p:read("*l")
+        p:close()
+    end
+    os.remove(tmp_path)
 
     if choice and choice ~= "" then
         local matched_name = name_map[choice]

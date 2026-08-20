@@ -12,7 +12,7 @@
 
 - **NixOS 26.05 Flake**: Fully reproducible system and Home Manager architecture.
 - **Single Source of Truth (`env/`)**: Unified TOML identity tokens for system options, typography, layouts, and apps.
-- **Niri Wayland Compositor**: Scrollable column tiling layout with UWSM session execution.
+- **Niri Wayland Compositor**: Scrollable column tiling layout with custom session execution.
 - **Pure-Lua Template Engine (`sl-render`)**: Fast Mustache renderer parsing TOML tokens into `config/`.
 - **Dynamic Base16 Theming**: 15 pre-configured color schemes selectable via Fuzzel (`just theme`).
 - **Live Symlinks (`mkOutOfStoreSymlink`)**: Instant dotfile updates without store rebuilding.
@@ -34,9 +34,9 @@
   ```bash
   # Partition disk (e.g. /dev/nvme0n1 or /dev/sda)
   sudo parted /dev/nvme0n1 -- mklabel gpt
-  sudo parted /dev/nvme0n1 -- mkpart ESP fat32 1MiB 512MiB
+  sudo parted /dev/nvme0n1 -- mkpart ESP fat32 1MiB 1GiB
   sudo parted /dev/nvme0n1 -- set 1 boot on
-  sudo parted /dev/nvme0n1 -- mkpart primary ext4 512MiB 100%
+  sudo parted /dev/nvme0n1 -- mkpart primary ext4 1GiB 100%
 
   # Format partitions
   sudo mkfs.fat -F32 -n boot /dev/nvme0n1p1

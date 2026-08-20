@@ -4,5 +4,5 @@
   env,
   ...
 }: {
-  services.xserver.desktopManager.lxqt.enable = true;
+  services.xserver.desktopManager.xfce.enable = false;
 }

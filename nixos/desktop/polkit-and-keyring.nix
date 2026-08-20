@@ -54,14 +54,19 @@
   services.gnome.gnome-keyring.enable = true;
 
   # ---------------------------------------------------------------------------
-  # 🔓 PAM Keyring Unlocking on User Login
+  # 🔓 PAM Keyring Unlocking on User Login & Autologin
   # ---------------------------------------------------------------------------
   security.pam.services = {
     login.enableGnomeKeyring = true;
+    ly.enableGnomeKeyring = true;
+    niri.enableGnomeKeyring = true;
+    autologin.enableGnomeKeyring = true;
     greetd.enableGnomeKeyring = true;
     tuigreet.enableGnomeKeyring = true;
     sddm.enableGnomeKeyring = true;
-    ly.enableGnomeKeyring = true;
+    gdm.enableGnomeKeyring = true;
+    gdm-autologin.enableGnomeKeyring = true;
+    lightdm.enableGnomeKeyring = true;
     swaylock = {};
   };
 

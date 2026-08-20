@@ -34,6 +34,6 @@
         animation = "none";
       };
     };
-    defaultSession = "niri-uwsm";
+    defaultSession = "niri";
   };
 }
