@@ -50,8 +50,8 @@
   # 📚 Documentation Minimization (Speed up builds & trim store size)
   # ---------------------------------------------------------------------------
   documentation = {
-    enable = true;
-    man.enable = true;
+    enable = false;
+    man.enable = false;
     man.cache.enable = false;
     nixos.enable = false; # Disable heavy NixOS HTML manual derivation
     doc.enable = false; # Disable extra documentation

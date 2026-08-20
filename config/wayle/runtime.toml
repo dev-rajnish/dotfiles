@@ -41,13 +41,13 @@ scale = 0.949999988079071
 rounding = "none"
 
 [modules.battery]
-icon-color = "green"
+icon-color = "status-warning"
 icon-bg-color = "bg-surface-elevated"
 label-color = "fg-default"
 
 [modules.bluetooth]
 border-show = false
-icon-color = "blue"
+icon-color = "accent"
 icon-bg-color = "bg-surface-elevated"
 label-color = "fg-default"
 button-bg-color = "bg-surface-elevated"
@@ -71,7 +71,7 @@ icon-show = false
 label-color = "fg-default"
 
 [modules.cpu]
-icon-color = "yellow"
+icon-color = "accent"
 icon-bg-color = "bg-surface-elevated"
 label-color = "fg-default"
 right-click = "kitty -e btop"
@@ -88,7 +88,7 @@ right-click = "focus:this"
 
 [modules.network]
 border-show = false
-icon-color = "blue"
+icon-color = "accent"
 icon-bg-color = "bg-surface-elevated"
 label-color = "fg-default"
 button-bg-color = "bg-surface-elevated"
@@ -102,7 +102,7 @@ empty-color = "fg-muted"
 container-bg-color = "bg-surface-elevated"
 
 [modules.notifications]
-icon-color = "blue"
+icon-color = "accent"
 icon-bg-color = "bg-surface-elevated"
 label-color = "fg-default"
 icon-source = "application"
@@ -113,8 +113,14 @@ icon-color = "red"
 icon-bg-color = "bg-surface-elevated"
 left-click = "power-menu"
 
+[modules.ram]
+border-color = "fg-default"
+icon-color = "accent"
+icon-bg-color = "accent"
+label-color = "fg-default"
+
 [modules.volume]
-icon-color = "blue"
+icon-color = "status-warning"
 icon-bg-color = "bg-surface-elevated"
 label-color = "fg-default"
 right-click = "pwvucontrol"

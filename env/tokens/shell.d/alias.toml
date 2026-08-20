@@ -38,14 +38,6 @@ name = "cat"
 command = "bat --style=header,grid"
 
 [[aliases]]
-name = "grep"
-command = "rg"
-
-[[aliases]]
-name = "find"
-command = "fd"
-
-[[aliases]]
 name = "top"
 command = "btop"
 

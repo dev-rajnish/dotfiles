@@ -1,7 +1,11 @@
 // =============================================================================
 //  Startup Applications & Autostart Services
 // =============================================================================
+// UWSM Session Finalization (Notifies UWSM systemd unit that Wayland session is active)
+spawn-at-startup "uwsm" "finalize"
+
 // Panel and Wallpaper
 spawn-at-startup "wallpaper" "--restore"
 spawn-at-startup "brightnessctl" "s" "80%"
 spawn-at-startup "wayle" "panel" "restart"
+

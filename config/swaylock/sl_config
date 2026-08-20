@@ -6,19 +6,19 @@ daemonize
 ignore-empty-password
 show-failed-attempts
 
-color=#1a1b26
-inside-color=#15161e
-ring-color=#7aa2f7
-key-hl-color=#7aa2f7
-line-color=#1a1b26
-separator-color=#1a1b26
+color=#191724
+inside-color=#26233a
+ring-color=#ebbcba
+key-hl-color=#ebbcba
+line-color=#191724
+separator-color=#191724
 
-inside-ver-color=#15161e
-ring-ver-color=#7aa2f7
-inside-wrong-color=#15161e
-ring-wrong-color=#f7768e
-text-wrong-color=#f7768e
-text-color=#c0caf5
+inside-ver-color=#26233a
+ring-ver-color=#ebbcba
+inside-wrong-color=#26233a
+ring-wrong-color=#eb6f92
+text-wrong-color=#eb6f92
+text-color=#e0def4
 font=JetBrainsMono Nerd Font
 font-size=12
 indicator-radius=120

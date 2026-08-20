@@ -12,5 +12,6 @@
     ./shell.nix
     ./stylix.nix
     ./symlinks.nix
+    ./systemd-service
   ];
 }

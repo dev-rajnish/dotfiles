@@ -1,11 +1,11 @@
 # =============================================================================
-#  Default Applications & MIME Handlers (env/token.kv/apps.toml)
+#  Default Applications & MIME Handlers (env/tokens/apps.toml)
 # =============================================================================
 
 terminal = "kitty"
 editor = "codium"
 browser = "google-chrome"
-fileManager = "thunar"
+fileManager = "nemo"
 pdfViewer = "readest"
 videoPlayer = "mpv"
 audioPlayer = "vlc"

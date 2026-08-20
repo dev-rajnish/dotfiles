@@ -33,5 +33,13 @@
 
     # Arkenfox hardening preset (Disabled to prevent site breakages)
     profiles.default.presets.arkenfox.enable = false;
+
+    # ⚡ SSD Protection: 30-Minute Session Write Interval & RAM-Only Caching
+    profiles.default.settings = {
+      "browser.sessionstore.interval" = 1800000; # 30 minutes
+      "browser.cache.disk.enable" = false;
+      "browser.cache.memory.enable" = true;
+      "browser.cache.memory.capacity" = 524288;
+    };
   };
 }

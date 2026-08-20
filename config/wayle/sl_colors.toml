@@ -3,13 +3,13 @@
 # =============================================================================
 
 [styling.palette]
-bg = "#1a1b26"
-surface = "#1a1b26"
-elevated = "#15161e"
-fg = "#c0caf5"
-fg-muted = "#414868"
-primary = "#7aa2f7"
-red = "#f7768e"
-yellow = "#e0af68"
-green = "#9ece6a"
-blue = "#7aa2f7"
+bg = "#191724"
+surface = "#191724"
+elevated = "#26233a"
+fg = "#e0def4"
+fg-muted = "#6e6a86"
+primary = "#ebbcba"
+red = "#eb6f92"
+yellow = "#f6c177"
+green = "#31748f"
+blue = "#9ccfd8"

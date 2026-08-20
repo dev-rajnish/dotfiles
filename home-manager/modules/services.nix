@@ -33,12 +33,16 @@
       };
       Path = {
         PathModified = [
+          "%h/shoelace/env/shoelace.toml"
+          "%h/shoelace/env/templates"
+          "%h/shoelace/env/tokens"
           "%h/shoelace/env/token.kv"
-          "%h/shoelace/config.live/shoelace/shoelace.toml"
         ];
         PathChanged = [
+          "%h/shoelace/env/shoelace.toml"
+          "%h/shoelace/env/templates"
+          "%h/shoelace/env/tokens"
           "%h/shoelace/env/token.kv"
-          "%h/shoelace/config.live/shoelace/shoelace.toml"
         ];
         Unit = "sl-render.service";
       };

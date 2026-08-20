@@ -22,6 +22,6 @@ in {
     "xfce4".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/xfce4";
     "autostart-script".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/autostart-script";
     "nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/nvim";
-    "qutebrowser".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/qutebrowser";
+    # "qutebrowser".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/qutebrowser";
   };
 }

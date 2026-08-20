@@ -23,7 +23,7 @@
 
     # Stylix System & User Theming Framework
     stylix = {
-      url = "github:danth/stylix";
+      url = "github:nix-community/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -41,6 +41,9 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # nix gui software store
+    nix-software-center.url = "github:snowfallorg/nix-software-center";
   };
 
   # ---------------------------------------------------------------------------
@@ -54,6 +57,7 @@
     stylix,
     zen-browser,
     treefmt-nix,
+    nix-software-center,
     ...
   }: let
     # Load unified environment configuration and package manifest
@@ -118,6 +122,7 @@
       modules = [
         ./nixos/configuration.nix
         nix-index-database.nixosModules.default
+        stylix.nixosModules.stylix
         # Optional: wrap and install comma command-not-found helper
         {programs.nix-index-database.comma.enable = true;}
 
@@ -129,7 +134,6 @@
             useUserPackages = true;
             backupFileExtension = "backup";
             sharedModules = [
-              stylix.homeModules.stylix
               nix-index-database.homeModules.default
             ];
             users.${env.username} = import ./home-manager/home.nix;

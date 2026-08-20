@@ -4,6 +4,21 @@
 --  Selects theme from env/themes/*.toml, updates env/token.db/theme.toml, & renders
 -- =============================================================================
 
+local function file_or_dir_exists(path)
+    if not path or path == "" then return false end
+    local f = io.open(path, "r")
+    if f then
+        f:close()
+        return true
+    end
+    local f_dir = io.open(path .. "/.", "r")
+    if f_dir then
+        f_dir:close()
+        return true
+    end
+    return false
+end
+
 local function get_root_dir()
     local env_dir = os.getenv("SHOELACE_DIR") or os.getenv("DOTFILES_DIR")
     if env_dir and env_dir ~= "" then
@@ -27,9 +42,7 @@ local function get_root_dir()
                 local dir = real:match("(.*/)")
                 if dir then
                     local root = dir:gsub("/bin/?$", "")
-                    local f = io.open(root .. "/env", "r")
-                    if f then
-                        f:close()
+                    if file_or_dir_exists(root .. "/env") then
                         return root
                     end
                 end
@@ -37,22 +50,24 @@ local function get_root_dir()
         end
     end
 
-    local home = os.getenv("HOME") or "/home/rsh"
-    local candidates = {
-        home .. "/shoelace",
-        home .. "/dot",
-        "/home/rsh/shoelace",
-        "/home/rsh/dot"
-    }
-    for _, c in ipairs(candidates) do
-        local f = io.open(c .. "/env", "r")
-        if f then
-            f:close()
-            return c
+    local cwd_p = io.popen("pwd 2>/dev/null")
+    if cwd_p then
+        local cwd = cwd_p:read("*l")
+        cwd_p:close()
+        if cwd and file_or_dir_exists(cwd .. "/env") then
+            return cwd
         end
     end
 
-    return "/home/rsh/shoelace"
+    local home = os.getenv("HOME") or ""
+    if home ~= "" then
+        local candidates = { home .. "/shoelace", home .. "/dot" }
+        for _, c in ipairs(candidates) do
+            if file_or_dir_exists(c .. "/env") then return c end
+        end
+    end
+
+    return "."
 end
 
 local ROOT_DIR = get_root_dir()
@@ -60,12 +75,12 @@ local THEMES_DIR = ROOT_DIR .. "/env/themes"
 
 local function find_theme_config_path()
     local candidates = {
+        ROOT_DIR .. "/env/tokens/theme.toml",
+        ROOT_DIR .. "/env/settings/theme.toml",
         ROOT_DIR .. "/env/token.db/theme.toml",
         ROOT_DIR .. "/env/token.kv/theme.toml",
         ROOT_DIR .. "/env/token/theme.toml",
         ROOT_DIR .. "/env/theme.toml",
-        ROOT_DIR .. "/env/token.db/colors.toml",
-        ROOT_DIR .. "/env/token.kv/colors.toml"
     }
     for _, path in ipairs(candidates) do
         local f = io.open(path, "r")
@@ -74,7 +89,7 @@ local function find_theme_config_path()
             return path
         end
     end
-    return ROOT_DIR .. "/env/token.db/theme.toml"
+    return ROOT_DIR .. "/env/tokens/theme.toml"
 end
 
 local parse_toml_value
@@ -291,8 +306,8 @@ urgent = "%s"
     os.execute('"' .. ROOT_DIR .. '/bin/sl-render"')
 
     -- Reload desktop apps
-    os.execute('niri msg action reload-config 2>/dev/null || true')
-    os.execute('pkill -SIGUSR2 wayle 2>/dev/null || true')
+    -- os.execute('niri msg action reload-config 2>/dev/null || true')
+    os.execute("bash -c 'kill -SIGUSR1 $(pgrep kitty) 2>/dev/null || true'")
     os.execute('notify-send -i preferences-desktop-theme "🎨 Theme Switcher" "Switched to ' .. (selected.display_name or selected.name) .. '" 2>/dev/null || true')
 
     return true

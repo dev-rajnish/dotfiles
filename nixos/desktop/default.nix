@@ -3,10 +3,13 @@
 # =============================================================================
 {
   imports = [
-    ./display-manager.nix
+    ./display-manager
+    ./desktop-environment
     ./key-remapping-kanata.nix
     ./polkit-and-keyring.nix
+    ./stylix.nix
     ./system-services.nix
+    ./uwsm.nix
     ./xdg-portals.nix
   ];
 }

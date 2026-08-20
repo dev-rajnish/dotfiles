@@ -4,7 +4,7 @@
 
 # 📐 Geometry, Radii, Gaps & Opacity
 [geometry]
-border_width = 2
+border_width = 1
 border_radius = 0
 rounding = "none"
 lock_indicator_radius = 120
@@ -14,7 +14,7 @@ lock_indicator_thickness = 10
 left = -40
 right = -40
 top = -10
-bottom = -20
+bottom = -10
 all = -10
 
 [opacity]

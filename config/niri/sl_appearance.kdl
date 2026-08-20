@@ -5,7 +5,7 @@
 layout {
     struts {
         top -10
-        bottom -20
+        bottom -10
         right -40
         left -40
     }
@@ -16,11 +16,11 @@ window-rule {
     clip-to-geometry true
 
     border {
-        width 2
+        width 1
     }
 
     focus-ring {
-        width 2
+        width 1
     }
 }
 

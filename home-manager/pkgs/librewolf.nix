@@ -34,6 +34,14 @@
       pref("widget.use-xdg-desktop-portal.mime-handler", 1);
       pref("general.autoScroll", true);
 
+      // ⚡ SSD Protection: 30-Minute Session Write Interval & RAM-Only Caching
+      pref("browser.sessionstore.interval", 1800000); // 30 minutes (1,800,000 ms) instead of 15s
+      pref("browser.cache.disk.enable", false);        // Zero SSD disk cache
+      pref("browser.cache.memory.enable", true);
+      pref("browser.cache.memory.capacity", 524288);   // 512MB RAM cache
+      pref("browser.pagethumbnails.capturing_disabled", true);
+      pref("browser.helperApps.deleteTempFileOnExit", true);
+
       // Usability: Keep session logins & cookies for ALL websites on browser close
       pref("privacy.sanitize.sanitizeOnShutdown", false);
       pref("privacy.clearOnShutdown.cookies", false);

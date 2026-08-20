@@ -1,13 +1,10 @@
 # =============================================================================
-#  NixOS Core Sub-Modules Entrypoint
+#  Systemd User Services Entrypoint (home-manager/modules/systemd-service)
 # =============================================================================
 {
   imports = [
-    ./cache-storage.nix
-    ./networking.nix
-    ./nix-settings.nix
-    ./shell
-    ./time-and-locale.nix
-    ./user-accounts.nix
+    ./swaybg.nix
+    ./wl-clipboard.nix
+    ./wayle.nix
   ];
 }

@@ -71,6 +71,7 @@
 
   # Mounting, trash, and filesystem abstractions for Thunar
   services.gvfs.enable = true;
+  services.envfs.enable = true;
 
   # D-Bus Thumbnailer service (images, pdfs, videos)
   services.tumbler.enable = true;

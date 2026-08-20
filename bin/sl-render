@@ -1,13 +1,28 @@
 #!/usr/bin/env lua
 -- =============================================================================
 --  Shoelace Pure-Lua Template Renderer (sl-render)
---  Single Source of Truth: env/token.db/**/ & env/token.kv/**/ -> config/<app>/sl_*
+--  Single Source of Truth: env/shoelace.toml (or env/shoelace.config)
 -- =============================================================================
+
+local function file_or_dir_exists(path)
+    if not path or path == "" then return false end
+    local f = io.open(path, "r")
+    if f then
+        f:close()
+        return true
+    end
+    local f_dir = io.open(path .. "/.", "r")
+    if f_dir then
+        f_dir:close()
+        return true
+    end
+    return false
+end
 
 local function get_root_dir()
     local env_dir = os.getenv("SHOELACE_DIR") or os.getenv("DOTFILES_DIR")
     if env_dir and env_dir ~= "" then
-        return env_dir:gsub("^~", os.getenv("HOME") or "/home/rsh")
+        return env_dir:gsub("^~", os.getenv("HOME") or "")
     end
 
     local script_path = arg and arg[0]
@@ -27,9 +42,7 @@ local function get_root_dir()
                 local dir = real:match("(.*/)")
                 if dir then
                     local root = dir:gsub("/bin/?$", "")
-                    local f = io.open(root .. "/env", "r")
-                    if f then
-                        f:close()
+                    if file_or_dir_exists(root .. "/env") then
                         return root
                     end
                 end
@@ -37,27 +50,27 @@ local function get_root_dir()
         end
     end
 
-    local home = os.getenv("HOME") or "/home/rsh"
-    local candidates = {
-        home .. "/shoelace",
-        home .. "/dot",
-        "/home/rsh/shoelace",
-        "/home/rsh/dot"
-    }
-    for _, c in ipairs(candidates) do
-        local f = io.open(c .. "/env", "r")
-        if f then
-            f:close()
-            return c
+    local cwd_p = io.popen("pwd 2>/dev/null")
+    if cwd_p then
+        local cwd = cwd_p:read("*l")
+        cwd_p:close()
+        if cwd and file_or_dir_exists(cwd .. "/env") then
+            return cwd
         end
     end
 
-    return "/home/rsh/shoelace"
+    local home = os.getenv("HOME") or ""
+    if home ~= "" then
+        local candidates = { home .. "/shoelace", home .. "/dot" }
+        for _, c in ipairs(candidates) do
+            if file_or_dir_exists(c .. "/env") then return c end
+        end
+    end
+
+    return "."
 end
 
 local ROOT_DIR = get_root_dir()
-local TEMPLATES_DIR = ROOT_DIR .. "/templates"
-local CONFIG_DIR = ROOT_DIR .. "/config"
 
 -- -----------------------------------------------------------------------------
 -- 1. Mini Pure-Lua TOML Parser
@@ -355,23 +368,29 @@ end
 -- -----------------------------------------------------------------------------
 -- 3. Dynamic Token Discovery & Render Pipeline
 -- -----------------------------------------------------------------------------
-local function collect_all_token_files(custom_dir)
+local function collect_all_token_files(custom_dir, configured_token_dirs)
     local candidate_dirs = {}
     if custom_dir then
         table.insert(candidate_dirs, custom_dir)
+    elseif configured_token_dirs and #configured_token_dirs > 0 then
+        for _, rel_d in ipairs(configured_token_dirs) do
+            local abs_d = rel_d:sub(1,1) == "/" and rel_d or (ROOT_DIR .. "/" .. rel_d)
+            if file_or_dir_exists(abs_d) then
+                table.insert(candidate_dirs, abs_d)
+            end
+        end
     else
         local possible = {
+            ROOT_DIR .. "/env/tokens",
+            ROOT_DIR .. "/env/settings",
             ROOT_DIR .. "/env/token.db",
             ROOT_DIR .. "/env/token.kv",
             ROOT_DIR .. "/env/token",
-            ROOT_DIR .. "/env/tokens",
             ROOT_DIR .. "/env/data",
             ROOT_DIR .. "/env"
         }
         for _, d in ipairs(possible) do
-            local f = io.open(d, "r")
-            if f then
-                f:close()
+            if file_or_dir_exists(d) then
                 table.insert(candidate_dirs, d)
             end
         end
@@ -381,7 +400,7 @@ local function collect_all_token_files(custom_dir)
     local files = {}
 
     for _, dir in ipairs(candidate_dirs) do
-        local cmd = 'find -L "' .. dir .. '" -type f -name "*.toml" ! -path "*/env/themes/*" 2>/dev/null'
+        local cmd = 'find -L "' .. dir .. '" -type f -name "*.toml" ! -path "*/env/themes/*" ! -path "*/env/templates/*" ! -path "*/templates/*" ! -name "shoelace.toml" ! -name "file.toml" ! -name "shoelace.config" 2>/dev/null'
         local p = io.popen(cmd)
         if p then
             for line in p:lines() do
@@ -424,9 +443,37 @@ local function main()
 
     print("\27[1;36m─── Shoelace Template Renderer (Lua) ───\27[0m")
 
+    -- 0. Load env/shoelace.toml or env/shoelace.config or env/file.toml
+    local config_file = nil
+    local config_candidates = {
+        ROOT_DIR .. "/env/shoelace.toml",
+        ROOT_DIR .. "/env/shoelace.config",
+        ROOT_DIR .. "/env/file.toml"
+    }
+    for _, cfg in ipairs(config_candidates) do
+        if file_or_dir_exists(cfg) then
+            config_file = cfg
+            break
+        end
+    end
+
+    local shoelace_cfg = config_file and parse_toml_file(config_file) or {}
+    local paths_cfg = shoelace_cfg.paths or {}
+
+    local rel_templates = paths_cfg.templates_dir or (file_or_dir_exists(ROOT_DIR .. "/env/templates") and "env/templates" or "templates")
+    local rel_config = paths_cfg.config_dir or "config"
+    local templates_dir = ROOT_DIR .. "/" .. rel_templates
+    local config_dir = ROOT_DIR .. "/" .. rel_config
+    local token_dirs_cfg = paths_cfg.tokens_dirs
+
+    if config_file then
+        local rel_cfg_path = config_file:gsub("^" .. ROOT_DIR .. "/?", "")
+        print("  \27[34mℹ\27[0m Loaded system config: " .. rel_cfg_path)
+    end
+
     -- 1. Collect and parse all TOML tokens
     local token_data = {}
-    local toml_files = collect_all_token_files(custom_data_dir)
+    local toml_files = collect_all_token_files(custom_data_dir, token_dirs_cfg)
 
     for _, file in ipairs(toml_files) do
         local rel = file:gsub("^" .. ROOT_DIR .. "/?", "")
@@ -437,27 +484,57 @@ local function main()
         end
     end
 
-    -- 2. Define Template Mappings
-    local mappings = {
-        { tmpl = "niri/appearance.kdl",   dest = "niri/sl_appearance.kdl" },
-        { tmpl = "niri/colors.kdl",       dest = "niri/sl_colors.kdl" },
-        { tmpl = "niri/keybinds.kdl",     dest = "niri/sl_keybinds.kdl" },
-        { tmpl = "kitty/appearance.conf",  dest = "kitty/sl_appearance.conf" },
-        { tmpl = "kitty/colors.conf",      dest = "kitty/sl_colors.conf" },
-        { tmpl = "fuzzel/appearance.ini",  dest = "fuzzel/sl_appearance.ini" },
-        { tmpl = "fuzzel/colors.ini",      dest = "fuzzel/sl_colors.ini" },
-        { tmpl = "wayle/appearance.toml",  dest = "wayle/sl_appearance.toml" },
-        { tmpl = "wayle/colors.toml",      dest = "wayle/sl_colors.toml" },
-        { tmpl = "swaylock/config",       dest = "swaylock/sl_config" },
-        { tmpl = "fish/aliases.fish",     dest = "fish/conf.d/sl_aliases.fish" },
-        { tmpl = "fish/paths.fish",       dest = "fish/conf.d/sl_paths.fish" },
-    }
+    -- 2. Define / Load Template Mappings
+    local mappings = {}
+    for key, val in pairs(shoelace_cfg) do
+        if key ~= "paths" and type(val) == "table" and #val > 0 then
+            local app_name = (key == "mappings") and "" or key
+
+            for _, entry in ipairs(val) do
+                if type(entry) == "table" then
+                    local entry_app = entry.app or entry.app_name or app_name
+                    local t = entry.tmpl or entry.template or ""
+                    local d = entry.dest or entry.destination or ""
+
+                    if t ~= "" and d ~= "" then
+                        local full_t = (entry_app ~= "" and not t:find("^" .. entry_app .. "/")) and (entry_app .. "/" .. t) or t
+                        local full_d = (entry_app ~= "" and not d:find("^" .. entry_app .. "/")) and (entry_app .. "/" .. d) or d
+
+                        table.insert(mappings, {
+                            app = entry_app,
+                            tmpl = full_t,
+                            dest = full_d
+                        })
+                    end
+                end
+            end
+        end
+    end
+
+    if #mappings == 0 then
+        mappings = {
+            { tmpl = "niri/appearance.kdl",   dest = "niri/sl_appearance.kdl" },
+            { tmpl = "niri/colors.kdl",       dest = "niri/sl_colors.kdl" },
+            { tmpl = "niri/keybinds.kdl",     dest = "niri/sl_keybinds.kdl" },
+            { tmpl = "kitty/appearance.conf",  dest = "kitty/sl_appearance.conf" },
+            { tmpl = "kitty/colors.conf",      dest = "kitty/sl_colors.conf" },
+            { tmpl = "fuzzel/appearance.ini",  dest = "fuzzel/sl_appearance.ini" },
+            { tmpl = "fuzzel/colors.ini",      dest = "fuzzel/sl_colors.ini" },
+            { tmpl = "wayle/appearance.toml",  dest = "wayle/sl_appearance.toml" },
+            { tmpl = "wayle/colors.toml",      dest = "wayle/sl_colors.toml" },
+            { tmpl = "swaylock/config",       dest = "swaylock/sl_config" },
+            { tmpl = "fish/aliases.fish",     dest = "fish/conf.d/sl_aliases.fish" },
+            { tmpl = "fish/paths.fish",       dest = "fish/conf.d/sl_paths.fish" },
+        }
+    else
+        table.sort(mappings, function(a, b) return a.tmpl < b.tmpl end)
+    end
 
     local rendered_count = 0
 
     for _, m in ipairs(mappings) do
-        local tmpl_path = TEMPLATES_DIR .. "/" .. m.tmpl
-        local dest_path = CONFIG_DIR .. "/" .. m.dest
+        local tmpl_path = templates_dir .. "/" .. m.tmpl
+        local dest_path = config_dir .. "/" .. m.dest
 
         local f = io.open(tmpl_path, "r")
         if f then
@@ -468,11 +545,11 @@ local function main()
             local rendered = render_mustache(tmpl_content, context_stack)
 
             if write_file(dest_path, rendered) then
-                print(string.format("  \27[1;32m✓\27[0m Rendered: \27[1m%s\27[0m -> config/%s", m.tmpl, m.dest))
+                print(string.format("  \27[1;32m✓\27[0m Rendered: \27[1m%s\27[0m -> %s/%s", m.tmpl, rel_config, m.dest))
                 rendered_count = rendered_count + 1
             end
         else
-            print("  \27[33m⚠\27[0m Missing template: " .. m.tmpl)
+            print("  \27[33m⚠\27[0m Missing template: " .. m.tmpl .. " at " .. tmpl_path)
         end
     end
 

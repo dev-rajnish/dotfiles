@@ -3,89 +3,89 @@
 #  Auto-managed by theme-switcher
 # =============================================================================
 
-theme = "tokyo-night"
+theme = "rose-pine"
 polarity = "dark"
 
 [palette]
-bg = "#1a1b26"
-bg_alt = "#15161e"
-fg = "#c0caf5"
-fg_muted = "#414868"
-cursor = "#c0caf5"
-primary = "#7aa2f7"
-red = "#f7768e"
-green = "#9ece6a"
-blue = "#7aa2f7"
-yellow = "#e0af68"
-color3 = "#e0af68"
+bg = "#191724"
+bg_alt = "#26233a"
+fg = "#e0def4"
+fg_muted = "#6e6a86"
+cursor = "#ebbcba"
+primary = "#ebbcba"
+red = "#eb6f92"
+green = "#31748f"
+blue = "#9ccfd8"
+yellow = "#f6c177"
+color3 = "#f6c177"
 shadow = "#00000080"
-overlay_backdrop = "#1a1b26e0"
+overlay_backdrop = "#191724e0"
 
 [[ansi_colors]]
 name = "color0"
-hex = "#15161e"
+hex = "#26233a"
 
 [[ansi_colors]]
 name = "color1"
-hex = "#f7768e"
+hex = "#eb6f92"
 
 [[ansi_colors]]
 name = "color2"
-hex = "#9ece6a"
+hex = "#31748f"
 
 [[ansi_colors]]
 name = "color3"
-hex = "#e0af68"
+hex = "#f6c177"
 
 [[ansi_colors]]
 name = "color4"
-hex = "#7aa2f7"
+hex = "#9ccfd8"
 
 [[ansi_colors]]
 name = "color5"
-hex = "#bb9af7"
+hex = "#c4a7e7"
 
 [[ansi_colors]]
 name = "color6"
-hex = "#7dcfff"
+hex = "#ebbcba"
 
 [[ansi_colors]]
 name = "color7"
-hex = "#a9b1d6"
+hex = "#e0def4"
 
 [[ansi_colors]]
 name = "color8"
-hex = "#414868"
+hex = "#6e6a86"
 
 [[ansi_colors]]
 name = "color9"
-hex = "#f7768e"
+hex = "#eb6f92"
 
 [[ansi_colors]]
 name = "color10"
-hex = "#9ece6a"
+hex = "#31748f"
 
 [[ansi_colors]]
 name = "color11"
-hex = "#ff9e64"
+hex = "#f6c177"
 
 [[ansi_colors]]
 name = "color12"
-hex = "#7aa2f7"
+hex = "#9ccfd8"
 
 [[ansi_colors]]
 name = "color13"
-hex = "#bb9af7"
+hex = "#c4a7e7"
 
 [[ansi_colors]]
 name = "color14"
-hex = "#7dcfff"
+hex = "#ebbcba"
 
 [[ansi_colors]]
 name = "color15"
-hex = "#c0caf5"
+hex = "#e0def4"
 
 [borders]
-active = "#7aa2f7"
-inactive = "#414868"
-urgent = "#f7768e"
+active = "#ebbcba"
+inactive = "#6e6a86"
+urgent = "#eb6f92"

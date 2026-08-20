@@ -11,7 +11,7 @@ emoji = "Noto Color Emoji"
 
 # 📏 Component Sizing
 [sizes]
-terminal = 16.0
+terminal = 14.0
 bar = 11.0
 launcher = 18.0
 desktop = 12.0

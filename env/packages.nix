@@ -4,26 +4,34 @@
 # =============================================================================
 args: let
   pkgs = args.pkgs or args;
+  inputs = args.inputs or {};
+  system = args.system or pkgs.stdenv.hostPlatform.system;
   enableDevPkg = args.enableDevPkg or true;
   enableProgrammingLang = args.enableProgrammingLang or true;
   lib = pkgs.lib;
+  nixSoftwareCenter =
+    if inputs ? nix-software-center && inputs.nix-software-center ? packages && inputs.nix-software-center.packages ? ${system}
+    then [inputs.nix-software-center.packages.${system}.nix-software-center]
+    else [];
 in rec {
   # ---------------------------------------------------------------------------
   # ❄️ 01. System-Wide Core Packages (NixOS Level)
   # ---------------------------------------------------------------------------
-  systemCore = with pkgs; [
-    curl
-    wget
-    git
-    home-manager
-    just
-    unzip
-    seatd
-    xwayland-satellite
-    starship
-    zoxide
-    direnv
-  ];
+  systemCore = with pkgs;
+    [
+      curl
+      wget
+      git
+      home-manager
+      just
+      unzip
+      seatd
+      xwayland-satellite
+      starship
+      zoxide
+      direnv
+    ]
+    ++ nixSoftwareCenter;
 
   # ---------------------------------------------------------------------------
   # 📦 02. Virtualization, Container & Passthrough Tools
@@ -58,11 +66,18 @@ in rec {
     duf
     dust
     fastfetch
+    fatrace
+    gdu
     htop
+    iotop
     lm_sensors
+    ncdu
+    nvme-cli
     pciutils
     powertop
     radeontop
+    smartmontools
+    sysstat
   ];
 
   # ---------------------------------------------------------------------------
@@ -176,6 +191,13 @@ in rec {
     nwg-displays
     file-roller
     seahorse
+    (nemo-with-extensions.override {
+      extensions = [
+        nemo-fileroller
+        nemo-emblems
+        nemo-python
+      ];
+    })
   ];
 
   # 🖥️ GUI: Aggregate User GUI Package Set

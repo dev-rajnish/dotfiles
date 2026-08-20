@@ -19,14 +19,19 @@
     initrd.systemd.enable = true; # Parallelized stage-1 systemd initialization
     kernelModules = ["snd-aloop"];
     kernelParams = [
-      #"snd_hda_intel.power_save=0" # Prevent audio codec power state change
-      #"snd_hda_intel.power_save_controller=0" # Prevent audio controller D3 power state change
-      #"snd_hda_intel.position_fix=1" # Fix Conexant SN6140 DMA pointer drift on AMD HD Audio
+      "systemd.swap=0" # Prevent systemd from auto-activating physical SSD swap partitions
     ];
-    # extraModprobeConfig = ''
-    #  options snd_hda_intel power_save=0 power_save_controller=N position_fix=1
-    # '';
     kernelPackages = pkgs.linuxPackages_latest;
+    kernel.sysctl = {
+      # ⚡ SSD Write Endurance Optimizations (Ultra-Long 30-Minute Dirty Writeback & RAM Cache)
+      "vm.dirty_writeback_centisecs" = 180000; # 30 minutes (1,800s)
+      "vm.dirty_expire_centisecs" = 180000; # 30 minutes (1,800s)
+      "vm.vfs_cache_pressure" = 20; # Keep directory/inode cache in RAM
+      "vm.dirty_background_ratio" = 15; # Flush to disk only when dirty memory > 15%
+      "vm.dirty_ratio" = 30; # Hard limit 30% dirty memory
+      "vm.swappiness" = 180; # Use fast compressed ZRAM swap in RAM
+      "vm.laptop_mode" = 5; # Delay disk writes until read/sync occurs
+    };
     tmp = {
       tmpfsHugeMemoryPages = "always";
       useZram = true;
@@ -43,12 +48,52 @@
   };
 
   # ---------------------------------------------------------------------------
-  # ⚡ ZRAM Memory Swap Compression
+  # ⚡ ZRAM Memory Swap Compression (100% in RAM, Zero SSD Swap Writes)
   # ---------------------------------------------------------------------------
   zramSwap = {
     enable = true;
     algorithm = "zstd";
-    memoryPercent = 50;
+    memoryPercent = 100;
+    priority = 100;
+  };
+
+  # ---------------------------------------------------------------------------
+  # 💾 In-Memory Crash Core Dumps (Tmpfs in RAM - Zero SSD Writes)
+  # ---------------------------------------------------------------------------
+  systemd.coredump = {
+    enable = true;
+    settings.Coredump = {
+      Storage = "memory";
+      ProcessSizeMax = "500M";
+      ExternalSizeMax = "500M";
+      JournalSizeMax = "50M";
+      MaxUse = "250M";
+    };
+  };
+
+  fileSystems."/var/lib/systemd/coredump" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [
+      "mode=0755"
+      "size=500M"
+      "x-gvfs-hide"
+    ];
+    neededForBoot = false;
+  };
+
+  # ---------------------------------------------------------------------------
+  # 📜 System Logs in RAM (100M Tmpfs - Zero SSD Wear)
+  # ---------------------------------------------------------------------------
+  fileSystems."/var/log" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [
+      "mode=0755"
+      "size=100M"
+      "x-gvfs-hide"
+    ];
+    neededForBoot = false;
   };
 
   # ---------------------------------------------------------------------------
@@ -127,11 +172,12 @@
       };
     };
 
-    # System Journal Limits
+    # 📝 System Journal Limits (In-Memory Volatile Storage - Zero SSD Log Wear)
     journald.extraConfig = ''
-      SystemMaxUse=100M
-      RuntimeMaxUse=50M
-      MaxRetentionSec=1month
+      Storage=volatile
+      RuntimeMaxUse=32M
+      RateLimitIntervalSec=30s
+      RateLimitBurst=1000
     '';
   };
 
@@ -140,6 +186,31 @@
   # ---------------------------------------------------------------------------
   systemd.services."systemd-backlight@".enable = false;
   systemd.settings.Manager = {
-    DefaultTimeoutStopSec = "3s";
+    DefaultTimeoutStopSec = "2s";
+  };
+
+  # ---------------------------------------------------------------------------
+  # 🔄 Flush In-Memory Journal to SSD Only on Shutdown / Reboot (Zero Runtime Writes)
+  # ---------------------------------------------------------------------------
+  systemd.services."journal-flush-on-shutdown" = {
+    description = "Flush In-Memory Journal Logs to SSD on Shutdown";
+    wantedBy = ["multi-user.target"];
+    after = ["systemd-journald.service"];
+    unitConfig = {
+      DefaultDependencies = "no";
+    };
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.coreutils}/bin/mkdir -p /var/log/journal /run/log/journal";
+      ExecStop = pkgs.writeShellScript "journal-shutdown-sync" ''
+        set -euo pipefail
+        if [ -d "/run/log/journal" ]; then
+          ${pkgs.coreutils}/bin/mkdir -p /var/log/journal
+          ${pkgs.rsync}/bin/rsync -a /run/log/journal/ /var/log/journal/ 2>/dev/null || true
+        fi
+      '';
+      TimeoutStopSec = "5s";
+    };
   };
 }

@@ -51,7 +51,7 @@ in {
     };
 
     # -------------------------------------------------------------------------
-    # 🖱️ System Cursor (Configured in env/token.kv/ui.toml)
+    # 🖱️ System Cursor (Configured in env/tokens/ui.toml)
     # -------------------------------------------------------------------------
     cursor = {
       package = pkgs.bibata-cursors;
@@ -60,7 +60,7 @@ in {
     };
 
     # -------------------------------------------------------------------------
-    # 🖼️ Desktop Icon Theme (Configured in env/token.kv/ui.toml)
+    # 🖼️ Desktop Icon Theme (Configured in env/tokens/ui.toml)
     # -------------------------------------------------------------------------
     icons = {
       enable = true;
@@ -70,7 +70,7 @@ in {
     };
 
     # -------------------------------------------------------------------------
-    # 🔤 System & Application Fonts (Configured in env/token.kv/ui.toml)
+    # 🔤 System & Application Fonts (Configured in env/tokens/ui.toml)
     # -------------------------------------------------------------------------
     fonts = {
       sizes.applications = builtins.floor (sizes.desktop or 12.0);

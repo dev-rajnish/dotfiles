@@ -20,10 +20,6 @@ alias lt="eza --tree --icons --level=2"
 
 alias cat="bat --style=header,grid"
 
-alias grep="rg"
-
-alias find="fd"
-
 alias top="btop"
 
 alias q="exit"
