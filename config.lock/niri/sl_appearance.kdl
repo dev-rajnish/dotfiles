@@ -1,0 +1,50 @@
+// =============================================================================
+//  Shoelace Modular Appearance (sl_appearance.kdl)
+// =============================================================================
+
+layout {
+    struts {
+        top -10
+        bottom -10
+        right 0
+        left 0
+    }
+}
+
+window-rule {
+    geometry-corner-radius 0
+    clip-to-geometry true
+
+    border {
+        on
+        width 1
+    }
+
+    focus-ring {
+        off
+        width 1
+    }
+}
+
+
+window-rule {
+    match is-focused=false
+    opacity 0.75
+    draw-border-with-background true
+
+}
+
+window-rule {
+    match is-floating=true
+    opacity 1.0
+    draw-border-with-background false
+
+    shadow {
+        on
+        softness 10
+        spread 10
+        offset x=0 y=12
+    }
+
+}
+

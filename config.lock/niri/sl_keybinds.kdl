@@ -1,0 +1,151 @@
+// =============================================================================
+//  Shoelace Modular Keybindings (sl_keybinds.kdl)
+// =============================================================================
+
+binds {
+    // System & Session Binds
+
+    Mod+Shift+E hotkey-overlay-title="Power & Session Menu: Fuzzel" { spawn "power-menu"; }
+
+    Ctrl+Alt+Delete hotkey-overlay-title="Power & Session Menu: Fuzzel" { spawn "power-menu"; }
+
+    Mod+Shift+P { power-off-monitors; }
+
+    Mod+Slash { show-hotkey-overlay; }
+
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+
+    // Application Launchers
+
+    Super+Return hotkey-overlay-title="Terminal: Kitty" { spawn "kitty"; }
+
+    Super+E hotkey-overlay-title="File Manager: Thunar" { spawn "thunar"; }
+
+    Super+A hotkey-overlay-title="Application Launcher: Fuzzel" { spawn "fuzzel"; }
+
+    Mod+B hotkey-overlay-title="Web Browser: Librewolf" { spawn "librewolf"; }
+
+    Super+Alt+L hotkey-overlay-title="Lock Screen: Swaylock" { spawn "swaylock"; }
+
+    Mod+N repeat=false hotkey-overlay-title="Status Bar: Toggle Wayle" { spawn-sh "wayle panel toggle || wayle shell"; }
+
+    Mod+C repeat=false { spawn-sh "cliphist list | fuzzel -d | cliphist decode | wl-copy"; }
+
+    Mod+Shift+W hotkey-overlay-title="Wallpaper Setter: Waypaper" { spawn-sh "wallpaper --gui"; }
+
+
+    // Hardware & Media Keys
+
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "pamixer -i 5"; }
+
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "pamixer -d 5"; }
+
+    XF86AudioMicMute allow-when-locked=true { spawn-sh "pamixer -i 5 --allow-boost"; }
+
+    XF86AudioMute allow-when-locked=true { spawn-sh "pamixer -t"; }
+
+    XF86MonBrightnessUp allow-when-locked=true { spawn-sh "brightnessctl s 5%+"; }
+
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl s 5%-"; }
+
+
+    // Window Management & Actions
+
+    Mod+Q repeat=false { close-window; }
+
+    Mod+O repeat=false { toggle-overview; }
+
+    Mod+T repeat=false { toggle-overview; }
+
+    Mod+V { toggle-window-floating; }
+
+    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+    Mod+W { toggle-column-tabbed-display; }
+
+    Mod+F { maximize-column; }
+
+
+    // Focus Navigation
+
+    Mod+Left { focus-column-left; }
+
+    Mod+Down { focus-window-down; }
+
+    Mod+Up { focus-window-up; }
+
+    Mod+Right { focus-column-right; }
+
+    Mod+S { focus-column-right; }
+
+    Mod+L { focus-column-left; }
+
+    Mod+Home { focus-column-first; }
+
+    Mod+End { focus-column-last; }
+
+    Mod+P { screenshot; }
+
+
+    // Move Columns & Windows
+
+    Mod+Ctrl+Left { move-column-left; }
+
+    Mod+Ctrl+Down { move-window-down; }
+
+    Mod+Ctrl+Up { move-window-up; }
+
+    Mod+Ctrl+Right { move-column-right; }
+
+
+    // Sizing & Presets
+
+    Mod+R { switch-preset-column-width; }
+
+    Mod+Shift+R { reset-window-height; }
+
+    Mod+Minus { set-column-width "-10%"; }
+
+    Mod+Equal { set-column-width "+10%"; }
+
+
+    // Workspaces
+
+    Mod+1 { focus-workspace 1; }
+
+    Mod+Shift+1 { move-column-to-workspace 1; }
+
+    Mod+2 { focus-workspace 2; }
+
+    Mod+Shift+2 { move-column-to-workspace 2; }
+
+    Mod+3 { focus-workspace 3; }
+
+    Mod+Shift+3 { move-column-to-workspace 3; }
+
+    Mod+4 { focus-workspace 4; }
+
+    Mod+Shift+4 { move-column-to-workspace 4; }
+
+    Mod+5 { focus-workspace 5; }
+
+    Mod+Shift+5 { move-column-to-workspace 5; }
+
+    Mod+6 { focus-workspace 6; }
+
+    Mod+Shift+6 { move-column-to-workspace 6; }
+
+    Mod+7 { focus-workspace 7; }
+
+    Mod+Shift+7 { move-column-to-workspace 7; }
+
+    Mod+8 { focus-workspace 8; }
+
+    Mod+Shift+8 { move-column-to-workspace 8; }
+
+    Mod+9 { focus-workspace 9; }
+
+    Mod+Shift+9 { move-column-to-workspace 9; }
+
+}

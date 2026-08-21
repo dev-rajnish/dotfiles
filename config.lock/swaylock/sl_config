@@ -1,0 +1,25 @@
+# =============================================================================
+#  Shoelace Modular Swaylock Configuration (sl_config)
+# =============================================================================
+
+daemonize
+ignore-empty-password
+show-failed-attempts
+
+color=#191724
+inside-color=#26233a
+ring-color=#ebbcba
+key-hl-color=#ebbcba
+line-color=#191724
+separator-color=#191724
+
+inside-ver-color=#26233a
+ring-ver-color=#ebbcba
+inside-wrong-color=#26233a
+ring-wrong-color=#eb6f92
+text-wrong-color=#eb6f92
+text-color=#e0def4
+font=JetBrainsMono Nerd Font
+font-size=12.0
+indicator-radius=120
+indicator-thickness=10

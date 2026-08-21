@@ -1,559 +1,338 @@
-#!/usr/bin/env lua
--- =============================================================================
---  Shoelace Pure-Lua Template Renderer (sl-render)
---  Single Source of Truth: env/shoelace.toml (or env/shoelace.config)
--- =============================================================================
+#!/usr/bin/env python3
+"""
+Shoelace Template Renderer (Python Educational Version)
 
-local function file_or_dir_exists(path)
-    if not path or path == "" then return false end
-    local f = io.open(path, "r")
-    if f then
-        f:close()
-        return true
-    end
-    local f_dir = io.open(path .. "/.", "r")
-    if f_dir then
-        f_dir:close()
-        return true
-    end
-    return false
-end
+This script acts as a learning guide to teach you how to build a template 
+rendering engine in Python. We will cover:
+1. Working with files and directories (using `pathlib`).
+2. Parsing configuration files (using `tomllib` introduced in Python 3.11).
+3. Merging complex data structures (recursive dictionary merging).
+4. Building a lightweight string templating engine (Mustache syntax).
+write sl-render in python so that i can use it as learning guide so make comments like you are teaching me 
+Let's dive in!
+"""
 
-local function get_root_dir()
-    local env_dir = os.getenv("SHOELACE_DIR") or os.getenv("DOTFILES_DIR")
-    if env_dir and env_dir ~= "" then
-        return env_dir:gsub("^~", os.getenv("HOME") or "")
-    end
+import os
+import sys
+import argparse
+from pathlib import Path
 
-    local script_path = arg and arg[0]
-    if not script_path or script_path == "" or script_path:sub(1,1) == "=" then
-        local src = debug.getinfo(1, "S").source
-        if src and src:sub(1,1) == "@" then
-            script_path = src:sub(2)
-        end
-    end
+# Python 3.11+ comes with a built-in TOML parser called `tomllib`.
+# It's always best to use standard libraries when available to avoid external dependencies.
+try:
+    import tomllib
+except ImportError:
+    print("❌ Error: This script requires Python 3.11+ for the built-in 'tomllib' module.")
+    sys.exit(1)
 
-    if script_path and script_path ~= "" then
-        local p = io.popen('readlink -f "' .. script_path .. '" 2>/dev/null')
-        if p then
-            local real = p:read("*l")
-            p:close()
-            if real and real ~= "" then
-                local dir = real:match("(.*/)")
-                if dir then
-                    local root = dir:gsub("/bin/?$", "")
-                    if file_or_dir_exists(root .. "/env") then
-                        return root
-                    end
-                end
-            end
-        end
-    end
 
-    local cwd_p = io.popen("pwd 2>/dev/null")
-    if cwd_p then
-        local cwd = cwd_p:read("*l")
-        cwd_p:close()
-        if cwd and file_or_dir_exists(cwd .. "/env") then
-            return cwd
-        end
-    end
+def get_root_dir() -> Path:
+    """
+    Determines the root directory of the dotfiles project.
+    
+    In Python, we use the `pathlib` module, which provides an object-oriented 
+    approach to handling filesystem paths. It is much cleaner than the old `os.path`.
+    """
+    # 1. Check if the user set an environment variable
+    env_dir = os.environ.get("SHOELACE_DIR") or os.environ.get("DOTFILES_DIR")
+    if env_dir:
+        return Path(env_dir).expanduser()
 
-    local home = os.getenv("HOME") or ""
-    if home ~= "" then
-        local candidates = { home .. "/shoelace", home .. "/dot" }
-        for _, c in ipairs(candidates) do
-            if file_or_dir_exists(c .. "/env") then return c end
-        end
-    end
+    # 2. Check relative to this script's location
+    # __file__ gives us the path to this specific script.
+    # .resolve() gets the absolute path, and .parents[1] gets the grandparent directory.
+    # E.g., if script is /home/rsh/_sl/bin/sl-render.py, parents[0] is bin/, parents[1] is _sl/
+    script_path = Path(__file__).resolve()
+    potential_root = script_path.parents[1]
+    
+    # We verify it's the root by checking for our main configuration file.
+    if (potential_root / "shoelace.toml").exists():
+        return potential_root
 
-    return "."
-end
+    # 3. Fallback to current working directory
+    cwd = Path.cwd()
+    if (cwd / "shoelace.toml").exists():
+        return cwd
 
-local ROOT_DIR = get_root_dir()
+    # If all else fails, just return current directory
+    return Path(".")
 
--- -----------------------------------------------------------------------------
--- 1. Mini Pure-Lua TOML Parser
--- -----------------------------------------------------------------------------
-local function parse_toml_value(val_str)
-    val_str = val_str:match("^%s*(.-)%s*$")
-    if not val_str or val_str == "" then return nil end
 
-    -- String in double quotes
-    if val_str:sub(1, 1) == '"' and val_str:sub(-1) == '"' then
-        return val_str:sub(2, -2):gsub('\\"', '"'):gsub('\\n', '\n'):gsub('\\t', '\t')
-    end
-    -- String in single quotes
-    if val_str:sub(1, 1) == "'" and val_str:sub(-1) == "'" then
-        return val_str:sub(2, -2)
-    end
-    -- Boolean
-    if val_str == "true" then return true end
-    if val_str == "false" then return false end
-    -- Number (integer or float)
-    local num = tonumber(val_str)
-    if num ~= nil then return num end
+def deep_merge(dict_a: dict, dict_b: dict) -> None:
+    """
+    Recursively merges dict_b into dict_a.
+    
+    Why is this needed?
+    When we load multiple TOML files, they might define the same top-level keys 
+    (like `[colors]`). If we just did `dict_a.update(dict_b)`, the entire `colors` 
+    dictionary would be overwritten! Deep merging ensures we combine nested dictionaries.
+    """
+    for key, value in dict_b.items():
+        if isinstance(value, dict):
+            # If the value is a dictionary, we need to dig deeper!
+            # We use setdefault to ensure the key exists in dict_a before we merge.
+            node = dict_a.setdefault(key, {})
+            if isinstance(node, dict):
+                deep_merge(node, value)
+            else:
+                dict_a[key] = value
+        elif isinstance(value, list) and key in dict_a and isinstance(dict_a[key], list):
+            # If it's a list, we extend (append) the items
+            dict_a[key].extend(value)
+        else:
+            # For normal values (strings, ints), just overwrite/set the value.
+            dict_a[key] = value
 
-    -- Array: [ ... ]
-    if val_str:sub(1, 1) == "[" and val_str:sub(-1) == "]" then
-        local inner = val_str:sub(2, -2)
-        local arr = {}
-        for item in inner:gmatch("([^,]+)") do
-            local pv = parse_toml_value(item)
-            if pv ~= nil then
-                table.insert(arr, pv)
-            end
-        end
-        return arr
-    end
 
-    -- Inline table: { ... }
-    if val_str:sub(1, 1) == "{" and val_str:sub(-1) == "}" then
-        local inner = val_str:sub(2, -2)
-        local tbl = {}
-        for k, v in inner:gmatch("([%w_%-]+)%s*=%s*([^,]+)") do
-            tbl[k] = parse_toml_value(v)
-        end
-        return tbl
-    end
-
-    return val_str
-end
-
-local function parse_toml_file(filepath)
-    local f = io.open(filepath, "r")
-    if not f then return nil end
-    local content = f:read("*a")
-    f:close()
-
-    local result = {}
-    local current_table = result
-
-    local multiline_key = nil
-    local multiline_buf = ""
-
-    for line in content:gmatch("[^\r\n]+") do
-        local clean = line:match("^%s*(.-)%s*$")
-        if clean and clean ~= "" and clean:sub(1, 1) ~= "#" then
-            local in_quote = false
-            local stripped = ""
-            for i = 1, #clean do
-                local c = clean:sub(i, i)
-                if c == '"' and clean:sub(i - 1, i - 1) ~= '\\' then
-                    in_quote = not in_quote
-                elseif c == '#' and not in_quote then
+def resolve_var(key: str, context_stack: list) -> any:
+    """
+    Resolves a variable name (like 'colors.primary') from a stack of dictionaries.
+    
+    In Mustache templates, variables can be looked up in the current context, 
+    or the parent context if they don't exist.
+    """
+    # Start checking from the most specific context (top of the stack) to the global context (bottom)
+    for context in reversed(context_stack):
+        if key in (".", "this") and not isinstance(context, dict):
+            return context
+            
+        if isinstance(context, dict):
+            # Handle nested keys like "colors.background"
+            parts = key.split(".")
+            value = context
+            found = True
+            for part in parts:
+                if isinstance(value, dict) and part in value:
+                    value = value[part]
+                else:
+                    found = False
                     break
-                end
-                stripped = stripped .. c
-            end
-            clean = stripped:match("^%s*(.-)%s*$")
+            
+            # If we successfully traversed the path, return the value
+            if found:
+                return value
+                
+    # If the variable isn't found anywhere in the stack, return None
+    return None
 
-            if clean and clean ~= "" then
-                if multiline_key then
-                    multiline_buf = multiline_buf .. " " .. clean
-                    if clean:find("%]") then
-                        current_table[multiline_key] = parse_toml_value(multiline_buf)
-                        multiline_key = nil
-                        multiline_buf = ""
-                    end
-                else
-                    -- Array of Tables: [[table.name]]
-                    local aot_name = clean:match("^%[%[([%w_%-%.]+)%]%]$")
-                    if aot_name then
-                        local parts = {}
-                        for part in aot_name:gmatch("[^%.]+") do table.insert(parts, part) end
-                        local cur = result
-                        for i = 1, #parts - 1 do
-                            local k = parts[i]
-                            if not cur[k] then cur[k] = {} end
-                            cur = cur[k]
-                        end
-                        local final_key = parts[#parts]
-                        if not cur[final_key] or type(cur[final_key]) ~= "table" then
-                            cur[final_key] = {}
-                        end
-                        local new_tbl = {}
-                        table.insert(cur[final_key], new_tbl)
-                        current_table = new_tbl
-                    else
-                        -- Standard Table: [table.name]
-                        local tbl_name = clean:match("^%[([%w_%-%.]+)%]$")
-                        if tbl_name then
-                            local parts = {}
-                            for part in tbl_name:gmatch("[^%.]+") do table.insert(parts, part) end
-                            local cur = result
-                            for i = 1, #parts do
-                                local k = parts[i]
-                                if not cur[k] or type(cur[k]) ~= "table" then
-                                    cur[k] = {}
-                                end
-                                cur = cur[k]
-                            end
-                            current_table = cur
-                        else
-                            -- Key-Value: key = value
-                            local key, val = clean:match("^([%w_%-]+)%s*=%s*(.+)$")
-                            if key and val then
-                                if val:sub(1, 1) == "[" and not val:find("%]") then
-                                    multiline_key = key
-                                    multiline_buf = val
-                                else
-                                    current_table[key] = parse_toml_value(val)
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
+import re
 
-    return result
-end
-
-local function deep_merge(a, b)
-    for k, v in pairs(b) do
-        if type(v) == "table" then
-            if type(a[k]) == "table" then
-                if #v > 0 and #a[k] > 0 then
-                    for _, item in ipairs(v) do
-                        table.insert(a[k], item)
-                    end
-                else
-                    deep_merge(a[k], v)
-                end
-            else
-                a[k] = v
-            end
-        else
-            a[k] = v
-        end
-    end
-end
-
--- -----------------------------------------------------------------------------
--- 2. Pure-Lua Mustache Engine
--- -----------------------------------------------------------------------------
-local function resolve_var(key, stack, check_only_top)
-    local start_idx = #stack
-    local end_idx = (check_only_top and #stack > 1) and #stack or 1
-    for i = start_idx, end_idx, -1 do
-        local ctx = stack[i]
-        if (key == "." or key == "this" or key == "path") and (type(ctx) == "string" or type(ctx) == "number") then
-            return ctx
-        end
-        if type(ctx) == "table" then
-            local val = ctx
-            local found = true
-            for part in key:gmatch("[^%.]+") do
-                if type(val) == "table" and val[part] ~= nil then
-                    val = val[part]
-                else
-                    found = false
-                    break
-                end
-            end
-            if found and val ~= nil then return val end
-        end
-    end
-    return nil
-end
-
-local function is_empty(val)
-    if val == nil or val == false then return true end
-    if type(val) == "table" then
-        if #val == 0 and next(val) == nil then return true end
-    end
-    if type(val) == "string" and val == "" then return true end
-    return false
-end
-
-local function render_mustache(tmpl, stack)
-    local pos = 1
-    local out = {}
-
-    while pos <= #tmpl do
-        local t_start, t_end, tag = tmpl:find("({?%b{}})", pos)
-        if not t_start then
-            table.insert(out, tmpl:sub(pos))
+def render_mustache(template: str, context_stack: list) -> str:
+    """
+    A lightweight, educational implementation of a Mustache template renderer.
+    
+    Mustache uses tags like {{variable}}. 
+    - {{name}} injects the value of `name`.
+    - {{#list}} ... {{/list}} loops over a list or conditionally shows content.
+    - {{^list}} ... {{/list}} shows content ONLY if the list is empty/false.
+    """
+    # We will use a regular expression (regex) to find all {{tags}}.
+    # The pattern \{?\{\{([#\^/]?)(.*?)\}\}\}? matches normal {{var}}, 
+    # block {{#var}}, and unescaped {{{var}}}.
+    pattern = re.compile(r'(\{?\{\{([#\^/]?)\s*(.*?)\s*\}\}\}?)')
+    
+    output = []
+    pos = 0
+    
+    while pos < len(template):
+        match = pattern.search(template, pos)
+        if not match:
+            # No more tags found, append the rest of the string
+            output.append(template[pos:])
             break
-        end
+            
+        # Append the text that came before the tag
+        output.append(template[pos:match.start()])
+        
+        full_tag = match.group(1)
+        tag_type = match.group(2)
+        tag_name = match.group(3)
+        
+        if tag_type in ('#', '^'):
+            # This is the start of a block. We need to find the matching {{/tag_name}}
+            end_tag = f"{{{{/{tag_name}}}}}"
+            end_pos = template.find(end_tag, match.end())
+            
+            if end_pos == -1:
+                # Malformed template: no closing tag! Let's just ignore it and move on.
+                pos = match.end()
+                continue
+                
+            # Extract the inner content of the block
+            block_content = template[match.end():end_pos]
+            pos = end_pos + len(end_tag) # Move our pointer past the closing tag
+            
+            # Check for the custom `#each` keyword
+            is_each = False
+            actual_var_name = tag_name
+            if tag_type == '#' and tag_name.startswith("each "):
+                is_each = True
+                actual_var_name = tag_name[5:].strip()
+                
+            # Resolve the variable to see what we should do
+            value = resolve_var(actual_var_name, context_stack)
+            is_truthy = bool(value) and value != []
+            
+            if tag_type == '#' and is_truthy:
+                if is_each and isinstance(value, dict):
+                    # Educational: We added a custom `each` command!
+                    # It turns a dictionary like {"alias": {"a": "b"}} 
+                    # into a list of {"key": "a", "value": "b"} for iteration.
+                    for k, v in value.items():
+                        context_stack.append({"key": k, "value": v})
+                        output.append(render_mustache(block_content, context_stack))
+                        context_stack.pop()
+                # If it's a list, render the block for each item
+                elif isinstance(value, list):
+                    for item in value:
+                        context_stack.append(item)
+                        output.append(render_mustache(block_content, context_stack))
+                        context_stack.pop() # Remove item after rendering
+                # If it's a dict, push it to context and render once
+                elif isinstance(value, dict):
+                    context_stack.append(value)
+                    output.append(render_mustache(block_content, context_stack))
+                    context_stack.pop()
+                # Otherwise (boolean true, string), just render once
+                else:
+                    output.append(render_mustache(block_content, context_stack))
+                    
+            elif tag_type == '^' and not is_truthy:
+                # The ^ tag renders ONLY if the value is falsey
+                output.append(render_mustache(block_content, context_stack))
+                
+        elif tag_type == '':
+            # This is a standard variable tag {{name}}
+            value = resolve_var(tag_name, context_stack)
+            if value is not None:
+                output.append(str(value))
+            pos = match.end()
+            
+        else:
+            # Catch all fallback to skip unknown tags
+            pos = match.end()
+            
+    return "".join(output)
 
-        table.insert(out, tmpl:sub(pos, t_start - 1))
 
-        if tag:sub(1, 3) == "{{{" and tag:sub(-3) == "}}}" then
-            local var_name = tag:sub(4, -4):match("^%s*(.-)%s*$")
-            local val = resolve_var(var_name, stack, false)
-            if val ~= nil then table.insert(out, tostring(val)) end
-            pos = t_end + 1
-        elseif tag:sub(1, 2) == "{{" and tag:sub(-2) == "}}" then
-            local inner = tag:sub(3, -3):match("^%s*(.-)%s*$")
-            local tag_type = inner:sub(1, 1)
+def main():
+    # argparse is the standard way to handle command-line arguments in Python
+    parser = argparse.ArgumentParser(description="Shoelace Template Renderer")
+    parser.add_argument("-d", "--data", help="Custom data directory")
+    args = parser.parse_args()
 
-            if tag_type == "#" or tag_type == "^" then
-                local sec_name = inner:sub(2):match("^%s*(.-)%s*$")
-                local sec_val = resolve_var(sec_name, stack, true)
-                if sec_val == nil then
-                    sec_val = resolve_var(sec_name, stack, false)
-                end
+    # ASCII escape codes for colored terminal output! 
+    # \033[1;36m is Cyan bold, \033[0m resets the color.
+    print("\033[1;36m─── Shoelace Template Renderer (Python Educational Version) ───\033[0m")
 
-                local depth = 1
-                local search_pos = t_end + 1
-                local b_start = search_pos
-                local b_end = nil
+    ROOT_DIR = get_root_dir()
 
-                while depth > 0 and search_pos <= #tmpl do
-                    local s_s, s_e, s_tag = tmpl:find("({?%b{}})", search_pos)
-                    if not s_s then break end
-                    if s_tag:sub(1, 2) == "{{" and s_tag:sub(-2) == "}}" then
-                        local s_inner = s_tag:sub(3, -3):match("^%s*(.-)%s*$")
-                        local s_type = s_inner:sub(1, 1)
-                        local s_name = s_inner:sub(2):match("^%s*(.-)%s*$")
-                        if s_name == sec_name then
-                            if s_type == "#" or s_type == "^" then
-                                depth = depth + 1
-                            elseif s_type == "/" then
-                                depth = depth - 1
-                                if depth == 0 then
-                                    b_end = s_s - 1
-                                    pos = s_e + 1
-                                end
-                            end
-                        end
-                    end
-                    search_pos = s_e + 1
-                end
+    # 1. Load the main configuration file
+    config_file = ROOT_DIR / "shoelace.toml"
+    shoelace_cfg = {}
+    
+    if config_file.exists():
+        with open(config_file, "rb") as f:
+            # tomllib requires files to be opened in binary mode ("rb")
+            shoelace_cfg = tomllib.load(f)
+        print(f"  \033[34mℹ\033[0m Loaded system config: {config_file.name}")
+    else:
+        print(f"  \033[33m⚠\033[0m Could not find shoelace.toml at {ROOT_DIR}")
 
-                if b_end then
-                    local block = tmpl:sub(b_start, b_end)
-                    if tag_type == "#" then
-                        if not is_empty(sec_val) then
-                            if type(sec_val) == "table" and #sec_val > 0 then
-                                for _, item in ipairs(sec_val) do
-                                    table.insert(stack, item)
-                                    table.insert(out, render_mustache(block, stack))
-                                    table.remove(stack)
-                                end
-                            elseif type(sec_val) == "table" then
-                                table.insert(stack, sec_val)
-                                table.insert(out, render_mustache(block, stack))
-                                table.remove(stack)
-                            elseif sec_val == true or sec_val ~= nil then
-                                table.insert(out, render_mustache(block, stack))
-                            end
-                        end
-                    elseif tag_type == "^" then
-                        if is_empty(sec_val) then
-                            table.insert(out, render_mustache(block, stack))
-                        end
-                    end
-                else
-                    pos = t_end + 1
-                end
-            elseif tag_type == "/" then
-                pos = t_end + 1
-            else
-                local val = resolve_var(inner, stack, false)
-                if val ~= nil then table.insert(out, tostring(val)) end
-                pos = t_end + 1
-            end
-        else
-            pos = t_end + 1
-        end
-    end
+    # Extract paths from config, or use defaults
+    paths_cfg = shoelace_cfg.get("paths", {})
+    templates_dir = ROOT_DIR / paths_cfg.get("templates_dir", "templates")
+    config_dir = ROOT_DIR / paths_cfg.get("config_dir", "config")
+    tokens_dirs = paths_cfg.get("tokens_dirs", ["tokens"])
 
-    return table.concat(out)
-end
+    # 2. Collect and merge all Token data
+    token_data = {}
+    
+    # We use a set to keep track of loaded files so we don't load them twice
+    loaded_files = set()
+    
+    # Determine which directories to scan for tokens
+    dirs_to_scan = [Path(args.data)] if args.data else [ROOT_DIR / d for d in tokens_dirs]
+    
+    for directory in dirs_to_scan:
+        if not directory.exists():
+            continue
+            
+        # rglob recursively searches for files matching a pattern (*.toml)
+        for toml_path in directory.rglob("*.toml"):
+            # Skip files that belong to themes, templates, or the main config itself
+            if "themes" in toml_path.parts or "templates" in toml_path.parts or toml_path.name == "shoelace.toml":
+                continue
+                
+            if toml_path not in loaded_files:
+                loaded_files.add(toml_path)
+                with open(toml_path, "rb") as f:
+                    try:
+                        parsed_toml = tomllib.load(f)
+                        deep_merge(token_data, parsed_toml)
+                        print(f"  \033[32m•\033[0m Loaded token: {toml_path.relative_to(ROOT_DIR)}")
+                    except Exception as e:
+                        print(f"  \033[31m✖\033[0m Error parsing {toml_path.name}: {e}")
 
--- -----------------------------------------------------------------------------
--- 3. Dynamic Token Discovery & Render Pipeline
--- -----------------------------------------------------------------------------
-local function collect_all_token_files(custom_dir, configured_token_dirs)
-    local candidate_dirs = {}
-    if custom_dir then
-        table.insert(candidate_dirs, custom_dir)
-    elseif configured_token_dirs and #configured_token_dirs > 0 then
-        for _, rel_d in ipairs(configured_token_dirs) do
-            local abs_d = rel_d:sub(1,1) == "/" and rel_d or (ROOT_DIR .. "/" .. rel_d)
-            if file_or_dir_exists(abs_d) then
-                table.insert(candidate_dirs, abs_d)
-            end
-        end
-    else
-        local possible = {
-            ROOT_DIR .. "/env/tokens",
-            ROOT_DIR .. "/env/settings",
-            ROOT_DIR .. "/env/token.db",
-            ROOT_DIR .. "/env/token.kv",
-            ROOT_DIR .. "/env/token",
-            ROOT_DIR .. "/env/data",
-            ROOT_DIR .. "/env"
-        }
-        for _, d in ipairs(possible) do
-            if file_or_dir_exists(d) then
-                table.insert(candidate_dirs, d)
-            end
-        end
-    end
+    # 3. Process Template Mappings
+    mappings = []
+    
+    # Iterate through our config file to find [[app_name]] mappings
+    for key, val in shoelace_cfg.items():
+        if key == "paths":
+            continue
+            
+        if isinstance(val, list):
+            app_name = "" if key == "mappings" else key
+            
+            for entry in val:
+                if isinstance(entry, dict):
+                    # dict.get() provides a safe way to retrieve values with a default
+                    tmpl = entry.get("tmpl") or entry.get("template", "")
+                    dest = entry.get("dest") or entry.get("destination", "")
+                    entry_app = entry.get("app") or entry.get("app_name", app_name)
+                    
+                    if tmpl and dest:
+                        # Ensure the app folder is prepended if not already there
+                        if entry_app and not tmpl.startswith(f"{entry_app}/"):
+                            tmpl = f"{entry_app}/{tmpl}"
+                        if entry_app and not dest.startswith(f"{entry_app}/"):
+                            dest = f"{entry_app}/{dest}"
+                            
+                        mappings.append({"tmpl": tmpl, "dest": dest})
 
-    local file_map = {}
-    local files = {}
+    rendered_count = 0
 
-    for _, dir in ipairs(candidate_dirs) do
-        local cmd = 'find -L "' .. dir .. '" -type f -name "*.toml" ! -path "*/env/themes/*" ! -path "*/env/templates/*" ! -path "*/templates/*" ! -name "shoelace.toml" ! -name "file.toml" ! -name "shoelace.config" 2>/dev/null'
-        local p = io.popen(cmd)
-        if p then
-            for line in p:lines() do
-                local fname = line:match("([^/]+%.toml)$")
-                if fname and not file_map[fname] then
-                    file_map[fname] = line
-                    table.insert(files, line)
-                end
-            end
-            p:close()
-        end
-    end
+    # 4. Render and Write!
+    for m in mappings:
+        tmpl_path = templates_dir / m["tmpl"]
+        dest_path = config_dir / m["dest"]
 
-    table.sort(files)
-    return files
-end
+        if tmpl_path.exists():
+            # Read the template string
+            template_content = tmpl_path.read_text(encoding="utf-8")
+            
+            # Create a context stack holding our merged token data
+            context_stack = [token_data]
+            
+            # Pass it to our engine
+            rendered_output = render_mustache(template_content, context_stack)
+            
+            # Ensure the destination parent directory exists
+            # parents=True acts like `mkdir -p`
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Write the result
+            dest_path.write_text(rendered_output, encoding="utf-8")
+            print(f"  \033[1;32m✓\033[0m Rendered: \033[1m{m['tmpl']}\033[0m -> {m['dest']}")
+            rendered_count += 1
+        else:
+            print(f"  \033[33m⚠\033[0m Missing template: {m['tmpl']} at {tmpl_path}")
 
-local function write_file(filepath, content)
-    local dir = filepath:match("(.*/)")
-    if dir then
-        os.execute('mkdir -p "' .. dir .. '"')
-    end
-    local f = io.open(filepath, "w")
-    if not f then
-        print("❌ Failed to write to " .. filepath)
-        return false
-    end
-    f:write(content)
-    f:close()
-    return true
-end
+    print(f"\n\033[1;32m✨ Complete:\033[0m {rendered_count} templates rendered successfully.\n")
 
-local function main()
-    local custom_data_dir = nil
-    for i = 1, #arg do
-        if (arg[i] == "--data" or arg[i] == "-d") and arg[i+1] then
-            custom_data_dir = arg[i+1]
-        end
-    end
 
-    print("\27[1;36m─── Shoelace Template Renderer (Lua) ───\27[0m")
-
-    -- 0. Load env/shoelace.toml or env/shoelace.config or env/file.toml
-    local config_file = nil
-    local config_candidates = {
-        ROOT_DIR .. "/env/shoelace.toml",
-        ROOT_DIR .. "/env/shoelace.config",
-        ROOT_DIR .. "/env/file.toml"
-    }
-    for _, cfg in ipairs(config_candidates) do
-        if file_or_dir_exists(cfg) then
-            config_file = cfg
-            break
-        end
-    end
-
-    local shoelace_cfg = config_file and parse_toml_file(config_file) or {}
-    local paths_cfg = shoelace_cfg.paths or {}
-
-    local rel_templates = paths_cfg.templates_dir or (file_or_dir_exists(ROOT_DIR .. "/env/templates") and "env/templates" or "templates")
-    local rel_config = paths_cfg.config_dir or "config"
-    local templates_dir = ROOT_DIR .. "/" .. rel_templates
-    local config_dir = ROOT_DIR .. "/" .. rel_config
-    local token_dirs_cfg = paths_cfg.tokens_dirs
-
-    if config_file then
-        local rel_cfg_path = config_file:gsub("^" .. ROOT_DIR .. "/?", "")
-        print("  \27[34mℹ\27[0m Loaded system config: " .. rel_cfg_path)
-    end
-
-    -- 1. Collect and parse all TOML tokens
-    local token_data = {}
-    local toml_files = collect_all_token_files(custom_data_dir, token_dirs_cfg)
-
-    for _, file in ipairs(toml_files) do
-        local rel = file:gsub("^" .. ROOT_DIR .. "/?", "")
-        local parsed = parse_toml_file(file)
-        if parsed then
-            deep_merge(token_data, parsed)
-            print("  \27[32m•\27[0m Loaded token: " .. rel)
-        end
-    end
-
-    -- 2. Define / Load Template Mappings
-    local mappings = {}
-    for key, val in pairs(shoelace_cfg) do
-        if key ~= "paths" and type(val) == "table" and #val > 0 then
-            local app_name = (key == "mappings") and "" or key
-
-            for _, entry in ipairs(val) do
-                if type(entry) == "table" then
-                    local entry_app = entry.app or entry.app_name or app_name
-                    local t = entry.tmpl or entry.template or ""
-                    local d = entry.dest or entry.destination or ""
-
-                    if t ~= "" and d ~= "" then
-                        local full_t = (entry_app ~= "" and not t:find("^" .. entry_app .. "/")) and (entry_app .. "/" .. t) or t
-                        local full_d = (entry_app ~= "" and not d:find("^" .. entry_app .. "/")) and (entry_app .. "/" .. d) or d
-
-                        table.insert(mappings, {
-                            app = entry_app,
-                            tmpl = full_t,
-                            dest = full_d
-                        })
-                    end
-                end
-            end
-        end
-    end
-
-    if #mappings == 0 then
-        mappings = {
-            { tmpl = "niri/appearance.kdl",   dest = "niri/sl_appearance.kdl" },
-            { tmpl = "niri/colors.kdl",       dest = "niri/sl_colors.kdl" },
-            { tmpl = "niri/keybinds.kdl",     dest = "niri/sl_keybinds.kdl" },
-            { tmpl = "kitty/appearance.conf",  dest = "kitty/sl_appearance.conf" },
-            { tmpl = "kitty/colors.conf",      dest = "kitty/sl_colors.conf" },
-            { tmpl = "fuzzel/appearance.ini",  dest = "fuzzel/sl_appearance.ini" },
-            { tmpl = "fuzzel/colors.ini",      dest = "fuzzel/sl_colors.ini" },
-            { tmpl = "wayle/appearance.toml",  dest = "wayle/sl_appearance.toml" },
-            { tmpl = "wayle/colors.toml",      dest = "wayle/sl_colors.toml" },
-            { tmpl = "swaylock/config",       dest = "swaylock/sl_config" },
-            { tmpl = "fish/aliases.fish",     dest = "fish/conf.d/sl_aliases.fish" },
-            { tmpl = "fish/paths.fish",       dest = "fish/conf.d/sl_paths.fish" },
-        }
-    else
-        table.sort(mappings, function(a, b) return a.tmpl < b.tmpl end)
-    end
-
-    local rendered_count = 0
-
-    for _, m in ipairs(mappings) do
-        local tmpl_path = templates_dir .. "/" .. m.tmpl
-        local dest_path = config_dir .. "/" .. m.dest
-
-        local f = io.open(tmpl_path, "r")
-        if f then
-            local tmpl_content = f:read("*a")
-            f:close()
-
-            local context_stack = { token_data }
-            local rendered = render_mustache(tmpl_content, context_stack)
-
-            if write_file(dest_path, rendered) then
-                print(string.format("  \27[1;32m✓\27[0m Rendered: \27[1m%s\27[0m -> %s/%s", m.tmpl, rel_config, m.dest))
-                rendered_count = rendered_count + 1
-            end
-        else
-            print("  \27[33m⚠\27[0m Missing template: " .. m.tmpl .. " at " .. tmpl_path)
-        end
-    end
-
-    print(string.format("\n\27[1;32m✨ Complete:\27[0m %d templates rendered successfully.\n", rendered_count))
-end
-
-main()
+# This is standard Python boilerplate. It ensures main() only runs if the script
+# is executed directly, not if it's imported as a module by another script.
+if __name__ == "__main__":
+    main()

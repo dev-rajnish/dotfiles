@@ -4,13 +4,13 @@ let
   # Helper to find and parse TOML file across candidate token directory names
   findToml = name: let
     candidates = [
-      (./. + "/tokens/${name}")
-      (./. + "/settings/${name}")
-      (./. + "/config/${name}")
-      (./. + "/token.db/${name}")
-      (./. + "/token.kv/${name}")
-      (./. + "/token/${name}")
-      (./. + "/${name}")
+      (../tokens + "/${name}")
+      (../settings + "/${name}")
+      (../config + "/${name}")
+      (../token.db + "/${name}")
+      (../token.kv + "/${name}")
+      (../token + "/${name}")
+      (../. + "/${name}")
     ];
     existing = builtins.filter builtins.pathExists candidates;
   in

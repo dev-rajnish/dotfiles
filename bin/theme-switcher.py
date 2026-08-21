@@ -42,7 +42,7 @@ local function get_root_dir()
                 local dir = real:match("(.*/)")
                 if dir then
                     local root = dir:gsub("/bin/?$", "")
-                    if file_or_dir_exists(root .. "/") then
+                    if file_or_dir_exists(root .. "/env") then
                         return root
                     end
                 end
@@ -54,7 +54,7 @@ local function get_root_dir()
     if cwd_p then
         local cwd = cwd_p:read("*l")
         cwd_p:close()
-        if cwd and file_or_dir_exists(cwd .. "/") then
+        if cwd and file_or_dir_exists(cwd .. "/env") then
             return cwd
         end
     end
@@ -63,7 +63,7 @@ local function get_root_dir()
     if home ~= "" then
         local candidates = { home .. "/shoelace", home .. "/dot" }
         for _, c in ipairs(candidates) do
-            if file_or_dir_exists(c .. "/") then return c end
+            if file_or_dir_exists(c .. "/env") then return c end
         end
     end
 
@@ -75,8 +75,8 @@ local THEMES_DIR = ROOT_DIR .. "/themes"
 
 local function find_theme_config_path()
     local candidates = {
-        ROOT_DIR .. "/theme.toml",
-        ROOT_DIR .. "/settings/theme.toml",
+        ROOT_DIR .. "/tokens/theme.toml",
+        ROOT_DIR .. "/env/settings/theme.toml",
         ROOT_DIR .. "/env/token.db/theme.toml",
         ROOT_DIR .. "/env/token.kv/theme.toml",
         ROOT_DIR .. "/env/token/theme.toml",
@@ -302,8 +302,8 @@ urgent = "%s"
 
     print(string.format("\27[1;32m✔ Applied theme:\27[0m \27[1m%s\27[0m (%s)", selected.display_name or selected.name, selected.polarity or "dark"))
 
-    -- Trigger sl-render
-    os.execute('"' .. ROOT_DIR .. '/bin/sl-render"')
+    -- Trigger sl-render (using python script as requested)
+    os.execute('"' .. ROOT_DIR .. '/bin/sl-render.py"')
 
     -- Reload desktop apps
     -- os.execute('niri msg action reload-config 2>/dev/null || true')

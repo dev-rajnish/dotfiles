@@ -1,0 +1,16 @@
+// =============================================================================
+//  Niri Scrollable-Tiling Wayland Compositor Configuration
+//  Main Entry Point - Modular Configuration Index
+// =============================================================================
+
+include "./animations.kdl"
+include "env.kdl"
+include "input.kdl"
+include "window_rules.kdl"
+include "sl_keybinds.kdl"
+include "exec.kdl"
+include "misc.kdl"
+include "keybinds.kdl"
+include "layout.kdl"
+include "sl_appearance.kdl"
+include "sl_colors.kdl"

@@ -1,0 +1,272 @@
+# =============================================================================
+
+#  System & Desktop Keybindings (keybinds.toml)
+# =============================================================================
+
+# System & Session Binds
+[[system_binds]]
+key = "Mod+Shift+E"
+title = "Power & Session Menu: Fuzzel"
+action = "spawn \"power-menu\""
+
+[[system_binds]]
+key = "Ctrl+Alt+Delete"
+title = "Power & Session Menu: Fuzzel"
+action = "spawn \"power-menu\""
+
+[[system_binds]]
+key = "Mod+Shift+P"
+action = "power-off-monitors"
+
+[[system_binds]]
+key = "Mod+Slash"
+action = "show-hotkey-overlay"
+
+[[system_binds]]
+key = "Mod+Escape"
+allow_inhibiting_false = true
+action = "toggle-keyboard-shortcuts-inhibit"
+
+# Application Launchers
+[[app_binds]]
+key = "Super+Return"
+title = "Terminal: Kitty"
+action = "spawn \"kitty\""
+
+[[app_binds]]
+key = "Super+E"
+title = "File Manager: Thunar"
+action = "spawn \"thunar\""
+
+[[app_binds]]
+key = "Super+A"
+title = "Application Launcher: Fuzzel"
+action = "spawn \"fuzzel\""
+
+[[app_binds]]
+key = "Mod+B"
+title = "Web Browser: Librewolf"
+action = "spawn \"librewolf\""
+
+[[app_binds]]
+key = "Super+Alt+L"
+title = "Lock Screen: Swaylock"
+action = "spawn \"swaylock\""
+
+[[app_binds]]
+key = "Mod+N"
+title = "Status Bar: Toggle Wayle"
+repeat_false = true
+action = "spawn-sh \"wayle panel toggle || wayle shell\""
+
+[[app_binds]]
+key = "Mod+C"
+repeat_false = true
+action = "spawn-sh \"cliphist list | fuzzel -d | cliphist decode | wl-copy\""
+
+[[app_binds]]
+key = "Mod+Shift+W"
+title = "Wallpaper Setter: Waypaper"
+action = "spawn-sh \"wallpaper --gui\""
+
+# Hardware Media Keys
+[[media_binds]]
+key = "XF86AudioRaiseVolume"
+action = "spawn-sh \"pamixer -i 5\""
+
+[[media_binds]]
+key = "XF86AudioLowerVolume"
+action = "spawn-sh \"pamixer -d 5\""
+
+[[media_binds]]
+key = "XF86AudioMicMute"
+action = "spawn-sh \"pamixer -i 5 --allow-boost\""
+
+[[media_binds]]
+key = "XF86AudioMute"
+action = "spawn-sh \"pamixer -t\""
+
+[[media_binds]]
+key = "XF86MonBrightnessUp"
+action = "spawn-sh \"brightnessctl s 5%+\""
+
+[[media_binds]]
+key = "XF86MonBrightnessDown"
+action = "spawn-sh \"brightnessctl s 5%-\""
+
+# Window Management Actions
+[[window_binds]]
+key = "Mod+Q"
+repeat_false = true
+action = "close-window"
+
+[[window_binds]]
+key = "Mod+O"
+repeat_false = true
+action = "toggle-overview"
+
+[[window_binds]]
+key = "Mod+T"
+repeat_false = true
+action = "toggle-overview"
+
+
+[[window_binds]]
+key = "Mod+V"
+action = "toggle-window-floating"
+
+[[window_binds]]
+key = "Mod+Shift+V"
+action = "switch-focus-between-floating-and-tiling"
+
+[[window_binds]]
+key = "Mod+W"
+action = "toggle-column-tabbed-display"
+
+[[window_binds]]
+key = "Mod+F"
+action = "maximize-column"
+
+# Navigation Keys
+[[nav_binds]]
+key = "Mod+Left"
+action = "focus-column-left"
+
+[[nav_binds]]
+key = "Mod+Down"
+action = "focus-window-down"
+
+[[nav_binds]]
+key = "Mod+Up"
+action = "focus-window-up"
+
+[[nav_binds]]
+key = "Mod+Right"
+action = "focus-column-right"
+
+[[nav_binds]]
+key = "Mod+S"
+action = "focus-column-right"
+
+[[nav_binds]]
+key = "Mod+L"
+action = "focus-column-left"
+
+[[nav_binds]]
+key = "Mod+Home"
+action = "focus-column-first"
+
+[[nav_binds]]
+key = "Mod+End"
+action = "focus-column-last"
+
+[[nav_binds]]
+key = "Mod+P"
+action = "screenshot"
+
+# Move Columns & Windows
+[[move_binds]]
+key = "Mod+Ctrl+Left"
+action = "move-column-left"
+
+[[move_binds]]
+key = "Mod+Ctrl+Down"
+action = "move-window-down"
+
+[[move_binds]]
+key = "Mod+Ctrl+Up"
+action = "move-window-up"
+
+[[move_binds]]
+key = "Mod+Ctrl+Right"
+action = "move-column-right"
+
+# Workspace Bindings
+[[workspace_binds]]
+key = "Mod+1"
+action = "focus-workspace 1"
+
+[[workspace_binds]]
+key = "Mod+Shift+1"
+action = "move-column-to-workspace 1"
+
+[[workspace_binds]]
+key = "Mod+2"
+action = "focus-workspace 2"
+
+[[workspace_binds]]
+key = "Mod+Shift+2"
+action = "move-column-to-workspace 2"
+
+[[workspace_binds]]
+key = "Mod+3"
+action = "focus-workspace 3"
+
+[[workspace_binds]]
+key = "Mod+Shift+3"
+action = "move-column-to-workspace 3"
+
+[[workspace_binds]]
+key = "Mod+4"
+action = "focus-workspace 4"
+
+[[workspace_binds]]
+key = "Mod+Shift+4"
+action = "move-column-to-workspace 4"
+
+[[workspace_binds]]
+key = "Mod+5"
+action = "focus-workspace 5"
+
+[[workspace_binds]]
+key = "Mod+Shift+5"
+action = "move-column-to-workspace 5"
+
+[[workspace_binds]]
+key = "Mod+6"
+action = "focus-workspace 6"
+
+[[workspace_binds]]
+key = "Mod+Shift+6"
+action = "move-column-to-workspace 6"
+
+[[workspace_binds]]
+key = "Mod+7"
+action = "focus-workspace 7"
+
+[[workspace_binds]]
+key = "Mod+Shift+7"
+action = "move-column-to-workspace 7"
+
+[[workspace_binds]]
+key = "Mod+8"
+action = "focus-workspace 8"
+
+[[workspace_binds]]
+key = "Mod+Shift+8"
+action = "move-column-to-workspace 8"
+
+[[workspace_binds]]
+key = "Mod+9"
+action = "focus-workspace 9"
+
+[[workspace_binds]]
+key = "Mod+Shift+9"
+action = "move-column-to-workspace 9"
+
+# Sizing & Presets
+[[sizing_binds]]
+key = "Mod+R"
+action = "switch-preset-column-width"
+
+[[sizing_binds]]
+key = "Mod+Shift+R"
+action = "reset-window-height"
+
+[[sizing_binds]]
+key = "Mod+Minus"
+action = "set-column-width \"-10%\""
+
+[[sizing_binds]]
+key = "Mod+Equal"
+action = "set-column-width \"+10%\""

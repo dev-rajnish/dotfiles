@@ -1,0 +1,39 @@
+# =============================================================================
+#  Window Manager & Desktop Geometry (env/token.kv/layout-and-window.toml)
+# =============================================================================
+
+# 📐 Geometry, Radii, Gaps & Opacity
+[geometry]
+border_width = 1
+border_radius = 0
+rounding = "none"
+lock_indicator_radius = 120
+lock_indicator_thickness = 10
+
+[gaps]
+left = 0
+right = 0
+top = -10
+bottom = -10
+all = 0
+
+[opacity]
+terminal = 0.98
+focused = "1.0"
+unfocused = "0.95"
+floating = "1.0"
+
+# 🪟 Window Specific Rules
+[[window_rules]]
+match = "is-focused=false"
+opacity = "0.75"
+draw_border_with_background = "true"
+
+[[window_rules]]
+match = "is-floating=true"
+opacity = "1.0"
+draw_border_with_background = "false"
+shadow_softness = 10
+shadow_spread = 10
+shadow_offset_x = 0
+shadow_offset_y = 12

@@ -1,1 +1,0 @@
-/nix/store/rjykql1kk19wq6s2wckpnhir3sk5y4gb-home-manager-files/.config/qutebrowser/config.py

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# config-sync: script to manage config locking, reverting, and symlinking
+
+set -e
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CONFIG_DIR="$DIR/config"
+LOCK_DIR="$DIR/config.lock"
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+command="$1"
+
+case "$command" in
+    config-lock)
+        echo "Locking config (syncing config/ to config.lock/)..."
+        rsync -av --delete "$CONFIG_DIR/" "$LOCK_DIR/"
+        echo "Done."
+        ;;
+    config-revert)
+        echo "Reverting config (syncing config.lock/ to config/)..."
+        rsync -av --delete "$LOCK_DIR/" "$CONFIG_DIR/"
+        echo "Done."
+        ;;
+    config-symlink-to-xdgconfig)
+        echo "Symlinking configs to $XDG_CONFIG_HOME..."
+        mkdir -p "$XDG_CONFIG_HOME"
+        for item in "$CONFIG_DIR"/*; do
+            if [ -e "$item" ]; then
+                base="$(basename "$item")"
+                ln -sfn "$item" "$XDG_CONFIG_HOME/$base"
+                echo "Symlinked $base"
+            fi
+        done
+        echo "Done."
+        ;;
+    *)
+        echo "Usage: $0 {config-lock|config-revert|config-symlink-to-xdgconfig}"
+        exit 1
+        ;;
+esac

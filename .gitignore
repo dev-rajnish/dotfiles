@@ -30,3 +30,4 @@ target/
 **/*.swp
 **/*.tmp
 *~
+config/

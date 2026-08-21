@@ -212,7 +212,7 @@ in rec {
   # 🪟 16. Desktop Environment & Wayland Compositor Tools
   # ---------------------------------------------------------------------------
   windowManager = with pkgs; [
-    labwc
+    nirius
     wlr-randr
     fuzzel
     mpvpaper
@@ -247,7 +247,11 @@ in rec {
     deno
     go
     rustup
-    gcc
+    # c and their Libraries
+    musl
+    clang
+    mold
+    # gcc #conflict with clang ld.bfd
     zig
     luajit
     alejandra

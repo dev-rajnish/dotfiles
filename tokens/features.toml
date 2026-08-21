@@ -1,0 +1,20 @@
+# =============================================================================
+#  Feature, Virtualization & Service Toggles (env/token.kv/features.toml)
+# =============================================================================
+
+enableAutoLogin = true
+enableBudgie = false
+
+enableWaydroid = false
+enableLibvirt = true
+enableAppImage = true
+enableBluetooth = false
+enableTailscale = false
+enableFirewall = false
+enableProgrammingLang = true
+enableDevPkg = true
+
+# ⚡ User ~/.cache Optimization & SSD Write-Endurance
+# cacheMode options: "overlayfs" (Writes to RAM, reads from SSD) | "tmpfs" (100% RAM) | "disk" (Normal)
+cacheMode = "tmpfs"
+cacheTmpfsSize = "1G"

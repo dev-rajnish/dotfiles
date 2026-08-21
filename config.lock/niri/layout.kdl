@@ -1,0 +1,23 @@
+// =============================================================================
+//  Window Layout & Geometry
+// =============================================================================
+
+layout {
+    
+    // Automatic Column Centering
+   // center-focused-column "always"
+    // always-center-single-column
+
+    // Preset Column Widths (cycled via Mod+R)
+    preset-column-widths {
+        proportion 0.6
+        proportion 0.8
+        proportion 0.9
+    }
+
+    // Default Column Width for new windows
+    default-column-width {
+        proportion 0.6
+    }
+}
+

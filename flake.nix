@@ -2,7 +2,7 @@
 #  NixOS & Home Manager Unified Flake Configuration
 # =============================================================================
 {
-  description = "Modular NixOS & Home Manager Flake Configuration";
+  description = "Modular NixOS & Home Manager Flake Configuration (Idiomatic Flake-Parts)";
 
   # ---------------------------------------------------------------------------
   # 1. 📥 Flake Inputs
@@ -44,120 +44,54 @@
 
     # nix gui software store
     nix-software-center.url = "github:snowfallorg/nix-software-center";
+
+    # Flake Parts Framework
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   # ---------------------------------------------------------------------------
-  # 2. 📤 Flake Outputs
+  # 2. 📤 Flake Outputs (Dendritic via Flake-Parts Modules)
   # ---------------------------------------------------------------------------
   outputs = inputs @ {
     self,
-    nixpkgs,
-    nix-index-database,
-    home-manager,
-    stylix,
-    zen-browser,
+    flake-parts,
     treefmt-nix,
-    nix-software-center,
     ...
-  }: let
-    # Load unified environment configuration and package manifest
-    inherit (import ./env) env pkgList;
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = ["x86_64-linux"];
 
-    # Arguments passed to all sub-modules
-    sharedArgs =
-      env
-      // {
-        inherit
-          inputs
-          self
-          nixpkgs
-          nix-index-database
-          home-manager
-          stylix
-          zen-browser
-          treefmt-nix
-          pkgList
-          env
-          ;
+      imports = [
+        treefmt-nix.flakeModule
+        ./flake-modules/hosts.nix
+      ];
+
+      # Per-System Configurations (Formatting, Checks, DevShells)
+      perSystem = {
+        config,
+        pkgs,
+        ...
+      }: {
+        # Treefmt formatting rules
+        treefmt.config = {
+          projectRootFile = "flake.nix";
+          settings.global.excludes = [
+            "*.png"
+            "*.jpg"
+            "*.jpeg"
+            "*.scm"
+            "*.xml"
+            "templates/*"
+            "templates/**/*"
+          ];
+          programs.alejandra.enable = true;
+          programs.fish_indent.enable = false;
+          programs.shfmt.enable = true;
+          programs.taplo.enable = true;
+          programs.prettier.enable = true;
+          programs.ruff-format.enable = true;
+          programs.stylua.enable = true;
+        };
       };
-
-    # Import nixpkgs with unfree software support
-    pkgs = import nixpkgs {
-      inherit (env) system;
-      config.allowUnfree = true;
     };
-
-    # Treefmt formatting rules
-    treefmtEval = treefmt-nix.lib.evalModule pkgs {
-      projectRootFile = "flake.nix";
-      settings.global.excludes = [
-        "*.png"
-        "*.jpg"
-        "*.jpeg"
-        "*.scm"
-        "*.xml"
-        "templates/*"
-        "templates/**/*"
-      ];
-      programs.alejandra.enable = true;
-      programs.fish_indent.enable = true;
-      programs.shfmt.enable = true;
-      programs.taplo.enable = true;
-      programs.prettier.enable = true;
-      programs.ruff-format.enable = true;
-      programs.stylua.enable = true;
-    };
-  in {
-    # Flake check: verify code formatting
-    checks.${env.system}.formatting = treefmtEval.config.build.check self;
-
-    # -------------------------------------------------------------------------
-    # ❄️ NixOS System Configuration
-    # -------------------------------------------------------------------------
-    nixosConfigurations.${env.hostname} = nixpkgs.lib.nixosSystem {
-      inherit pkgs;
-      inherit (env) system;
-      specialArgs = sharedArgs;
-
-      modules = [
-        ./nixos/configuration.nix
-        nix-index-database.nixosModules.default
-        stylix.nixosModules.stylix
-        # Optional: wrap and install comma command-not-found helper
-        {programs.nix-index-database.comma.enable = true;}
-
-        # Integrated Home Manager Module
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            backupFileExtension = "backup";
-            sharedModules = [
-              nix-index-database.homeModules.default
-            ];
-            users.${env.username} = import ./home-manager/home.nix;
-            extraSpecialArgs = sharedArgs;
-          };
-        }
-      ];
-    };
-
-    # -------------------------------------------------------------------------
-    # 🏠 Standalone Home Manager Configuration
-    # -------------------------------------------------------------------------
-    homeConfigurations.${env.username} = home-manager.lib.homeManagerConfiguration {
-      inherit pkgs;
-      extraSpecialArgs = sharedArgs;
-
-      modules = [
-        ./home-manager/home.nix
-        stylix.homeModules.stylix
-        nix-index-database.homeModules.default
-      ];
-    };
-
-    # Treefmt CLI wrapper (`nix fmt`)
-    formatter.${env.system} = treefmtEval.config.build.wrapper;
-  };
 }

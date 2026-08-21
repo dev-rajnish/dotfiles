@@ -2,9 +2,9 @@
 #  NixOS & Home Manager Dotfiles Task Runner (justfile)
 # =============================================================================
 
-# Dynamically extract host and user variables from env/tokens/system.toml
-hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/tokens/system.toml 2>/dev/null || sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/settings/system.toml 2>/dev/null | head -n 1`
-username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/tokens/system.toml 2>/dev/null || sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/settings/system.toml 2>/dev/null | head -n 1`
+# Dynamically extract host and user variables from tokens/system.toml
+hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null || sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/settings/system.toml 2>/dev/null | head -n 1`
+username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null || sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/settings/system.toml 2>/dev/null | head -n 1`
 
 # Default recipe: List available commands
 default:
@@ -15,9 +15,9 @@ default:
 # 📄 Template & Theme Management (Lua Engine)
 # -----------------------------------------------------------------------------
 
-# Render all Mustache templates from env/ tokens into config/
+# Render all Mustache templates into config/
 render:
-    lua bin/sl-render
+    ./bin/sl-render.py
 
 # Switch desktop theme interactively or by name (e.g. `just theme tokyo-night`)
 theme name="":
@@ -107,3 +107,19 @@ gc:
     nix-collect-garbage --delete-older-than 7d
     nix store optimise
     echo "✔ Nix store garbage collected and hard-links optimized"
+
+# -----------------------------------------------------------------------------
+# 🔧 Config Synchronization
+# -----------------------------------------------------------------------------
+
+# Sync config/ to config.lock/
+config-lock:
+    bin/config-sync config-lock
+
+# Revert config/ from config.lock/
+config-revert:
+    bin/config-sync config-revert
+
+# Symlink contents of config/ to ~/.config/
+config-symlink-to-xdgconfig:
+    bin/config-sync config-symlink-to-xdgconfig
