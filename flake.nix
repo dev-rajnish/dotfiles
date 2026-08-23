@@ -42,8 +42,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nix gui software store
-    nix-software-center.url = "github:snowfallorg/nix-software-center";
+    # Fast recursive module importer for dendritic architecture
+    import-tree.url = "github:vic/import-tree";
 
     # Flake Parts Framework
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -63,7 +63,7 @@
 
       imports = [
         treefmt-nix.flakeModule
-        ./flake-modules/hosts.nix
+        (inputs.import-tree ./flake-modules)
       ];
 
       # Per-System Configurations (Formatting, Checks, DevShells)

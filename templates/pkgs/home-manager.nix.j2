@@ -1,0 +1,22 @@
+# =============================================================================
+#  Home Manager User Packages Module
+#  Auto-generated from tokens/pkgs/hm-pkgs.toml via MiniJinja (bin/pkg-render)
+# =============================================================================
+{ pkgs, env, ... }: {
+  home-manager.users.${env.username} = {
+    home.packages = with pkgs; [
+      {%- for name, cat in hm|items %}
+      {%- if cat.enable %}
+      # {{ name }}
+      {%- for p in cat.pkgs %}
+      {{ p }}
+      {%- endfor %}
+      {%- endif %}
+      {%- endfor %}
+    ];
+    programs.home-manager.enable = true;
+    programs.nix-index.enable = true;
+    programs.man.enable = false;
+    manual.manpages.enable = false;
+  };
+}

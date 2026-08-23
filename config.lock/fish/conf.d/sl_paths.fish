@@ -3,5 +3,15 @@
 # =============================================================================
 
 
-fish_add_path -g 
+fish_add_path -g "~/.local/bin"
+
+fish_add_path -g "~/.cargo/bin"
+
+fish_add_path -g "~/.nix-profile/bin"
+
+fish_add_path -g "/etc/profiles/per-user/rsh/bin"
+
+fish_add_path -g "~/agy-conv/"
+
+fish_add_path -g "/dev/shm/x86_64-unknown-linux-musl/release/"
 

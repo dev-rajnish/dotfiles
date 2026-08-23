@@ -3,19 +3,39 @@
 # =============================================================================
 
 [alias]
-".sl" = "cd ~/.config/shoelace/"
-"sl" = "cd ~/shoelace"
-"d" = "cd ~/shoelace"
-"c" = "cd ~/.config"
-"ls" = "eza --icons --group-directories-first"
-"ll" = "eza -l --icons --git --group-directories-first"
-"la" = "eza -la --icons --git --group-directories-first"
-"lt" = "eza --tree --icons --level=2"
-"cat" = "bat --style=header,grid"
-"top" = "btop"
-"q" = "exit"
-"n" = "niri"
-"pkg-in" = "nvim ~/shoelace/packages.nix"
-"sl-path" = "nvim ~/shoelace/tokens/shell.d/path.toml"
-"sl-alias" = "nvim ~/shoelace/tokens/shell.d/alias.toml ~/shoelace/tokens/shell.d/env.toml"
-"sl-appearance" = "nvim ~/shoelace/tokens/layout-and-window.toml ~/shoelace/tokens/ui.toml"
+
+sl = "cd ~/.config/shoelace/"
+
+d = "cd ~/shoelace"
+
+c = "cd ~/.config"
+
+ls = "eza --icons --group-directories-first"
+
+ll = "eza -l --icons --git --group-directories-first"
+
+la = "eza -la --icons --git --group-directories-first"
+
+lt = "eza --tree --icons --level=2"
+
+cat = "bat --style=header,grid"
+
+top = "btop"
+
+q = "exit"
+
+n = "niri"
+
+pkg-in = "nvim ~/shoelace/tokens/pkgs/hm-pkgs.toml"
+
+add-path = "nvim ~/shoelace/tokens/shell.d/path.toml"
+
+add-alias = "nvim ~/shoelace/tokens/shell.d/alias.toml ~/shoelace/tokens/shell.d/env.toml"
+
+add-env = "nvim  ~/shoelace/tokens/shell.d/env.toml"
+
+add-var = "nvim  ~/shoelace/tokens/shell.d/env.toml"
+
+add-variables = "nvim  ~/shoelace/tokens/shell.d/env.toml"
+
+edit-appearance = "nvim ~/shoelace/tokens/layout-and-window.toml ~/shoelace/tokens/ui.toml"

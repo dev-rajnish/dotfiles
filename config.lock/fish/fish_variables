@@ -1,3 +1,4 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export CARGO_TARGET_DIR:/dev/shm/cargo
 SETUVAR __fish_initialized:4300

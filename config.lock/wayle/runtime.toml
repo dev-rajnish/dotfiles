@@ -20,37 +20,32 @@ button-border-width = 0
 [[bar.layout]]
 monitor = "*"
 show = true
-left = ["custom-nixos-launcher", "niri-workspaces", "window-title"]
-center = ["media", "clock"]
+left = [
+    "custom-nixos-launcher",
+    "niri-workspaces",
+    "window-title",
+]
+center = [
+    "media",
+    "clock",
+]
 right = [
-  "systray",
-  "ram",
-  "cpu",
-  "network",
-  "bluetooth",
-  "notifications",
-  "volume",
-  "brightness",
-  "custom-cpu-temp",
-  "battery",
-  "power",
+    "systray",
+    "ram",
+    "cpu",
+    "network",
+    "bluetooth",
+    "notifications",
+    "volume",
+    "brightness",
+    "custom-cpu-temp",
+    "battery",
+    "power",
 ]
 
 [styling]
 scale = 0.949999988079071
 rounding = "none"
-
-[styling.palette]
-bg = "#191724"
-surface = "#191724"
-elevated = "#26233a"
-fg = "#e0def4"
-fg-muted = "#6e6a86"
-primary = "#ebbcba"
-red = "#eb6f92"
-yellow = "#f6c177"
-green = "#31748f"
-blue = "#9ccfd8"
 
 [modules.battery]
 icon-color = "status-warning"
@@ -156,6 +151,7 @@ mode = "poll"
 interval-ms = 2000
 restart-policy = "never"
 restart-interval-ms = 1000
+format = "{{ output }}"
 hide-if-empty = false
 icon-name = "ld-thermometer-symbolic"
 icon-show = true

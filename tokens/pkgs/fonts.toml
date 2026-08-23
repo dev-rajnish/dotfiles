@@ -1,0 +1,12 @@
+# =============================================================================
+#  Fonts & Typography Manifest (tokens/pkgs/fonts.toml)
+#  Included in fonts.packages
+# =============================================================================
+
+[font_pkgs]
+pkgs = [
+  "nerd-fonts.jetbrains-mono",
+  "nerd-fonts.symbols-only",
+  "inter",
+  "noto-fonts-color-emoji",
+]

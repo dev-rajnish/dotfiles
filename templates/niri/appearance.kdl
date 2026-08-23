@@ -4,40 +4,40 @@
 
 layout {
     struts {
-        top {{gaps.top}}
-        bottom {{gaps.bottom}}
-        right {{gaps.right}}
-        left {{gaps.left}}
+        top {{ gaps.top }}
+        bottom {{ gaps.bottom }}
+        right {{ gaps.right }}
+        left {{ gaps.left }}
     }
 }
 
 window-rule {
-    geometry-corner-radius {{{geometry.border_radius}}}
+    geometry-corner-radius {{ geometry.border_radius }}
     clip-to-geometry true
 
     border {
         on
-        width {{geometry.border_width}}
+        width {{ geometry.border_width }}
     }
 
     focus-ring {
         off
-        width {{geometry.border_width}}
+        width {{ geometry.border_width }}
     }
 }
 
-{{#window_rules}}
+{% for r in window_rules %}
 window-rule {
-    match {{match}}
-    opacity {{opacity}}
-    draw-border-with-background {{draw_border_with_background}}
-{{#shadow_softness}}
+    match {{ r.match }}
+    opacity {{ r.opacity }}
+    draw-border-with-background {{ r.draw_border_with_background }}
+{% if r.shadow_softness is defined %}
     shadow {
         on
-        softness {{shadow_softness}}
-        spread {{shadow_spread}}
-        offset x={{shadow_offset_x}} y={{shadow_offset_y}}
+        softness {{ r.shadow_softness }}
+        spread {{ r.shadow_spread }}
+        offset x={{ r.shadow_offset_x }} y={{ r.shadow_offset_y }}
     }
-{{/shadow_softness}}
+{% endif %}
 }
-{{/window_rules}}
+{% endfor %}

@@ -3,13 +3,13 @@
 # =============================================================================
 
 [styling.palette]
-bg = "{{palette.bg}}"
-surface = "{{palette.bg}}"
-elevated = "{{palette.bg_alt}}"
-fg = "{{palette.fg}}"
-fg-muted = "{{palette.fg_muted}}"
-primary = "{{palette.primary}}"
-red = "{{palette.red}}"
-yellow = "{{palette.yellow}}"
-green = "{{palette.green}}"
-blue = "{{palette.blue}}"
+bg = "{{ palette.bg }}"
+surface = "{{ palette.bg }}"
+elevated = "{{ palette.bg_alt }}"
+fg = "{{ palette.fg }}"
+fg-muted = "{{ palette.fg_muted }}"
+primary = "{{ palette.primary }}"
+red = "{{ palette.red }}"
+yellow = "{{ palette.yellow }}"
+green = "{{ palette.green }}"
+blue = "{{ palette.blue }}"

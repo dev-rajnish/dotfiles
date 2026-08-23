@@ -1,338 +1,217 @@
 #!/usr/bin/env python3
 """
-Shoelace Template Renderer (Python Educational Version)
-
-This script acts as a learning guide to teach you how to build a template 
-rendering engine in Python. We will cover:
-1. Working with files and directories (using `pathlib`).
-2. Parsing configuration files (using `tomllib` introduced in Python 3.11).
-3. Merging complex data structures (recursive dictionary merging).
-4. Building a lightweight string templating engine (Mustache syntax).
-write sl-render in python so that i can use it as learning guide so make comments like you are teaching me 
-Let's dive in!
+Shoelace Unified Master Template Renderer (sl-render)
+Dynamically renders templates from shoelace.toml using MiniJinja and deep-merged TOML tokens.
 """
 
 import os
 import sys
+import json
+import shutil
 import argparse
+import subprocess
 from pathlib import Path
 
-# Python 3.11+ comes with a built-in TOML parser called `tomllib`.
-# It's always best to use standard libraries when available to avoid external dependencies.
 try:
     import tomllib
 except ImportError:
-    print("❌ Error: This script requires Python 3.11+ for the built-in 'tomllib' module.")
+    print("❌ Error: Python 3.11+ is required for the built-in 'tomllib' module.")
     sys.exit(1)
 
 
 def get_root_dir() -> Path:
-    """
-    Determines the root directory of the dotfiles project.
-    
-    In Python, we use the `pathlib` module, which provides an object-oriented 
-    approach to handling filesystem paths. It is much cleaner than the old `os.path`.
-    """
-    # 1. Check if the user set an environment variable
+    """Finds the root directory of the dotfiles repository."""
     env_dir = os.environ.get("SHOELACE_DIR") or os.environ.get("DOTFILES_DIR")
     if env_dir:
-        return Path(env_dir).expanduser()
+        return Path(env_dir).expanduser().resolve()
 
-    # 2. Check relative to this script's location
-    # __file__ gives us the path to this specific script.
-    # .resolve() gets the absolute path, and .parents[1] gets the grandparent directory.
-    # E.g., if script is /home/rsh/_sl/bin/sl-render.py, parents[0] is bin/, parents[1] is _sl/
     script_path = Path(__file__).resolve()
     potential_root = script_path.parents[1]
-    
-    # We verify it's the root by checking for our main configuration file.
-    if (potential_root / "shoelace.toml").exists():
+    if (potential_root / "shoelace.toml").exists() or (potential_root / "tokens").exists():
         return potential_root
 
-    # 3. Fallback to current working directory
     cwd = Path.cwd()
-    if (cwd / "shoelace.toml").exists():
+    if (cwd / "shoelace.toml").exists() or (cwd / "tokens").exists():
         return cwd
 
-    # If all else fails, just return current directory
-    return Path(".")
+    return script_path.parent.parent
 
 
-def deep_merge(dict_a: dict, dict_b: dict) -> None:
-    """
-    Recursively merges dict_b into dict_a.
-    
-    Why is this needed?
-    When we load multiple TOML files, they might define the same top-level keys 
-    (like `[colors]`). If we just did `dict_a.update(dict_b)`, the entire `colors` 
-    dictionary would be overwritten! Deep merging ensures we combine nested dictionaries.
-    """
-    for key, value in dict_b.items():
-        if isinstance(value, dict):
-            # If the value is a dictionary, we need to dig deeper!
-            # We use setdefault to ensure the key exists in dict_a before we merge.
-            node = dict_a.setdefault(key, {})
-            if isinstance(node, dict):
-                deep_merge(node, value)
-            else:
-                dict_a[key] = value
-        elif isinstance(value, list) and key in dict_a and isinstance(dict_a[key], list):
-            # If it's a list, we extend (append) the items
-            dict_a[key].extend(value)
+def find_minijinja_cmd() -> list[str]:
+    """Finds the command to execute minijinja-cli."""
+    if shutil.which("minijinja-cli"):
+        return ["minijinja-cli"]
+    if shutil.which(","):
+        return [",", "minijinja-cli"]
+    if shutil.which("nix-shell"):
+        return ["nix-shell", "-p", "minijinja", "--run", "minijinja-cli"]
+
+    print("❌ Error: 'minijinja-cli' not found in PATH or via ','.")
+    sys.exit(1)
+
+
+def deep_merge(target: dict, source: dict) -> None:
+    """Recursively merges source dict into target dict."""
+    for key, value in source.items():
+        if isinstance(value, dict) and isinstance(target.get(key), dict):
+            deep_merge(target[key], value)
         else:
-            # For normal values (strings, ints), just overwrite/set the value.
-            dict_a[key] = value
+            target[key] = value
 
 
-def resolve_var(key: str, context_stack: list) -> any:
-    """
-    Resolves a variable name (like 'colors.primary') from a stack of dictionaries.
-    
-    In Mustache templates, variables can be looked up in the current context, 
-    or the parent context if they don't exist.
-    """
-    # Start checking from the most specific context (top of the stack) to the global context (bottom)
-    for context in reversed(context_stack):
-        if key in (".", "this") and not isinstance(context, dict):
-            return context
-            
-        if isinstance(context, dict):
-            # Handle nested keys like "colors.background"
-            parts = key.split(".")
-            value = context
-            found = True
-            for part in parts:
-                if isinstance(value, dict) and part in value:
-                    value = value[part]
-                else:
-                    found = False
-                    break
-            
-            # If we successfully traversed the path, return the value
-            if found:
-                return value
-                
-    # If the variable isn't found anywhere in the stack, return None
-    return None
+def collect_all_tokens(root_dir: Path, tokens_dirs: list[str]) -> dict:
+    """Scans and deep-merges all TOML token files into a unified context dictionary."""
+    unified_context = {}
+    for d in tokens_dirs:
+        dir_path = (root_dir / d) if not Path(d).is_absolute() else Path(d)
+        if not dir_path.exists():
+            continue
 
-import re
-
-def render_mustache(template: str, context_stack: list) -> str:
-    """
-    A lightweight, educational implementation of a Mustache template renderer.
-    
-    Mustache uses tags like {{variable}}. 
-    - {{name}} injects the value of `name`.
-    - {{#list}} ... {{/list}} loops over a list or conditionally shows content.
-    - {{^list}} ... {{/list}} shows content ONLY if the list is empty/false.
-    """
-    # We will use a regular expression (regex) to find all {{tags}}.
-    # The pattern \{?\{\{([#\^/]?)(.*?)\}\}\}? matches normal {{var}}, 
-    # block {{#var}}, and unescaped {{{var}}}.
-    pattern = re.compile(r'(\{?\{\{([#\^/]?)\s*(.*?)\s*\}\}\}?)')
-    
-    output = []
-    pos = 0
-    
-    while pos < len(template):
-        match = pattern.search(template, pos)
-        if not match:
-            # No more tags found, append the rest of the string
-            output.append(template[pos:])
-            break
-            
-        # Append the text that came before the tag
-        output.append(template[pos:match.start()])
-        
-        full_tag = match.group(1)
-        tag_type = match.group(2)
-        tag_name = match.group(3)
-        
-        if tag_type in ('#', '^'):
-            # This is the start of a block. We need to find the matching {{/tag_name}}
-            end_tag = f"{{{{/{tag_name}}}}}"
-            end_pos = template.find(end_tag, match.end())
-            
-            if end_pos == -1:
-                # Malformed template: no closing tag! Let's just ignore it and move on.
-                pos = match.end()
+        for toml_path in sorted(dir_path.rglob("*.toml")):
+            parts = toml_path.parts
+            if "themes" in parts or "templates" in parts or "config.lock" in parts:
                 continue
-                
-            # Extract the inner content of the block
-            block_content = template[match.end():end_pos]
-            pos = end_pos + len(end_tag) # Move our pointer past the closing tag
-            
-            # Check for the custom `#each` keyword
-            is_each = False
-            actual_var_name = tag_name
-            if tag_type == '#' and tag_name.startswith("each "):
-                is_each = True
-                actual_var_name = tag_name[5:].strip()
-                
-            # Resolve the variable to see what we should do
-            value = resolve_var(actual_var_name, context_stack)
-            is_truthy = bool(value) and value != []
-            
-            if tag_type == '#' and is_truthy:
-                if is_each and isinstance(value, dict):
-                    # Educational: We added a custom `each` command!
-                    # It turns a dictionary like {"alias": {"a": "b"}} 
-                    # into a list of {"key": "a", "value": "b"} for iteration.
-                    for k, v in value.items():
-                        context_stack.append({"key": k, "value": v})
-                        output.append(render_mustache(block_content, context_stack))
-                        context_stack.pop()
-                # If it's a list, render the block for each item
-                elif isinstance(value, list):
-                    for item in value:
-                        context_stack.append(item)
-                        output.append(render_mustache(block_content, context_stack))
-                        context_stack.pop() # Remove item after rendering
-                # If it's a dict, push it to context and render once
-                elif isinstance(value, dict):
-                    context_stack.append(value)
-                    output.append(render_mustache(block_content, context_stack))
-                    context_stack.pop()
-                # Otherwise (boolean true, string), just render once
-                else:
-                    output.append(render_mustache(block_content, context_stack))
-                    
-            elif tag_type == '^' and not is_truthy:
-                # The ^ tag renders ONLY if the value is falsey
-                output.append(render_mustache(block_content, context_stack))
-                
-        elif tag_type == '':
-            # This is a standard variable tag {{name}}
-            value = resolve_var(tag_name, context_stack)
-            if value is not None:
-                output.append(str(value))
-            pos = match.end()
-            
-        else:
-            # Catch all fallback to skip unknown tags
-            pos = match.end()
-            
-    return "".join(output)
+            if toml_path.name in ("shoelace.toml", "shoelace.config", "file.toml"):
+                continue
+
+            try:
+                with open(toml_path, "rb") as f:
+                    data = tomllib.load(f)
+                    deep_merge(unified_context, data)
+            except Exception as e:
+                print(f"⚠ Warning reading {toml_path}: {e}", file=sys.stderr)
+
+    return unified_context
+
+
+def get_category_for_mapping(app: str, tmpl: str) -> str:
+    """Classifies a template mapping into theme, appearance, shell, or pkgs."""
+    tmpl_lower = tmpl.lower()
+    app_lower = app.lower()
+
+    if app_lower == "pkgs" or tmpl_lower.startswith("pkgs/") or tmpl_lower.endswith(".nix.j2"):
+        return "pkgs"
+    if "color" in tmpl_lower or "theme" in tmpl_lower:
+        return "theme"
+    if app_lower in ("fish", "bash", "zsh", "nu", "shell") or any(k in tmpl_lower for k in ("alias", "path", "env")):
+        return "shell"
+    return "appearance"
+
+
+def render_templates(category_filter: str | None = None, quiet: bool = False) -> int:
+    """Renders templates specified in shoelace.toml using dynamic tokens."""
+    root_dir = get_root_dir()
+    config_file = root_dir / "shoelace.toml"
+
+    if not config_file.exists():
+        print(f"  \033[31m✖\033[0m Configuration not found at: {config_file}")
+        sys.exit(1)
+
+    with open(config_file, "rb") as f:
+        shoelace_cfg = tomllib.load(f)
+
+    paths_cfg = shoelace_cfg.get("paths", {})
+    templates_dir = root_dir / paths_cfg.get("templates_dir", "templates")
+    config_dir = root_dir / paths_cfg.get("config_dir", "config")
+    tokens_dirs = paths_cfg.get("tokens_dirs", ["tokens"])
+
+    # 1. Collect unified token context
+    context = collect_all_tokens(root_dir, tokens_dirs)
+    json_context = json.dumps(context)
+
+    # 2. Extract mappings
+    mappings = []
+    for key, val in shoelace_cfg.items():
+        if key == "paths" or not isinstance(val, list):
+            continue
+
+        app_name = "" if key == "mappings" else key
+        for entry in val:
+            if isinstance(entry, dict):
+                tmpl = entry.get("tmpl") or entry.get("template", "")
+                dest = entry.get("dest") or entry.get("destination", "")
+                entry_app = entry.get("app") or entry.get("app_name", app_name)
+
+                if tmpl and dest:
+                    cat = get_category_for_mapping(entry_app, tmpl)
+                    if cat == "pkgs":
+                        full_tmpl = tmpl
+                        full_dest = dest
+                    else:
+                        full_tmpl = f"{entry_app}/{tmpl}" if (entry_app and not tmpl.startswith(f"{entry_app}/")) else tmpl
+                        full_dest = f"{entry_app}/{dest}" if (entry_app and not dest.startswith(f"{entry_app}/")) else dest
+
+                    if category_filter is None or category_filter == cat:
+                        mappings.append({"tmpl": full_tmpl, "dest": full_dest, "category": cat})
+
+    minijinja_cmd = find_minijinja_cmd()
+    alejandra_cmd = shutil.which("alejandra")
+    rendered_count = 0
+
+    for m in mappings:
+        tmpl_path = templates_dir / m["tmpl"]
+        dest_path = (root_dir / m["dest"]) if m["category"] == "pkgs" or m["dest"].startswith("modules/") else (config_dir / m["dest"])
+
+        if not tmpl_path.exists():
+            if not quiet:
+                print(f"  \033[33m⚠\033[0m Missing template: {m['tmpl']} at {tmpl_path}")
+            continue
+
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        cmd = [*minijinja_cmd, "--format", "json", str(tmpl_path), "-", "-o", str(dest_path)]
+
+        try:
+            proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            _, stderr = proc.communicate(input=json_context)
+
+            if proc.returncode == 0:
+                if m["category"] == "pkgs" and alejandra_cmd:
+                    subprocess.run([alejandra_cmd, "-q", str(dest_path)], capture_output=True)
+
+                if not quiet:
+                    display_dest = str(dest_path.relative_to(root_dir))
+                    print(f"  \033[1;32m✓\033[0m Rendered: \033[1m{m['tmpl']}\033[0m -> {display_dest}")
+                rendered_count += 1
+            else:
+                print(f"  \033[31m✖\033[0m Failed to render {m['tmpl']}:\n{stderr}")
+        except Exception as e:
+            print(f"  \033[31m✖\033[0m Execution error rendering {m['tmpl']}: {e}")
+
+    return rendered_count
 
 
 def main():
-    # argparse is the standard way to handle command-line arguments in Python
-    parser = argparse.ArgumentParser(description="Shoelace Template Renderer")
-    parser.add_argument("-d", "--data", help="Custom data directory")
+    parser = argparse.ArgumentParser(description="Shoelace Unified Master Template Renderer")
+    parser.add_argument("--theme", action="store_true", help="Render theme color templates only")
+    parser.add_argument("--appearance", action="store_true", help="Render appearance/UI templates only")
+    parser.add_argument("--shell", action="store_true", help="Render shell templates only")
+    parser.add_argument("--pkgs", action="store_true", help="Render Nix package manifests only")
+    parser.add_argument("-q", "--quiet", action="store_true", help="Suppress verbose output")
     args = parser.parse_args()
 
-    # ASCII escape codes for colored terminal output! 
-    # \033[1;36m is Cyan bold, \033[0m resets the color.
-    print("\033[1;36m─── Shoelace Template Renderer (Python Educational Version) ───\033[0m")
+    category = None
+    title = "Master Renderer (sl-render)"
+    if args.theme:
+        category = "theme"
+        title = "Theme Renderer (theme-render)"
+    elif args.appearance:
+        category = "appearance"
+        title = "Appearance Renderer (appearance-render)"
+    elif args.shell:
+        category = "shell"
+        title = "Shell Renderer (shell-render)"
+    elif args.pkgs:
+        category = "pkgs"
+        title = "Package Renderer (pkg-render)"
 
-    ROOT_DIR = get_root_dir()
+    if not args.quiet:
+        print(f"\033[1;36m─── 👟 Shoelace {title} ───\033[0m")
 
-    # 1. Load the main configuration file
-    config_file = ROOT_DIR / "shoelace.toml"
-    shoelace_cfg = {}
-    
-    if config_file.exists():
-        with open(config_file, "rb") as f:
-            # tomllib requires files to be opened in binary mode ("rb")
-            shoelace_cfg = tomllib.load(f)
-        print(f"  \033[34mℹ\033[0m Loaded system config: {config_file.name}")
-    else:
-        print(f"  \033[33m⚠\033[0m Could not find shoelace.toml at {ROOT_DIR}")
+    count = render_templates(category_filter=category, quiet=args.quiet)
 
-    # Extract paths from config, or use defaults
-    paths_cfg = shoelace_cfg.get("paths", {})
-    templates_dir = ROOT_DIR / paths_cfg.get("templates_dir", "templates")
-    config_dir = ROOT_DIR / paths_cfg.get("config_dir", "config")
-    tokens_dirs = paths_cfg.get("tokens_dirs", ["tokens"])
-
-    # 2. Collect and merge all Token data
-    token_data = {}
-    
-    # We use a set to keep track of loaded files so we don't load them twice
-    loaded_files = set()
-    
-    # Determine which directories to scan for tokens
-    dirs_to_scan = [Path(args.data)] if args.data else [ROOT_DIR / d for d in tokens_dirs]
-    
-    for directory in dirs_to_scan:
-        if not directory.exists():
-            continue
-            
-        # rglob recursively searches for files matching a pattern (*.toml)
-        for toml_path in directory.rglob("*.toml"):
-            # Skip files that belong to themes, templates, or the main config itself
-            if "themes" in toml_path.parts or "templates" in toml_path.parts or toml_path.name == "shoelace.toml":
-                continue
-                
-            if toml_path not in loaded_files:
-                loaded_files.add(toml_path)
-                with open(toml_path, "rb") as f:
-                    try:
-                        parsed_toml = tomllib.load(f)
-                        deep_merge(token_data, parsed_toml)
-                        print(f"  \033[32m•\033[0m Loaded token: {toml_path.relative_to(ROOT_DIR)}")
-                    except Exception as e:
-                        print(f"  \033[31m✖\033[0m Error parsing {toml_path.name}: {e}")
-
-    # 3. Process Template Mappings
-    mappings = []
-    
-    # Iterate through our config file to find [[app_name]] mappings
-    for key, val in shoelace_cfg.items():
-        if key == "paths":
-            continue
-            
-        if isinstance(val, list):
-            app_name = "" if key == "mappings" else key
-            
-            for entry in val:
-                if isinstance(entry, dict):
-                    # dict.get() provides a safe way to retrieve values with a default
-                    tmpl = entry.get("tmpl") or entry.get("template", "")
-                    dest = entry.get("dest") or entry.get("destination", "")
-                    entry_app = entry.get("app") or entry.get("app_name", app_name)
-                    
-                    if tmpl and dest:
-                        # Ensure the app folder is prepended if not already there
-                        if entry_app and not tmpl.startswith(f"{entry_app}/"):
-                            tmpl = f"{entry_app}/{tmpl}"
-                        if entry_app and not dest.startswith(f"{entry_app}/"):
-                            dest = f"{entry_app}/{dest}"
-                            
-                        mappings.append({"tmpl": tmpl, "dest": dest})
-
-    rendered_count = 0
-
-    # 4. Render and Write!
-    for m in mappings:
-        tmpl_path = templates_dir / m["tmpl"]
-        dest_path = config_dir / m["dest"]
-
-        if tmpl_path.exists():
-            # Read the template string
-            template_content = tmpl_path.read_text(encoding="utf-8")
-            
-            # Create a context stack holding our merged token data
-            context_stack = [token_data]
-            
-            # Pass it to our engine
-            rendered_output = render_mustache(template_content, context_stack)
-            
-            # Ensure the destination parent directory exists
-            # parents=True acts like `mkdir -p`
-            dest_path.parent.mkdir(parents=True, exist_ok=True)
-            
-            # Write the result
-            dest_path.write_text(rendered_output, encoding="utf-8")
-            print(f"  \033[1;32m✓\033[0m Rendered: \033[1m{m['tmpl']}\033[0m -> {m['dest']}")
-            rendered_count += 1
-        else:
-            print(f"  \033[33m⚠\033[0m Missing template: {m['tmpl']} at {tmpl_path}")
-
-    print(f"\n\033[1;32m✨ Complete:\033[0m {rendered_count} templates rendered successfully.\n")
+    if not args.quiet:
+        print(f"\n\033[1;32m✨ Complete:\033[0m {count} templates rendered successfully.\n")
 
 
-# This is standard Python boilerplate. It ensures main() only runs if the script
-# is executed directly, not if it's imported as a module by another script.
 if __name__ == "__main__":
     main()

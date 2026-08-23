@@ -14,6 +14,7 @@ action_logout() {
 }
 
 action_suspend() {
+    pamixer --mute
     systemctl suspend
 }
 

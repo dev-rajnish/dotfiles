@@ -4,10 +4,17 @@
 
 paths = [
   "~/.local/bin",
-  "~/shoelace/bin",
+  
+  "~/shoelace/bin/",
+
   "~/.cargo/bin",
+
   "~/.nix-profile/bin",
+
   "/etc/profiles/per-user/rsh/bin",
+
   "~/agy-conv/",
+
   "/dev/shm/x86_64-unknown-linux-musl/release/",
+
 ]

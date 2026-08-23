@@ -9,9 +9,7 @@ spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XD
 // XDG Desktop Portal Initialization
 spawn-at-startup "systemctl" "--user" "restart" "xdg-desktop-portal" "xdg-desktop-portal-niri" "xdg-desktop-portal-gtk"
 
-// Polkit Authentication Agent & GNOME Keyring Daemon
-spawn-at-startup "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1"
-spawn-at-startup "gnome-keyring-daemon" "--start" "--components=secrets,pam,ssh,pkcs11"
+// Polkit Authentication Agent & GNOME Keyring Daemon auto-unlock are managed via systemd user services
 
 // Clipboard Store Daemon
 spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
@@ -22,4 +20,4 @@ spawn-at-startup "brightnessctl" "s" "80%"
 spawn-at-startup "wayle" "panel" "restart"
 
 // Swayidle Management
-spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "swaylock -f"
+//spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "swaylock -f"

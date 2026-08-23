@@ -1,372 +1,294 @@
-#!/usr/bin/env lua
--- =============================================================================
---  Shoelace Pure-Lua Theme Switcher
---  Selects theme from env/themes/*.toml, updates env/token.db/theme.toml, & renders
--- =============================================================================
+#!/usr/bin/env python3
+"""
+Shoelace Python Theme Switcher (theme-switcher)
+Selects theme from themes/*.toml, updates tokens/theme.toml, & renders theme templates.
+"""
 
-local function file_or_dir_exists(path)
-    if not path or path == "" then return false end
-    local f = io.open(path, "r")
-    if f then
-        f:close()
-        return true
-    end
-    local f_dir = io.open(path .. "/.", "r")
-    if f_dir then
-        f_dir:close()
-        return true
-    end
-    return false
-end
+import os
+import sys
+import shutil
+import tempfile
+import argparse
+import subprocess
+from pathlib import Path
 
-local function get_root_dir()
-    local env_dir = os.getenv("SHOELACE_DIR") or os.getenv("DOTFILES_DIR")
-    if env_dir and env_dir ~= "" then
-        return env_dir:gsub("^~", os.getenv("HOME") or "/home/rsh")
-    end
+try:
+    import tomllib
+except ImportError:
+    print("❌ Error: Python 3.11+ is required for the built-in 'tomllib' module.")
+    sys.exit(1)
 
-    local script_path = arg and arg[0]
-    if not script_path or script_path == "" or script_path:sub(1,1) == "=" then
-        local src = debug.getinfo(1, "S").source
-        if src and src:sub(1,1) == "@" then
-            script_path = src:sub(2)
-        end
-    end
 
-    if script_path and script_path ~= "" then
-        local p = io.popen('readlink -f "' .. script_path .. '" 2>/dev/null')
-        if p then
-            local real = p:read("*l")
-            p:close()
-            if real and real ~= "" then
-                local dir = real:match("(.*/)")
-                if dir then
-                    local root = dir:gsub("/bin/?$", "")
-                    if file_or_dir_exists(root .. "/") then
-                        return root
-                    end
-                end
-            end
-        end
-    end
+def get_root_dir() -> Path:
+    """Finds the root directory of the dotfiles repository."""
+    env_dir = os.environ.get("SHOELACE_DIR") or os.environ.get("DOTFILES_DIR")
+    if env_dir:
+        return Path(env_dir).expanduser().resolve()
 
-    local cwd_p = io.popen("pwd 2>/dev/null")
-    if cwd_p then
-        local cwd = cwd_p:read("*l")
-        cwd_p:close()
-        if cwd and file_or_dir_exists(cwd .. "/") then
-            return cwd
-        end
-    end
+    script_path = Path(__file__).resolve()
+    potential_root = script_path.parents[1]
+    if (potential_root / "shoelace.toml").exists() or (potential_root / "themes").exists():
+        return potential_root
 
-    local home = os.getenv("HOME") or ""
-    if home ~= "" then
-        local candidates = { home .. "/shoelace", home .. "/dot" }
-        for _, c in ipairs(candidates) do
-            if file_or_dir_exists(c .. "/") then return c end
-        end
-    end
+    cwd = Path.cwd()
+    if (cwd / "shoelace.toml").exists() or (cwd / "themes").exists():
+        return cwd
 
-    return "."
-end
+    return script_path.parent.parent
 
-local ROOT_DIR = get_root_dir()
-local THEMES_DIR = ROOT_DIR .. "/themes"
 
-local function find_theme_config_path()
-    local candidates = {
-        ROOT_DIR .. "/theme.toml",
-        ROOT_DIR .. "/settings/theme.toml",
-        ROOT_DIR .. "/env/token.db/theme.toml",
-        ROOT_DIR .. "/env/token.kv/theme.toml",
-        ROOT_DIR .. "/env/token/theme.toml",
-        ROOT_DIR .. "/env/theme.toml",
-    }
-    for _, path in ipairs(candidates) do
-        local f = io.open(path, "r")
-        if f then
-            f:close()
-            return path
-        end
-    end
-    return ROOT_DIR .. "/tokens/theme.toml"
-end
+def get_available_themes(themes_dir: Path) -> list[dict]:
+    """Loads all themes from the themes/ directory."""
+    themes = []
+    if not themes_dir.exists():
+        return themes
 
-local parse_toml_value
-parse_toml_value = function(val_str)
-    val_str = val_str:match("^%s*(.-)%s*$")
-    if not val_str or val_str == "" then return nil end
-    if (val_str:sub(1,1) == '"' and val_str:sub(-1) == '"') or (val_str:sub(1,1) == "'" and val_str:sub(-1) == "'") then
-        return val_str:sub(2, -2)
-    end
-    if val_str == "true" then return true end
-    if val_str == "false" then return false end
-    local num = tonumber(val_str)
-    if num ~= nil then return num end
-    return val_str
-end
+    for theme_file in sorted(themes_dir.glob("*.toml")):
+        try:
+            with open(theme_file, "rb") as f:
+                data = tomllib.load(f)
+                if "name" in data:
+                    data["_file"] = theme_file
+                    themes.append(data)
+        except Exception as e:
+            print(f"⚠ Warning: Could not parse theme {theme_file.name}: {e}", file=sys.stderr)
 
-local function load_theme_file(filepath)
-    local f = io.open(filepath, "r")
-    if not f then return nil end
-    local content = f:read("*a")
-    f:close()
-
-    local theme = { colors = {} }
-    local current_sec = "root"
-
-    for line in content:gmatch("[^\r\n]+") do
-        local clean = line:match("^%s*(.-)%s*$")
-        if clean and clean ~= "" and clean:sub(1, 1) ~= "#" then
-            local sec = clean:match("^%[([%w_%-]+)%]$")
-            if sec then
-                current_sec = sec
-            else
-                local k, v = clean:match("^([%w_%-]+)%s*=%s*(.+)$")
-                if k and v then
-                    local parsed_v = parse_toml_value(v)
-                    if current_sec == "colors" then
-                        theme.colors[k] = parsed_v
-                    else
-                        theme[k] = parsed_v
-                    end
-                end
-            end
-        end
-    end
-
-    return theme
-end
-
-local function get_available_themes()
-    local themes = {}
-    local p = io.popen('find "' .. THEMES_DIR .. '" -type f -name "*.toml" 2>/dev/null')
-    if p then
-        for line in p:lines() do
-            local th = load_theme_file(line)
-            if th and th.name then
-                table.insert(themes, th)
-            end
-        end
-        p:close()
-    end
-    table.sort(themes, function(a, b) return a.name < b.name end)
+    themes.sort(key=lambda t: t.get("name", "").lower())
     return themes
-end
 
-local function apply_theme(theme_name)
-    local themes = get_available_themes()
-    local selected = nil
-    for _, t in ipairs(themes) do
-        if t.name:lower() == theme_name:lower() or (t.display_name and t.display_name:lower() == theme_name:lower()) then
+
+def apply_theme(theme_query: str, root_dir: Path) -> bool:
+    """Applies a theme by updating tokens/theme.toml and invoking theme-render."""
+    themes_dir = root_dir / "themes"
+    themes = get_available_themes(themes_dir)
+
+    selected = None
+    q = theme_query.lower()
+    for t in themes:
+        t_name = t.get("name", "").lower()
+        t_display = t.get("display_name", "").lower()
+        if q == t_name or q == t_display or q == t_name.replace("-", " ") or q == t.get("_file", Path()).stem.lower():
             selected = t
             break
-        end
-    end
 
-    if not selected then
-        print("\27[1;31m❌ Error:\27[0m Theme '" .. theme_name .. "' not found.")
-        return false
-    end
+    if not selected:
+        print(f"\033[1;31m❌ Error:\033[0m Theme '{theme_query}' not found in {themes_dir}")
+        return False
 
-    local c = selected.colors
-    local bg = c.background or "#1e1e2e"
-    local fg = c.foreground or "#cdd6f4"
-    local cursor = c.cursor or fg
-    local color0 = c.color0 or bg
-    local color1 = c.color1 or "#f38ba8"
-    local color2 = c.color2 or "#a6e3a1"
-    local color3 = c.color3 or "#f9e2af"
-    local color4 = c.color4 or "#89b4fa"
-    local color5 = c.color5 or "#cba6f7"
-    local color6 = c.color6 or "#94e2d5"
-    local color7 = c.color7 or fg
-    local color8 = c.color8 or "#6c7086"
-    local color9 = c.color9 or color1
-    local color10 = c.color10 or color2
-    local color11 = c.color11 or "#fab387"
-    local color12 = c.color12 or color4
-    local color13 = c.color13 or color5
-    local color14 = c.color14 or color6
-    local color15 = c.color15 or fg
-    local accent = c.accent or color4
+    c = selected.get("colors", {})
+    bg = c.get("background", "#1e1e2e")
+    fg = c.get("foreground", "#cdd6f4")
+    cursor = c.get("cursor", fg)
+    color0 = c.get("color0", bg)
+    color1 = c.get("color1", "#f38ba8")
+    color2 = c.get("color2", "#a6e3a1")
+    color3 = c.get("color3", "#f9e2af")
+    color4 = c.get("color4", "#89b4fa")
+    color5 = c.get("color5", "#cba6f7")
+    color6 = c.get("color6", "#94e2d5")
+    color7 = c.get("color7", fg)
+    color8 = c.get("color8", "#6c7086")
+    color9 = c.get("color9", color1)
+    color10 = c.get("color10", color2)
+    color11 = c.get("color11", "#fab387")
+    color12 = c.get("color12", color4)
+    color13 = c.get("color13", color5)
+    color14 = c.get("color14", color6)
+    color15 = c.get("color15", fg)
+    accent = c.get("accent", color4)
 
-    local toml_out = string.format([===[# =============================================================================
-#  Theme, Palette & Color Tokens (env/token.kv/theme.toml)
-#  Auto-managed by theme-switcher
-# =============================================================================
+    name = selected.get("name", "custom")
+    display_name = selected.get("display_name", name)
+    polarity = selected.get("polarity", "dark")
 
-theme = "%s"
-polarity = "%s"
+    toml_lines = [
+        "# =============================================================================",
+        "#  Theme, Palette & Color Tokens (tokens/theme.toml)",
+        "#  Auto-managed by theme-switcher",
+        "# =============================================================================",
+        "",
+        f'theme = "{name}"',
+        f'polarity = "{polarity}"',
+        "",
+        "[palette]",
+        f'bg = "{bg}"',
+        f'bg_alt = "{color0}"',
+        f'fg = "{fg}"',
+        f'fg_muted = "{color8}"',
+        f'cursor = "{cursor}"',
+        f'primary = "{accent}"',
+        f'red = "{color1}"',
+        f'green = "{color2}"',
+        f'blue = "{color4}"',
+        f'yellow = "{color3}"',
+        f'color3 = "{color3}"',
+        'shadow = "#00000080"',
+        f'overlay_backdrop = "{bg}e0"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color0"',
+        f'hex = "{color0}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color1"',
+        f'hex = "{color1}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color2"',
+        f'hex = "{color2}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color3"',
+        f'hex = "{color3}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color4"',
+        f'hex = "{color4}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color5"',
+        f'hex = "{color5}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color6"',
+        f'hex = "{color6}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color7"',
+        f'hex = "{color7}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color8"',
+        f'hex = "{color8}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color9"',
+        f'hex = "{color9}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color10"',
+        f'hex = "{color10}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color11"',
+        f'hex = "{color11}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color12"',
+        f'hex = "{color12}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color13"',
+        f'hex = "{color13}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color14"',
+        f'hex = "{color14}"',
+        "",
+        "[[ansi_colors]]",
+        'name = "color15"',
+        f'hex = "{color15}"',
+        "",
+        "[borders]",
+        f'active = "{accent}"',
+        f'inactive = "{color8}"',
+        f'urgent = "{color1}"',
+        "",
+    ]
 
-[palette]
-bg = "%s"
-bg_alt = "%s"
-fg = "%s"
-fg_muted = "%s"
-cursor = "%s"
-primary = "%s"
-red = "%s"
-green = "%s"
-blue = "%s"
-yellow = "%s"
-color3 = "%s"
-shadow = "#00000080"
-overlay_backdrop = "%se0"
+    target_file = root_dir / "tokens" / "theme.toml"
+    target_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(target_file, "w", encoding="utf-8") as f:
+        f.write("\n".join(toml_lines))
 
-[[ansi_colors]]
-name = "color0"
-hex = "%s"
+    print(f"\033[1;32m✔ Applied theme:\033[0m \033[1m{display_name}\033[0m ({polarity})")
 
-[[ansi_colors]]
-name = "color1"
-hex = "%s"
+    # Run theme-render (or sl-render)
+    theme_render_script = root_dir / "bin" / "theme-render"
+    if theme_render_script.exists():
+        subprocess.run([str(theme_render_script)])
+    else:
+        sl_render_script = root_dir / "bin" / "sl-render"
+        if sl_render_script.exists():
+            subprocess.run([str(sl_render_script), "--theme"])
 
-[[ansi_colors]]
-name = "color2"
-hex = "%s"
+    # Reload desktop applications
+    subprocess.run("bash -c 'kill -SIGUSR1 $(pgrep kitty) 2>/dev/null || true'", shell=True)
+    subprocess.run("wayle panel restart 2>/dev/null || true", shell=True)
+    if shutil.which("notify-send"):
+        subprocess.run(["notify-send", "-i", "preferences-desktop-theme", "🌠 Theme Switcher", f"Switched to {display_name}"], stderr=subprocess.DEVNULL)
 
-[[ansi_colors]]
-name = "color3"
-hex = "%s"
+    return True
 
-[[ansi_colors]]
-name = "color4"
-hex = "%s"
 
-[[ansi_colors]]
-name = "color5"
-hex = "%s"
+def run_fuzzel_menu(root_dir: Path):
+    """Launches fuzzel dmenu to interactively pick a theme."""
+    themes_dir = root_dir / "themes"
+    themes = get_available_themes(themes_dir)
 
-[[ansi_colors]]
-name = "color6"
-hex = "%s"
+    if not themes:
+        print("No themes available.")
+        return
 
-[[ansi_colors]]
-name = "color7"
-hex = "%s"
+    name_map = {}
+    menu_lines = []
+    for t in themes:
+        icon = "🌄 " if t.get("polarity") == "light" else "🌌 "
+        dname = t.get("display_name", t.get("name"))
+        name = t.get("name")
+        label = f"{icon} {dname:<22} ({name})"
+        menu_lines.append(label)
+        name_map[label] = name
 
-[[ansi_colors]]
-name = "color8"
-hex = "%s"
+    fuzzel_cmd = shutil.which("fuzzel")
+    if not fuzzel_cmd:
+        print("fuzzel not installed, listing themes instead:")
+        for t in themes:
+            print(f"  • {t.get('name')}")
+        return
 
-[[ansi_colors]]
-name = "color9"
-hex = "%s"
+    try:
+        proc = subprocess.Popen(
+            [fuzzel_cmd, "--dmenu", "--prompt", "🎨 Theme: "],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            text=True,
+        )
+        stdout, _ = proc.communicate(input="\n".join(menu_lines))
+        choice = stdout.strip()
+        if choice and choice in name_map:
+            apply_theme(name_map[choice], root_dir)
+    except Exception as e:
+        print(f"Error launching menu: {e}")
 
-[[ansi_colors]]
-name = "color10"
-hex = "%s"
 
-[[ansi_colors]]
-name = "color11"
-hex = "%s"
+def main():
+    parser = argparse.ArgumentParser(description="Shoelace Python Theme Switcher")
+    parser.add_argument("-l", "--list", action="store_true", help="List all available themes")
+    parser.add_argument("-s", "--set", dest="theme_name", help="Set and apply a theme by name")
+    parser.add_argument("theme_positional", nargs="?", help="Theme name to apply (positional)")
+    args = parser.parse_args()
 
-[[ansi_colors]]
-name = "color12"
-hex = "%s"
+    root_dir = get_root_dir()
 
-[[ansi_colors]]
-name = "color13"
-hex = "%s"
+    if args.list:
+        themes = get_available_themes(root_dir / "themes")
+        print("\n\033[1;36m=== 🎨 Available Desktop Themes ===\033[0m")
+        for t in themes:
+            polarity = t.get("polarity", "dark")
+            tag = "\033[33m[light]\033[0m" if polarity == "light" else "\033[34m[dark]\033[0m"
+            tname = t.get("name", "")
+            dname = f"({t.get('display_name', tname)})"
+            print(f"  • \033[1m{tname:<20}\033[0m {dname:<25} {tag}")
+        print(f"\nTotal: {len(themes)} themes available in themes/\n")
+        return
 
-[[ansi_colors]]
-name = "color14"
-hex = "%s"
+    target = args.theme_name or args.theme_positional
+    if target:
+        apply_theme(target, root_dir)
+    else:
+        run_fuzzel_menu(root_dir)
 
-[[ansi_colors]]
-name = "color15"
-hex = "%s"
 
-[borders]
-active = "%s"
-inactive = "%s"
-urgent = "%s"
-]===],
-        selected.name,
-        selected.polarity or "dark",
-        bg, color0, fg, color8, cursor, accent, color1, color2, color4, color3, color3, bg,
-        color0, color1, color2, color3, color4, color5, color6, color7,
-        color8, color9, color10, color11, color12, color13, color14, color15,
-        accent, color8, color1
-    )
-
-    local target_file = find_theme_config_path()
-    local f = io.open(target_file, "w")
-    if not f then
-        print("\27[1;31m❌ Error writing to:\27[0m " .. target_file)
-        return false
-    end
-    f:write(toml_out)
-    f:close()
-
-    print(string.format("\27[1;32m✔ Applied theme:\27[0m \27[1m%s\27[0m (%s)", selected.display_name or selected.name, selected.polarity or "dark"))
-
-    -- Trigger sl-render
-    os.execute('"' .. ROOT_DIR .. '/bin/sl-render"')
-
-    -- Reload desktop apps
-    -- os.execute('niri msg action reload-config 2>/dev/null || true')
-    os.execute("bash -c 'kill -SIGUSR1 $(pgrep kitty) 2>/dev/null || true'")
-    os.execute('notify-send -i preferences-desktop-theme "🌠 Theme Switcher" "Switched to ' .. (selected.display_name or selected.name) .. '" 2>/dev/null || true')
-
-    return true
-end
-
-local function run_fuzzel_menu()
-    local themes = get_available_themes()
-    local menu_lines = {}
-    local name_map = {}
-
-    for _, t in ipairs(themes) do
-        local icon = (t.polarity == "light") and "🌄 " or "🌌 "
-        local label = string.format("%s %-20s (%s)", icon, t.display_name or t.name, t.name)
-        table.insert(menu_lines, label)
-        name_map[label] = t.name
-    end
-
-    local tmp_path = "/tmp/sl_theme_menu_" .. os.time() .. "_" .. os.getenv("USER")
-    local tmp_f = io.open(tmp_path, "w")
-    if not tmp_f then return end
-    tmp_f:write(table.concat(menu_lines, "\n") .. "\n")
-    tmp_f:close()
-
-    local cmd = 'fuzzel --dmenu --prompt "🎨 Theme: " < "' .. tmp_path .. '" 2>/dev/null'
-    local p = io.popen(cmd)
-    local choice = nil
-    if p then
-        choice = p:read("*l")
-        p:close()
-    end
-    os.remove(tmp_path)
-
-    if choice and choice ~= "" then
-        local matched_name = name_map[choice]
-        if matched_name then
-            apply_theme(matched_name)
-        end
-    end
-end
-
--- CLI Entrypoint
-local arg1 = arg[1]
-if arg1 == "--list" or arg1 == "-l" then
-    local themes = get_available_themes()
-    print("\n\27[1;36m=== 🎨 Available Desktop Themes ===\27[0m")
-    for _, t in ipairs(themes) do
-        local tag = (t.polarity == "light") and "\27[33m[light]\27[0m" or "\27[34m[dark]\27[0m"
-        print(string.format("  • \27[1m%-20s\27[0m %-25s %s", t.name, "(" .. (t.display_name or t.name) .. ")", tag))
-    end
-    print(string.format("\nTotal: %d themes available in env/themes/\n", #themes))
-elseif arg1 == "--set" or arg1 == "-s" then
-    local theme_name = arg[2]
-    if not theme_name or theme_name == "" then
-        print("Usage: theme-switcher --set <theme-name>")
-    else
-        apply_theme(theme_name)
-    end
-elseif arg1 and arg1 ~= "" and arg1:sub(1,1) ~= "-" then
-    apply_theme(arg1)
-else
-    run_fuzzel_menu()
-end
+if __name__ == "__main__":
+    main()

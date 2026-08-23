@@ -1,10 +1,10 @@
-{ config, 
+{
+  config,
   pkgs,
   lib,
   env,
   ...
-}:
-let
+}: let
   cfg = config.mySystem.theme.stylix-system;
 in {
   options.mySystem.theme.stylix-system = {
@@ -13,30 +13,40 @@ in {
 
   config = lib.mkIf cfg.enable (
     let
-  theme = env.theme or "rose-pine";
-  resolveScheme = t: let
-    direct = "${pkgs.base16-schemes}/share/themes/${t}.yaml";
-    withDark = "${pkgs.base16-schemes}/share/themes/${t}-dark.yaml";
-    tokyo = "${pkgs.base16-schemes}/share/themes/tokyo-night-dark.yaml";
-    fallback = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
-  in
-    if builtins.pathExists direct
-    then direct
-    else if builtins.pathExists withDark
-    then withDark
-    else if t == "tokyo-night"
-    then tokyo
-    else fallback;
-in {
-  # ---------------------------------------------------------------------------
-  # 🎨 NixOS System-Level Stylix Configuration
-  # ---------------------------------------------------------------------------
-  stylix = {
-    enable = true;
-    enableReleaseChecks = false;
-    autoEnable = false;
-    base16Scheme = resolveScheme theme;
-  };
-}
+      theme = env.theme or "rose-pine";
+      polarity = env.polarity or "dark";
+
+      themeMap = {
+        "catppuccin-latte" = "catppuccin-latte";
+        "catppuccin-mocha" = "catppuccin-mocha";
+        "cyberpunk" = "tokyo-night-dark";
+        "dracula" = "dracula";
+        "everforest-dark" = "everforest-dark-medium";
+        "gruvbox-dark" = "gruvbox-dark-medium";
+        "gruvbox-light" = "gruvbox-light-medium";
+        "kanagawa" = "kanagawa";
+        "monokai-pro" = "monokai";
+        "nord" = "nord";
+        "one-dark" = "onedark";
+        "rose-pine" = "rose-pine";
+        "rose-pine-dawn" = "rose-pine-dawn";
+        "tokyo-night" = "tokyo-night-dark";
+        "tokyo-night-day" = "tokyo-night-light";
+      };
+
+      schemeName = themeMap.${theme} or "rose-pine";
+      schemeFile = "${pkgs.base16-schemes}/share/themes/${schemeName}.yaml";
+    in {
+      # ---------------------------------------------------------------------------
+      # 🎨 NixOS System-Level Stylix Configuration
+      # ---------------------------------------------------------------------------
+      stylix = {
+        enable = true;
+        enableReleaseChecks = false;
+        autoEnable = false;
+        polarity = polarity;
+        base16Scheme = schemeFile;
+      };
+    }
   );
 }

@@ -1,0 +1,16 @@
+# =============================================================================
+#  FHS Sandbox Build Essentials Manifest (tokens/pkgs/fhs.toml)
+#  Included in buildFHSEnv targetPkgs
+# =============================================================================
+
+[fhs]
+pkgs = [
+  "cmake",
+  "gcc",
+  "glibc.dev",
+  "gnumake",
+  "libxml2.dev",
+  "openssl.dev",
+  "pkg-config",
+  "zlib.dev",
+]

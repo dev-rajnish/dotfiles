@@ -13,10 +13,10 @@
 - **NixOS 26.05 Flake**: Fully reproducible system and Home Manager architecture.
 - **Single Source of Truth (`env/`)**: Unified TOML identity tokens for system options, typography, layouts, and apps.
 - **Niri Wayland Compositor**: Scrollable column tiling layout with custom session execution.
-- **Pure-Lua Template Engine (`sl-render`)**: Fast Mustache renderer parsing TOML tokens into `config/`.
+- **Jinja Template Engine (`sl-render`)**: Fast Jinja2/MiniJinja renderer parsing TOML tokens into `config/`.
 - **Dynamic Base16 Theming**: 15 pre-configured color schemes selectable via Fuzzel (`just theme`).
 - **Live Symlinks (`mkOutOfStoreSymlink`)**: Instant dotfile updates without store rebuilding.
-- **Central Package Manifest (`env/packages.nix`)**: Categorized user and system Nix package listings.
+- **Modular Package Manifests (`tokens/pkgs/`)**: Jinja-rendered package modules under `modules/pkgs/` (`system`, `font`, `nix-ld`, `fhs`, `home-manager`).
 - **Modern Shell Suite**: Fish shell, Starship prompt, custom completions, and `Distrobox` integration.
 - **Comprehensive Hardware & Virtualization**: AMD GPU, PipeWire audio, Kanata remapper, `iwd` Wi-Fi, AppImage & Libvirt QEMU/KVM support.
 
@@ -147,7 +147,7 @@
 ### 2. Daily Life Usage & Task Runner (`just`)
 
 - **🎨 Theming & Template Rendering**:
-  - `just render`: Re-render Mustache templates from `env/tokens/` into `config/`.
+  - `just render`: Re-render Jinja templates from `tokens/` into `config/`.
   - `just theme`: Launch interactive Fuzzel theme selector menu.
   - `just theme [name]`: Apply specific theme directly (e.g. `just theme tokyo-night`).
   - `just themes`: List all 15 available Base16 color themes in `env/themes/`.
@@ -187,14 +187,14 @@
   - Direct target configs live in `config/` (`fish/`, `kitty/`, `niri/`, `yazi/`, `swaylock/`, etc.).
   - Symlinked live to `~/.config/` via `mkOutOfStoreSymlink` for instant changes without rebuilds.
 
-- **Modifying Configuration Templates (`env/templates/`)**:
-  - Edit Mustache templates (`*.mustache`) to customize generated output structure.
+- **Modifying Configuration Templates (`templates/`)**:
+  - Edit Jinja templates to customize generated output structure.
   - Run `just render` to populate updated configurations into `config/`.
 
-- **Adding New Nix Packages (`env/packages.nix`)**:
-  - Open `env/packages.nix`.
-  - Append package attribute names to `systemPackages` or `userPackages`.
-  - Apply changes via `just sync`.
+- **Adding New Nix Packages (`tokens/pkgs/`)**:
+  - Edit TOML manifests (`system.toml`, `hm-pkgs.toml`, `fhs.toml`, `nix-ld.toml`, `fonts.toml`).
+  - Run `just pkg-render` (or `just render`) to re-generate `modules/pkgs/`.
+  - Apply changes via `just sync` (or `just home` / `just switch`).
 
 - **Adding Custom System or User Modules**:
   - System modules: Create `.nix` file in `nixos/` and reference in `nixos/configuration.nix`.
@@ -208,7 +208,7 @@
 .
 ├── bin/                       # Executable helper scripts
 │   ├── power-menu             # Wayland session logout / power menu script
-│   ├── sl-render              # Pure Lua Mustache template renderer engine
+│   ├── sl-render              # Jinja template renderer engine (MiniJinja / TOML tokens)
 │   └── theme-switcher         # Fuzzel interactive Base16 theme switcher
 ├── config/                    # Live application dotfiles (symlinked directly to ~/.config)
 │   ├── autostart-script       # Startup script launcher for desktop apps
@@ -234,7 +234,7 @@
 │   ├── packages.nix           # Categorized Nix system and user package manifests
 │   ├── shoelace.config        # Template engine configuration parameters
 │   ├── shoelace.toml          # Central template rendering map
-│   ├── templates/             # Mustache templates rendered into config/
+│   ├── templates/             # Jinja templates rendered into config/
 │   ├── themes/                # Base16 color palette library (15 themes)
 │   └── tokens/                # Modular TOML configuration tokens
 ├── home-manager/              # Home Manager user-level configuration

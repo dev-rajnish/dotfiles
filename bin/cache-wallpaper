@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# =============================================================================
+#  Shoelace Wallpaper Cacher (bin/cache-wallpaper)
+#  Caches selected wallpaper to ./background and reloads swaybg daemon
+# =============================================================================
+
+set -euo pipefail
+
+# 1. Determine dotfiles / shoelace root directory
+ROOT_DIR="${SHOELACE_DIR:-${DOTFILES_DIR:-}}"
+if [ -z "$ROOT_DIR" ]; then
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    if [ -f "$SCRIPT_DIR/../shoelace.toml" ] || [ -d "$SCRIPT_DIR/../tokens" ]; then
+        ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+    elif [ -d "$HOME/shoelace" ]; then
+        ROOT_DIR="$HOME/shoelace"
+    elif [ -d "$HOME/sl" ]; then
+        ROOT_DIR="$HOME/sl"
+    else
+        ROOT_DIR="$HOME/.config"
+    fi
+fi
+
+WALLPAPER="${1:-}"
+
+# Expand leading tilde if present
+WALLPAPER="${WALLPAPER/#\~/$HOME}"
+TARGET="$ROOT_DIR/background"
+
+# 2. Cache the wallpaper image to ./background
+if [ -n "$WALLPAPER" ] && [ -f "$WALLPAPER" ]; then
+    REAL_SRC="$(realpath "$WALLPAPER" 2>/dev/null || echo "$WALLPAPER")"
+    REAL_DEST="$(realpath "$TARGET" 2>/dev/null || echo "$TARGET")"
+
+    if [ "$REAL_SRC" != "$REAL_DEST" ]; then
+        echo "Caching wallpaper: $WALLPAPER -> $TARGET"
+        cp -f "$WALLPAPER" "$TARGET"
+    else
+        echo "Wallpaper already matches $TARGET"
+    fi
+
+    # Also update ~/.config/background directly if it is not an existing symlink
+    if [ ! -L "$HOME/.config/background" ]; then
+        REAL_CFG="$(realpath "$HOME/.config/background" 2>/dev/null || echo "$HOME/.config/background")"
+        if [ "$REAL_SRC" != "$REAL_CFG" ]; then
+            mkdir -p "$HOME/.config"
+            cp -f "$WALLPAPER" "$HOME/.config/background"
+        fi
+    fi
+elif [ -f "$TARGET" ]; then
+    echo "Using existing cached wallpaper at $TARGET"
+else
+    echo "❌ Error: No valid wallpaper specified and no $TARGET found." >&2
+    exit 1
+fi
+
+# 3. Reload / restart swaybg user service
+if command -v systemctl &>/dev/null && systemctl --user is-active --quiet swaybg 2>/dev/null; then
+    systemctl --user restart swaybg 2>/dev/null || true
+elif pgrep -x swaybg &>/dev/null; then
+    pkill -x swaybg 2>/dev/null || true
+    if command -v swaybg &>/dev/null && [ -f "$TARGET" ]; then
+        swaybg -i "$TARGET" -m fill &
+    fi
+fi
+
+# 4. Notify user
+if command -v notify-send &>/dev/null; then
+    notify-send -i preferences-desktop-wallpaper "Wallpaper Updated" "Cached wallpaper to ./background" 2>/dev/null || true
+fi

@@ -3,35 +3,35 @@
 // =============================================================================
 
 layout {
-    background-color "{{palette.bg}}"
+    background-color "{{ palette.bg }}"
 
     border {
-        active-color "{{borders.active}}"
-        inactive-color "{{borders.inactive}}"
-        urgent-color "{{borders.urgent}}"
+        active-color "{{ borders.active }}"
+        inactive-color "{{ borders.inactive }}"
+        urgent-color "{{ borders.urgent }}"
     }
 
     focus-ring {
-        active-color "{{borders.active}}"
-        inactive-color "{{borders.inactive}}"
-        urgent-color "{{borders.urgent}}"
+        active-color "{{ borders.active }}"
+        inactive-color "{{ borders.inactive }}"
+        urgent-color "{{ borders.urgent }}"
     }
 
     shadow {
-        color "{{palette.shadow}}"
+        color "{{ palette.shadow }}"
     }
 
     tab-indicator {
-        active-color "{{borders.active}}"
-        inactive-color "{{borders.inactive}}"
-        urgent-color "{{borders.urgent}}"
+        active-color "{{ borders.active }}"
+        inactive-color "{{ borders.inactive }}"
+        urgent-color "{{ borders.urgent }}"
     }
 
     insert-hint {
-        color "{{borders.active}}80"
+        color "{{ borders.active }}80"
     }
 }
 
 overview {
-    backdrop-color "{{palette.overlay_backdrop}}"
+    backdrop-color "{{ palette.overlay_backdrop }}"
 }

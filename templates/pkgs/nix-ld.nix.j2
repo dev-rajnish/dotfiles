@@ -1,0 +1,14 @@
+# =============================================================================
+#  nix-ld Dynamic Linker Libraries Module
+#  Auto-generated from tokens/pkgs/nix-ld.toml via MiniJinja (bin/pkg-render)
+# =============================================================================
+{ pkgs, ... }: {
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      {%- for p in nix_ld.pkgs %}
+      {{ p }}
+      {%- endfor %}
+    ];
+  };
+}

@@ -3,35 +3,39 @@
 # =============================================================================
 
 
-alias .sl="cd ~/.config/shoelace/"
+abbr --add sl cd ~/.config/shoelace/
 
-alias sl="cd ~/shoelace"
+abbr --add d cd ~/shoelace
 
-alias d="cd ~/shoelace"
+abbr --add c cd ~/.config
 
-alias c="cd ~/.config"
+abbr --add ls eza --icons --group-directories-first
 
-alias ls="eza --icons --group-directories-first"
+abbr --add ll eza -l --icons --git --group-directories-first
 
-alias ll="eza -l --icons --git --group-directories-first"
+abbr --add la eza -la --icons --git --group-directories-first
 
-alias la="eza -la --icons --git --group-directories-first"
+abbr --add lt eza --tree --icons --level=2
 
-alias lt="eza --tree --icons --level=2"
+abbr --add cat bat --style=header,grid
 
-alias cat="bat --style=header,grid"
+abbr --add top btop
 
-alias top="btop"
+abbr --add q exit
 
-alias q="exit"
+abbr --add n niri
 
-alias n="niri"
+abbr --add pkg-in nvim ~/shoelace/tokens/pkgs/hm-pkgs.toml
 
-alias pkg-in="nvim ~/shoelace/packages.nix"
+abbr --add add-path nvim ~/shoelace/tokens/shell.d/path.toml
 
-alias sl-path="nvim ~/shoelace/tokens/shell.d/path.toml"
+abbr --add add-alias nvim ~/shoelace/tokens/shell.d/alias.toml ~/shoelace/tokens/shell.d/env.toml
 
-alias sl-alias="nvim ~/shoelace/tokens/shell.d/alias.toml ~/shoelace/tokens/shell.d/env.toml"
+abbr --add add-env nvim  ~/shoelace/tokens/shell.d/env.toml
 
-alias sl-appearance="nvim ~/shoelace/tokens/layout-and-window.toml ~/shoelace/tokens/ui.toml"
+abbr --add add-var nvim  ~/shoelace/tokens/shell.d/env.toml
+
+abbr --add add-variables nvim  ~/shoelace/tokens/shell.d/env.toml
+
+abbr --add edit-appearance nvim ~/shoelace/tokens/layout-and-window.toml ~/shoelace/tokens/ui.toml
 

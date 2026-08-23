@@ -2,9 +2,9 @@
   config,
   lib,
   pkgs,
+  env,
   ...
-}:
-let
+}: let
   cfg = config.mySystem.hardware.intel;
 in {
   options.mySystem.hardware.intel = {
@@ -15,12 +15,12 @@ in {
     # ---------------------------------------------------------------------------
     # 🚀 Early Kernel Mode Setting (KMS) for Intel GPU
     # ---------------------------------------------------------------------------
-    boot.initrd.kernelModules = [ "i915" ];
+    boot.initrd.kernelModules = lib.mkIf (env.enableEarlyKms or false) ["i915"];
 
     # ---------------------------------------------------------------------------
     # 🖥️ Video Drivers
     # ---------------------------------------------------------------------------
-    services.xserver.videoDrivers = [ "modesetting" ];
+    services.xserver.videoDrivers = ["modesetting"];
 
     # ---------------------------------------------------------------------------
     # 🎮 Hardware Graphics Acceleration & 32-bit Support (Steam/Wine)

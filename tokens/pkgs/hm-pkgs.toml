@@ -1,0 +1,178 @@
+# =============================================================================
+#  Home Manager Categorized Packages Manifest (tokens/pkgs/hm-pkgs.toml)
+#  Each category can be enabled or disabled via boolean `enable = true / false`.
+#  Only enabled categories are compiled into `hmPackages`.
+# =============================================================================
+
+[hm.cliCore]
+enable = true
+pkgs = ["neovim", "yazi", "fd", "fzf", "tree-sitter"]
+
+[hm.cliMonitoring]
+enable = true
+pkgs = [
+  "alsa-utils",
+  "btop",
+  "duf",
+  "dust",
+  "fastfetch",
+  "fatrace",
+  "gdu",
+  "htop",
+  "iotop",
+  "lm_sensors",
+  "ncdu",
+  "nvme-cli",
+  "pciutils",
+  "powertop",
+  "radeontop",
+  "smartmontools",
+  "sysstat",
+]
+
+[hm.cliFileOps]
+enable = true
+pkgs = [
+  "bat",
+  "choose",
+  "eza",
+  "file",
+  "libsecret",
+  "minijinja",
+  "ripgrep",
+  "rsync",
+  "sd",
+  "stow",
+  "tldr",
+  "entr",
+]
+
+[hm.cliArchive]
+enable = true
+pkgs = ["ouch", "p7zip", "unrar", "zip"]
+
+[hm.cliShells]
+enable = true
+pkgs = ["fish"]
+
+[hm.cliVisuals]
+enable = true
+pkgs = ["cava", "cbonsai", "cmatrix", "glow", "zellij"]
+
+[hm.cliMedia]
+enable = true
+pkgs = ["gpu-screen-recorder", "imv"]
+
+[hm.cliHardware]
+enable = true
+pkgs = ["android-tools"]
+
+[hm.guiBrowsers]
+enable = true
+pkgs = ["google-chrome"]
+
+[hm.guiEditors]
+enable = true
+pkgs = ["vscodium-fhs", "antigravity-fhs", "zed-editor-fhs"]
+
+[hm.guiMedia]
+enable = true
+pkgs = ["mpv", "pwvucontrol"]
+
+[hm.guiDocuments]
+enable = true
+pkgs = ["readest", "zathura"]
+
+[hm.guiDesktopUtils]
+enable = true
+pkgs = [
+  "kitty",
+  "nwg-displays",
+  "file-roller",
+  "seahorse",
+  "(nemo-with-extensions.override { extensions = [ nemo-fileroller nemo-emblems nemo-python ]; })",
+]
+
+[hm.windowManager]
+enable = true
+pkgs = [
+  "nirius",
+  "wlr-randr",
+  "fuzzel",
+  "mpvpaper",
+  "swaybg",
+  "waypaper",
+  "brightnessctl",
+  "pamixer",
+  "playerctl",
+  "swayidle",
+  "swaylock-effects",
+  "wlogout",
+  "libnotify",
+  "wayle",
+  "cliphist",
+  "grim",
+  "nwg-clipman",
+  "slurp",
+  "wev",
+  "wl-clipboard",
+]
+
+[hm.virtualization]
+enable = true
+pkgs = [
+  "appimage-run",
+  "squashfsTools",
+  "distrobox",
+  "usbredir",
+  "usbutils",
+  "virt-viewer",
+  "virtiofsd",
+]
+
+[hm.programmingLang]
+enable = true
+pkgs = [
+  "python3",
+  "python3Packages.pip",
+  "python3Packages.virtualenv",
+  "uv",
+  "nodejs_22",
+  "bun",
+  "deno",
+  "go",
+  "rustup",
+  "musl",
+  "clang",
+  "mold",
+  "zig",
+  "luajit",
+  "alejandra",
+  "shfmt",
+  "shellcheck",
+  "stylua",
+  "ruff",
+  "prettier",
+  "clang-tools",
+]
+
+[hm.devPkg]
+enable = true
+pkgs = [
+  "gh",
+  "delta",
+  "difftastic",
+  "lazygit",
+  "exercism",
+  "rustlings",
+  "httpie",
+  "cloudflared",
+  "wrangler",
+  "cmake",
+  "ninja",
+  "gnumake",
+  "pkg-config",
+  "sqlite",
+  "jq",
+  "jnv",
+]

@@ -6,20 +6,20 @@ daemonize
 ignore-empty-password
 show-failed-attempts
 
-color={{palette.bg}}
-inside-color={{palette.bg_alt}}
-ring-color={{borders.active}}
-key-hl-color={{palette.primary}}
-line-color={{palette.bg}}
-separator-color={{palette.bg}}
+color={{ palette.bg }}
+inside-color={{ palette.bg_alt }}
+ring-color={{ borders.active }}
+key-hl-color={{ palette.primary }}
+line-color={{ palette.bg }}
+separator-color={{ palette.bg }}
 
-inside-ver-color={{palette.bg_alt}}
-ring-ver-color={{borders.active}}
-inside-wrong-color={{palette.bg_alt}}
-ring-wrong-color={{palette.red}}
-text-wrong-color={{palette.red}}
-text-color={{palette.fg}}
-font={{fonts.mono}}
-font-size={{sizes.desktop}}
-indicator-radius={{geometry.lock_indicator_radius}}
-indicator-thickness={{geometry.lock_indicator_thickness}}
+inside-ver-color={{ palette.bg_alt }}
+ring-ver-color={{ borders.active }}
+inside-wrong-color={{ palette.bg_alt }}
+ring-wrong-color={{ palette.red }}
+text-wrong-color={{ palette.red }}
+text-color={{ palette.fg }}
+font={{ fonts.mono }}
+font-size={{ sizes.desktop }}
+indicator-radius={{ geometry.lock_indicator_radius }}
+indicator-thickness={{ geometry.lock_indicator_thickness }}

@@ -4,42 +4,42 @@
 
 binds {
     // System & Session Binds
-{{#system_binds}}
-    {{key}}{{#allow_inhibiting_false}} allow-inhibiting=false{{/allow_inhibiting_false}}{{#allow_when_locked}} allow-when-locked=true{{/allow_when_locked}}{{#repeat_false}} repeat=false{{/repeat_false}}{{#title}} hotkey-overlay-title="{{{title}}}"{{/title}} { {{{action}}}; }
-{{/system_binds}}
+{% for b in system_binds %}
+    {{ b.key }}{% if b.allow_inhibiting_false %} allow-inhibiting=false{% endif %}{% if b.allow_when_locked %} allow-when-locked=true{% endif %}{% if b.repeat_false %} repeat=false{% endif %}{% if b.title %} hotkey-overlay-title="{{ b.title }}"{% endif %} { {{ b.action }}; }
+{% endfor %}
 
     // Application Launchers
-{{#app_binds}}
-    {{key}}{{#repeat_false}} repeat=false{{/repeat_false}}{{#title}} hotkey-overlay-title="{{{title}}}"{{/title}} { {{{action}}}; }
-{{/app_binds}}
+{% for b in app_binds %}
+    {{ b.key }}{% if b.repeat_false %} repeat=false{% endif %}{% if b.title %} hotkey-overlay-title="{{ b.title }}"{% endif %} { {{ b.action }}; }
+{% endfor %}
 
     // Hardware & Media Keys
-{{#media_binds}}
-    {{key}} allow-when-locked=true { {{{action}}}; }
-{{/media_binds}}
+{% for b in media_binds %}
+    {{ b.key }} allow-when-locked=true { {{ b.action }}; }
+{% endfor %}
 
     // Window Management & Actions
-{{#window_binds}}
-    {{key}}{{#repeat_false}} repeat=false{{/repeat_false}} { {{{action}}}; }
-{{/window_binds}}
+{% for b in window_binds %}
+    {{ b.key }}{% if b.repeat_false %} repeat=false{% endif %} { {{ b.action }}; }
+{% endfor %}
 
     // Focus Navigation
-{{#nav_binds}}
-    {{key}} { {{{action}}}; }
-{{/nav_binds}}
+{% for b in nav_binds %}
+    {{ b.key }} { {{ b.action }}; }
+{% endfor %}
 
     // Move Columns & Windows
-{{#move_binds}}
-    {{key}} { {{{action}}}; }
-{{/move_binds}}
+{% for b in move_binds %}
+    {{ b.key }} { {{ b.action }}; }
+{% endfor %}
 
     // Sizing & Presets
-{{#sizing_binds}}
-    {{key}} { {{{action}}}; }
-{{/sizing_binds}}
+{% for b in sizing_binds %}
+    {{ b.key }} { {{ b.action }}; }
+{% endfor %}
 
     // Workspaces
-{{#workspace_binds}}
-    {{key}} { {{{action}}}; }
-{{/workspace_binds}}
+{% for b in workspace_binds %}
+    {{ b.key }} { {{ b.action }}; }
+{% endfor %}
 }

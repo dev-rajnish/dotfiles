@@ -3,8 +3,8 @@
 # =============================================================================
 
 # Dynamically extract host and user variables from tokens/system.toml
-hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null || sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/settings/system.toml 2>/dev/null | head -n 1`
-username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null || sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' env/settings/system.toml 2>/dev/null | head -n 1`
+hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null | head -n 1`
+username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null | head -n 1`
 
 # Default recipe: List available commands
 default:
@@ -12,12 +12,17 @@ default:
 
 
 # -----------------------------------------------------------------------------
-# 📄 Template & Theme Management (Lua Engine)
+# 📄 Template & Theme Management (Jinja Engine)
 # -----------------------------------------------------------------------------
 
-# Render all Mustache templates into config/
+# Render all Jinja templates into config/ and modules/pkgs/
 render:
-    ./bin/sl-render.py
+    ./bin/sl-render
+    ./bin/pkg-render
+
+# Render package modules from TOML package manifests
+pkg-render:
+    ./bin/pkg-render
 
 # Switch desktop theme interactively or by name (e.g. `just theme tokyo-night`)
 theme name="":

@@ -1,10 +1,10 @@
-{ config, 
+{
+  config,
   lib,
   pkgs,
   env,
   ...
-}:
-let
+}: let
   cfg = config.mySystem.de.xfce;
 in {
   options.mySystem.de.xfce = {
@@ -13,12 +13,12 @@ in {
 
   config = lib.mkIf cfg.enable (
     let
-  enableXfce = env.enableXfce or false;
-in {
-  services.xserver = lib.mkIf enableXfce {
-    enable = true;
-    desktopManager.lxqt.enable = true;
-  };
-}
+      enableXfce = env.enableXfce or false;
+    in {
+      services.xserver = lib.mkIf enableXfce {
+        enable = true;
+        desktopManager.lxqt.enable = true;
+      };
+    }
   );
 }

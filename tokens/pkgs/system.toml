@@ -1,0 +1,19 @@
+# =============================================================================
+#  System-Wide Core Packages Manifest (tokens/pkgs/system.toml)
+#  Installed at NixOS host level (environment.systemPackages)
+# =============================================================================
+
+[system_pkgs]
+pkgs = [
+  "curl",
+  "wget",
+  "git",
+  "home-manager",
+  "just",
+  "unzip",
+  "seatd",
+  "xwayland-satellite",
+  "starship",
+  "zoxide",
+  "direnv",
+]
