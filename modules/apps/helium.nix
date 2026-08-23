@@ -54,8 +54,8 @@ in {
         extraInstallCommands = ''
           mkdir -p $out/share/applications $out/share/icons/hicolor/512x512/apps
           if [ -f ${appimageContents}/helium.desktop ]; then
-            cp ${appimageContents}/helium.desktop $out/share/applications/net.imput.helium.desktop
-            substituteInPlace $out/share/applications/net.imput.helium.desktop \
+            cp ${appimageContents}/helium.desktop $out/share/applications/helium.desktop
+            substituteInPlace $out/share/applications/helium.desktop \
               --replace-fail "Exec=helium" "Exec=$out/bin/helium --ozone-platform-hint=auto --enable-features=UseOzonePlatform,OverlayScrollbar --force-dark-mode"
           fi
           if [ -f ${appimageContents}/helium.png ]; then

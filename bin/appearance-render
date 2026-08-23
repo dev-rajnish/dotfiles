@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+"""
+Shoelace Appearance Template Renderer (appearance-render)
+Renders all UI, layout, windowing, and sizing templates from shoelace.toml using dynamic tokens.
+"""
+
+import sys
+import subprocess
+from pathlib import Path
+
+script_dir = Path(__file__).resolve().parent
+sl_render = script_dir / "sl-render"
+args = [sys.executable, str(sl_render), "--appearance"] + sys.argv[1:]
+sys.exit(subprocess.run(args).returncode)

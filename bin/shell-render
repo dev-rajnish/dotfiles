@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+"""
+Shoelace Shell Template Renderer (shell-render)
+Renders all shell environment, alias, and path templates from shoelace.toml using dynamic tokens.
+"""
+
+import sys
+import subprocess
+from pathlib import Path
+
+script_dir = Path(__file__).resolve().parent
+sl_render = script_dir / "sl-render"
+args = [sys.executable, str(sl_render), "--shell"] + sys.argv[1:]
+sys.exit(subprocess.run(args).returncode)
