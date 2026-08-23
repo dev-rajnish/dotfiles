@@ -87,6 +87,7 @@ pkgs = ["readest", "zathura"]
 enable = true
 pkgs = [
   "kitty",
+  "handlr-regex",
   "nwg-displays",
   "file-roller",
   "seahorse",

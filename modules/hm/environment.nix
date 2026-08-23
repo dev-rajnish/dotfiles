@@ -6,11 +6,6 @@
   ...
 }: let
   cfg = config.mySystem.hm.environment;
-  shoelaceBin = pkgs.runCommandLocal "shoelace-bin" {} ''
-    mkdir -p $out/bin
-    cp -a ${../../bin}/* $out/bin/
-    chmod +x $out/bin/*
-  '';
 in {
   options.mySystem.hm.environment = {
     enable = lib.mkEnableOption "environment config";
@@ -31,7 +26,6 @@ in {
         enableNixpkgsReleaseCheck = true;
 
         packages = [
-          shoelaceBin
           pkgs.dconf
         ];
 

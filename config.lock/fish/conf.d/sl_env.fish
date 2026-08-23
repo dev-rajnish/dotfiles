@@ -3,17 +3,22 @@
 # =============================================================================
 
 
-set -gx EDITOR nvim
+set -gx EDITOR codium
+set -gx VISUAL codium
 
-set -gx VISUAL nvim
 
 set -gx TERMINAL kitty
 
-set -gx BROWSER google-chrome
+
+set -gx BROWSER helium
+
+
+
 
 set -gx SHOELACE_DIR ~/shoelace
 
 set -gx SL_AGY_ALIAS ~/agy-conv/sl-agy
 
 set -gx CARGO_TARGET_DIR /dev/shm/cargo
+
 

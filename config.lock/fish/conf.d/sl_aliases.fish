@@ -3,6 +3,8 @@
 # =============================================================================
 
 
+abbr --add open handlr open
+
 abbr --add sl cd ~/.config/shoelace/
 
 abbr --add d cd ~/shoelace

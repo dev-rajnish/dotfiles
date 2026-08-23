@@ -4,6 +4,8 @@
 
 [alias]
 
+open = "handlr open"
+
 sl = "cd ~/.config/shoelace/"
 
 d = "cd ~/shoelace"
@@ -39,3 +41,8 @@ add-var = "nvim  ~/shoelace/tokens/shell.d/env.toml"
 add-variables = "nvim  ~/shoelace/tokens/shell.d/env.toml"
 
 edit-appearance = "nvim ~/shoelace/tokens/layout-and-window.toml ~/shoelace/tokens/ui.toml"
+
+# nix profile , packages 
+pkgs-add = "nix profile install nixpkgs#"
+pkgs-remove= "nix profile remove nixpkgs"
+

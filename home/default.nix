@@ -238,6 +238,8 @@ in {
     "kitty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/kitty";
     "niri".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/niri";
     "fuzzel".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/fuzzel";
+    "handlr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/handlr";
+    "mimeapps.list".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/mimeapps.list";
     "wayle".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/wayle";
     "swaylock".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/swaylock";
     "swayidle".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/swayidle";
@@ -254,34 +256,9 @@ in {
   };
 
   # ---------------------------------------------------------------------------
-  # 📁 MIME Associations
+  # 📁 Imperative MIME Management (Handled via handlr-regex & shoelace templates)
   # ---------------------------------------------------------------------------
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "text/plain" = ["nvim.desktop"];
-      "text/markdown" = ["nvim.desktop"];
-      "application/pdf" = ["zathura.desktop"];
-      "image/png" = ["imv.desktop"];
-      "image/jpeg" = ["imv.desktop"];
-      "image/gif" = ["imv.desktop"];
-      "image/webp" = ["imv.desktop"];
-      "video/mp4" = ["mpv.desktop"];
-      "video/mkv" = ["mpv.desktop"];
-      "video/webm" = ["mpv.desktop"];
-      "video/quicktime" = ["mpv.desktop"];
-      "audio/mpeg" = ["mpv.desktop"];
-      "audio/flac" = ["mpv.desktop"];
-      "audio/ogg" = ["mpv.desktop"];
-      "audio/wav" = ["mpv.desktop"];
-      "inode/directory" = ["thunar.desktop"];
-      "x-scheme-handler/http" = ["google-chrome.desktop"];
-      "x-scheme-handler/https" = ["google-chrome.desktop"];
-      "x-scheme-handler/about" = ["google-chrome.desktop"];
-      "x-scheme-handler/unknown" = ["google-chrome.desktop"];
-      "application/xhtml+xml" = ["google-chrome.desktop"];
-    };
-  };
+  xdg.mimeApps.enable = false;
 
   # ---------------------------------------------------------------------------
   # 🎨 Stylix Desktop & Base16 Scheme

@@ -41,6 +41,15 @@ dest = "sl_appearance.ini"
 tmpl = "colors.ini"
 dest = "sl_colors.ini"
 
+[[handlr]]
+tmpl = "handlr.toml"
+dest = "handlr.toml"
+
+[[mappings]]
+app = ""
+tmpl = "mimeapps.list"
+dest = "mimeapps.list"
+
 [[wayle]]
 tmpl = "appearance.toml"
 dest = "sl_appearance.toml"

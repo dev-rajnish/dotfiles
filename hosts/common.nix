@@ -20,7 +20,7 @@
 
   # Services & Display
   mySystem.services.desktop-services.enable = true;
-  mySystem.services.kanata.enable = true;
+  mySystem.keyboard.kanata.enable = true;
   mySystem.services.polkit.enable = true;
   mySystem.services.xdg-portals.enable = true;
   mySystem.display-manager.tuigreet.enable = true;
@@ -32,11 +32,14 @@
   mySystem.systemd-services.polkit-gnome.enable = true;
   mySystem.systemd-services.gnome-keyring-unlock.enable = true;
 
-  # Home Manager & Symlinks
+  # Home Manager & Environment
   mySystem.hm.environment.enable = true;
   mySystem.hm.git.enable = true;
   mySystem.hm.mime.enable = true;
-  mySystem.hm.symlinks.enable = true;
+
+  # Scripts & Dotfile Symlinks
+  mySystem.script.shoelace-bin.enable = true;
+  mySystem.symlink.symlinks.enable = true;
 
   # Desktop Apps
 

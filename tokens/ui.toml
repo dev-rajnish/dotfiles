@@ -1,7 +1,6 @@
 # =============================================================================
-#  Fonts, Cursor & Icon Tokens (env/token.kv/ui.toml)
+#  Fonts, Cursor & Icon Tokens (tokens/ui.toml)
 # =============================================================================
-theme = "rose-pine"
 
 # 🔤 Typography
 [fonts]

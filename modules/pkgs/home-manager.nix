@@ -78,6 +78,7 @@
       zathura
       # guiDesktopUtils
       kitty
+      handlr-regex
       nwg-displays
       file-roller
       seahorse

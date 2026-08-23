@@ -4,10 +4,10 @@
   config,
   ...
 }: let
-  cfg = config.mySystem.hm.symlinks;
+  cfg = config.mySystem.symlink.symlinks;
 in {
-  options.mySystem.hm.symlinks = {
-    enable = lib.mkEnableOption "symlinks config";
+  options.mySystem.symlink.symlinks = {
+    enable = lib.mkEnableOption "shoelace dotfile symlinks config";
   };
 
   config = lib.mkIf cfg.enable {
@@ -18,6 +18,8 @@ in {
         "kitty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/kitty";
         "niri".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/niri";
         "fuzzel".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/fuzzel";
+        "handlr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/handlr";
+        "mimeapps.list".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/mimeapps.list";
         "wayle".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/wayle";
         "swaylock".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/swaylock";
         "swayidle".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/swayidle";

@@ -3,7 +3,7 @@
 # =============================================================================
 
 # Dynamically extract host and user variables from tokens/system.toml
-hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null | head -n 1`
+hostname := amd
 username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null | head -n 1`
 
 # Default recipe: List available commands

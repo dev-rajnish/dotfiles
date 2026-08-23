@@ -3,18 +3,18 @@
 // =============================================================================
 
 layout {
-    background-color "#191724"
+    background-color "#1e1e2e"
 
     border {
-        active-color "#ebbcba"
-        inactive-color "#6e6a86"
-        urgent-color "#eb6f92"
+        active-color "#89b4fa"
+        inactive-color "#6c7086"
+        urgent-color "#f38ba8"
     }
 
     focus-ring {
-        active-color "#ebbcba"
-        inactive-color "#6e6a86"
-        urgent-color "#eb6f92"
+        active-color "#89b4fa"
+        inactive-color "#6c7086"
+        urgent-color "#f38ba8"
     }
 
     shadow {
@@ -22,16 +22,16 @@ layout {
     }
 
     tab-indicator {
-        active-color "#ebbcba"
-        inactive-color "#6e6a86"
-        urgent-color "#eb6f92"
+        active-color "#89b4fa"
+        inactive-color "#6c7086"
+        urgent-color "#f38ba8"
     }
 
     insert-hint {
-        color "#ebbcba80"
+        color "#89b4fa80"
     }
 }
 
 overview {
-    backdrop-color "#191724e0"
+    backdrop-color "#1e1e2ee0"
 }

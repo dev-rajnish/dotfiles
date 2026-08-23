@@ -1,1 +1,0 @@
-/home/rsh/sl/bin/theme-switcher

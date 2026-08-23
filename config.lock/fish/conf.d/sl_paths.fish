@@ -5,6 +5,8 @@
 
 fish_add_path -g "~/.local/bin"
 
+fish_add_path -g "~/shoelace/bin/"
+
 fish_add_path -g "~/.cargo/bin"
 
 fish_add_path -g "~/.nix-profile/bin"
