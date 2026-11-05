@@ -1,0 +1,51 @@
+# =============================================================================
+#  Shell Aliases & Command Shortcuts (shell/alias.toml)
+# =============================================================================
+
+[alias]
+
+open = "handlr open"
+
+sl = "cd ~/shoelace"
+
+
+d = "cd ~/shoelace"
+
+c = "cd ~/.config"
+
+ls = "eza --icons --group-directories-first"
+
+ll = "eza -l --icons --git --group-directories-first"
+
+la = "eza -la --icons --git --group-directories-first"
+
+lt = "eza --tree --icons --level=2"
+
+cat = "bat --style=header,grid"
+
+top = "btop"
+
+q = "exit"
+
+n = "niri"
+
+pkg-in = "nvim ~/shoelace/modules/home/pkgs.nix"
+
+add-path = "nvim ~/shoelace/allsettings/path.toml"
+
+add-alias = "nvim ~/shoelace/allsettings/alias.toml ~/shoelace/allsettings/env.toml"
+
+add-env = "nvim  ~/shoelace/allsettings/env.toml"
+
+add-var = "nvim  ~/shoelace/allsettings/env.toml"
+
+add-variables = "nvim  ~/shoelace/allsettings/env.toml"
+
+edit-appearance = "nvim ~/shoelace/allsettings/layout-and-window.toml ~/shoelace/allsettings/ui.toml"
+
+# nix profile , packages
+add-pkgs = "nix profile add nixpkgs#"
+
+remove-pkgs = "nix profile remove nixpkgs"
+
+# system

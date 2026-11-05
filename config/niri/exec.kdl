@@ -1,0 +1,21 @@
+// =============================================================================
+//  Startup Applications & Autostart Services (Direct Niri Execution)
+// =============================================================================
+
+// Environment Variable Synchronization for DBus & Systemd User Session
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "XDG_SESSION_DESKTOP" "DISPLAY" "SSH_AUTH_SOCK" "GNOME_KEYRING_CONTROL" "GNOME_KEYRING_PID"
+spawn-at-startup "systemctl" "--user" "import-environment" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "XDG_SESSION_DESKTOP" "DISPLAY" "SSH_AUTH_SOCK" "GNOME_KEYRING_CONTROL" "GNOME_KEYRING_PID"
+
+// XDG Desktop Portal Initialization
+spawn-at-startup "systemctl" "--user" "restart" "xdg-desktop-portal" "xdg-desktop-portal-gnome" "xdg-desktop-portal-gtk"
+
+// Polkit Authentication Agent, GNOME Keyring Daemon & Cliphist are managed via systemd user services
+
+
+// Wallpaper, Brightness & Status Bar Panel
+spawn-at-startup "wallpaper" "--restore"
+spawn-at-startup "brightnessctl" "s" "80%"
+spawn-at-startup "wayle" "panel" "restart"
+
+// Swayidle Management
+//spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "swaylock -f"

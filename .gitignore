@@ -3,7 +3,6 @@ nixos/backup
 result/
 result-*
 nixos.*
-docs/
 
 # Python cache & temporary files (Recursive wildcard patterns)
 **/__pycache__/**
@@ -30,4 +29,3 @@ target/
 **/*.swp
 **/*.tmp
 *~
-config/

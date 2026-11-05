@@ -7,7 +7,7 @@
 templates_dir = "templates"
 config_dir = "config"
 themes_dir = "themes"
-tokens_dirs = ["tokens"]
+tokens_dirs = ["allsettings"]
 
 # =============================================================================
 #  Application Template Mappings ([[appname]] -> tmpl, dest)
@@ -60,7 +60,8 @@ dest = "sl_colors.toml"
 
 [[swaylock]]
 tmpl = "config"
-dest = "sl_config"
+dest = "config"
+
 
 [[fish]]
 tmpl = "aliases.fish"
@@ -73,28 +74,3 @@ dest = "conf.d/sl_paths.fish"
 [[fish]]
 tmpl = "env.fish"
 dest = "conf.d/sl_env.fish"
-
-# =============================================================================
-#  Nix Package Module Mappings
-# =============================================================================
-
-[[pkgs]]
-tmpl = "pkgs/system.nix.j2"
-dest = "modules/pkgs/system.nix"
-
-[[pkgs]]
-tmpl = "pkgs/font.nix.j2"
-dest = "modules/pkgs/font.nix"
-
-[[pkgs]]
-tmpl = "pkgs/nix-ld.nix.j2"
-dest = "modules/pkgs/nix-ld.nix"
-
-[[pkgs]]
-tmpl = "pkgs/fhs.nix.j2"
-dest = "modules/pkgs/fhs.nix"
-
-[[pkgs]]
-tmpl = "pkgs/home-manager.nix.j2"
-dest = "modules/pkgs/home-manager.nix"
-

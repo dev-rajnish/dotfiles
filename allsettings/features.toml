@@ -1,0 +1,32 @@
+# =============================================================================
+#  Feature, Virtualization & Service Toggles (allsettings/features.toml)
+# =============================================================================
+
+# 🖥️ Display Manager & Desktop Environment
+displayManager = "tuigreet" # "tuigreet" | "ly" | "gdm"
+enableAutoLogin = false
+desktopEnvironment = "none" # "none" | "budgie" | "xfce"
+
+# ⌨️ Keyboard & Hardware
+enableKanata = true
+enableLidInhibit = true
+enableBluetooth = false
+
+# 📦 Virtualization & Containers
+enableDistrobox = true
+enableLibvirt = true
+enableAppImage = true
+enableWaydroid = false
+
+# 🌐 Networking & Security
+enableTailscale = false
+enableFirewall = false
+
+# 🛠️ Development & Packages
+enableProgrammingLang = true
+enableDevPkg = true
+
+# ⚡ User ~/.cache Optimization & SSD Write-Endurance
+# cacheMode options: "tmpfs" (100% RAM) | "overlayfs" (Writes to RAM, reads from SSD) | "disk" (Normal)
+cacheMode = "tmpfs"
+cacheTmpfsSize = "1G"

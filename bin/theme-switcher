@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Shoelace Python Theme Switcher (theme-switcher)
-Selects theme from themes/*.toml, updates tokens/theme.toml, & renders theme templates.
+Selects theme from themes/*.toml, updates allsettings/theme.toml, & renders theme templates.
 """
 
 import os
@@ -34,7 +34,17 @@ def get_root_dir() -> Path:
     if (cwd / "shoelace.toml").exists() or (cwd / "themes").exists():
         return cwd
 
+    for fallback in [
+        Path.home() / "shoelace",
+        Path.home() / "_sl",
+        Path.home() / "sl",
+        Path.home() / ".config" / "shoelace",
+    ]:
+        if (fallback / "shoelace.toml").exists():
+            return fallback.resolve()
+
     return script_path.parent.parent
+
 
 
 def get_available_themes(themes_dir: Path) -> list[dict]:
@@ -103,7 +113,7 @@ def apply_theme(theme_query: str, root_dir: Path) -> bool:
 
     toml_lines = [
         "# =============================================================================",
-        "#  Theme, Palette & Color Tokens (tokens/theme.toml)",
+        "#  Theme, Palette & Color Tokens (allsettings/theme.toml)",
         "#  Auto-managed by theme-switcher",
         "# =============================================================================",
         "",
@@ -196,7 +206,7 @@ def apply_theme(theme_query: str, root_dir: Path) -> bool:
         "",
     ]
 
-    target_file = root_dir / "tokens" / "theme.toml"
+    target_file = root_dir / "allsettings" / "theme.toml"
     target_file.parent.mkdir(parents=True, exist_ok=True)
     with open(target_file, "w", encoding="utf-8") as f:
         f.write("\n".join(toml_lines))

@@ -2,27 +2,28 @@
 #  NixOS & Home Manager Dotfiles Task Runner (justfile)
 # =============================================================================
 
-# Dynamically extract host and user variables from tokens/system.toml
-hostname := amd
-username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' tokens/system.toml 2>/dev/null | head -n 1`
+# Dynamically extract host and user variables from allsettings/system.toml
+hostname := `sed -n 's/^[[:space:]]*hostname[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' allsettings/system.toml 2>/dev/null | head -n 1`
+username := `sed -n 's/^[[:space:]]*username[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' allsettings/system.toml 2>/dev/null | head -n 1`
 
 # Default recipe: List available commands
 default:
     @just --list
+
+# Bootstrap fresh installation: render all templates directly into config/
+bootstrap:
+    ./bin/sl-render
+    @echo "✔ System dotfiles rendered successfully"
 
 
 # -----------------------------------------------------------------------------
 # 📄 Template & Theme Management (Jinja Engine)
 # -----------------------------------------------------------------------------
 
-# Render all Jinja templates into config/ and modules/pkgs/
+# Render all Jinja templates into config/
 render:
     ./bin/sl-render
-    ./bin/pkg-render
 
-# Render package modules from TOML package manifests
-pkg-render:
-    ./bin/pkg-render
 
 # Switch desktop theme interactively or by name (e.g. `just theme tokyo-night`)
 theme name="":
@@ -36,6 +37,15 @@ theme name="":
 # List all available desktop themes
 themes:
     bin/theme-switcher --list
+
+# Cache and set active wallpaper image (e.g. `just wallpaper assets/wallpaper.jpg`)
+wallpaper image="":
+    #!/usr/bin/env bash
+    if [ -z "{{image}}" ]; then
+        bin/cache-wallpaper assets/wallpaper.jpg
+    else
+        bin/cache-wallpaper "{{image}}"
+    fi
 
 
 # -----------------------------------------------------------------------------
@@ -113,18 +123,12 @@ gc:
     nix store optimise
     echo "✔ Nix store garbage collected and hard-links optimized"
 
-# -----------------------------------------------------------------------------
-# 🔧 Config Synchronization
-# -----------------------------------------------------------------------------
-
-# Sync config/ to config.lock/
-config-lock:
-    bin/config-sync config-lock
-
-# Revert config/ from config.lock/
-config-revert:
-    bin/config-sync config-revert
-
-# Symlink contents of config/ to ~/.config/
-config-symlink-to-xdgconfig:
+# Symlink contents of config/ to ~/.config/ (standalone outside HM)
+symlink:
     bin/config-sync config-symlink-to-xdgconfig
+
+# Prune broken legacy symlinks in ~/.config
+clean-symlinks:
+    find ~/.config -xtype l -delete
+    @echo "✔ Pruned broken symlinks from ~/.config"
+

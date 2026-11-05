@@ -1,0 +1,91 @@
+(defsrc)
+
+;; ╭─────────────────────────────────────────────────────────╮
+;; │ Aliases / Named Actions                                 │
+;; ╰─────────────────────────────────────────────────────────╯
+(defalias
+  ;; Tap: Space | Hold: Arrow/Symbol layer (0ms repress delay, 80ms timeout)
+  esc-sym  (tap-hold-press 0 180 esc (layer-toggle symbol))
+
+  ;; Tap: Left Alt | Hold: Number layer (0ms repress delay, 80ms timeout)
+  ralt-nav   (tap-hold-press 0 80 ralt (layer-toggle navigation))
+
+  ;; Tap: Escape | Hold: Left Control (0ms repress delay, 200ms timeout)
+  caps-num  (tap-hold-press 0 180 caps (layer-toggle number))
+
+  ;; Layer Switchers
+  to-qwerty (layer-switch qwerty)
+  to-main   (layer-switch main)
+)
+
+;; ╭─────────────────────────────────────────────────────────╮
+;; │ Main Layer (Custom Layout)                              │
+;; ╰─────────────────────────────────────────────────────────╯
+(deflayermap (main)
+  ;; Special & Control Keys
+  esc   tab
+  del   @to-qwerty
+  tab   bspc
+  
+  caps lctl
+
+  lctl @caps-num
+  
+  bspc  lalt
+  
+  =     lctl
+
+  ;; Top Row 
+  q p   w o   e u   r b   t z   y \   u '   i h   o d   p -   [ /   ] =
+
+  ;; Home Row
+  s e   d i   f n   g x   h k   j l   k r   l s   ; t   ' f
+
+  ;; Bottom Row
+  z g   x j   c m   b q   n y   m c   / w
+
+  ;; Bottom Modifiers / Thumb Keys
+  lalt  @esc-sym
+  ralt  @ralt-nav
+)
+
+;; ╭─────────────────────────────────────────────────────────╮
+;; │ Qwerty Layer (Base Fallback)                            │
+;; ╰─────────────────────────────────────────────────────────╯
+(deflayermap (qwerty)
+  del   @to-main
+  ralt  @ralt-nav
+)
+
+;; ╭─────────────────────────────────────────────────────────╮
+;; │ Arrow Key & Symbols Layer (Held via @spc-nav / Space)   │
+;; ╰─────────────────────────────────────────────────────────╯
+(deflayermap (symbol)
+  ;; Row 1: * $ % & ? \ # up " _ ^
+  q esc   w S-8   e S-5   r S-7   t S-/   y \   u S-3   i up   o S-'   p S--   [ S-6
+
+  ;; Row 2: ( { [ / + = left down right right :
+  a S-9   s S-[   d [     f /     g S-=  h S-6  j =  k S-'   l S-4   ' S-;
+
+  ;; Row 3: ) } ] @ | ! ~ < > ;
+  z S-0   x S-]   c ]     v S-2   b S-\   n S-1 m S-grv , S-,  . S-.   / ;
+  
+)
+
+;; ╭─────────────────────────────────────────────────────────╮
+;; │ Number Layer (Held via @alt-num / Alt)                  │
+;; ╰─────────────────────────────────────────────────────────╯
+(deflayermap (number)
+  i 7   o 8   [ .
+  j 1   k 2   l 3   ; 4   ' 5
+  n 0   m 6   / 9
+)
+
+
+(deflayermap (navigation)
+i up
+j left
+k down
+l right
+; right
+)

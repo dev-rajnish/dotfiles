@@ -10,7 +10,7 @@ set -euo pipefail
 ROOT_DIR="${SHOELACE_DIR:-${DOTFILES_DIR:-}}"
 if [ -z "$ROOT_DIR" ]; then
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    if [ -f "$SCRIPT_DIR/../shoelace.toml" ] || [ -d "$SCRIPT_DIR/../tokens" ]; then
+    if [ -f "$SCRIPT_DIR/../shoelace.toml" ] || [ -d "$SCRIPT_DIR/../allsettings" ] || [ -d "$SCRIPT_DIR/../tokens" ]; then
         ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
     elif [ -d "$HOME/shoelace" ]; then
         ROOT_DIR="$HOME/shoelace"
@@ -25,10 +25,11 @@ WALLPAPER="${1:-}"
 
 # Expand leading tilde if present
 WALLPAPER="${WALLPAPER/#\~/$HOME}"
-TARGET="$ROOT_DIR/background"
+TARGET="$ROOT_DIR/assets/wallpaper.jpg"
 
-# 2. Cache the wallpaper image to ./background
+# 2. Cache the wallpaper image to assets/wallpaper.jpg
 if [ -n "$WALLPAPER" ] && [ -f "$WALLPAPER" ]; then
+    mkdir -p "$ROOT_DIR/assets"
     REAL_SRC="$(realpath "$WALLPAPER" 2>/dev/null || echo "$WALLPAPER")"
     REAL_DEST="$(realpath "$TARGET" 2>/dev/null || echo "$TARGET")"
 
@@ -37,6 +38,11 @@ if [ -n "$WALLPAPER" ] && [ -f "$WALLPAPER" ]; then
         cp -f "$WALLPAPER" "$TARGET"
     else
         echo "Wallpaper already matches $TARGET"
+    fi
+
+    # Maintain root symlink compatibility
+    if [ ! -e "$ROOT_DIR/background" ] || [ -L "$ROOT_DIR/background" ]; then
+        ln -sfn assets/wallpaper.jpg "$ROOT_DIR/background"
     fi
 
     # Also update ~/.config/background directly if it is not an existing symlink
@@ -66,5 +72,5 @@ fi
 
 # 4. Notify user
 if command -v notify-send &>/dev/null; then
-    notify-send -i preferences-desktop-wallpaper "Wallpaper Updated" "Cached wallpaper to ./background" 2>/dev/null || true
+    notify-send -i preferences-desktop-wallpaper "Wallpaper Updated" "Cached wallpaper to assets/wallpaper.jpg" 2>/dev/null || true
 fi

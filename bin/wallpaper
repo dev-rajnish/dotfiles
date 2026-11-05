@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# =============================================================================
+#  Shoelace Wallpaper Manager & Dispatcher (bin/wallpaper)
+#  Handles wallpaper GUI launcher, session restoration, and caching
+# =============================================================================
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CACHE_WALLPAPER="$SCRIPT_DIR/cache-wallpaper"
+
+case "${1:-}" in
+    --gui|gui)
+        if command -v waypaper &>/dev/null; then
+            exec waypaper "${@:2}"
+        else
+            echo "❌ Error: 'waypaper' is not installed." >&2
+            exit 1
+        fi
+        ;;
+    --restore|restore)
+        if command -v waypaper &>/dev/null; then
+            waypaper --restore 2>/dev/null || true
+        fi
+        if [ -x "$CACHE_WALLPAPER" ]; then
+            exec "$CACHE_WALLPAPER"
+        fi
+        ;;
+    --help|-h)
+        echo "Usage: wallpaper [OPTIONS] [IMAGE_PATH]"
+        echo ""
+        echo "Options:"
+        echo "  --gui       Launch Waypaper GUI to pick a wallpaper"
+        echo "  --restore   Restore previously active wallpaper daemon"
+        echo "  <IMAGE>     Cache and set specified wallpaper image"
+        ;;
+    *)
+        if [ -n "${1:-}" ] && [ -f "$1" ]; then
+            exec "$CACHE_WALLPAPER" "$1"
+        elif command -v waypaper &>/dev/null; then
+            exec waypaper
+        else
+            exec "$CACHE_WALLPAPER"
+        fi
+        ;;
+esac

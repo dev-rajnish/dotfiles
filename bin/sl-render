@@ -27,14 +27,24 @@ def get_root_dir() -> Path:
 
     script_path = Path(__file__).resolve()
     potential_root = script_path.parents[1]
-    if (potential_root / "shoelace.toml").exists() or (potential_root / "tokens").exists():
+    if (potential_root / "shoelace.toml").exists() or (potential_root / "allsettings").exists() or (potential_root / "tokens").exists():
         return potential_root
 
     cwd = Path.cwd()
-    if (cwd / "shoelace.toml").exists() or (cwd / "tokens").exists():
+    if (cwd / "shoelace.toml").exists() or (cwd / "allsettings").exists() or (cwd / "tokens").exists():
         return cwd
 
+    for fallback in [
+        Path.home() / "shoelace",
+        Path.home() / "_sl",
+        Path.home() / "sl",
+        Path.home() / ".config" / "shoelace",
+    ]:
+        if (fallback / "shoelace.toml").exists():
+            return fallback.resolve()
+
     return script_path.parent.parent
+
 
 
 def find_minijinja_cmd() -> list[str]:
@@ -69,7 +79,7 @@ def collect_all_tokens(root_dir: Path, tokens_dirs: list[str]) -> dict:
 
         for toml_path in sorted(dir_path.rglob("*.toml")):
             parts = toml_path.parts
-            if "themes" in parts or "templates" in parts or "config.lock" in parts:
+            if "themes" in parts or "templates" in parts:
                 continue
             if toml_path.name in ("shoelace.toml", "shoelace.config", "file.toml"):
                 continue
@@ -85,12 +95,10 @@ def collect_all_tokens(root_dir: Path, tokens_dirs: list[str]) -> dict:
 
 
 def get_category_for_mapping(app: str, tmpl: str) -> str:
-    """Classifies a template mapping into theme, appearance, shell, or pkgs."""
+    """Classifies a template mapping into theme, appearance, or shell."""
     tmpl_lower = tmpl.lower()
     app_lower = app.lower()
 
-    if app_lower == "pkgs" or tmpl_lower.startswith("pkgs/") or tmpl_lower.endswith(".nix.j2"):
-        return "pkgs"
     if "color" in tmpl_lower or "theme" in tmpl_lower:
         return "theme"
     if app_lower in ("fish", "bash", "zsh", "nu", "shell") or any(k in tmpl_lower for k in ("alias", "path", "env")):
@@ -113,7 +121,7 @@ def render_templates(category_filter: str | None = None, quiet: bool = False) ->
     paths_cfg = shoelace_cfg.get("paths", {})
     templates_dir = root_dir / paths_cfg.get("templates_dir", "templates")
     config_dir = root_dir / paths_cfg.get("config_dir", "config")
-    tokens_dirs = paths_cfg.get("tokens_dirs", ["tokens"])
+    tokens_dirs = paths_cfg.get("tokens_dirs", ["allsettings"])
 
     # 1. Collect unified token context
     context = collect_all_tokens(root_dir, tokens_dirs)
@@ -134,23 +142,18 @@ def render_templates(category_filter: str | None = None, quiet: bool = False) ->
 
                 if tmpl and dest:
                     cat = get_category_for_mapping(entry_app, tmpl)
-                    if cat == "pkgs":
-                        full_tmpl = tmpl
-                        full_dest = dest
-                    else:
-                        full_tmpl = f"{entry_app}/{tmpl}" if (entry_app and not tmpl.startswith(f"{entry_app}/")) else tmpl
-                        full_dest = f"{entry_app}/{dest}" if (entry_app and not dest.startswith(f"{entry_app}/")) else dest
+                    full_tmpl = f"{entry_app}/{tmpl}" if (entry_app and not tmpl.startswith(f"{entry_app}/")) else tmpl
+                    full_dest = f"{entry_app}/{dest}" if (entry_app and not dest.startswith(f"{entry_app}/")) else dest
 
                     if category_filter is None or category_filter == cat:
                         mappings.append({"tmpl": full_tmpl, "dest": full_dest, "category": cat})
 
     minijinja_cmd = find_minijinja_cmd()
-    alejandra_cmd = shutil.which("alejandra")
     rendered_count = 0
 
     for m in mappings:
         tmpl_path = templates_dir / m["tmpl"]
-        dest_path = (root_dir / m["dest"]) if m["category"] == "pkgs" or m["dest"].startswith("modules/") else (config_dir / m["dest"])
+        dest_path = (root_dir / m["dest"]) if m["dest"].startswith("modules/") or m["dest"].startswith("home/") else (config_dir / m["dest"])
 
         if not tmpl_path.exists():
             if not quiet:
@@ -165,9 +168,6 @@ def render_templates(category_filter: str | None = None, quiet: bool = False) ->
             _, stderr = proc.communicate(input=json_context)
 
             if proc.returncode == 0:
-                if m["category"] == "pkgs" and alejandra_cmd:
-                    subprocess.run([alejandra_cmd, "-q", str(dest_path)], capture_output=True)
-
                 if not quiet:
                     display_dest = str(dest_path.relative_to(root_dir))
                     print(f"  \033[1;32m✓\033[0m Rendered: \033[1m{m['tmpl']}\033[0m -> {display_dest}")
@@ -185,7 +185,6 @@ def main():
     parser.add_argument("--theme", action="store_true", help="Render theme color templates only")
     parser.add_argument("--appearance", action="store_true", help="Render appearance/UI templates only")
     parser.add_argument("--shell", action="store_true", help="Render shell templates only")
-    parser.add_argument("--pkgs", action="store_true", help="Render Nix package manifests only")
     parser.add_argument("-q", "--quiet", action="store_true", help="Suppress verbose output")
     args = parser.parse_args()
 
@@ -200,9 +199,7 @@ def main():
     elif args.shell:
         category = "shell"
         title = "Shell Renderer (shell-render)"
-    elif args.pkgs:
-        category = "pkgs"
-        title = "Package Renderer (pkg-render)"
+
 
     if not args.quiet:
         print(f"\033[1;36m─── 👟 Shoelace {title} ───\033[0m")

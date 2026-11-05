@@ -3,5 +3,5 @@
 # =============================================================================
 
 {% for path in paths %}
-fish_add_path -g "{{ path }}"
+fish_add_path -g {{ path }}
 {% endfor %}

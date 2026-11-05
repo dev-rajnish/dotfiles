@@ -1,0 +1,12 @@
+# =============================================================================
+#  Default Applications & MIME Handlers (tokens/apps.toml)
+# =============================================================================
+
+terminal = "kitty"
+editor = "codium"
+browser = "brave"
+fileManager = "nemo"
+pdfViewer = "readest"
+videoPlayer = "mpv"
+audioPlayer = "vlc"
+imageViewer = "imv"

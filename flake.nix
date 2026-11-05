@@ -63,10 +63,10 @@
 
       imports = [
         treefmt-nix.flakeModule
-        (inputs.import-tree ./flake-modules)
+        (inputs.import-tree ./modules/flake)
       ];
 
-      # Per-System Configurations (Formatting, Checks, DevShells)
+      # Per-System Configurations (Formatting, Checks, DevShells, Packages)
       perSystem = {
         config,
         pkgs,
