@@ -18,10 +18,7 @@ term_exec_args = "-e"
 [[handlers]]
 exec = "{{ browser }} %u"
 terminal = false
-regexes = [
-  '^(https?|ftp|about|chrome)://.*',
-  '^mailto:.*',
-]
+regexes = ['^(https?|ftp|about|chrome)://.*', '^mailto:.*']
 {% endif %}
 
 {% if editor is defined and editor %}
@@ -39,9 +36,7 @@ regexes = [
 [[handlers]]
 exec = "{{ pdfViewer }} %u"
 terminal = false
-regexes = [
-  '.*\.(pdf|epub|oxps|djvu|cbr|cbz)$',
-]
+regexes = ['.*\.(pdf|epub|oxps|djvu|cbr|cbz)$']
 {% endif %}
 
 {% if imageViewer is defined and imageViewer %}
@@ -49,9 +44,7 @@ regexes = [
 [[handlers]]
 exec = "{{ imageViewer }} %u"
 terminal = false
-regexes = [
-  '.*\.(png|jpg|jpeg|gif|webp|svg|bmp|avif|jxl|ico|tiff)$',
-]
+regexes = ['.*\.(png|jpg|jpeg|gif|webp|svg|bmp|avif|jxl|ico|tiff)$']
 {% endif %}
 
 {% if videoPlayer is defined and videoPlayer %}
@@ -70,9 +63,7 @@ regexes = [
 [[handlers]]
 exec = "{{ audioPlayer }} %u"
 terminal = false
-regexes = [
-  '.*\.(mp3|flac|wav|ogg|opus|m4a|aac|mid|midi)$',
-]
+regexes = ['.*\.(mp3|flac|wav|ogg|opus|m4a|aac|mid|midi)$']
 {% endif %}
 
 {% if fileManager is defined and fileManager %}
@@ -80,7 +71,5 @@ regexes = [
 [[handlers]]
 exec = "{{ fileManager }} %u"
 terminal = false
-regexes = [
-  '.*\.(zip|tar|tar\.gz|tgz|tar\.bz2|tbz2|tar\.xz|txz|7z|rar|iso)$',
-]
+regexes = ['.*\.(zip|tar|tar\.gz|tgz|tar\.bz2|tbz2|tar\.xz|txz|7z|rar|iso)$']
 {% endif %}
