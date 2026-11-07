@@ -5,3 +5,24 @@
 {% for key, val in alias|items %}
 abbr --add {{ key }} {{ val }}
 {% endfor %}
+
+# Automatically pass --impure for ad-hoc nix profile operations so unfree packages work everywhere
+function nix --wraps nix
+    if test (count $argv) -ge 2; and test "$argv[1]" = "profile"; and test "$argv[2]" = "upgrade"
+        if not contains -- --impure $argv
+            command nix profile upgrade --impure $argv[3..-1]
+            return $status
+        end
+    else if test (count $argv) -ge 2; and test "$argv[1]" = "profile"; and test "$argv[2]" = "install"
+        if not contains -- --impure $argv
+            command nix profile install --impure $argv[3..-1]
+            return $status
+        end
+    else if test (count $argv) -ge 2; and test "$argv[1]" = "profile"; and test "$argv[2]" = "add"
+        if not contains -- --impure $argv
+            command nix profile add --impure $argv[3..-1]
+            return $status
+        end
+    end
+    command nix $argv
+end

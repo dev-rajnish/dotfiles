@@ -40,4 +40,4 @@ edit-appearance = "nvim ~/shoelace/allsettings/layout-and-window.toml ~/shoelace
 list-pkgs = "nix profile list"
 add-pkgs = "nix profile install nixpkgs#"
 remove-pkgs = "nix profile remove"
-upgrade-pkgs = "env NIXPKGS_ALLOW_UNFREE=1 nix profile upgrade --all --impure"
+upgrade-pkgs = "nix profile upgrade --all"

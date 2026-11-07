@@ -57,6 +57,7 @@ in {
   environment.variables = {
     LANG = env.defaultLocale;
     LC_ALL = env.defaultLocale;
+    NIXPKGS_ALLOW_UNFREE = "1";
   };
   i18n = {
     defaultLocale = env.defaultLocale;
@@ -84,6 +85,7 @@ in {
     ];
     trusted-users = ["root" "@wheel"];
     auto-optimise-store = true;
+    pure-eval = false;
     max-jobs = "auto";
     cores = env.buildCores;
     substituters = [

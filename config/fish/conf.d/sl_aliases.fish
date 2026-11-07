@@ -41,5 +41,26 @@ abbr --add add-pkgs nix profile install nixpkgs#
 
 abbr --add remove-pkgs nix profile remove
 
-abbr --add upgrade-pkgs env NIXPKGS_ALLOW_UNFREE=1 nix profile upgrade --all --impure
+abbr --add upgrade-pkgs nix profile upgrade --all
 
+
+# Automatically pass --impure for ad-hoc nix profile operations so unfree packages work everywhere
+function nix --wraps nix
+    if test (count $argv) -ge 2; and test "$argv[1]" = "profile"; and test "$argv[2]" = "upgrade"
+        if not contains -- --impure $argv
+            command nix profile upgrade --impure $argv[3..-1]
+            return $status
+        end
+    else if test (count $argv) -ge 2; and test "$argv[1]" = "profile"; and test "$argv[2]" = "install"
+        if not contains -- --impure $argv
+            command nix profile install --impure $argv[3..-1]
+            return $status
+        end
+    else if test (count $argv) -ge 2; and test "$argv[1]" = "profile"; and test "$argv[2]" = "add"
+        if not contains -- --impure $argv
+            command nix profile add --impure $argv[3..-1]
+            return $status
+        end
+    end
+    command nix $argv
+end

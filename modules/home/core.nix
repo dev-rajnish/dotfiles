@@ -67,6 +67,7 @@ in {
       MAN_DISABLE_CACHE = 1;
       SSH_ASKPASS = "";
       GIT_ASKPASS = "";
+      NIXPKGS_ALLOW_UNFREE = "1";
     };
 
     packages = [
