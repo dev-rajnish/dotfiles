@@ -47,8 +47,12 @@ jobs:
         run: nix fmt -- --fail-on-change .
 
   build-nixos:
-    name: Build NixOS Configuration
+    name: Build NixOS (${{ matrix.host }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        host: [amd, intel]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -62,8 +66,8 @@ jobs:
       - name: Setup Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v9
 
-      - name: Build NixOS system closure
-        run: nix build .#nixosConfigurations.nixos.config.system.build.toplevel
+      - name: Build NixOS system closure (${{ matrix.host }})
+        run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
 
   build-home-manager:
     name: Build Home Manager Configuration

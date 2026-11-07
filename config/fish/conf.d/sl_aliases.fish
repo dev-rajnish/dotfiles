@@ -41,3 +41,5 @@ abbr --add add-pkgs nix profile install nixpkgs#
 
 abbr --add remove-pkgs nix profile remove
 
+abbr --add upgrade-pkgs env NIXPKGS_ALLOW_UNFREE=1 nix profile upgrade --all --impure
+
