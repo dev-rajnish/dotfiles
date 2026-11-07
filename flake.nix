@@ -83,6 +83,8 @@
             "*.xml"
             "templates/*"
             "templates/**/*"
+            "config/*"
+            "config/**/*"
           ];
           programs.alejandra.enable = true;
           programs.fish_indent.enable = false;
