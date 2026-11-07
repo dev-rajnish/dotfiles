@@ -87,22 +87,6 @@ in {
     nix-index.enable = true;
     man.enable = false;
 
-    git = {
-      enable = true;
-      settings = {
-        user = {
-          name = env.ghUsername;
-          email = env.ghEmail;
-        };
-        init.defaultBranch = "main";
-        push.autoSetupRemote = true;
-        pull.rebase = false;
-        credential.helper = "libsecret";
-        merge.conflictstyle = "diff3";
-        diff.algorithm = "histogram";
-      };
-    };
-
     zen-browser = {
       enable = true;
       setAsDefaultBrowser = false;
