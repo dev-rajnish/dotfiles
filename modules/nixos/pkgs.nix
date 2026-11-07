@@ -1,43 +1,23 @@
 # =============================================================================
 #  Host-Level Packages, Fonts & Dynamic Linker (modules/nixos/pkgs.nix)
 # =============================================================================
-{
-  pkgs,
-  lib,
-  ...
-}: let
-  categories = {
-    core = {
-      enable = true;
-      pkgs = with pkgs; [
-        curl
-        wget
-        git
-        home-manager
-        just
-        unzip
-        seatd
-        xwayland-satellite
-        starship
-        zoxide
-        direnv
-      ];
-    };
-  };
-
-  enabledPackages = lib.flatten (
-    builtins.map
-    (cat:
-      if cat.enable
-      then cat.pkgs
-      else [])
-    (builtins.attrValues categories)
-  );
-in {
+{pkgs, ...}: {
   # ---------------------------------------------------------------------------
   # 📦 System-Wide Core Packages
   # ---------------------------------------------------------------------------
-  environment.systemPackages = enabledPackages;
+  environment.systemPackages = with pkgs; [
+    curl
+    wget
+    git
+    home-manager
+    just
+    unzip
+    seatd
+    xwayland-satellite
+    starship
+    zoxide
+    direnv
+  ];
 
   # ---------------------------------------------------------------------------
   # 🔤 Fonts & Typography

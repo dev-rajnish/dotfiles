@@ -79,7 +79,7 @@ graph TD
 | :------------- | :-------------------------------------------------------------------------------------------------------------------- |
 | `allsettings/` | Flat Single Source of Truth configuration tokens for system, UI, apps, and shell (`*.toml`).                          |
 | `assets/`      | Wallpapers (`wallpaper.jpg`) and project screenshots (`screenshots/`).                                                |
-| `bin/`         | Fast CLI utilities: `sl-render`, `theme-switcher`, `wallpaper`, `cache-wallpaper`, `power-menu`, `config-sync`.       |
+| `bin/`         | Fast CLI utilities: `sl-render`, `theme-switcher`, `wallpaper`, `power-menu`.                                         |
 | `config/`      | Application dotfiles symlinked directly to `~/.config/`. Contains static files and `sl_*` rendered files.             |
 | `docs/`        | Architecture guides and technical documentation.                                                                      |
 | `modules/`     | Clean 2-level scoped dendritic modules: `flake/`, `nixos/`, `home/`, `hosts/`, `pkgs/`. Zero `_`, zero `default.nix`. |

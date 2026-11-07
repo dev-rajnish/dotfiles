@@ -1,46 +1,49 @@
 #!/usr/bin/env bash
 # =============================================================================
-#  Shoelace Wallpaper Manager & Dispatcher (bin/wallpaper)
-#  Handles wallpaper GUI launcher, session restoration, and caching
+#  Wallpaper Manager (bin/wallpaper)
+#  Updates ~/sl/assets/wallpaper.jpg and manages wbg daemon
 # =============================================================================
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CACHE_WALLPAPER="$SCRIPT_DIR/cache-wallpaper"
+TARGET="$HOME/sl/assets/wallpaper.jpg"
 
+# 1. If an image path is provided (e.g. called by Waypaper post_command "$1"):
+if [ -n "${1:-}" ] && [ -f "${1/#\~/$HOME}" ]; then
+    SRC="${1/#\~/$HOME}"
+    mkdir -p "$(dirname "$TARGET")"
+    if [ "$(realpath "$SRC" 2>/dev/null)" != "$(realpath "$TARGET" 2>/dev/null)" ]; then
+        cp -f "$SRC" "$TARGET"
+    fi
+    pkill -x wbg 2>/dev/null || true
+    wbg -s "$TARGET" </dev/null >/dev/null 2>&1 &
+    disown
+    echo "✔ Wallpaper updated: $TARGET"
+    exit 0
+fi
+
+# 2. Options
 case "${1:-}" in
-    --gui|gui)
+    --restore|restore)
+        pkill -x wbg 2>/dev/null || true
+        wbg -s "$TARGET" </dev/null >/dev/null 2>&1 &
+        disown
+        echo "✔ Wallpaper restored via wbg"
+        ;;
+    --gui|gui|"")
         if command -v waypaper &>/dev/null; then
-            exec waypaper "${@:2}"
+            exec waypaper
+        elif [ -f "$TARGET" ]; then
+            pkill -x wbg 2>/dev/null || true
+            wbg -s "$TARGET" </dev/null >/dev/null 2>&1 &
+            disown
         else
-            echo "❌ Error: 'waypaper' is not installed." >&2
+            echo "Usage: wallpaper [IMAGE_PATH|--restore|--gui]"
             exit 1
         fi
         ;;
-    --restore|restore)
-        if command -v waypaper &>/dev/null; then
-            waypaper --restore 2>/dev/null || true
-        fi
-        if [ -x "$CACHE_WALLPAPER" ]; then
-            exec "$CACHE_WALLPAPER"
-        fi
-        ;;
-    --help|-h)
-        echo "Usage: wallpaper [OPTIONS] [IMAGE_PATH]"
-        echo ""
-        echo "Options:"
-        echo "  --gui       Launch Waypaper GUI to pick a wallpaper"
-        echo "  --restore   Restore previously active wallpaper daemon"
-        echo "  <IMAGE>     Cache and set specified wallpaper image"
-        ;;
     *)
-        if [ -n "${1:-}" ] && [ -f "$1" ]; then
-            exec "$CACHE_WALLPAPER" "$1"
-        elif command -v waypaper &>/dev/null; then
-            exec waypaper
-        else
-            exec "$CACHE_WALLPAPER"
-        fi
+        echo "Usage: wallpaper [IMAGE_PATH|--restore|--gui]"
+        exit 1
         ;;
 esac

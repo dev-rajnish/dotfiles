@@ -42,9 +42,9 @@ themes:
 wallpaper image="":
     #!/usr/bin/env bash
     if [ -z "{{image}}" ]; then
-        bin/cache-wallpaper assets/wallpaper.jpg
+        bin/wallpaper assets/wallpaper.jpg
     else
-        bin/cache-wallpaper "{{image}}"
+        bin/wallpaper "{{image}}"
     fi
 
 
@@ -77,16 +77,16 @@ vm:
 # 🏠 Home Manager Management
 # -----------------------------------------------------------------------------
 
-# Switch to the standalone Home Manager configuration
-home:
+# Switch to the standalone Home Manager configuration (pre-rendering templates)
+home: render
     home-manager switch --flake .#{{username}}
 
 # Build Home Manager activation package without switching
 home-build:
     nix build .#homeConfigurations.{{username}}.activationPackage
 
-# Rebuild both NixOS system and Home Manager configurations
-sync:
+# Rebuild both NixOS system and Home Manager configurations (pre-rendering templates)
+sync: render
     sudo nixos-rebuild switch --flake .#{{hostname}}
     home-manager switch --flake .#{{username}}
 
@@ -123,12 +123,14 @@ gc:
     nix store optimise
     echo "✔ Nix store garbage collected and hard-links optimized"
 
-# Symlink contents of config/ to ~/.config/ (standalone outside HM)
-symlink:
-    bin/config-sync config-symlink-to-xdgconfig
-
 # Prune broken legacy symlinks in ~/.config
 clean-symlinks:
     find ~/.config -xtype l -delete
     @echo "✔ Pruned broken symlinks from ~/.config"
+
+# Prune stale Home Manager backup files and directories in ~/.config
+clean-backups:
+    find ~/.config -maxdepth 1 \( -name "*.hm.backup-*" -o -name "*.backup" -o -name "*-bak" \) -exec rm -rf {} +
+    @echo "✔ Cleaned stale backup files from ~/.config"
+
 

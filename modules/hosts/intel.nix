@@ -42,10 +42,10 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 📁 Filesystems & Storage (Configured per host disk layout)
+  # 📁 Filesystems & Storage (Configure per host disk layout)
   # ---------------------------------------------------------------------------
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/fe3677e4-2898-4681-ad1e-b16c6dc5f847";
+    device = lib.mkDefault "/dev/disk/by-label/nixos";
     fsType = "ext4";
     options = [
       "noatime"
@@ -57,7 +57,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/0A74-D9B0";
+    device = lib.mkDefault "/dev/disk/by-label/boot";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };

@@ -68,7 +68,7 @@ def get_available_themes(themes_dir: Path) -> list[dict]:
 
 
 def apply_theme(theme_query: str, root_dir: Path) -> bool:
-    """Applies a theme by updating tokens/theme.toml and invoking theme-render."""
+    """Applies a theme by updating allsettings/theme.toml and invoking sl-render --theme."""
     themes_dir = root_dir / "themes"
     themes = get_available_themes(themes_dir)
 
@@ -213,14 +213,10 @@ def apply_theme(theme_query: str, root_dir: Path) -> bool:
 
     print(f"\033[1;32m✔ Applied theme:\033[0m \033[1m{display_name}\033[0m ({polarity})")
 
-    # Run theme-render (or sl-render)
-    theme_render_script = root_dir / "bin" / "theme-render"
-    if theme_render_script.exists():
-        subprocess.run([str(theme_render_script)])
-    else:
-        sl_render_script = root_dir / "bin" / "sl-render"
-        if sl_render_script.exists():
-            subprocess.run([str(sl_render_script), "--theme"])
+    # Run sl-render to compile theme color templates
+    sl_render_script = root_dir / "bin" / "sl-render"
+    if sl_render_script.exists():
+        subprocess.run([str(sl_render_script), "--theme"])
 
     # Reload desktop applications
     subprocess.run("bash -c 'kill -SIGUSR1 $(pgrep kitty) 2>/dev/null || true'", shell=True)

@@ -18,11 +18,7 @@ term_exec_args = "-e"
 [[handlers]]
 exec = "brave %u"
 terminal = false
-regexes = [
-  '^(https?|ftp|about|chrome)://.*',
-  '^mailto:.*',
-]
-
+regexes = ['^(https?|ftp|about|chrome)://.*', '^mailto:.*']
 
 
 # Text, Code & Configuration Files (codium)
@@ -34,25 +30,18 @@ regexes = [
 ]
 
 
-
 # Documents & PDFs (readest)
 [[handlers]]
 exec = "readest %u"
 terminal = false
-regexes = [
-  '.*\.(pdf|epub|oxps|djvu|cbr|cbz)$',
-]
-
+regexes = ['.*\.(pdf|epub|oxps|djvu|cbr|cbz)$']
 
 
 # Image Formats (imv)
 [[handlers]]
 exec = "imv %u"
 terminal = false
-regexes = [
-  '.*\.(png|jpg|jpeg|gif|webp|svg|bmp|avif|jxl|ico|tiff)$',
-]
-
+regexes = ['.*\.(png|jpg|jpeg|gif|webp|svg|bmp|avif|jxl|ico|tiff)$']
 
 
 # Video Files & Media Streams (mpv)
@@ -65,22 +54,15 @@ regexes = [
 ]
 
 
-
 # Audio Files (vlc)
 [[handlers]]
 exec = "vlc %u"
 terminal = false
-regexes = [
-  '.*\.(mp3|flac|wav|ogg|opus|m4a|aac|mid|midi)$',
-]
-
+regexes = ['.*\.(mp3|flac|wav|ogg|opus|m4a|aac|mid|midi)$']
 
 
 # Directories & Compressed Archives (nemo)
 [[handlers]]
 exec = "nemo %u"
 terminal = false
-regexes = [
-  '.*\.(zip|tar|tar\.gz|tgz|tar\.bz2|tbz2|tar\.xz|txz|7z|rar|iso)$',
-]
-
+regexes = ['.*\.(zip|tar|tar\.gz|tgz|tar\.bz2|tbz2|tar\.xz|txz|7z|rar|iso)$']

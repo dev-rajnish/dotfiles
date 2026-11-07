@@ -189,16 +189,16 @@ def main():
     args = parser.parse_args()
 
     category = None
-    title = "Master Renderer (sl-render)"
+    title = "Template Renderer"
     if args.theme:
         category = "theme"
-        title = "Theme Renderer (theme-render)"
+        title = "Theme Color Renderer"
     elif args.appearance:
         category = "appearance"
-        title = "Appearance Renderer (appearance-render)"
+        title = "Appearance & UI Renderer"
     elif args.shell:
         category = "shell"
-        title = "Shell Renderer (shell-render)"
+        title = "Shell Environment Renderer"
 
 
     if not args.quiet:

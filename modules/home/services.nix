@@ -2,20 +2,7 @@
 #  Home Manager User Systemd Services
 #  Manages user session daemons (clipboard, wallpaper, bar, keyring, auth agent)
 # =============================================================================
-{
-  config,
-  pkgs,
-  lib,
-  env,
-  ...
-}: let
-  dotfilesDir = "${config.home.homeDirectory}/${env.dotfilesDir or "shoelace"}";
-in {
-  home.packages = with pkgs; [
-    wl-clipboard
-    cliphist
-  ];
-
+{pkgs, ...}: {
   systemd.user.services = {
     # ---------------------------------------------------------------------------
     # 📋 Cliphist Clipboard Manager
@@ -50,41 +37,6 @@ in {
       Service = {
         Type = "simple";
         ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store";
-        Restart = "on-failure";
-        RestartSec = 1;
-      };
-      Install = {
-        WantedBy = ["graphical-session.target" "graphical.target"];
-      };
-    };
-
-    # ---------------------------------------------------------------------------
-    # 🖼️ Swaybg Wallpaper Daemon
-    # ---------------------------------------------------------------------------
-    swaybg = {
-      Unit = {
-        Description = "Swaybg Wallpaper Daemon for Wayland Session";
-        Documentation = ["man:swaybg(1)"];
-        PartOf = ["graphical-session.target"];
-        After = ["graphical-session.target" "niri.service"];
-        Requisite = ["graphical-session.target"];
-      };
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.writeShellScript "swaybg-start" ''
-          dotfilesDir="$HOME/${env.dotfilesDir or "shoelace"}"
-          if [ -f "$dotfilesDir/assets/wallpaper.jpg" ]; then
-            exec ${pkgs.swaybg}/bin/swaybg -i "$dotfilesDir/assets/wallpaper.jpg" -m fill
-          elif [ -f "$dotfilesDir/background" ]; then
-            exec ${pkgs.swaybg}/bin/swaybg -i "$dotfilesDir/background" -m fill
-          elif [ -f "$HOME/.config/background" ]; then
-            exec ${pkgs.swaybg}/bin/swaybg -i "$HOME/.config/background" -m fill
-          elif [ -f "${../../assets/wallpaper.jpg}" ]; then
-            exec ${pkgs.swaybg}/bin/swaybg -i "${../../assets/wallpaper.jpg}" -m fill
-          else
-            exec ${pkgs.swaybg}/bin/swaybg -c "#191724"
-          fi
-        ''}";
         Restart = "on-failure";
         RestartSec = 1;
       };

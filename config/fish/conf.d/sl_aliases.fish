@@ -7,8 +7,6 @@ abbr --add open handlr open
 
 abbr --add sl cd ~/shoelace
 
-abbr --add d cd ~/shoelace
-
 abbr --add c cd ~/.config
 
 abbr --add ls eza --icons --group-directories-first
@@ -33,15 +31,13 @@ abbr --add add-path nvim ~/shoelace/allsettings/path.toml
 
 abbr --add add-alias nvim ~/shoelace/allsettings/alias.toml ~/shoelace/allsettings/env.toml
 
-abbr --add add-env nvim  ~/shoelace/allsettings/env.toml
-
-abbr --add add-var nvim  ~/shoelace/allsettings/env.toml
-
-abbr --add add-variables nvim  ~/shoelace/allsettings/env.toml
+abbr --add add-env nvim ~/shoelace/allsettings/env.toml
 
 abbr --add edit-appearance nvim ~/shoelace/allsettings/layout-and-window.toml ~/shoelace/allsettings/ui.toml
 
-abbr --add add-pkgs nix profile add nixpkgs#
+abbr --add list-pkgs nix profile list
 
-abbr --add remove-pkgs nix profile remove nixpkgs
+abbr --add add-pkgs nix profile install nixpkgs#
+
+abbr --add remove-pkgs nix profile remove
 

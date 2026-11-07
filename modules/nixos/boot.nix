@@ -123,7 +123,6 @@
       enable = true;
       mountOnMedia = true;
     };
-    gvfs.enable = true;
 
     # Udev rule for ADB access on Android devices
     udev.extraRules = ''SUBSYSTEM=="usb", ATTR{idVendor}=="2717", MODE="0666", GROUP="adbusers"'';

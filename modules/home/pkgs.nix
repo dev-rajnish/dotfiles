@@ -162,7 +162,7 @@
         wlr-randr
         fuzzel
         mpvpaper
-        swaybg
+        wbg
         waypaper
         brightnessctl
         pamixer

@@ -25,6 +25,26 @@
 
   schemeName = env.schemeName or "rose-pine";
   schemeFile = "${pkgs.base16-schemes}/share/themes/${schemeName}.yaml";
+
+  # Dynamic dotfile auto-discovery from config/ directory
+  configDir = ../../config;
+  rawConfigEntries = builtins.readDir configDir;
+  validConfigEntries =
+    lib.filterAttrs (
+      name: _:
+        !(lib.hasPrefix "." name)
+        && !(lib.hasSuffix "~" name)
+        && name != "README.md"
+    )
+    rawConfigEntries;
+  autoConfigFiles =
+    lib.mapAttrs' (name: _: {
+      name = name;
+      value = {
+        source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/${name}";
+      };
+    })
+    validConfigEntries;
 in {
   imports = [
     inputs.zen-browser.homeModules.beta
@@ -119,26 +139,13 @@ in {
   # ---------------------------------------------------------------------------
   # 🔗 Dotfile Symlinks
   # ---------------------------------------------------------------------------
-  xdg.configFile = {
-    "kitty".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/kitty";
-    "niri".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/niri";
-    "fuzzel".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/fuzzel";
-    "handlr".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/handlr";
-    "mimeapps.list".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/mimeapps.list";
-    "wayle".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/wayle";
-    "swaylock".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/swaylock";
-    "swayidle".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/swayidle";
-    "fish".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/fish";
-    "yazi".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/yazi";
-    "fastfetch".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/fastfetch";
-    "waypaper".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/waypaper";
-    "glow".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/glow";
-    "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/starship.toml";
-    "Thunar".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/Thunar";
-    "nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/config/nvim";
-    "background".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/assets/wallpaper.jpg";
-    "wallpaper.jpg".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/assets/wallpaper.jpg";
-  };
+  xdg.configFile =
+    autoConfigFiles
+    // {
+      # Custom asset mappings outside config/ directory
+      "background".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/assets/wallpaper.jpg";
+      "wallpaper.jpg".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/assets/wallpaper.jpg";
+    };
 
   # ---------------------------------------------------------------------------
   # 📁 Imperative MIME Management (Handled via handlr-regex & shoelace templates)
@@ -243,8 +250,9 @@ in {
       if [ -n "''${WAYLAND_DISPLAY:-}" ] || [ -n "''${DISPLAY:-}" ]; then
         $DRY_RUN_CMD echo "👟 Shoelace: Reloading desktop daemons and styling..."
         ${pkgs.procps}/bin/pkill -SIGUSR1 kitty 2>/dev/null || true
-        if ${pkgs.systemd}/bin/systemctl --user is-active --quiet swaybg.service 2>/dev/null; then
-          $DRY_RUN_CMD ${pkgs.systemd}/bin/systemctl --user restart swaybg.service 2>/dev/null || true
+        if ${pkgs.procps}/bin/pgrep -x wbg >/dev/null 2>&1; then
+          ${pkgs.procps}/bin/pkill -x wbg 2>/dev/null || true
+          ${pkgs.wbg}/bin/wbg -s "${dotfilesDir}/assets/wallpaper.jpg" >/dev/null 2>&1 &
         fi
       fi
     '';
