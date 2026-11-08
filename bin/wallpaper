@@ -6,7 +6,9 @@
 
 set -euo pipefail
 
-TARGET="$HOME/sl/assets/wallpaper.jpg"
+# Dynamically locate dotfiles repository root
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TARGET="${SHOELACE_DIR:-${DOTFILES_DIR:-$REPO_ROOT}}/assets/wallpaper.jpg"
 
 # 1. If an image path is provided (e.g. called by Waypaper post_command "$1"):
 if [ -n "${1:-}" ] && [ -f "${1/#\~/$HOME}" ]; then

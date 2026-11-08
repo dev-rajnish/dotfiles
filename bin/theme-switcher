@@ -4,12 +4,11 @@ Shoelace Python Theme Switcher (theme-switcher)
 Selects theme from themes/*.toml, updates allsettings/theme.toml, & renders theme templates.
 """
 
-import os
-import sys
-import shutil
-import tempfile
 import argparse
+import os
+import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 try:
@@ -216,13 +215,17 @@ def apply_theme(theme_query: str, root_dir: Path) -> bool:
     # Run sl-render to compile theme color templates
     sl_render_script = root_dir / "bin" / "sl-render"
     if sl_render_script.exists():
-        subprocess.run([str(sl_render_script), "--theme"])
+        subprocess.run([str(sl_render_script), "--theme"], check=False)
 
     # Reload desktop applications
-    subprocess.run("bash -c 'kill -SIGUSR1 $(pgrep kitty) 2>/dev/null || true'", shell=True)
-    subprocess.run("wayle panel restart 2>/dev/null || true", shell=True)
+    subprocess.run(["pkill", "-SIGUSR1", "kitty"], check=False, stderr=subprocess.DEVNULL)
+    subprocess.run("wayle panel restart 2>/dev/null || true", shell=True, check=False)
     if shutil.which("notify-send"):
-        subprocess.run(["notify-send", "-i", "preferences-desktop-theme", "🌠 Theme Switcher", f"Switched to {display_name}"], stderr=subprocess.DEVNULL)
+        subprocess.run(
+            ["notify-send", "-i", "preferences-desktop-theme", "🌠 Theme Switcher", f"Switched to {display_name}"],
+            check=False,
+            stderr=subprocess.DEVNULL,
+        )
 
     return True
 

@@ -4,12 +4,12 @@ Shoelace Unified Master Template Renderer (sl-render)
 Dynamically renders templates from shoelace.toml using MiniJinja and deep-merged TOML tokens.
 """
 
-import os
-import sys
-import json
-import shutil
 import argparse
+import json
+import os
+import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 try:

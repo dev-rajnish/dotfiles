@@ -46,7 +46,7 @@
       isDefault = true;
 
       # Declarative Extension Management via Rycee Addons
-      extensions.packages = with inputs.firefox-addons.packages.${pkgs.system}; [
+      extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
         ublock-origin
         raindropio
         bitwarden
