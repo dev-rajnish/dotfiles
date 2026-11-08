@@ -8,22 +8,22 @@
   # 1. 📥 Flake Inputs
   # ---------------------------------------------------------------------------
   inputs = {
-    # Nixpkgs 26.05 Stable Channel
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    # Nixpkgs Cutting-Edge Unstable Channel
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Fast binary database for comma / command-not-found
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Home Manager 26.05
+    # Home Manager Master (Unstable)
     home-manager = {
-      url = "github:nix-community/home-manager/release-26.05";
+      url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Stylix System & User Theming Framework
+    # Stylix Master (Unstable)
     stylix = {
-      url = "github:nix-community/stylix/release-26.05";
+      url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

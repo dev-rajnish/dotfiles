@@ -116,7 +116,7 @@
       enable = true;
       pkgs = with pkgs; [
         vscodium-fhs
-        antigravity-fhs
+        antigravity-ide-fhs
         zed-editor-fhs
       ];
     };

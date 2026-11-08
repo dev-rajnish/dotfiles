@@ -22,7 +22,7 @@
     gnome-keyring
     libsecret
     seahorse
-    gcr
+    gcr_4
   ];
 
   programs = {

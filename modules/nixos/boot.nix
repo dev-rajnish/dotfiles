@@ -14,7 +14,6 @@
       timeout = 1; # Set to 0s for fast boot (hold Space on power-on for menu)
       efi.canTouchEfiVariables = true;
     };
-    initrd.systemd.enable = true; # Parallelized stage-1 systemd initialization
     kernelModules = ["snd-aloop"];
     kernelParams = [
       "systemd.swap=0" # Prevent systemd from auto-activating physical SSD swap partitions
@@ -142,7 +141,6 @@
         support32Bit = true;
       };
       pulse.enable = true;
-      jack.enable = true;
       wireplumber = {
         enable = true;
         extraConfig = {
@@ -170,12 +168,12 @@
     };
 
     # 📝 System Journal Limits (In-Memory Volatile Storage - Zero SSD Log Wear)
-    journald.extraConfig = ''
-      Storage=volatile
-      RuntimeMaxUse=32M
-      RateLimitIntervalSec=30s
-      RateLimitBurst=1000
-    '';
+    journald.settings.Journal = {
+      Storage = "volatile";
+      RuntimeMaxUse = "32M";
+      RateLimitIntervalSec = "30s";
+      RateLimitBurst = 1000;
+    };
   };
 
   # ---------------------------------------------------------------------------
