@@ -18,13 +18,13 @@ binds {
 
     // Application Launchers
 
-    Super+Return hotkey-overlay-title="Terminal: Kitty" { spawn "kitty"; }
+    Super+Return hotkey-overlay-title="Terminal: kitty" { spawn "kitty"; }
 
-    Super+E hotkey-overlay-title="File Manager: Nemo" { spawn "nemo"; }
+    Super+E hotkey-overlay-title="File Manager: nemo" { spawn "nemo"; }
 
     Super+A hotkey-overlay-title="Application Launcher: Fuzzel" { spawn "fuzzel"; }
 
-    Mod+B hotkey-overlay-title="Web Browser: Brave" { spawn "brave"; }
+    Mod+B hotkey-overlay-title="Web Browser: firefox-devedition" { spawn "firefox-devedition"; }
 
     Super+Alt+L hotkey-overlay-title="Lock Screen: Swaylock" { spawn "swaylock"; }
 

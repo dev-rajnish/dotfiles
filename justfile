@@ -68,6 +68,12 @@ boot:
 build:
     nix build .#nixosConfigurations.{{hostname}}.config.system.build.toplevel
 
+# Preview package and closure differences between current system and new build
+diff:
+    @echo "🔍 Building NixOS toplevel and calculating closure diff..."
+    @nix build .#nixosConfigurations.{{hostname}}.config.system.build.toplevel --no-link
+    @nix store diff-closures /run/current-system $(nix path-info .#nixosConfigurations.{{hostname}}.config.system.build.toplevel)
+
 # Build a QEMU VM runner for testing the configuration
 vm:
     nixos-rebuild build-vm --flake .#{{hostname}}
@@ -99,8 +105,9 @@ sync: render
 fmt:
     nix fmt
 
-# Run flake checks and verify build evaluations
+# Run allsettings TOML syntax validation and flake check
 check:
+    python3 -c "import tomllib, glob; [tomllib.load(open(f, 'rb')) for f in glob.glob('allsettings/*.toml')]; print('✔ All allsettings TOML tokens valid')"
     nix flake check
 
 # Update all flake inputs or a specific input (e.g., `just update nixpkgs`)

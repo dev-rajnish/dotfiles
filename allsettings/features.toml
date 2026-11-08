@@ -25,6 +25,8 @@ enableFirewall = false
 # 🛠️ Development & Packages
 enableProgrammingLang = true
 enableDevPkg = true
+enableMonitoring = true
+enableVisuals = true
 
 # ⚡ User ~/.cache Optimization & SSD Write-Endurance
 # cacheMode options: "tmpfs" (100% RAM) | "overlayfs" (Writes to RAM, reads from SSD) | "disk" (Normal)

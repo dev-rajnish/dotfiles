@@ -10,7 +10,24 @@ binds {
 
     // Application Launchers
 {% for b in app_binds %}
-    {{ b.key }}{% if b.repeat_false %} repeat=false{% endif %}{% if b.title %} hotkey-overlay-title="{{ b.title }}"{% endif %} { {{ b.action }}; }
+    {%- if b.app == "browser" %}
+        {%- set action = 'spawn "' ~ browser ~ '"' %}
+        {%- set default_title = "Web Browser: " ~ browser %}
+    {%- elif b.app == "terminal" %}
+        {%- set action = 'spawn "' ~ terminal ~ '"' %}
+        {%- set default_title = "Terminal: " ~ terminal %}
+    {%- elif b.app == "fileManager" %}
+        {%- set action = 'spawn "' ~ fileManager ~ '"' %}
+        {%- set default_title = "File Manager: " ~ fileManager %}
+    {%- elif b.app == "editor" %}
+        {%- set action = 'spawn "' ~ editor ~ '"' %}
+        {%- set default_title = "Editor: " ~ editor %}
+    {%- else %}
+        {%- set action = b.action %}
+        {%- set default_title = b.title %}
+    {%- endif %}
+    {%- set title = b.title or default_title %}
+    {{ b.key }}{% if b.repeat_false %} repeat=false{% endif %}{% if title %} hotkey-overlay-title="{{ title }}"{% endif %} { {{ action }}; }
 {% endfor %}
 
     // Hardware & Media Keys

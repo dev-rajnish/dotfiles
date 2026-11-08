@@ -22,7 +22,7 @@
     };
 
     cliMonitoring = {
-      enable = true;
+      enable = env.enableMonitoring or true;
       pkgs = with pkgs; [
         alsa-utils
         btop
@@ -80,7 +80,7 @@
     };
 
     cliVisuals = {
-      enable = true;
+      enable = env.enableVisuals or true;
       pkgs = with pkgs; [
         cava
         cbonsai

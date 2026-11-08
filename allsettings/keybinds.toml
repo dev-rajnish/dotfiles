@@ -30,13 +30,11 @@ action = "toggle-keyboard-shortcuts-inhibit"
 # Application Launchers
 [[app_binds]]
 key = "Super+Return"
-title = "Terminal: Kitty"
-action = "spawn \"kitty\""
+app = "terminal"
 
 [[app_binds]]
 key = "Super+E"
-title = "File Manager: Nemo"
-action = "spawn \"nemo\""
+app = "fileManager"
 
 [[app_binds]]
 key = "Super+A"
@@ -45,8 +43,7 @@ action = "spawn \"fuzzel\""
 
 [[app_binds]]
 key = "Mod+B"
-title = "Web Browser: Brave"
-action = "spawn \"brave\""
+app = "browser"
 
 [[app_binds]]
 key = "Super+Alt+L"

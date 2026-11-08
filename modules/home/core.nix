@@ -9,7 +9,14 @@
   env,
   ...
 }: let
-  dotfilesDir = "${config.home.homeDirectory}/${env.dotfilesDir or "shoelace"}";
+  dotfilesDir = let
+    configured = "${config.home.homeDirectory}/${env.dotfilesDir or "shoelace"}";
+  in
+    if builtins.pathExists configured
+    then configured
+    else if builtins.pathExists "${config.home.homeDirectory}/sl"
+    then "${config.home.homeDirectory}/sl"
+    else "${config.home.homeDirectory}/shoelace";
   ui = env.ui or env;
   fonts = ui.fonts or env.fonts or {};
   sizes = ui.sizes or env.sizes or {};
