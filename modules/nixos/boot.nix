@@ -14,15 +14,15 @@
       timeout = 1; # Set to 0s for fast boot (hold Space on power-on for menu)
       efi.canTouchEfiVariables = true;
     };
-    kernelModules = ["snd-aloop"];
+    kernelModules = [];
     kernelParams = [
       "systemd.swap=0" # Prevent systemd from auto-activating physical SSD swap partitions
     ];
     kernelPackages = pkgs.linuxPackages_latest;
     kernel.sysctl = {
-      # ⚡ SSD Write Endurance Optimizations (Ultra-Long 30-Minute Dirty Writeback & RAM Cache)
-      "vm.dirty_writeback_centisecs" = 180000; # 30 minutes (1,800s)
-      "vm.dirty_expire_centisecs" = 180000; # 30 minutes (1,800s)
+      # ⚡ SSD Write Endurance Optimizations (Balanced 60-Second Writeback & RAM Cache)
+      "vm.dirty_writeback_centisecs" = 6000; # 60 seconds
+      "vm.dirty_expire_centisecs" = 6000; # 60 seconds
       "vm.vfs_cache_pressure" = 20; # Keep directory/inode cache in RAM
       "vm.dirty_background_ratio" = 15; # Flush to disk only when dirty memory > 15%
       "vm.dirty_ratio" = 30; # Hard limit 30% dirty memory

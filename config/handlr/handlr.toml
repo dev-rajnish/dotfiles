@@ -14,9 +14,9 @@ term_exec_args = "-e"
 # ╰─────────────────────────────────────────────────────────╯
 
 
-# Web Browsers & URL Schemes (brave)
+# Web Browsers & URL Schemes (firefox-devedition)
 [[handlers]]
-exec = "brave %u"
+exec = "firefox-devedition %u"
 terminal = false
 regexes = ['^(https?|ftp|about|chrome)://.*', '^mailto:.*']
 

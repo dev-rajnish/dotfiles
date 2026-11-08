@@ -10,7 +10,7 @@ set -gx VISUAL codium
 set -gx TERMINAL kitty
 
 
-set -gx BROWSER brave
+set -gx BROWSER firefox-devedition
 
 
 

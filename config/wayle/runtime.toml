@@ -21,20 +21,27 @@ button-border-width = 0
 [[bar.layout]]
 monitor = "*"
 show = true
-left = ["custom-nixos-launcher", "niri-workspaces", "window-title"]
-center = ["media", "clock"]
+left = [
+    "custom-nixos-launcher",
+    "niri-workspaces",
+    "window-title",
+]
+center = [
+    "media",
+    "clock",
+]
 right = [
-  "systray",
-  "ram",
-  "cpu",
-  "network",
-  "bluetooth",
-  "notifications",
-  "volume",
-  "brightness",
-  "custom-cpu-temp",
-  "battery",
-  "power",
+    "systray",
+    "ram",
+    "cpu",
+    "network",
+    "bluetooth",
+    "notifications",
+    "volume",
+    "brightness",
+    "custom-cpu-temp",
+    "battery",
+    "power",
 ]
 
 [styling]
@@ -140,7 +147,7 @@ left-click = "niri msg action close-window"
 
 [[modules.custom]]
 id = "cpu-temp"
-command = '''sensors 2>/dev/null | awk -F: '/^(Tctl|Package id 0|Core 0|temp1):/ { sub(/\+/,"",$2); gsub(/ /,"",$2); print $2; exit }' '''
+command = '''sensors 2>/dev/null | awk -F: '/^(Tctl|Package id 0|Core 0):/ { sub(/\+/,"",$2); gsub(/ /,"",$2); print $2; exit }' '''
 mode = "poll"
 interval-ms = 2000
 restart-policy = "never"

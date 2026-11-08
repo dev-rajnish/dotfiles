@@ -48,10 +48,10 @@
   };
 
   # ---------------------------------------------------------------------------
-  # 📁 Filesystems & Storage
+  # 📁 Filesystems & Storage (Standardized by-label layout)
   # ---------------------------------------------------------------------------
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/fe3677e4-2898-4681-ad1e-b16c6dc5f847";
+    device = lib.mkDefault "/dev/disk/by-label/nixos";
     fsType = "ext4";
     options = [
       "noatime"
@@ -63,11 +63,19 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/0A74-D9B0";
+    device = lib.mkDefault "/dev/disk/by-label/boot";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
 
   swapDevices = [];
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  # ---------------------------------------------------------------------------
+  # 🎵 Conexant SN6140 Audio Hardware Initialization
+  # ---------------------------------------------------------------------------
+  boot.postBootCommands = ''
+    ${pkgs.alsa-utils}/bin/amixer -c Generic_1 sset 'Auto-Mute Mode' 'Disabled' 2>/dev/null || true
+    ${pkgs.alsa-utils}/bin/amixer -c Generic_1 sset 'Headphone' unmute 2>/dev/null || true
+  '';
 }

@@ -6,7 +6,7 @@
   writeShellScriptBin,
   makeDesktopItem,
   symlinkJoin,
-  browser ? "google-chrome",
+  browser ? "firefox-devedition",
 }: let
   plainAppName = "plainapp";
 

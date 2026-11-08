@@ -36,6 +36,12 @@
       };
     };
 
+    # Rycee Firefox Addons
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Universal Project Formatter
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";

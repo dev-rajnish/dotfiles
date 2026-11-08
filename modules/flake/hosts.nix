@@ -8,16 +8,21 @@
   env,
   ...
 }: let
-  sharedArgs =
-    env
-    // {
-      inherit inputs self env;
-    };
-
-  mkHost = hostFile:
+  mkHost = {
+    hostFile,
+    gpuDriver ? (env.gpuDriver or "amd"),
+  }: let
+    hostEnv = env // {inherit gpuDriver;};
+    hostArgs =
+      hostEnv
+      // {
+        inherit inputs self;
+        env = hostEnv;
+      };
+  in
     inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      specialArgs = sharedArgs;
+      specialArgs = hostArgs;
       modules = [
         hostFile
         (inputs.import-tree ../nixos)
@@ -32,7 +37,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             backupFileExtension = "backup";
-            extraSpecialArgs = sharedArgs;
+            extraSpecialArgs = hostArgs;
             sharedModules = [
               inputs.nix-index-database.homeModules.default
             ];
@@ -53,12 +58,21 @@
     then ../hosts/intel.nix
     else ../hosts/amd.nix;
 
-  hostConfig = mkHost hardwareProfile;
+  hostConfig = mkHost {
+    hostFile = hardwareProfile;
+    gpuDriver = env.gpuDriver or "amd";
+  };
 in {
   flake.nixosConfigurations =
     {
-      amd = mkHost ../hosts/amd.nix;
-      intel = mkHost ../hosts/intel.nix;
+      amd = mkHost {
+        hostFile = ../hosts/amd.nix;
+        gpuDriver = "amd";
+      };
+      intel = mkHost {
+        hostFile = ../hosts/intel.nix;
+        gpuDriver = "intel";
+      };
     }
     // (inputs.nixpkgs.lib.genAttrs [env.hostname "nixos"] (_: hostConfig));
 }

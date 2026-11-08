@@ -20,11 +20,11 @@ binds {
 
     Super+Return hotkey-overlay-title="Terminal: Kitty" { spawn "kitty"; }
 
-    Super+E hotkey-overlay-title="File Manager: Thunar" { spawn "thunar"; }
+    Super+E hotkey-overlay-title="File Manager: Nemo" { spawn "nemo"; }
 
     Super+A hotkey-overlay-title="Application Launcher: Fuzzel" { spawn "fuzzel"; }
 
-    Mod+B hotkey-overlay-title="Web Browser: Librewolf" { spawn "librewolf"; }
+    Mod+B hotkey-overlay-title="Web Browser: Brave" { spawn "brave"; }
 
     Super+Alt+L hotkey-overlay-title="Lock Screen: Swaylock" { spawn "swaylock"; }
 

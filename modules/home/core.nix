@@ -46,10 +46,6 @@
     })
     validConfigEntries;
 in {
-  imports = [
-    inputs.zen-browser.homeModules.beta
-  ];
-
   # ---------------------------------------------------------------------------
   # 👤 User & Home Manager Identity
   # ---------------------------------------------------------------------------
@@ -57,6 +53,7 @@ in {
     username = env.username;
     homeDirectory = "/home/${env.username}";
     stateVersion = env.stateVersion;
+    backupFileExtension = "backup";
     enableNixpkgsReleaseCheck = true;
 
     sessionVariables = {
@@ -86,25 +83,6 @@ in {
     home-manager.enable = true;
     nix-index.enable = true;
     man.enable = false;
-
-    zen-browser = {
-      enable = true;
-      setAsDefaultBrowser = false;
-      nativeMessagingHosts = [pkgs.firefoxpwa];
-      profiles.default.presets.catppuccin = {
-        enable = true;
-        flavor = "Mocha";
-        accent = "Mauve";
-      };
-      profiles.default.presets.betterfox.enable = false;
-      profiles.default.presets.arkenfox.enable = false;
-      profiles.default.settings = {
-        "browser.sessionstore.interval" = 1800000;
-        "browser.cache.disk.enable" = false;
-        "browser.cache.memory.enable" = true;
-        "browser.cache.memory.capacity" = 524288;
-      };
-    };
 
     obs-studio = {
       enable = true;

@@ -37,6 +37,7 @@ workspace "editor"
 // Web Browsers -> Workspace 1 (browser)
 window-rule {
     match app-id="firefox"
+    match app-id="firefox-devedition"
     match app-id="org.mozilla.firefox"
     match app-id="zen"
     match app-id="zen-beta"

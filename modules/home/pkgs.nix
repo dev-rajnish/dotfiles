@@ -105,8 +105,9 @@
       ];
     };
 
+    # Managed via modules/home/browser.nix
     guiBrowsers = {
-      enable = true;
+      enable = false;
       pkgs = with pkgs; [
         google-chrome
       ];
